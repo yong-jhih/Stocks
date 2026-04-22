@@ -27,16 +27,10 @@ function fetchUrl($url) // return array
     try {
         $response = file_get_contents($url, false, stream_context_create($options));
         if ($response === FALSE) {
-            return [
-                "status" => "error",
-                "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"
-            ];
+            return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
         }
-        return json_decode($response, true);
+        return json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
     } catch (Exception $e) {
-        return [
-            "status" => "error",
-            "msg" => "錯誤：" . $e->getMessage()
-        ];
+        return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
     }
 }
