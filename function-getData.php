@@ -22,7 +22,7 @@ function getHistory($date) // return array
                 $stocks = [];
                 $fields = $v['fields'];
                 foreach ($v['data'] as $v1) {
-                    if (preg_match('/^[1-9]\d{3}$/', $v1[0])) {
+                    if (preg_match('/^[1-9]\d{3}$/', trim($v1[0]))) {
                         $item = [];
                         foreach ($fields as $k => $field) {
                             $item[$field] = str_replace(',', '', trim($v1[$k]));
@@ -70,15 +70,9 @@ function getMargin($date) // return array
         foreach ($data['tables'] as $v) {
             if (str_contains($v['title'], "融資融券彙總") && is_array($v['data'])) {
                 $stocks = [];
-                $fields = $v['fields'];
                 foreach ($v['data'] as $row) {
                     if (preg_match('/^[1-9]\d{3}$/', $row[0])) {
-                        $item = [];
-                        foreach ($fields as $index => $fieldName) {
-                            $cleanValue = str_replace(',', '', trim($row[$index]));
-                            $item[$fieldName] = $cleanValue;
-                        }
-                        $stocks[] = $item;
+                        $stocks[] = $row;
                     }
                 }
                 return $stocks;
@@ -96,14 +90,9 @@ function getSBLTotal($date) // return array
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
             $stocks = [];
-            $fields = $data['fields'];
             foreach ($data['data'] as $row) {
                 if (preg_match('/^[1-9]\d{3}$/', $row[0]) && $row[8] == '集中市場') {
-                    $item = [];
-                    foreach ($fields as $index => $fieldName) {
-                        $item[$fieldName] = str_replace(',', '', trim($row[$index]));
-                    }
-                    $stocks[] = $item;
+                    $stocks[] = $row;
                 }
             }
             return $stocks;
@@ -121,14 +110,9 @@ function getSBLSold($date) // return array
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "信用額度總量管制餘額")) {
             $stocks = [];
-            $fields = $data['fields'];
             foreach ($data['data'] as $row) {
                 if (preg_match('/^[1-9]\d{3}$/', $row[0])) {
-                    $item = [];
-                    foreach ($fields as $index => $fieldName) {
-                        $item[$fieldName] = str_replace(',', '', trim($row[$index]));
-                    }
-                    $stocks[] = $item;
+                    $stocks[] = $row;
                 }
             }
             return $stocks;
@@ -140,99 +124,199 @@ function getSBLSold($date) // return array
     }
 }
 
-function insertHistory($db_ip, $db_name, $db_user, $db_pass, $historyData)
+function insertHistory($pdo, $targetDate, $historyData)
 {
-    $dsn = "mysql:host=$db_ip;dbname=$db_name;charset=utf8mb4";
-    try {
-        $pdo = new PDO($dsn, $db_user, $db_pass, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        die("資料庫連線失敗：" . $e->getMessage());
+    if (!is_array($historyData) || isset($historyData['status'])) {
+        echo "資料有誤，跳過寫入。\n";
+        return;
     }
-    $targetDate = getLatestTradingDateWithTWSE();
-    if (is_array($targetDate)) die($targetDate['msg']);
-    echo "處理日期：{$targetDate}\n";
 
-    // --- 1. 每日收盤行情 ---
-    // $historyData = getHistory($targetDate);
-    if (is_array($historyData) && !isset($historyData['status'])) {
-        $stmt = $pdo->prepare("INSERT IGNORE INTO stock_history (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $requiredFields = ['證券代號', '開盤價', '最高價', '最低價', '收盤價'];
+    foreach ($requiredFields as $f) {
+        if (!isset($historyData[0][$f])) {
+            echo "錯誤：格式已變更，找不到欄位 {$f}\n";
+            return;
+        }
+    }
+
+    echo "正在處理 {$targetDate} 的行情資料...\n";
+
+    $sql = "INSERT IGNORE INTO stock_history 
+            (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction(); // 開啟事務
+
+    try {
         foreach ($historyData as $row) {
-            // 使用你 Function 裡已經處理好的 key 或是直接判斷
+            $open  = is_numeric($row['開盤價']) ? $row['開盤價'] : 0;
+            $high  = is_numeric($row['最高價']) ? $row['最高價'] : 0;
+            $low   = is_numeric($row['最低價']) ? $row['最低價'] : 0;
+            $close = is_numeric($row['收盤價']) ? $row['收盤價'] : 0;
             $stmt->execute([
                 $targetDate,
-                $row['證券代號'] ?? $row['股票代號'] ?? '',
+                $row['證券代號'] ?? '',
                 $row['證券名稱'] ?? '',
-                (float)($row['開盤價'] ?? 0),
-                (float)($row['最高價'] ?? 0),
-                (float)($row['最低價'] ?? 0),
-                (float)($row['收盤價'] ?? 0),
+                (float)$open,
+                (float)$high,
+                (float)$low,
+                (float)$close,
                 (int)($row['成交股數'] ?? 0)
             ]);
         }
+        $pdo->commit();
         echo "1. 收盤行情處理完畢。\n";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+    }
+}
+
+function insertInsti($pdo, $targetDate, $instiData)
+{
+    if (!is_array($instiData) || isset($instiData['status'])) {
+        echo "資料有誤，跳過寫入。\n";
+        return;
     }
 
-    // --- 2. 三大法人 ---
-    // $instiData = getInsti($targetDate);
-    // if (is_array($instiData) && !isset($instiData['status'])) {
-    //     $stmt = $pdo->prepare("INSERT IGNORE INTO stock_insti (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) VALUES (?, ?, ?, ?, ?, ?)");
-    //     foreach ($instiData as $row) {
-    //         $stmt->execute([
-    //             $targetDate,
-    //             $row['證券代號'] ?? '',
-    //             (int)($row['外資買賣超股數'] ?? 0),
-    //             (int)($row['投信買賣超股數'] ?? 0),
-    //             (int)($row['自營商買賣超股數'] ?? 0),
-    //             (int)($row['三大法人買賣超股數'] ?? 0)
-    //         ]);
-    //     }
-    //     echo "2. 三大法人處理完畢。\n";
-    // }
+    echo "正在處理 {$targetDate} 的行情資料...\n";
 
-    // // --- 3. 融資融券 ---
-    // $marginData = getMargin($targetDate);
-    // if (is_array($marginData) && !isset($marginData['status'])) {
-    //     $stmt = $pdo->prepare("INSERT IGNORE INTO stock_margin (trade_date, stock_id, margin_balance, short_balance) VALUES (?, ?, ?, ?)");
-    //     foreach ($marginData as $row) {
-    //         $stmt->execute([
-    //             $targetDate,
-    //             $row['股票代號'] ?? '',
-    //             (int)($row['融資今日餘額'] ?? 0),
-    //             (int)($row['融券今日餘額'] ?? 0)
-    //         ]);
-    //     }
-    //     echo "3. 融資融券處理完畢。\n";
-    // }
+    $sql = "INSERT IGNORE INTO stock_insti 
+            (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
+            VALUES (?, ?, ?, ?, ?, ?)";
 
-    // // --- 4. 借券餘額 (TWT72U) ---
-    // $sblTotalData = getSBLTotal($targetDate);
-    // if (is_array($sblTotalData) && !isset($sblTotalData['status'])) {
-    //     $stmt = $pdo->prepare("INSERT IGNORE INTO stock_sbl_total (trade_date, stock_id, sbl_balance) VALUES (?, ?, ?)");
-    //     foreach ($sblTotalData as $row) {
-    //         $stmt->execute([
-    //             $targetDate,
-    //             $row['股票代碼'] ?? '',
-    //             (int)($row['本日餘額'] ?? 0)
-    //         ]);
-    //     }
-    //     echo "4. 借券餘額處理完畢。\n";
-    // }
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction(); // 開啟事務
 
-    // // --- 5. 借券賣出額度 (TWT93U) ---
-    // $sblSoldData = getSBLSold($targetDate);
-    // if (is_array($sblSoldData) && !isset($sblSoldData['status'])) {
-    //     $stmt = $pdo->prepare("INSERT IGNORE INTO stock_sbl_sold (trade_date, stock_id, sbl_sold_balance) VALUES (?, ?, ?)");
-    //     foreach ($sblSoldData as $row) {
-    //         // 注意：TWT93U 的欄位名稱常有微調，加入多重判斷
-    //         $val = $row['借券賣出本日餘額'] ?? $row['本日可借券賣出限額'] ?? 0;
-    //         $stmt->execute([
-    //             $targetDate,
-    //             $row['證券代號'] ?? $row['股票代號'] ?? '',
-    //             (int)$val
-    //         ]);
-    //     }
-    //     echo "5. 借券賣出額度處理完畢。\n";
-    // }
+    try {
+        foreach ($instiData as $row) {
+            $foreign_buy_sell  = is_numeric($row['外陸資買賣超股數(不含外資自營商)']) ? $row['外陸資買賣超股數(不含外資自營商)'] : 0;
+            $trust_buy_sell  = is_numeric($row['投信買賣超股數']) ? $row['投信買賣超股數'] : 0;
+            $dealar_buy_sell   = is_numeric($row['自營商買賣超股數']) ? $row['自營商買賣超股數'] : 0;
+            $total_buy_sell = is_numeric($row['三大法人買賣超股數']) ? $row['三大法人買賣超股數'] : 0;
+            $stmt->execute([
+                $targetDate,
+                $row['證券代號'] ?? '',
+                (int)$foreign_buy_sell,
+                (int)$trust_buy_sell,
+                (int)$dealar_buy_sell,
+                (int)$total_buy_sell
+            ]);
+        }
+        $pdo->commit();
+        echo "2. 三大法人買賣超處理完畢。\n";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+    }
+}
+
+function insertMargin($pdo, $targetDate, $marginData)
+{
+    if (!is_array($marginData) || isset($marginData['status'])) {
+        echo "資料有誤，跳過寫入。\n";
+        return;
+    }
+
+    echo "正在處理 {$targetDate} 的行情資料...\n";
+
+    $sql = "INSERT IGNORE INTO stock_margin 
+            (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction(); // 開啟事務
+
+    try {
+        foreach ($marginData as $row) {
+            $margin_balance  = is_numeric(str_replace(',', '', $row[6])) ? str_replace(',', '', $row[6]) : 0;
+            $margin_balance_diff  = is_numeric(str_replace(',', '', $row[6]) - str_replace(',', '', $row[5])) ? str_replace(',', '', $row[6]) - str_replace(',', '', $row[5]) : 0;
+            $short_balance   = is_numeric(str_replace(',', '', $row[12])) ? str_replace(',', '', $row[12]) : 0;
+            $short_balance_diff = is_numeric(str_replace(',', '', $row[12]) - str_replace(',', '', $row[11])) ? str_replace(',', '', $row[12]) - str_replace(',', '', $row[11]) : 0;
+            $stmt->execute([
+                $targetDate,
+                $row[0] ?? '',
+                (int)$margin_balance,
+                (int)$margin_balance_diff,
+                (int)$short_balance,
+                (int)$short_balance_diff
+            ]);
+        }
+        $pdo->commit();
+        echo "3. 融資融券彙總處理完畢。\n";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+    }
+}
+
+function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
+{
+    if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) {
+        echo "資料有誤，跳過寫入。\n";
+        return;
+    }
+
+    echo "正在處理 {$targetDate} 的借券餘額資料...\n";
+
+    $sql = "INSERT IGNORE INTO stock_sbl_total 
+            (trade_date, stock_id, sbl_balance) 
+            VALUES (?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction(); // 開啟事務
+
+    try {
+        foreach ($SBLTotalData as $row) {
+            $sbl_total  = is_numeric(str_replace(',', '', $row[5])) ? str_replace(',', '', $row[5]) : 0;
+            $stmt->execute([
+                $targetDate,
+                $row[0] ?? '',
+                (int)$sbl_total,
+            ]);
+        }
+        $pdo->commit();
+        echo "4. 借券餘額處理完畢。\n";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+    }
+}
+
+function insertSBLSold($pdo, $targetDate, $SBLSoldData)
+{
+    if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) {
+        echo "資料有誤，跳過寫入。\n";
+        return;
+    }
+
+    echo "正在處理 {$targetDate} 的借券賣還資料...\n";
+
+    $sql = "INSERT IGNORE INTO stock_sbl_sold 
+            (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
+            VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction(); // 開啟事務
+
+    try {
+        foreach ($SBLSoldData as $row) {
+            $sbl_sold_balance  = is_numeric(str_replace(',', '', $row[12])) ? str_replace(',', '', $row[12]) : 0;
+            $sbl_sold  = is_numeric(str_replace(',', '', $row[9])) ? str_replace(',', '', $row[9]) : 0;
+            $sbl_return   = is_numeric(str_replace(',', '', $row[10])) ? str_replace(',', '', $row[10]) : 0;
+            $stmt->execute([
+                $targetDate,
+                $row[0] ?? '',
+                (int)$sbl_sold_balance,
+                (int)$sbl_sold,
+                (int)$sbl_return
+            ]);
+        }
+        $pdo->commit();
+        echo "5. 信用額度總量管制餘額表處理完畢。\n";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+    }
 }
