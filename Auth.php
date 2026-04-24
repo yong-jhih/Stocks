@@ -1,8 +1,6 @@
 <?php
-$headers = getallheaders();
-$secret_token = "MyStockSecretToken_2026";
-$provided_token = $headers['X-Stock-Token'] ?? '';
-if ($provided_token !== $secret_token) {
+$token = "MyStockSecretToken_2026";
+if (!isset($_POST['token']) || !$_POST['token'] === $token) {
     http_response_code(403);
     exit("Unauthorized");
 }
