@@ -20,14 +20,9 @@ function getHistory($date) // return array
         foreach ($data['tables'] as $v) {
             if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
                 $stocks = [];
-                $fields = $v['fields'];
                 foreach ($v['data'] as $v1) {
                     if (preg_match('/^[1-9]\d{3}$/', trim($v1[0]))) {
-                        $item = [];
-                        foreach ($fields as $k => $field) {
-                            $item[$field] = str_replace(',', '', trim($v1[$k]));
-                        }
-                        $stocks[] = $item;
+                        $stocks[] = $v1;
                     }
                 }
                 return $stocks;
@@ -45,14 +40,9 @@ function getInsti($date) // return array
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "三大法人買賣超日報")) {
             $stocks = [];
-            $fields = $data['fields'];
             foreach ($data['data'] as $v) {
                 if (preg_match('/^[1-9]\d{3}$/', $v[0])) {
-                    $item = [];
-                    foreach ($fields as $k => $field) {
-                        $item[$field] = str_replace(',', '', trim($v[$k]));
-                    }
-                    $stocks[] = $item;
+                    $stocks[] = $v;
                 }
             }
             return $stocks;
@@ -131,14 +121,6 @@ function insertHistory($pdo, $targetDate, $historyData)
         return;
     }
 
-    $requiredFields = ['證券代號', '開盤價', '最高價', '最低價', '收盤價'];
-    foreach ($requiredFields as $f) {
-        if (!isset($historyData[0][$f])) {
-            echo "錯誤：格式已變更，找不到欄位 {$f}\n";
-            return;
-        }
-    }
-
     echo "正在處理 {$targetDate} 的行情資料...\n";
 
     $sql = "INSERT IGNORE INTO stock_history 
@@ -150,14 +132,14 @@ function insertHistory($pdo, $targetDate, $historyData)
 
     try {
         foreach ($historyData as $row) {
-            $open  = is_numeric($row['開盤價']) ? $row['開盤價'] : 0;
-            $high  = is_numeric($row['最高價']) ? $row['最高價'] : 0;
-            $low   = is_numeric($row['最低價']) ? $row['最低價'] : 0;
-            $close = is_numeric($row['收盤價']) ? $row['收盤價'] : 0;
+            $open  = is_numeric($row[5]) ? $row[5] : 0;
+            $high  = is_numeric($row[6]) ? $row[6] : 0;
+            $low   = is_numeric($row[7]) ? $row[7] : 0;
+            $close = is_numeric($row[8]) ? $row[8] : 0;
             $stmt->execute([
                 $targetDate,
-                $row['證券代號'] ?? '',
-                $row['證券名稱'] ?? '',
+                $row[0] ?? '',
+                $row[1] ?? '',
                 (float)$open,
                 (float)$high,
                 (float)$low,
@@ -191,13 +173,13 @@ function insertInsti($pdo, $targetDate, $instiData)
 
     try {
         foreach ($instiData as $row) {
-            $foreign_buy_sell  = is_numeric($row['外陸資買賣超股數(不含外資自營商)']) ? $row['外陸資買賣超股數(不含外資自營商)'] : 0;
-            $trust_buy_sell  = is_numeric($row['投信買賣超股數']) ? $row['投信買賣超股數'] : 0;
-            $dealar_buy_sell   = is_numeric($row['自營商買賣超股數']) ? $row['自營商買賣超股數'] : 0;
-            $total_buy_sell = is_numeric($row['三大法人買賣超股數']) ? $row['三大法人買賣超股數'] : 0;
+            $foreign_buy_sell  = is_numeric($row[4]) ? $row[4] : 0;
+            $trust_buy_sell  = is_numeric($row[10]) ? $row[10] : 0;
+            $dealar_buy_sell   = is_numeric($row[11]) ? $row[11] : 0;
+            $total_buy_sell = is_numeric($row[18]) ? $row[18] : 0;
             $stmt->execute([
                 $targetDate,
-                $row['證券代號'] ?? '',
+                $row[0] ?? '',
                 (int)$foreign_buy_sell,
                 (int)$trust_buy_sell,
                 (int)$dealar_buy_sell,
