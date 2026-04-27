@@ -5,7 +5,6 @@ require_once("function-tools.php");
 require_once("function-getData.php");
 
 try {
-    // TiDB 連線通常建議明確指定 Port 4000
     $dsn = "mysql:host=$db_ip;port=4000;dbname=$db_name;charset=utf8mb4";
     $pdo = new PDO($dsn, $db_user, $db_pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
