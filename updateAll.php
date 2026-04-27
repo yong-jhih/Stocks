@@ -1,20 +1,22 @@
 <?php
-
 set_time_limit(0);
-require_once("Auth.php");
 require_once("config.php");
 require_once("function-tools.php");
 require_once("function-getData.php");
+
 try {
-    $dsn = "mysql:host=$db_ip;dbname=$db_name;charset=utf8mb4";
-    $pdo = new PDO($dsn, $db_user, $db_pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    $dsn = "mysql:host=$db_ip;port=4000;dbname=$db_name;charset=utf8mb4";
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
-    ]);
+        PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
+    ];
+    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+    // $targetDate = getLatestTradingDateWithTWSE();
     $targetDate = '2026-04-21';
     if (is_array($targetDate)) {
-        die($targetDate['msg']);
+        echo "通知： " . ($targetDate['msg'] ?? '無法取得交易日期') . "\n";
+        exit;
     }
     insertHistory($pdo, $targetDate, getHistory($targetDate));
     insertInsti($pdo, $targetDate, getInsti($targetDate));
