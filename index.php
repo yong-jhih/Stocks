@@ -1,33 +1,44 @@
 <?php
 set_time_limit(0);
-require_once("Auth.php");
 require_once("config.php");
 require_once("function-tools.php");
 require_once("function-getData.php");
 
 try {
-    $dsn = "mysql:host=$db_ip;dbname=$db_name;charset=utf8mb4";
+    // TiDB 連線通常建議明確指定 Port 4000
+    $dsn = "mysql:host=$db_ip;port=4000;dbname=$db_name;charset=utf8mb4";
     $pdo = new PDO($dsn, $db_user, $db_pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
     ]);
 
-    if (isset($_POST['action']) && $_POST['action'] != '') {
-        $action = $_POST['action'];
-        switch ($action) {
-            case 'updateAll':
-                $targetDate = getLatestTradingDateWithTWSE();
-                if (is_array($targetDate)) {
-                    die($targetDate['msg']);
-                }
-                insertHistory($pdo, $targetDate, getHistory($targetDate));
-                insertInsti($pdo, $targetDate, getInsti($targetDate));
-                insertMargin($pdo, $targetDate, getMargin($targetDate));
-                insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate));
-                insertSBLSold($pdo, $targetDate, getSBLSold($targetDate));
-                break;
+    $isCLI = (php_sapi_name() === 'cli');
+    if ($isCLI || (isset($_POST['action']) && $_POST['action'] == 'updateAll')) {
+        echo "開始執行台股資料更新任務...\n";
+        $targetDate = getLatestTradingDateWithTWSE();
+        if (is_array($targetDate)) {
+            echo "通知： " . ($targetDate['msg'] ?? '無法取得交易日期') . "\n";
+            exit;
         }
+        echo "目標日期：$targetDate\n";
+
+        insertHistory($pdo, $targetDate, getHistory($targetDate));
+        echo "1. 收盤行情處理完畢\n";
+
+        insertInsti($pdo, $targetDate, getInsti($targetDate));
+        echo "2. 三大法人資料處理完畢\n";
+
+        insertMargin($pdo, $targetDate, getMargin($targetDate));
+        echo "3. 融資融券資料處理完畢\n";
+
+        insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate));
+        echo "4. 借券餘額處理完畢\n";
+
+        insertSBLSold($pdo, $targetDate, getSBLSold($targetDate));
+        echo "5. 借券賣出處理完畢\n";
+
+        echo "任務執行成功！\n";
     }
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());

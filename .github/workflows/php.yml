@@ -26,10 +26,11 @@ jobs:
     - name: 執行股票抓取程式
       env:
         # 這裡會讀取你在 GitHub Secrets 設定的資料
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASS: ${{ secrets.DB_PASS }}
-        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.HOST }}
+        DB_USER: ${{ secrets.USER }}
+        DB_PASS: ${{ secrets.PASSWORD }}
+        DB_NAME: ${{ secrets.DATABASE }}
+        DB_PORT: ${{ secrets.PORT }}
         # 如果你的程式有用到 LINE Token 也可以加在這
         # LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
       run: php index.php
