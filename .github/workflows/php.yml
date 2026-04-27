@@ -34,4 +34,4 @@ jobs:
         TIDB_NAME: ${{ secrets.TIDB_NAME }}
         FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
-      run: php batchUpdate.php
+      run: php updateAll.php
