@@ -1,13 +1,10 @@
 <?php
-// 使用 getenv() 讀取系統環境變數
-// 如果讀不到（例如你在自己電腦測試），後面可以接一個預設值
 
-$db_ip   = getenv('DB_HOST');
-$db_user = getenv('DB_USER');
-$db_pass = getenv('DB_PASS');
-$db_name = getenv('DB_NAME');
+$db_ip   = getenv('DB_HOST') || '127.0.0.1';
+$db_user = getenv('DB_USER') || 'root';
+$db_pass = getenv('DB_PASS') || '';
+$db_name = getenv('DB_NAME') || 'somethin_tools';
 
-// 為了確保安全，可以在這裡加一個檢查
 if (!$db_ip) {
     die("錯誤：找不到資料庫環境變數。請檢查 GitHub Secrets 設定。");
 }
