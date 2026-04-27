@@ -15,7 +15,8 @@ try {
     $isCLI = (php_sapi_name() === 'cli');
     if ($isCLI || (isset($_POST['action']) && $_POST['action'] == 'updateAll')) {
         echo "開始執行台股資料更新任務...\n";
-        $targetDate = getLatestTradingDateWithTWSE();
+        // $targetDate = getLatestTradingDateWithTWSE();
+        $targetDate ='2026-04-21';
         if (is_array($targetDate)) {
             echo "通知： " . ($targetDate['msg'] ?? '無法取得交易日期') . "\n";
             exit;
