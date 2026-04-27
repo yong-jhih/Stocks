@@ -3,7 +3,7 @@ name: TWSE_Stock_Auto_Update
 on:
   schedule:
     - cron: '00 18 * * 1-5'
-  workflow_dispatch: # 保留手動觸發按鈕，這對測試非常重要
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -34,4 +34,4 @@ jobs:
         TIDB_NAME: ${{ secrets.TIDB_NAME }}
         FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
-      run: php updateAll.php
+      run: php batchUpdate.php
