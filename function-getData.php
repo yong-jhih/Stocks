@@ -12,6 +12,33 @@ function getLatestTradingDateWithTWSE() // return string "YYYY-MM-DD"
     }
 }
 
+function getLatestTradingDateWithFugle($symbol = '2330') // return string "YYYY-MM-DD"
+{
+    $apiToken = getenv('FUGLE_TOKEN');
+    if (!$apiToken) return ['status' => 'error', 'msg' => '找不到 Fugle Token 環境變數'];
+    $url = "https://api.fugle.tw/marketdata/v1.0/stock/historical/stats/$symbol";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "X-API-KEY: $apiToken",
+        "Accept: application/json"
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($httpCode === 200) {
+        $data = json_decode($response, true);
+        if (isset($data['date'])) {
+            return $data['date'];
+        } else {
+            return ['status' => 'error', 'msg' => '回傳格式異常'];
+        }
+    } else {
+        return ['status' => 'error', 'msg' => "API 請求失敗，狀態碼：$httpCode"];
+    }
+}
+
 function getHistory($date) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
@@ -224,7 +251,7 @@ function insertMargin($pdo, $targetDate, $marginData)
         echo "寫入失敗：" . $e->getMessage();
     }
 }
-// 借券餘額 (TWT72U)
+
 function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
 {
     if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) return;
@@ -246,7 +273,6 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
     }
 }
 
-// 借券賣出管制 (TWT93U)
 function insertSBLSold($pdo, $targetDate, $SBLSoldData)
 {
     if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) return;

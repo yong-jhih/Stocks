@@ -12,7 +12,7 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $targetDate = getLatestTradingDateWithTWSE();
+    $targetDate = getLatestTradingDateWithTWSE() ?? getLatestTradingDateWithFugle();
     if (is_array($targetDate)) {
         echo "通知： " . ($targetDate['msg'] ?? '無法取得交易日期') . "\n";
         exit;

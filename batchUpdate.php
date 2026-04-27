@@ -12,13 +12,13 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $date_array = ['2026-04-22', '2026-04-23', '2026-04-24'];
+    $date_array = ['2026-04-24'];
     foreach ($date_array as $targetDate) {
         insertHistory($pdo, $targetDate, getHistory($targetDate));
-        insertInsti($pdo, $targetDate, getInsti($targetDate));
+        // insertInsti($pdo, $targetDate, getInsti($targetDate));
         insertMargin($pdo, $targetDate, getMargin($targetDate));
-        insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate));
-        insertSBLSold($pdo, $targetDate, getSBLSold($targetDate));
+        // insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate));
+        // insertSBLSold($pdo, $targetDate, getSBLSold($targetDate));
     }
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
