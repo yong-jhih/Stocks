@@ -6,11 +6,18 @@ require_once("function-getData.php");
 
 try {
     $dsn = "mysql:host=gateway01.ap-northeast-1.prod.aws.tidbcloud.com;port=4000;dbname=somethin_tools;charset=utf8mb4";
-    $pdo = new PDO($dsn, 'CnY42RuyBGHYrNd.root', 'mRZDyCyqVQXX5Vdn', [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+
+    // 設定 PDO 選項，加入 SSL 支援
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
-    ]);
+        // 這是關鍵：強制使用 SSL 連線
+        PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
+        // 如果上面路徑失敗，可以改用下面這行（不驗證憑證但使用加密）
+        // PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    ];
+
+    $pdo = new PDO($dsn, 'CnY42RuyBGHYrNd.root', 'mRZDyCyqVQXX5Vdn', $options);
 
     echo "正在測試網路連線至 $db_ip : 4000 ...\n";
     $fp = @fsockopen($db_ip, 4000, $errno, $errstr, 5);
