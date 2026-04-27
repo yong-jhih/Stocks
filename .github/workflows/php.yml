@@ -1,0 +1,35 @@
+name: TWSE_Stock_Auto_Update
+
+on:
+  schedule:
+    # 台灣時間週一至週五 17:10 執行 (UTC 為 09:10)
+    - cron: '10 9 * * 1-5'
+  workflow_dispatch: # 保留手動觸發按鈕，這對測試非常重要
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 檢出程式碼
+      uses: actions/checkout@v4
+
+    - name: 設定 PHP 環境
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_mysql # 確保有連線資料庫需要的擴充功能
+
+    - name: 執行股票抓取程式
+      env:
+        # 這裡會讀取你在 GitHub Secrets 設定的資料
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        # 如果你的程式有用到 LINE Token 也可以加在這
+        # LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
+      run: php index.php
