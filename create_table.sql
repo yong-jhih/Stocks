@@ -58,3 +58,16 @@ CREATE TABLE IF NOT EXISTS stock_sbl_sold (
     PRIMARY KEY (trade_date, stock_id),
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 6. 系統日誌 (System Logs)
+CREATE TABLE IF NOT EXISTS system_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    log_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '記錄時間',
+    log_type VARCHAR(50) NOT NULL COMMENT '日誌類型 (如: Fetch, DB_Insert, Error)',
+    content TEXT COMMENT '詳細內容',
+    result VARCHAR(20) NOT NULL COMMENT '結果 (Success, Fail, Warning)',
+    INDEX idx_time (log_time),
+    INDEX idx_type (log_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- DELETE FROM system_logs WHERE log_time < DATE_SUB(NOW(), INTERVAL 90 DAY);

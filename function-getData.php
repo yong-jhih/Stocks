@@ -5,8 +5,17 @@ function getLatestTradingDateWithTWSE() // return string "YYYY-MM-DD"
     $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
     $data = fetchUrl($url);
     if (isset($data['stat']) && $data['stat'] === 'OK') {
-        $date = end($data['data'])[0];
-        return convertTaiwanDateToWestern($date);
+        $rawDate = end($data['data'])[0];
+        $cleanDate = str_replace('/', '', $rawDate);
+        $convertedDate = convertTaiwanDateToWestern($cleanDate);
+        if (!$convertedDate) return ["status" => "error", "msg" => "日期格式轉換失敗"];
+        $latestDate = new DateTime($convertedDate);
+        $today = new DateTime();
+        $interval = $today->diff($latestDate);
+        $daysDiff = $interval->days;
+        $threshold = 10;
+        if ($daysDiff > $threshold) return ["status" => "error", "msg" => "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)"];
+        return $convertedDate;
     } else {
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
@@ -37,6 +46,17 @@ function getLatestTradingDateWithFugle($symbol = '2330') // return string "YYYY-
     } else {
         return ['status' => 'error', 'msg' => "API 請求失敗，狀態碼：$httpCode"];
     }
+}
+
+function isHoliday($date) // return bool
+{
+    $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
+    $data = fetchUrl($url);
+    $holiday = [];
+    foreach ($data as $k => $v) {
+        $holiday[] = convertTaiwanDateToWestern($v['Date']);
+    }
+    return in_array($date, $holiday);
 }
 
 function getHistory($date) // return array
@@ -143,7 +163,10 @@ function getSBLSold($date) // return array
 
 function insertHistory($pdo, $targetDate, $historyData)
 {
-    if (!is_array($historyData) || isset($historyData['status'])) return;
+    if (!is_array($historyData) || isset($historyData['status'])) {
+        writeLog($pdo, '上市個股日成交', "資料格式有誤或無資料", 'error');
+        return;
+    }
     $sql = "INSERT INTO stock_history 
             (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -154,7 +177,6 @@ function insertHistory($pdo, $targetDate, $historyData)
             low_price = VALUES(low_price),
             close_price = VALUES(close_price),
             trade_volume = VALUES(trade_volume)";
-
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -177,13 +199,16 @@ function insertHistory($pdo, $targetDate, $historyData)
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
+        writeLog($pdo, '上市個股日成交', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }
 
 function insertInsti($pdo, $targetDate, $instiData)
 {
-    if (!is_array($instiData) || isset($instiData['status'])) return;
-
+    if (!is_array($instiData) || isset($instiData['status'])) {
+        writeLog($pdo, '三大法人買賣超', "資料格式有誤或無資料", 'error');
+        return;
+    }
     $sql = "INSERT INTO stock_insti 
             (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
             VALUES (?, ?, ?, ?, ?, ?)
@@ -192,7 +217,6 @@ function insertInsti($pdo, $targetDate, $instiData)
             trust_buy_sell = VALUES(trust_buy_sell),
             dealer_buy_sell = VALUES(dealer_buy_sell),
             total_buy_sell = VALUES(total_buy_sell)";
-
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -213,13 +237,16 @@ function insertInsti($pdo, $targetDate, $instiData)
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
+        writeLog($pdo, '三大法人買賣超', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }
 
 function insertMargin($pdo, $targetDate, $marginData)
 {
-    if (!is_array($marginData) || isset($marginData['status'])) return;
-
+    if (!is_array($marginData) || isset($marginData['status'])) {
+        writeLog($pdo, '融資融券彙總', "資料格式有誤或無資料", 'error');
+        return;
+    }
     $sql = "INSERT INTO stock_margin 
             (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
             VALUES (?, ?, ?, ?, ?, ?)
@@ -228,7 +255,6 @@ function insertMargin($pdo, $targetDate, $marginData)
             margin_balance_diff = VALUES(margin_balance_diff),
             short_balance = VALUES(short_balance),
             short_balance_diff = VALUES(short_balance_diff)";
-
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -249,17 +275,19 @@ function insertMargin($pdo, $targetDate, $marginData)
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
+        writeLog($pdo, '融資融券彙總', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }
 
 function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
 {
-    if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) return;
-
+    if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) {
+        writeLog($pdo, '借券餘額', "資料格式有誤或無資料", 'error');
+        return;
+    }
     $sql = "INSERT INTO stock_sbl_total (trade_date, stock_id, sbl_balance) 
             VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE sbl_balance = VALUES(sbl_balance)";
-
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -270,13 +298,16 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();
+        writeLog($pdo, '借券餘額', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }
 
 function insertSBLSold($pdo, $targetDate, $SBLSoldData)
 {
-    if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) return;
-
+    if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) {
+        writeLog($pdo, '借券餘額', "資料格式有誤或無資料", 'error');
+        return;
+    }
     $sql = "INSERT INTO stock_sbl_sold 
             (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
             VALUES (?, ?, ?, ?, ?)
@@ -284,7 +315,6 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
             sbl_sold_balance = VALUES(sbl_sold_balance),
             sbl_sold = VALUES(sbl_sold),
             sbl_return = VALUES(sbl_return)";
-
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -304,5 +334,6 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();
+        writeLog($pdo, '借券賣出餘額', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }

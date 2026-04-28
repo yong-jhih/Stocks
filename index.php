@@ -4,7 +4,7 @@ require_once("function-tools.php");
 require_once("function-getData.php");
 
 try {
-    echo getLatestTradingDateWithFugle();
+    
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
 }

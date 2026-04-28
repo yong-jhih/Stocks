@@ -15,6 +15,7 @@ try {
     $targetDate = getLatestTradingDateWithTWSE() ?? getLatestTradingDateWithFugle();
     if (is_array($targetDate)) {
         echo "通知： " . ($targetDate['msg'] ?? '無法取得交易日期') . "\n";
+        writeLog($pdo, 'Fetch_TWSE', "通知： " . ($targetDate['msg'] ?? '無法取得交易日期'), 'error');
         exit;
     }
     insertHistory($pdo, $targetDate, getHistory($targetDate));

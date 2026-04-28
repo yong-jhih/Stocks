@@ -12,7 +12,7 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $date_array = ['2026-04-24'];
+    $date_array = ['2026-04-20'];
     foreach ($date_array as $targetDate) {
         insertHistory($pdo, $targetDate, getHistory($targetDate));
         insertInsti($pdo, $targetDate, getInsti($targetDate));

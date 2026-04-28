@@ -1,8 +1,8 @@
 <?php
 
-function convertTaiwanDateToWestern($dateStr) // return string "YYYY-MM-DD"
+function convertTaiwanDateToWestern($dateStr = '1150228')
 {
-    if (preg_match('/^(\d{2,3})\/(\d{2})\/(\d{2})$/', $dateStr, $matches)) {
+    if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {
         $taiwanYear = (int)$matches[1];
         $month = $matches[2];
         $day = $matches[3];
@@ -32,5 +32,18 @@ function fetchUrl($url) // return array
         return json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
     } catch (Exception $e) {
         return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
+    }
+}
+
+function writeLog($pdo, $type, $content, $result)
+{
+    $sql = "INSERT INTO system_logs (log_time, log_type, content, result) 
+            VALUES (?, ?, ?, ?)";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $currentTime = date('Y-m-d H:i:s');
+        $stmt->execute([$currentTime, $type, $content, $result]);
+    } catch (Exception $e) {
+        error_log("Critical Error: Unable to write to system_logs. " . $e->getMessage());
     }
 }
