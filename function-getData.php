@@ -59,7 +59,7 @@ function isHoliday($date) // return bool
     return in_array($date, $holiday);
 }
 
-function getHistory($date) // return array
+function getHistory($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -75,12 +75,14 @@ function getHistory($date) // return array
                 return $stocks;
             }
         }
+        writeLog($pdo, '上市個股日成交', "查詢不到每日收盤行情表", 'error');
         return ["status" => "error", "msg" => "查詢不到每日收盤行情表"];
     }
+    writeLog($pdo, '上市個股日成交', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
     return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
 }
 
-function getInsti($date) // return array
+function getInsti($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -94,12 +96,14 @@ function getInsti($date) // return array
             }
             return $stocks;
         }
+        writeLog($pdo, '三大法人買賣超日報', "資料格式錯誤", 'error');
         return ["status" => "error", "msg" => "資料格式錯誤"];
     }
+    writeLog($pdo, '三大法人買賣超日報', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
     return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
 }
 
-function getMargin($date) // return array
+function getMargin($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -115,12 +119,14 @@ function getMargin($date) // return array
                 return $stocks;
             }
         }
+        writeLog($pdo, '融資融券彙總', "查詢不到融資融券彙總表", 'error');
         return ["status" => "error", "msg" => "查詢不到融資融券彙總表"];
     } else {
+        writeLog($pdo, '融資融券彙總', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }
-function getSBLTotal($date) // return array
+function getSBLTotal($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -134,13 +140,15 @@ function getSBLTotal($date) // return array
             }
             return $stocks;
         } else {
+            writeLog($pdo, '證金營業處所借券餘額合計表', "資料格式錯誤", 'error');
             return ["status" => "error", "msg" => "資料格式錯誤"];
         }
     } else {
+        writeLog($pdo, '證金營業處所借券餘額合計表', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }
-function getSBLSold($date) // return array
+function getSBLSold($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -154,9 +162,11 @@ function getSBLSold($date) // return array
             }
             return $stocks;
         } else {
+            writeLog($pdo, '信用額度總量管制餘額', "資料格式錯誤", 'error');
             return ["status" => "error", "msg" => "資料格式錯誤"];
         }
     } else {
+        writeLog($pdo, '信用額度總量管制餘額', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }

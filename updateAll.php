@@ -18,11 +18,11 @@ try {
         writeLog($pdo, 'Fetch_TWSE', "通知： " . ($targetDate['msg'] ?? '無法取得交易日期'), 'error');
         exit;
     }
-    insertHistory($pdo, $targetDate, getHistory($targetDate));
-    insertInsti($pdo, $targetDate, getInsti($targetDate));
-    insertMargin($pdo, $targetDate, getMargin($targetDate));
-    insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate));
-    insertSBLSold($pdo, $targetDate, getSBLSold($targetDate));
+    insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
+    insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
+    insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
+    insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
+    insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
 }
