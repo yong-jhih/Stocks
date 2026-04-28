@@ -176,6 +176,7 @@ function insertHistory($pdo, $targetDate, $historyData)
         writeLog($pdo, '上市個股日成交', "資料格式有誤或無資料", 'error');
         return;
     }
+    $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
             (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -205,6 +206,9 @@ function insertHistory($pdo, $targetDate, $historyData)
             ]);
         }
         $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        writeLog($pdo, 'insertHistory', $targetDate . '上市個股日成交更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -218,6 +222,7 @@ function insertInsti($pdo, $targetDate, $instiData)
         writeLog($pdo, '三大法人買賣超', "資料格式有誤或無資料", 'error');
         return;
     }
+    $start_time = microtime(true);
     $sql = "INSERT INTO stock_insti 
             (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
             VALUES (?, ?, ?, ?, ?, ?)
@@ -243,6 +248,9 @@ function insertInsti($pdo, $targetDate, $instiData)
             ]);
         }
         $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        writeLog($pdo, 'insertHistory', $targetDate . '三大法人買賣超更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -256,6 +264,7 @@ function insertMargin($pdo, $targetDate, $marginData)
         writeLog($pdo, '融資融券彙總', "資料格式有誤或無資料", 'error');
         return;
     }
+    $start_time = microtime(true);
     $sql = "INSERT INTO stock_margin 
             (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
             VALUES (?, ?, ?, ?, ?, ?)
@@ -281,6 +290,9 @@ function insertMargin($pdo, $targetDate, $marginData)
             ]);
         }
         $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        writeLog($pdo, 'insertHistory', $targetDate . '融資融券彙總更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -294,6 +306,7 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
         writeLog($pdo, '借券餘額', "資料格式有誤或無資料", 'error');
         return;
     }
+    $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_total (trade_date, stock_id, sbl_balance) 
             VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE sbl_balance = VALUES(sbl_balance)";
@@ -304,6 +317,9 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
             $stmt->execute([$targetDate, $row[0], (int)str_replace(',', '', $row[5])]);
         }
         $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        writeLog($pdo, 'insertHistory', $targetDate . '借券餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();
@@ -314,9 +330,10 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
 function insertSBLSold($pdo, $targetDate, $SBLSoldData)
 {
     if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) {
-        writeLog($pdo, '借券餘額', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, '借券賣出餘額', "資料格式有誤或無資料", 'error');
         return;
     }
+    $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_sold 
             (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
             VALUES (?, ?, ?, ?, ?)
@@ -340,6 +357,9 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
             ]);
         }
         $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        writeLog($pdo, 'insertHistory', $targetDate . '借券賣出餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();

@@ -27,7 +27,7 @@ try {
     insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-    writeLog($pdo, 'updateAll', '更新資料結束,共耗時 ' . $execution_time . ' 秒', 'success');
+    writeLog($pdo, 'updateAll', $targetDate . '更新資料結束,共耗時 ' . $execution_time . ' 秒', 'success');
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
 }
