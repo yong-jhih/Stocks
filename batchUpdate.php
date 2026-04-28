@@ -12,7 +12,9 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $date_array = ['2026-04-17', '2026-04-16', '2026-04-15', '2026-04-14', '2026-04-13',];
+    $date_array = ['2026-04-16'];
+    $start_time = microtime(true);
+    writeLog($pdo, 'batchUpdate', '開始進行批次更新', 'start');
     foreach ($date_array as $targetDate) {
         insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
         insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
@@ -20,6 +22,9 @@ try {
         insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
         insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
     }
+    $end_time = microtime(true);
+    $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+    writeLog($pdo, 'batchUpdate', '批次更新結束,共耗時 ' . $execution_time . ' 秒', 'success');
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
 }
