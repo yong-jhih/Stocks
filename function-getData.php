@@ -250,7 +250,7 @@ function insertInsti($pdo, $targetDate, $instiData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertHistory', $targetDate . '三大法人買賣超更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertInsti', $targetDate . '三大法人買賣超更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -292,7 +292,7 @@ function insertMargin($pdo, $targetDate, $marginData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertHistory', $targetDate . '融資融券彙總更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertMargin', $targetDate . '融資融券彙總更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -319,7 +319,7 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertHistory', $targetDate . '借券餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . '借券餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();
@@ -359,7 +359,7 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertHistory', $targetDate . '借券賣出餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLSold', $targetDate . '借券賣出餘額更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "失敗：" . $e->getMessage();
