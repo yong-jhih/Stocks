@@ -12,7 +12,7 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $date_array = ['2026-03-30', '2026-03-31', '2026-04-01', '2026-04-02'];
+    $date_array = ['2026-03-23','2026-03-24','2026-03-25','2026-03-26','2026-03-27'];
     $start_time = microtime(true);
     writeLog($pdo, 'batchUpdate', '開始進行批次更新, 共 ' . count($date_array) . ' 天', 'start');
     foreach ($date_array as $targetDate) {
