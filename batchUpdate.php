@@ -12,14 +12,14 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $date_array = ['2026-03-19'];
+    $date_array = ['2026-03-09', '2026-03-10', '2026-03-11', '2026-03-12', '2026-03-13'];
     $start_time = microtime(true);
     writeLog($pdo, 'batchUpdate', '開始進行批次更新, 共 ' . count($date_array) . ' 天', 'start');
     foreach ($date_array as $targetDate) {
-        // insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
-        // insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
-        // insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
-        // insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
+        insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
+        insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
+        insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
+        insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
         insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
     }
     $end_time = microtime(true);

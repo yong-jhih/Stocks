@@ -74,10 +74,10 @@ function getHistory($date, $pdo) // return array
                 return $stocks;
             }
         }
-        writeLog($pdo, '上市個股日成交', "查詢不到每日收盤行情表", 'error');
+        writeLog($pdo, $date . ' 上市個股日成交', "查詢不到每日收盤行情表", 'error');
         return ["status" => "error", "msg" => "查詢不到每日收盤行情表"];
     }
-    writeLog($pdo, '上市個股日成交', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+    writeLog($pdo, $date . ' 上市個股日成交', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
     return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
 }
 
@@ -95,10 +95,10 @@ function getInsti($date, $pdo) // return array
             }
             return $stocks;
         }
-        writeLog($pdo, '三大法人買賣超日報', "資料格式錯誤", 'error');
+        writeLog($pdo, $date . ' 三大法人買賣超日報', "資料格式錯誤", 'error');
         return ["status" => "error", "msg" => "資料格式錯誤"];
     }
-    writeLog($pdo, '三大法人買賣超日報', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+    writeLog($pdo, $date . ' 三大法人買賣超日報', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
     return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
 }
 
@@ -118,10 +118,10 @@ function getMargin($date, $pdo) // return array
                 return $stocks;
             }
         }
-        writeLog($pdo, '融資融券彙總', "查詢不到融資融券彙總表", 'error');
+        writeLog($pdo, $date . ' 融資融券彙總', "查詢不到融資融券彙總表", 'error');
         return ["status" => "error", "msg" => "查詢不到融資融券彙總表"];
     } else {
-        writeLog($pdo, '融資融券彙總', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+        writeLog($pdo, $date . ' 融資融券彙總', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }
@@ -139,11 +139,11 @@ function getSBLTotal($date, $pdo) // return array
             }
             return $stocks;
         } else {
-            writeLog($pdo, '證金營業處所借券餘額合計表', "資料格式錯誤", 'error');
+            writeLog($pdo, $date . ' 證金營業處所借券餘額合計表', "資料格式錯誤", 'error');
             return ["status" => "error", "msg" => "資料格式錯誤"];
         }
     } else {
-        writeLog($pdo, '證金營業處所借券餘額合計表', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+        writeLog($pdo, $date . ' 證金營業處所借券餘額合計表', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }
@@ -161,11 +161,11 @@ function getSBLSold($date, $pdo) // return array
             }
             return $stocks;
         } else {
-            writeLog($pdo, '信用額度總量管制餘額', "資料格式錯誤", 'error');
+            writeLog($pdo, $date . ' 信用額度總量管制餘額', "資料格式錯誤", 'error');
             return ["status" => "error", "msg" => "資料格式錯誤"];
         }
     } else {
-        writeLog($pdo, '信用額度總量管制餘額', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+        writeLog($pdo, $date . ' 信用額度總量管制餘額', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
     }
 }
@@ -173,7 +173,7 @@ function getSBLSold($date, $pdo) // return array
 function insertHistory($pdo, $targetDate, $historyData)
 {
     if (!is_array($historyData) || isset($historyData['status'])) {
-        writeLog($pdo, '上市個股日成交', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 上市個股日成交', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
@@ -219,7 +219,7 @@ function insertHistory($pdo, $targetDate, $historyData)
 function insertInsti($pdo, $targetDate, $instiData)
 {
     if (!is_array($instiData) || isset($instiData['status'])) {
-        writeLog($pdo, '三大法人買賣超', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 三大法人買賣超', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
@@ -261,7 +261,7 @@ function insertInsti($pdo, $targetDate, $instiData)
 function insertMargin($pdo, $targetDate, $marginData)
 {
     if (!is_array($marginData) || isset($marginData['status'])) {
-        writeLog($pdo, '融資融券彙總', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 融資融券彙總', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
@@ -303,7 +303,7 @@ function insertMargin($pdo, $targetDate, $marginData)
 function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
 {
     if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) {
-        writeLog($pdo, '借券餘額', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 借券餘額', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
@@ -330,7 +330,7 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
 function insertSBLSold($pdo, $targetDate, $SBLSoldData)
 {
     if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) {
-        writeLog($pdo, '借券賣出餘額', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 借券賣出餘額', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
