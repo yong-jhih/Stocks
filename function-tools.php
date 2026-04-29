@@ -48,10 +48,10 @@ function writeLog($pdo, $type, $content, $result)
     }
 }
 
-function callGeminiAI($prompt = 'say hi', $model = 'gemini-2.5-flash')
+function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
 {
-    $apiKey = getenv('GEMINI_TOKEN');
-    $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
+    if (!isset($apikey)) return 'api key 不存在';
+    $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/" . $model . ":generateContent?key=" . $apikey;
     $payload = [
         "contents" => [
             [
