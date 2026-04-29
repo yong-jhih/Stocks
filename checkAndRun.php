@@ -38,7 +38,7 @@ try {
         } else {
             require 'updateAll.php';
             echo '資料庫更新完畢, 準備進入分析。';
-            exit(0); // 返回 0 讓 GitHub Actions 執行下一步的 analyze.php
+            exit(0);
         }
     }
 } catch (PDOException $e) {

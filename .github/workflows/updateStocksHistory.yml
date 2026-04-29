@@ -32,8 +32,5 @@ jobs:
         php-version: '8.2'
         extensions: pdo, pdo_mysql
 
-    - name: 執行資料抓取 (updateAll.php)
-      run: php updateAll.php
-
     - name: 執行數據分析與更新 (batchUpdate.php)
       run: php batchUpdate.php

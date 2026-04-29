@@ -1,14 +1,9 @@
 <?php
+require_once("init.php");
 
-date_default_timezone_set('Asia/Taipei');
-set_time_limit(0);
-require_once("function-tools.php");
-require_once("function-getData.php");
-
-try {
-
-    $ans = callGeminiAI('', '說明下井字遊戲', 'gemini-2.5-flash');
-    echo $ans;
-} catch (PDOException $e) {
-    die("系統執行失敗：" . $e->getMessage());
-}
+$start_time = microtime(true);
+$results = testGenerateDailyDashboard($pdo, '2026-04-28');
+testSaveDailyDashboard($pdo, '2026-04-28', $results);
+$end_time = microtime(true);
+$execution_time = round($end_time - $start_time, 2);
+writeLog($pdo, 'SelectAnalysis', '篩選分析結束,共耗時 ' . $execution_time . ' 秒', 'success');

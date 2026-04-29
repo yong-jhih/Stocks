@@ -368,8 +368,6 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
 }
 function generateDailyDashboard($pdo, $targetDate)
 {
-    // 1. 執行核心 SQL：計算所有技術與籌碼指標
-    // 這裡加入了位階與量的粗篩 (vma20 > 700張, 位階 20-90)
     $sql = "
     WITH BaseData AS (
         SELECT 
@@ -473,6 +471,218 @@ function generateDailyDashboard($pdo, $targetDate)
  * @param array $dashboardResults generateDailyDashboard 回傳的陣列
  */
 function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
+{
+    if (empty($dashboardResults)) {
+        writeLog($pdo, 'SaveDashboard', "日期 {$targetDate} 無資料可供寫入", 'Warning');
+        return;
+    }
+
+    $start_time = microtime(true);
+
+    $sql = "INSERT INTO daily_dashboard_results (
+                trade_date, stock_id, stock_name, concept, close_price, 
+                vol_k, vol_ratio, rank10, squeeze, bullet, action_tip, tags
+            ) VALUES (
+                ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, ?, ?
+            ) ON DUPLICATE KEY UPDATE 
+                stock_name = VALUES(stock_name),
+                concept = VALUES(concept),
+                close_price = VALUES(close_price),
+                vol_k = VALUES(vol_k),
+                vol_ratio = VALUES(vol_ratio),
+                rank10 = VALUES(rank10),
+                squeeze = VALUES(squeeze),
+                bullet = VALUES(bullet),
+                action_tip = VALUES(action_tip),
+                tags = VALUES(tags)";
+
+    try {
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare($sql);
+
+        foreach ($dashboardResults as $row) {
+            $stmt->execute([
+                $targetDate,
+                $row['stock_id'],
+                $row['stock_name'],
+                $row['concept'],
+                $row['close'],
+                $row['vol_k'],
+                $row['vol_ratio'],
+                $row['rank10'],
+                $row['squeeze'],
+                $row['bullet'],
+                $row['action_tip'],
+                $row['tags']
+            ]);
+        }
+
+        $pdo->commit();
+
+        $execution_time = round(microtime(true) - $start_time, 2);
+        $count = count($dashboardResults);
+        writeLog($pdo, 'SaveDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆，耗時 {$execution_time} 秒", 'Success');
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'SaveDashboard', "寫入失敗：" . $e->getMessage(), 'Error');
+        echo "Dashboard 存檔失敗：" . $e->getMessage();
+    }
+}
+
+function testGenerateDailyDashboard($pdo, $targetDate)
+{
+    $sql = "
+        USE somethin_tools;
+WITH BaseData AS (
+    SELECT 
+        h.trade_date,
+        h.stock_id,
+        h.stock_name,
+        h.close_price,
+        h.trade_volume,
+        h.high_price,
+        h.low_price,
+        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as ma5,
+        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as ma10,
+        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as ma20,
+        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as vma5,
+        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as vma10,
+        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as vma20,
+        MAX(h.high_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as high10,
+        MIN(h.low_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as low10,
+        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as insti_sum1,
+        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as insti_sum5,
+        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as insti_sum10,
+        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as insti_sum20,
+        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as vol_sum1,
+        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as vol_sum5,
+        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as vol_sum10,
+        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as vol_sum20,
+        m.margin_balance,
+        st.sbl_balance as sbl_total,
+        ss.sbl_sold_balance,
+        (ss.sbl_sold - ss.sbl_return) as net_sbl,
+        i.trust_buy_sell,
+        i.foreign_buy_sell,
+        LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol
+    FROM stock_history h
+    LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
+    LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
+    LEFT JOIN stock_sbl_total st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
+    LEFT JOIN stock_sbl_sold ss ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
+),
+ConsecutiveCalc AS (
+    SELECT *,
+        CASE WHEN trust_buy_sell > 0 THEN
+            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
+            ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN trust_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
+        ELSE 0 END as trust_streak_id,
+        CASE WHEN foreign_buy_sell > 0 THEN
+            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
+            ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN foreign_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
+        ELSE 0 END as foreign_streak_id
+    FROM BaseData
+)
+SELECT 
+    stock_id as `代碼`,
+    stock_name as `股名`,
+    '待補' as `產業概念`,
+    close_price as `收盤價`,
+    ROUND(trade_volume / 1000, 0) as `成交量`,
+    ROUND(trade_volume / NULLIF(yesterday_vol, 0), 2) as `昨量比`,
+    CONCAT(ROUND(((close_price - low10) / NULLIF(high10 - low10, 0)) * 100, 2), '%') as `10日位階`,
+    CONCAT(ROUND(((high10 - low10) / NULLIF(low10, 0)) * 100, 2), '%') as `10日振幅`,
+    ROUND(ma5, 2) as `5日線`,
+    ROUND(ma10, 2) as `10日線`,
+    ROUND(ma20, 2) as `20日線`,
+    ROUND(vma5 / 1000, 0) as `5日均量`,
+    ROUND(vma20 / 1000, 0) as `20日均量`,
+    CONCAT(ROUND(((close_price - ma5) / NULLIF(ma5, 0)) * 100, 2), '%') as `5日乖離率`,
+    CONCAT(ROUND(((close_price - ma10) / NULLIF(ma10, 0)) * 100, 2), '%') as `10日乖離率`,
+    CONCAT(ROUND(((close_price - ma20) / NULLIF(ma20, 0)) * 100, 2), '%') as `20日乖離率`,
+    CONCAT(ROUND((insti_sum1 / NULLIF(vol_sum1, 0)) * 100, 2), '%') as `1日集中度`,
+    CONCAT(ROUND((insti_sum5 / NULLIF(vol_sum5, 0)) * 100, 2), '%') as `5日集中度`,
+    CONCAT(ROUND((insti_sum10 / NULLIF(vol_sum10, 0)) * 100, 2), '%') as `10日集中度`,
+    CONCAT(ROUND((insti_sum20 / NULLIF(vol_sum20, 0)) * 100, 2), '%') as `20日集中度`,
+    ROUND(sbl_sold_balance / NULLIF(vma20 / 1000, 0), 1) as `券補力`,
+    ROUND((sbl_total - sbl_sold_balance)/1000 / NULLIF(vma5 / 1000, 0), 1) as `券砸力`,
+    net_sbl/1000 as `券淨賣還`,
+    margin_balance as `融資餘額`,
+    sbl_total/1000 as `借券餘額`,
+    sbl_sold_balance/1000 as `借券賣出餘額`,
+    trust_buy_sell as `投信買賣`, 
+    foreign_buy_sell as `外資買賣`
+FROM ConsecutiveCalc
+WHERE trade_date = '2026-04-28'
+    AND vma10 > 700000 
+    AND ((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9
+    AND yesterday_vol < vma5
+ORDER BY `代碼` ASC;
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['targetDate' => $targetDate]);
+    $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $dashboardResults = [];
+    foreach ($rawStocks as $s) {
+        $tips = [];
+        $tags = [];
+        // --- 數值準備 ---
+        $close = (float)$s['close_price'];
+        $yClose = (float)$s['yesterday_close'];
+        $vol = (int)$s['trade_volume'];
+        $vma5 = (float)$s['vma5'];
+        $vma20 = (float)$s['vma20'];
+        $rank10 = (($s['close_price'] - $s['low10']) / max(1, ($s['high10'] - $s['low10']))) * 100;
+        $volRatio = $s['yesterday_vol'] > 0 ? round($vol / $s['yesterday_vol'], 2) : 0;
+
+        // 券力指標
+        $squeeze = $vma20 > 0 ? round($s['sbl_sold_balance'] / ($vma20 / 1000), 1) : 0;
+        $bullet = $vma5 > 0 ? round(($s['sbl_total'] - $s['sbl_sold_balance']) / ($vma5 / 1000), 1) : 0;
+
+        // --- 標籤判定邏輯 (Tags) ---
+        if ($s['margin_balance_diff'] < 0 && $s['trust_buy_sell'] > 0) $tags[] = "💎主力接散戶丟";
+        if ($squeeze > 7 && $s['net_sbl'] < 0) $tags[] = "🔥高壓軋空";
+        if ($bullet > 1.5) $tags[] = "💣法人備彈";
+
+        // --- 提示判定邏輯 (Tips) ---
+        if ($close > $yClose) {
+            if ($squeeze > 8 && $s['net_sbl'] < 0) {
+                $tips[] = "🚨強制軋空：法人被迫回補";
+            } elseif ($volRatio > 1.5) {
+                $tips[] = "🚀帶量突破：動能轉強";
+            }
+        }
+        if ($rank10 < 40 && ($s['insti_sum1'] / max(1, $s['vol_sum1'])) > 0.05) {
+            $tips[] = "✅低檔轉強：法人進場";
+        }
+
+        // --- AI 產業分析 ---
+        // 建議在正式環境中，先檢查資料庫有沒有存過這檔股票的產業，沒有才呼叫 AI
+        $concept = "搜尋中...";
+        // $concept = callGeminiAI("請分析[{$s['stock_id']} {$s['stock_name']}]的產業概念...", 'gemini-1.5-flash');
+
+        // --- 整合結果 ---
+        $dashboardResults[] = [
+            'stock_id'   => $s['stock_id'],
+            'stock_name' => $s['stock_name'],
+            'concept'    => $concept,
+            'close'      => $close,
+            'vol_k'      => round($vol / 1000, 0),
+            'vol_ratio'  => $volRatio,
+            'rank10'     => round($rank10, 1) . '%',
+            'squeeze'    => $squeeze,
+            'bullet'     => $bullet,
+            'action_tip' => implode(" ", $tips) ?: "🔎震盪過濾",
+            'tags'       => implode(",", $tags)
+        ];
+    }
+    writeLog($pdo, 'Dashboard_Gen', "完成日期 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
+    return $dashboardResults;
+}
+
+function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
 {
     if (empty($dashboardResults)) {
         writeLog($pdo, 'SaveDashboard', "日期 {$targetDate} 無資料可供寫入", 'Warning');
