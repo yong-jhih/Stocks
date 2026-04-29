@@ -5,6 +5,10 @@ on:
     - cron: '*/10 13-16 * * 1-5'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
@@ -35,5 +39,5 @@ jobs:
     - name: 資料檢查與更新
       run: php checkAndRun.php
 
-    # - name: 執行數據分析
-    #   run: php analyze.php
+    - name: 執行數據分析
+      run: php index.php
