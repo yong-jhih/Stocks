@@ -465,3 +465,69 @@ function generateDailyDashboard($pdo, $targetDate)
     writeLog($pdo, 'Dashboard_Gen', "完成日期 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
     return $dashboardResults;
 }
+
+/**
+ * 將分析後的 Dashboard 結果寫入資料庫
+ * @param PDO $pdo 資料庫連線
+ * @param string $targetDate 交易日期
+ * @param array $dashboardResults generateDailyDashboard 回傳的陣列
+ */
+function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
+{
+    if (empty($dashboardResults)) {
+        writeLog($pdo, 'SaveDashboard', "日期 {$targetDate} 無資料可供寫入", 'Warning');
+        return;
+    }
+
+    $start_time = microtime(true);
+
+    $sql = "INSERT INTO daily_dashboard_results (
+                trade_date, stock_id, stock_name, concept, close_price, 
+                vol_k, vol_ratio, rank10, squeeze, bullet, action_tip, tags
+            ) VALUES (
+                ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, ?, ?
+            ) ON DUPLICATE KEY UPDATE 
+                stock_name = VALUES(stock_name),
+                concept = VALUES(concept),
+                close_price = VALUES(close_price),
+                vol_k = VALUES(vol_k),
+                vol_ratio = VALUES(vol_ratio),
+                rank10 = VALUES(rank10),
+                squeeze = VALUES(squeeze),
+                bullet = VALUES(bullet),
+                action_tip = VALUES(action_tip),
+                tags = VALUES(tags)";
+
+    try {
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare($sql);
+
+        foreach ($dashboardResults as $row) {
+            $stmt->execute([
+                $targetDate,
+                $row['stock_id'],
+                $row['stock_name'],
+                $row['concept'],
+                $row['close'],
+                $row['vol_k'],
+                $row['vol_ratio'],
+                $row['rank10'],
+                $row['squeeze'],
+                $row['bullet'],
+                $row['action_tip'],
+                $row['tags']
+            ]);
+        }
+
+        $pdo->commit();
+
+        $execution_time = round(microtime(true) - $start_time, 2);
+        $count = count($dashboardResults);
+        writeLog($pdo, 'SaveDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆，耗時 {$execution_time} 秒", 'Success');
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'SaveDashboard', "寫入失敗：" . $e->getMessage(), 'Error');
+        echo "Dashboard 存檔失敗：" . $e->getMessage();
+    }
+}

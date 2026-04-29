@@ -14,8 +14,9 @@ try {
         PDO::MYSQL_ATTR_SSL_CA       => '/etc/ssl/certs/ca-certificates.crt',
     ];
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-    $a = generateDailyDashboard($pdo, '2026-04-27');
-    echo json_encode($a);
+    $results = generateDailyDashboard($pdo, '2026-04-28');
+    saveDailyDashboard($pdo, '2026-04-28', $results);
+    echo json_encode($results);
 } catch (PDOException $e) {
     die("系統執行失敗：" . $e->getMessage());
 }

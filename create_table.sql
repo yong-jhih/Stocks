@@ -71,3 +71,22 @@ CREATE TABLE IF NOT EXISTS system_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- DELETE FROM system_logs WHERE log_time < DATE_SUB(NOW(), INTERVAL 90 DAY);
+
+-- 7. 篩選
+CREATE TABLE IF NOT EXISTS daily_dashboard_results (
+    trade_date DATE NOT NULL COMMENT '交易日期',
+    stock_id VARCHAR(10) NOT NULL COMMENT '股票代碼',
+    stock_name VARCHAR(50) COMMENT '股票名稱',
+    concept VARCHAR(255) COMMENT '產業概念',
+    close_price DECIMAL(10, 2) COMMENT '收盤價',
+    vol_k INT COMMENT '成交量(張)',
+    vol_ratio DECIMAL(10, 2) COMMENT '昨量比',
+    rank10 VARCHAR(20) COMMENT '10日位階',
+    squeeze DECIMAL(10, 2) COMMENT '券補力',
+    bullet DECIMAL(10, 2) COMMENT '券砸力',
+    action_tip TEXT COMMENT '提示建議',
+    tags TEXT COMMENT '標籤',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (trade_date, stock_id),
+    INDEX idx_date (trade_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
