@@ -36,8 +36,21 @@ jobs:
         php-version: '8.2'
         extensions: pdo, pdo_mysql
 
-    - name: 資料檢查與更新
-      run: php checkAndRun.php
+    - name: 執行資料檢查與分析
+      run: |
+        # 執行檢查程式，並允許失敗後繼續執行後面的 Shell 指令
+        php checkAndRun.php || EXIT_STATUS=$?
+        
+        # 取得結束碼，如果沒有出錯則 EXIT_STATUS 會是空的或 0
+        STATUS=${EXIT_STATUS:-0}
 
-    - name: 執行數據分析
-      run: php index.php
+        if [ $STATUS -eq 0 ]; then
+          echo "檢查通過 (exit 0)，開始執行數據分析..."
+          php index.php
+        elif [ $STATUS -eq 1 ]; then
+          echo "檢查不通過 (exit 1)，略過後續步驟並正常結束。"
+          exit 0
+        else
+          echo "程式發生 exit 1 以外的錯誤 (碼: $STATUS)，回報失敗。"
+          exit $STATUS
+        fi

@@ -533,97 +533,144 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
 function testGenerateDailyDashboard($pdo, $targetDate)
 {
     $sql = "
-        USE somethin_tools;
-WITH BaseData AS (
-    SELECT 
-        h.trade_date,
-        h.stock_id,
-        h.stock_name,
-        h.close_price,
-        h.trade_volume,
-        h.high_price,
-        h.low_price,
-        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as ma5,
-        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as ma10,
-        AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as ma20,
-        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as vma5,
-        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as vma10,
-        AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as vma20,
-        MAX(h.high_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as high10,
-        MIN(h.low_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as low10,
-        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as insti_sum1,
-        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as insti_sum5,
-        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as insti_sum10,
-        SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as insti_sum20,
-        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as vol_sum1,
-        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as vol_sum5,
-        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as vol_sum10,
-        SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as vol_sum20,
-        m.margin_balance,
-        st.sbl_balance as sbl_total,
-        ss.sbl_sold_balance,
-        (ss.sbl_sold - ss.sbl_return) as net_sbl,
-        i.trust_buy_sell,
-        i.foreign_buy_sell,
-        LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol
-    FROM stock_history h
-    LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
-    LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
-    LEFT JOIN stock_sbl_total st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
-    LEFT JOIN stock_sbl_sold ss ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
-),
-ConsecutiveCalc AS (
-    SELECT *,
-        CASE WHEN trust_buy_sell > 0 THEN
-            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
-            ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN trust_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
-        ELSE 0 END as trust_streak_id,
-        CASE WHEN foreign_buy_sell > 0 THEN
-            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
-            ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN foreign_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
-        ELSE 0 END as foreign_streak_id
-    FROM BaseData
-)
-SELECT 
-    stock_id as `代碼`,
-    stock_name as `股名`,
-    '待補' as `產業概念`,
-    close_price as `收盤價`,
-    ROUND(trade_volume / 1000, 0) as `成交量`,
-    ROUND(trade_volume / NULLIF(yesterday_vol, 0), 2) as `昨量比`,
-    CONCAT(ROUND(((close_price - low10) / NULLIF(high10 - low10, 0)) * 100, 2), '%') as `10日位階`,
-    CONCAT(ROUND(((high10 - low10) / NULLIF(low10, 0)) * 100, 2), '%') as `10日振幅`,
-    ROUND(ma5, 2) as `5日線`,
-    ROUND(ma10, 2) as `10日線`,
-    ROUND(ma20, 2) as `20日線`,
-    ROUND(vma5 / 1000, 0) as `5日均量`,
-    ROUND(vma20 / 1000, 0) as `20日均量`,
-    CONCAT(ROUND(((close_price - ma5) / NULLIF(ma5, 0)) * 100, 2), '%') as `5日乖離率`,
-    CONCAT(ROUND(((close_price - ma10) / NULLIF(ma10, 0)) * 100, 2), '%') as `10日乖離率`,
-    CONCAT(ROUND(((close_price - ma20) / NULLIF(ma20, 0)) * 100, 2), '%') as `20日乖離率`,
-    CONCAT(ROUND((insti_sum1 / NULLIF(vol_sum1, 0)) * 100, 2), '%') as `1日集中度`,
-    CONCAT(ROUND((insti_sum5 / NULLIF(vol_sum5, 0)) * 100, 2), '%') as `5日集中度`,
-    CONCAT(ROUND((insti_sum10 / NULLIF(vol_sum10, 0)) * 100, 2), '%') as `10日集中度`,
-    CONCAT(ROUND((insti_sum20 / NULLIF(vol_sum20, 0)) * 100, 2), '%') as `20日集中度`,
-    ROUND(sbl_sold_balance / NULLIF(vma20 / 1000, 0), 1) as `券補力`,
-    ROUND((sbl_total - sbl_sold_balance)/1000 / NULLIF(vma5 / 1000, 0), 1) as `券砸力`,
-    net_sbl/1000 as `券淨賣還`,
-    margin_balance as `融資餘額`,
-    sbl_total/1000 as `借券餘額`,
-    sbl_sold_balance/1000 as `借券賣出餘額`,
-    trust_buy_sell as `投信買賣`, 
-    foreign_buy_sell as `外資買賣`
-FROM ConsecutiveCalc
-WHERE trade_date = '2026-04-28'
-    AND vma10 > 700000 
-    AND ((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9
-    AND yesterday_vol < vma5
-ORDER BY `代碼` ASC;
+        WITH BaseData AS (
+            SELECT 
+                h.trade_date,
+                h.stock_id,
+                h.stock_name,
+                h.close_price,
+                h.trade_volume,
+                h.high_price,
+                h.low_price,
+                AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as ma5,
+                AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as ma10,
+                AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as ma20,
+                AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as vma5,
+                AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as vma10,
+                AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as vma20,
+                MAX(h.high_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as high10,
+                MIN(h.low_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as low10,
+                SUM(i.foreign_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as foreign_sum5,
+                SUM(i.foreign_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as foreign_sum10,
+                SUM(i.foreign_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as foreign_sum20,
+                SUM(i.trust_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as trust_sum5,
+                SUM(i.trust_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as trust_sum10,
+                SUM(i.trust_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as trust_sum20,
+                SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as insti_sum1,
+                SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as insti_sum5,
+                SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as insti_sum10,
+                SUM(i.total_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as insti_sum20,
+                SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 0 PRECEDING AND CURRENT ROW) as vol_sum1,
+                SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as vol_sum5,
+                SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as vol_sum10,
+                SUM(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as vol_sum20,
+                i.trust_buy_sell,
+                i.foreign_buy_sell,
+                m.margin_balance,
+                m.margin_balance_diff,
+                SUM(m.margin_balance_diff) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as margin_balance_diff_sum5,
+                SUM(m.margin_balance_diff) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as margin_balance_diff_sum10,
+                SUM(m.margin_balance_diff) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as margin_balance_diff_sum20,
+                st.sbl_balance as sbl_total,
+                ss.sbl_sold_balance,
+                (ss.sbl_sold - ss.sbl_return) as net_sbl,
+                SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as net_sbl_sum5,
+                SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as net_sbl_sum10,
+                SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as net_sbl_sum20,
+                LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol
+            FROM stock_history h
+            LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
+            LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
+            LEFT JOIN stock_sbl_total st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
+            LEFT JOIN stock_sbl_sold ss ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
+        ),
+        StreakGrouping AS (
+            SELECT *,
+                (ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
+                 ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN trust_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
+                ) as t_grp,
+                (ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
+                 ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN foreign_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
+                ) as f_grp
+            FROM BaseData
+        ),
+        ConsecutiveCalc AS (
+            SELECT *,
+                CASE WHEN trust_buy_sell > 0 THEN 
+                    ROW_NUMBER() OVER(PARTITION BY stock_id, t_grp ORDER BY trade_date) 
+                ELSE 0 END as trust_streak_days,
+                CASE WHEN foreign_buy_sell > 0 THEN 
+                    ROW_NUMBER() OVER(PARTITION BY stock_id, f_grp ORDER BY trade_date) 
+                ELSE 0 END as foreign_streak_days
+            FROM StreakGrouping
+        )
+        SELECT 
+            stock_id as `代碼`,
+            stock_name as `股名`,
+            '待補' as `產業概念`,
+            close_price as `收盤價`,
+            ROUND(trade_volume / 1000, 0) as `成交量`,
+            ROUND(trade_volume / NULLIF(yesterday_vol, 0), 2) as `昨量比`,
+            CONCAT(ROUND(((close_price - low10) / NULLIF(high10 - low10, 0)) * 100, 2), '%') as `10日位階`,
+            CONCAT(ROUND(((high10 - low10) / NULLIF(low10, 0)) * 100, 2), '%') as `10日振幅`,
+            ROUND(ma5, 2) as `5日線`,
+            ROUND(ma10, 2) as `10日線`,
+            ROUND(ma20, 2) as `20日線`,
+            ROUND(vma5 / 1000, 0) as `5日均量`,
+            ROUND(vma10 / 1000, 0) as `10日均量`,
+            ROUND(vma20 / 1000, 0) as `20日均量`,
+            CONCAT(ROUND(((close_price - ma5) / NULLIF(ma5, 0)) * 100, 2), '%') as `5日乖離率`,
+            CONCAT(ROUND(((close_price - ma10) / NULLIF(ma10, 0)) * 100, 2), '%') as `10日乖離率`,
+            CONCAT(ROUND(((close_price - ma20) / NULLIF(ma20, 0)) * 100, 2), '%') as `20日乖離率`,
+            CONCAT(ROUND((insti_sum1 / NULLIF(vol_sum1, 0)) * 100, 2), '%') as `1日集中度`,
+            CONCAT(ROUND((insti_sum5 / NULLIF(vol_sum5, 0)) * 100, 2), '%') as `5日集中度`,
+            CONCAT(ROUND((insti_sum10 / NULLIF(vol_sum10, 0)) * 100, 2), '%') as `10日集中度`,
+            CONCAT(ROUND((insti_sum20 / NULLIF(vol_sum20, 0)) * 100, 2), '%') as `20日集中度`,
+            margin_balance_diff as `融資`,
+            margin_balance_diff_sum5 as `融資5日累計`,
+            margin_balance_diff_sum10 as `融資10日累計`,
+            margin_balance_diff_sum20 as `融資20日累計`,
+            margin_balance as `融資餘額`,
+            ROUND(foreign_sum5/1000,0) as `外資5日累計`,
+            ROUND(foreign_sum10/1000,0) as `外資10日累計`,
+            ROUND(foreign_sum20/1000,0) as `外資20日累計`,
+            ROUND(trust_sum5/1000,0) as `投信5日累計`, 
+            ROUND(trust_sum10/1000,0) as `投信10日累計`, 
+            ROUND(trust_sum20/1000,0) as `投信20日累計`, 
+            foreign_streak_days as `外資連買天數`,
+            trust_streak_days as `投信連買天數`,
+            ROUND(sbl_sold_balance/1000 / NULLIF(vma20 / 1000, 0), 1) as `券補力`,
+            ROUND((sbl_total - sbl_sold_balance)/1000 / NULLIF(vma5 / 1000, 0), 1) as `券砸力`,
+            ROUND(net_sbl/1000,0) as `券淨賣還`,
+            ROUND(net_sbl_sum5/1000,0) as `券淨賣還5日累計`,
+            ROUND(net_sbl_sum10/1000,0) as `券淨賣還10日累計`,
+            ROUND(net_sbl_sum20/1000,0) as `券淨賣還20日累計`,
+            ROUND(sbl_total/1000,0) as `借券餘額`,
+            ROUND(sbl_sold_balance/1000,0) as `借券賣出餘額`
+        FROM ConsecutiveCalc
+        WHERE trade_date = :targetDate
+            AND vma20 > 700000
+            AND (
+                (trade_volume > vma5 AND vma5 >= vma20) 
+                OR 
+                (trade_volume > vma20 * 1.3)
+            )
+            AND yesterday_vol < vma5
+            AND (
+                (trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06)
+                OR
+                (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08)
+            )
+            AND ((high10 - low10) / NULLIF(low10, 0)) > 0.01
+            AND ((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9
+            AND (insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03;
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['targetDate' => $targetDate]);
     $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($rawStocks);exit(0);
     $dashboardResults = [];
     foreach ($rawStocks as $s) {
         $tips = [];

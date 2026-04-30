@@ -1,8 +1,8 @@
-name: 歷史資料更新(周一~周五 晚間11:30)
+name: 歷史資料批次更新
 
 on:
-  schedule:
-    - cron: '30 15 * * 1-5' 
+  # schedule:
+  #   - cron: '30 15 * * 1-5' 
   workflow_dispatch:
 
 permissions:
@@ -32,5 +32,5 @@ jobs:
         php-version: '8.2'
         extensions: pdo, pdo_mysql
 
-    - name: 執行數據分析與更新 (batchUpdate.php)
+    - name: 歷史資料批次更新 (batchUpdate.php)
       run: php batchUpdate.php
