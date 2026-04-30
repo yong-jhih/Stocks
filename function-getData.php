@@ -730,12 +730,27 @@ function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
 
     $start_time = microtime(true);
 
+    // 1. 完整的 SQL 語句，包含所有新增的累計與技術指標欄位
     $sql = "INSERT INTO daily_dashboard_results (
                 trade_date, stock_id, stock_name, concept, close_price, 
-                vol_k, vol_ratio, rank10, squeeze, bullet, action_tip, tags
+                vol_k, vol_ratio, rank10, amp10, ma5, ma10, ma20, 
+                vma5, vma10, vma20, bia5, bia10, bia20, 
+                con1, con5, con10, con20, 
+                margin_balance_diff, margin_balance_diff_sum5, margin_balance_diff_sum10, margin_balance_diff_sum20, margin_balance, 
+                foreign_sum5, foreign_sum10, foreign_sum20, trust_sum5, trust_sum10, trust_sum20, 
+                foreign_streak_days, trust_streak_days, 
+                squeeze, bullet, net_sbl, net_sbl_sum5, net_sbl_sum10, net_sbl_sum20, 
+                sbl_total, sbl_sold_balance, action_tip, tags
             ) VALUES (
                 ?, ?, ?, ?, ?, 
-                ?, ?, ?, ?, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?, ?, ?, 
+                ?, ?, 
+                ?, ?, ?, ?, ?, ?, 
+                ?, ?, ?, ?
             ) ON DUPLICATE KEY UPDATE 
                 stock_name = VALUES(stock_name),
                 concept = VALUES(concept),
@@ -743,8 +758,41 @@ function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
                 vol_k = VALUES(vol_k),
                 vol_ratio = VALUES(vol_ratio),
                 rank10 = VALUES(rank10),
+                amp10 = VALUES(amp10),
+                ma5 = VALUES(ma5),
+                ma10 = VALUES(ma10),
+                ma20 = VALUES(ma20),
+                vma5 = VALUES(vma5),
+                vma10 = VALUES(vma10),
+                vma20 = VALUES(vma20),
+                bia5 = VALUES(bia5),
+                bia10 = VALUES(bia10),
+                bia20 = VALUES(bia20),
+                con1 = VALUES(con1),
+                con5 = VALUES(con5),
+                con10 = VALUES(con10),
+                con20 = VALUES(con20),
+                margin_balance_diff = VALUES(margin_balance_diff),
+                margin_balance_diff_sum5 = VALUES(margin_balance_diff_sum5),
+                margin_balance_diff_sum10 = VALUES(margin_balance_diff_sum10),
+                margin_balance_diff_sum20 = VALUES(margin_balance_diff_sum20),
+                margin_balance = VALUES(margin_balance),
+                foreign_sum5 = VALUES(foreign_sum5),
+                foreign_sum10 = VALUES(foreign_sum10),
+                foreign_sum20 = VALUES(foreign_sum20),
+                trust_sum5 = VALUES(trust_sum5),
+                trust_sum10 = VALUES(trust_sum10),
+                trust_sum20 = VALUES(trust_sum20),
+                foreign_streak_days = VALUES(foreign_streak_days),
+                trust_streak_days = VALUES(trust_streak_days),
                 squeeze = VALUES(squeeze),
                 bullet = VALUES(bullet),
+                net_sbl = VALUES(net_sbl),
+                net_sbl_sum5 = VALUES(net_sbl_sum5),
+                net_sbl_sum10 = VALUES(net_sbl_sum10),
+                net_sbl_sum20 = VALUES(net_sbl_sum20),
+                sbl_total = VALUES(sbl_total),
+                sbl_sold_balance = VALUES(sbl_sold_balance),
                 action_tip = VALUES(action_tip),
                 tags = VALUES(tags)";
 
@@ -753,19 +801,53 @@ function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
         $stmt = $pdo->prepare($sql);
 
         foreach ($dashboardResults as $row) {
+            // 2. 嚴格對應 $dashboardResults 陣列中的 Key 進行參數綁定
             $stmt->execute([
                 $targetDate,
                 $row['stock_id'],
                 $row['stock_name'],
                 $row['concept'],
                 $row['close'],
-                $row['vol_k'],
+                $row['vol'],      // 修正：對應之前的 'vol'
                 $row['vol_ratio'],
                 $row['rank10'],
+                $row['amp10'],    // 新增
+                $row['ma5'],      // 新增
+                $row['ma10'],     // 新增
+                $row['ma20'],     // 新增
+                $row['vma5'],     // 新增
+                $row['vma10'],    // 新增
+                $row['vma20'],    // 新增
+                $row['bia5'],     // 新增
+                $row['bia10'],    // 新增
+                $row['bia20'],    // 新增
+                $row['con1'],     // 新增
+                $row['con5'],     // 新增
+                $row['con10'],    // 新增
+                $row['con20'],    // 新增
+                $row['margin_balance_diff'],      // 新增
+                $row['margin_balance_diff_sum5'], // 新增
+                $row['margin_balance_diff_sum10'], // 新增
+                $row['margin_balance_diff_sum20'], // 新增
+                $row['margin_balance'],           // 新增
+                $row['foreign_sum5'],             // 新增
+                $row['foreign_sum10'],            // 新增
+                $row['foreign_sum20'],            // 新增
+                $row['trust_sum5'],               // 新增
+                $row['trust_sum10'],              // 新增
+                $row['trust_sum20'],              // 新增
+                $row['foreign_streak_days'],      // 新增
+                $row['trust_streak_days'],        // 新增
                 $row['squeeze'],
                 $row['bullet'],
-                $row['action_tip'],
-                $row['tags']
+                $row['net_sbl'],                  // 新增
+                $row['net_sbl_sum5'],             // 新增
+                $row['net_sbl_sum10'],            // 新增
+                $row['net_sbl_sum20'],            // 新增
+                $row['sbl_total'],                // 新增
+                $row['sbl_sold_balance'],         // 新增
+                $row['action_tip'] ?? '',         // 預留欄位賦予空值
+                $row['tags'] ?? ''                // 預留欄位賦予空值
             ]);
         }
 
@@ -775,7 +857,9 @@ function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
         $count = count($dashboardResults);
         writeLog($pdo, 'SaveDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆，耗時 {$execution_time} 秒", 'Success');
     } catch (Exception $e) {
-        $pdo->rollBack();
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         writeLog($pdo, 'SaveDashboard', "寫入失敗：" . $e->getMessage(), 'Error');
         echo "Dashboard 存檔失敗：" . $e->getMessage();
     }

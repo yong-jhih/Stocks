@@ -82,11 +82,62 @@ CREATE TABLE IF NOT EXISTS daily_dashboard_results (
     vol_k INT COMMENT '成交量(張)',
     vol_ratio DECIMAL(10, 2) COMMENT '昨量比',
     rank10 VARCHAR(20) COMMENT '10日位階',
+    amp10 VARCHAR(20) COMMENT '10日振幅',
+    
+    -- 均線與均量
+    ma5 DECIMAL(10, 2),
+    ma10 DECIMAL(10, 2),
+    ma20 DECIMAL(10, 2),
+    vma5 INT COMMENT '5日均量(張)',
+    vma10 INT COMMENT '10日均量(張)',
+    vma20 INT COMMENT '20日均量(張)',
+    
+    -- 乖離率
+    bia5 VARCHAR(20) COMMENT '5日乖離率',
+    bia10 VARCHAR(20) COMMENT '10日乖離率',
+    bia20 VARCHAR(20) COMMENT '20日乖離率',
+    
+    -- 籌碼集中度
+    con1 VARCHAR(20) COMMENT '1日集中度',
+    con5 VARCHAR(20) COMMENT '5日集中度',
+    con10 VARCHAR(20) COMMENT '10日集中度',
+    con20 VARCHAR(20) COMMENT '20日集中度',
+    
+    -- 融資相關
+    margin_balance_diff INT COMMENT '融資當日增減',
+    margin_balance_diff_sum5 INT COMMENT '融資5日累計',
+    margin_balance_diff_sum10 INT COMMENT '融資10日累計',
+    margin_balance_diff_sum20 INT COMMENT '融資20日累計',
+    margin_balance INT COMMENT '融資餘額',
+    
+    -- 外資與投信累計 (單位: 張)
+    foreign_sum5 INT COMMENT '外資5日累計',
+    foreign_sum10 INT COMMENT '外資10日累計',
+    foreign_sum20 INT COMMENT '外資20日累計',
+    trust_sum5 INT COMMENT '投信5日累計',
+    trust_sum10 INT COMMENT '投信10日累計',
+    trust_sum20 INT COMMENT '投信20日累計',
+    
+    -- 連買天數
+    foreign_streak_days INT COMMENT '外資連買天數',
+    trust_streak_days INT COMMENT '投信連買天數',
+    
+    -- 借券與空方力量
     squeeze DECIMAL(10, 2) COMMENT '券補力',
     bullet DECIMAL(10, 2) COMMENT '券砸力',
+    net_sbl INT COMMENT '券淨賣還(張)',
+    net_sbl_sum5 INT COMMENT '券淨賣還5日累計',
+    net_sbl_sum10 INT COMMENT '券淨賣還10日累計',
+    net_sbl_sum20 INT COMMENT '券淨賣還20日累計',
+    sbl_total INT COMMENT '借券餘額(張)',
+    sbl_sold_balance INT COMMENT '借券賣出餘額(張)',
+    
+    -- 系統保留欄位
     action_tip TEXT COMMENT '提示建議',
     tags TEXT COMMENT '標籤',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
     PRIMARY KEY (trade_date, stock_id),
-    INDEX idx_date (trade_date)
+    INDEX idx_date (trade_date),
+    INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
