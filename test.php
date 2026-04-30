@@ -4,6 +4,7 @@ require_once("init.php");
 $start_time = microtime(true);
 $results = testGenerateDailyDashboard($pdo, '2026-04-29');
 // testSaveDailyDashboard($pdo, '2026-04-28', $results);
+echo json_encode($results);
 exit(0);
 $end_time = microtime(true);
 $execution_time = round($end_time - $start_time, 2);
