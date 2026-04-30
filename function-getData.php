@@ -665,68 +665,67 @@ function testGenerateDailyDashboard($pdo, $targetDate)
             AND ((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9
             AND (insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03;
     ";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['targetDate' => $targetDate]);
     $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode($rawStocks);exit(0);
     $dashboardResults = [];
     foreach ($rawStocks as $s) {
-        $tips = [];
-        $tags = [];
-        // --- 數值準備 ---
-        $close = (float)$s['close_price'];
-        $yClose = (float)$s['yesterday_close'];
-        $vol = (int)$s['trade_volume'];
-        $vma5 = (float)$s['vma5'];
-        $vma20 = (float)$s['vma20'];
-        $rank10 = (($s['close_price'] - $s['low10']) / max(1, ($s['high10'] - $s['low10']))) * 100;
-        $volRatio = $s['yesterday_vol'] > 0 ? round($vol / $s['yesterday_vol'], 2) : 0;
 
-        // 券力指標
-        $squeeze = $vma20 > 0 ? round($s['sbl_sold_balance'] / ($vma20 / 1000), 1) : 0;
-        $bullet = $vma5 > 0 ? round(($s['sbl_total'] - $s['sbl_sold_balance']) / ($vma5 / 1000), 1) : 0;
+        //     $tips = [];
+        //     $tags = [];
+        //     // --- 數值準備 ---
+        //     $close = (float)$s['close_price'];
+        //     $yClose = (float)$s['yesterday_close'];
+        //     $vol = (int)$s['trade_volume'];
+        //     $vma5 = (float)$s['vma5'];
+        //     $vma20 = (float)$s['vma20'];
+        //     $rank10 = (($s['close_price'] - $s['low10']) / max(1, ($s['high10'] - $s['low10']))) * 100;
+        //     $volRatio = $s['yesterday_vol'] > 0 ? round($vol / $s['yesterday_vol'], 2) : 0;
 
-        // --- 標籤判定邏輯 (Tags) ---
-        if ($s['margin_balance_diff'] < 0 && $s['trust_buy_sell'] > 0) $tags[] = "💎主力接散戶丟";
-        if ($squeeze > 7 && $s['net_sbl'] < 0) $tags[] = "🔥高壓軋空";
-        if ($bullet > 1.5) $tags[] = "💣法人備彈";
+        //     // 券力指標
+        //     $squeeze = $vma20 > 0 ? round($s['sbl_sold_balance'] / ($vma20 / 1000), 1) : 0;
+        //     $bullet = $vma5 > 0 ? round(($s['sbl_total'] - $s['sbl_sold_balance']) / ($vma5 / 1000), 1) : 0;
 
-        // --- 提示判定邏輯 (Tips) ---
-        if ($close > $yClose) {
-            if ($squeeze > 8 && $s['net_sbl'] < 0) {
-                $tips[] = "🚨強制軋空：法人被迫回補";
-            } elseif ($volRatio > 1.5) {
-                $tips[] = "🚀帶量突破：動能轉強";
-            }
-        }
-        if ($rank10 < 40 && ($s['insti_sum1'] / max(1, $s['vol_sum1'])) > 0.05) {
-            $tips[] = "✅低檔轉強：法人進場";
-        }
+        //     // --- 標籤判定邏輯 (Tags) ---
+        //     if ($s['margin_balance_diff'] < 0 && $s['trust_buy_sell'] > 0) $tags[] = "💎主力接散戶丟";
+        //     if ($squeeze > 7 && $s['net_sbl'] < 0) $tags[] = "🔥高壓軋空";
+        //     if ($bullet > 1.5) $tags[] = "💣法人備彈";
 
-        // --- AI 產業分析 ---
-        // 建議在正式環境中，先檢查資料庫有沒有存過這檔股票的產業，沒有才呼叫 AI
-        $concept = "搜尋中...";
-        // $concept = callGeminiAI("請分析[{$s['stock_id']} {$s['stock_name']}]的產業概念...", 'gemini-1.5-flash');
+        //     // --- 提示判定邏輯 (Tips) ---
+        //     if ($close > $yClose) {
+        //         if ($squeeze > 8 && $s['net_sbl'] < 0) {
+        //             $tips[] = "🚨強制軋空：法人被迫回補";
+        //         } elseif ($volRatio > 1.5) {
+        //             $tips[] = "🚀帶量突破：動能轉強";
+        //         }
+        //     }
+        //     if ($rank10 < 40 && ($s['insti_sum1'] / max(1, $s['vol_sum1'])) > 0.05) {
+        //         $tips[] = "✅低檔轉強：法人進場";
+        //     }
 
-        // --- 整合結果 ---
+        //     // --- AI 產業分析 ---
+        //     // 建議在正式環境中，先檢查資料庫有沒有存過這檔股票的產業，沒有才呼叫 AI
+        //     $concept = "搜尋中...";
+        //     // $concept = callGeminiAI("請分析[{$s['stock_id']} {$s['stock_name']}]的產業概念...", 'gemini-1.5-flash');
+
+        //     // --- 整合結果 ---
         $dashboardResults[] = [
-            'stock_id'   => $s['stock_id'],
-            'stock_name' => $s['stock_name'],
-            'concept'    => $concept,
-            'close'      => $close,
-            'vol_k'      => round($vol / 1000, 0),
-            'vol_ratio'  => $volRatio,
-            'rank10'     => round($rank10, 1) . '%',
-            'squeeze'    => $squeeze,
-            'bullet'     => $bullet,
-            'action_tip' => implode(" ", $tips) ?: "🔎震盪過濾",
-            'tags'       => implode(",", $tags)
+            'stock_id'   => $s['代碼'],
+            'stock_name' => $s['股名']
+            // 'concept'    => $concept,
+            // 'close'      => $close,
+            // 'vol_k'      => round($vol / 1000, 0),
+            // 'vol_ratio'  => $volRatio,
+            // 'rank10'     => round($rank10, 1) . '%',
+            // 'squeeze'    => $squeeze,
+            // 'bullet'     => $bullet,
+            // 'action_tip' => implode(" ", $tips) ?: "🔎震盪過濾",
+            // 'tags'       => implode(",", $tags)
         ];
     }
-    writeLog($pdo, 'Dashboard_Gen', "完成日期 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
-    return $dashboardResults;
+    echo json_encode($dashboardResults);
+    // writeLog($pdo, 'Dashboard_Gen', "完成日期 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
+    // return $dashboardResults;
 }
 
 function testSaveDailyDashboard($pdo, $targetDate, $dashboardResults)
