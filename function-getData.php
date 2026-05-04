@@ -723,7 +723,7 @@ function getComponentOf00981A_FromLocal()
     $b = explode(",Type:", $a)[0];
     $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", "IssuserCname:,", ",USD_EXRATE:1.00000000"];
     $abc =  str_replace($search, "", $a);
-    $abc =  str_replace(["TranDate", "Sequence", "DetailCode"], ["date", "sq", "code"], $a);
+    $abc =  str_replace(["TranDate", "Sequence", "DetailCode"], ["date", "sq", "code"], $abc);
 
     return $abc;
 }
