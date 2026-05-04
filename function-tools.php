@@ -83,59 +83,22 @@ function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
         return "程式執行失敗: " . $e->getMessage();
     }
 }
-
-/**
- * 建立 JSON 檔案並寫入內容
- *
- * @param string $date    日期字串 (例如: '2023-10-27')
- * @param string $name    檔案名稱 (例如: 'github-report')
- * @param array  $data    要寫入的資料
- * @param string $folder  存放資料夾
- * @return string|bool    成功返回完整路徑，失敗返回 false
- */
 function createJsonFile($date, $name, $data, $folder = 'data')
 {
-    // 1. 清理名稱與日期，移除不合法的檔案字元（防止路徑穿越攻擊）
     $safeName = preg_replace('/[^a-zA-Z0-0\-\_]/', '', $name);
     $safeDate = preg_replace('/[^0-9\-]/', '', $date);
-
-    // 2. 組合檔名：日期_名稱.json (例如: 2023-10-27_github-report.json)
     $fileName = "{$safeDate}_{$safeName}.json";
     $fullPath = $folder . DIRECTORY_SEPARATOR . $fileName;
-
-    // 3. 檢查目錄
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
             error_log("無法建立目錄: $folder");
             return false;
         }
     }
-
-    // 4. 轉換為 JSON 字串
     $jsonString = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-
-    // 5. 寫入檔案
     if (file_put_contents($fullPath, $jsonString) !== false) {
         return $fullPath;
     } else {
         return false;
     }
 }
-
-// // --- 實際使用範例 ---
-
-// $myDate = "2026-04-30";
-// $myName = "deploy_log";
-// $myData = [
-//     "event" => "push",
-//     "user" => "Developer-01",
-//     "details" => "Update index.php"
-// ];
-
-// $result = createJsonFile($myDate, $myName, $myData);
-
-// if ($result) {
-//     echo "檔案已儲存於: " . $result;
-// } else {
-//     echo "儲存失敗";
-// }

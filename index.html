@@ -1,11 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>股票數據分析看板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <style>
+        /* DataTables 樣式微調 */
+        .dataTables_wrapper .dataTables_length select {
+            padding-right: 2rem;
+        }
+
+        table.dataTable {
+            border-collapse: collapse !important;
+            margin-top: 1rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #3b82f6 !important;
+            color: white !important;
+            border: 1px solid #3b82f6 !important;
+        }
+    </style>
 </head>
-<body>
-    
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header
+            class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-400">Stock Analysis Dashboard</h1>
+                <p class="text-gray-400 text-sm mt-1">自動掃描 /data/ 目錄 JSON 數據</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <label for="dateSelect" class="font-medium">選擇分析日期：</label>
+                <select id="dateSelect"
+                    class="bg-gray-800 border border-gray-600 rounded px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="">載入中...</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="bg-gray-800 rounded-xl shadow-2xl p-6 overflow-hidden">
+            <table id="stockTable" class="display responsive nowrap w-full" style="width:100%">
+                <thead class="bg-gray-700 text-gray-200">
+                    <tr>
+                        <th>代號</th>
+                        <th>名稱</th>
+                        <th>族群概念</th>
+                        <th>收盤</th>
+                        <th>成交量</th>
+                        <th>量比</th>
+                        <th>外資5日</th>
+                        <th>投信5日</th>
+                        <th>外資連買</th>
+                        <th>Squeeze</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-300">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+    <script>
+        // 設定您預計會有的日期清單 (由於純前端無法直接掃描伺服器目錄，建議手動更新此陣列或透過後端產生)
+        // 若使用 GitHub Pages，您可能需要一個清單檔案，這裡先列出範例日期
+        const availableDates = [
+            "2026-04-30"
+        ];
+
+        let table;
+
+        $(document).ready(function () {
+            initDateSelect();
+
+            // 初始化 DataTables
+            table = $('#stockTable').DataTable({
+                responsive: true,
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json"
+                },
+                columnDefs: [
+                    { className: "dt-center", targets: "_all" },
+                    {
+                        targets: [3, 4, 5],
+                        render: function (data) {
+                            return `<span class="font-mono font-semibold">${data}</span>`;
+                        }
+                    }
+                ]
+            });
+
+            // 監聽下拉選單變化
+            $('#dateSelect').on('change', function () {
+                const date = $(this).val();
+                if (date) {
+                    loadData(date);
+                }
+            });
+
+            // 預設載入最新的日期
+            if (availableDates.length > 0) {
+                $('#dateSelect').val(availableDates[0]).trigger('change');
+            }
+        });
+
+        function initDateSelect() {
+            const select = $('#dateSelect');
+            select.empty();
+            availableDates.forEach(date => {
+                select.append(`<option value="${date}">${date}</option>`);
+            });
+        }
+
+        async function loadData(date) {
+            const filePath = `./data/${date}_fliter.json`;
+
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) throw new Error('找不到該日期的資料檔案');
+
+                const data = await response.json();
+
+                // 清空並重新填入資料
+                table.clear();
+                data.forEach(item => {
+                    table.row.add([
+                        item.stock_id,
+                        `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
+                        `<span class="text-xs text-gray-400">${item.concept}</span>`,
+                        item.close,
+                        item.vol,
+                        item.vol_ratio,
+                        item.foreign_sum5,
+                        item.trust_sum5,
+                        item.foreign_streak_days,
+                        item.squeeze
+                    ]);
+                });
+                table.draw();
+
+            } catch (error) {
+                console.error(error);
+                alert(`載入失敗: ${error.message}\n請確認路徑是否存在: ${filePath}`);
+            }
+        }
+    </script>
 </body>
+
 </html>
