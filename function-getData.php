@@ -720,7 +720,7 @@ function getComponentOf00981A_FromLocal()
     $subParts = str_replace("&quot;", "", $subParts);
     $a = explode("Details:", $subParts)[5];
     $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0] . "]";
-    $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position:,", "MTH:,"];
+    $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", ",USD_EXRATE:1.00000000"];
     $abc =  str_replace($search, "", $a);
 
     return $abc;
