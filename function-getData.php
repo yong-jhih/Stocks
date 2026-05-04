@@ -710,8 +710,6 @@ function getComponentOf00981A_FromLocal()
         return false;
     }
     $data = file_get_contents($tempFile);
-
-    // 使用您原有的解析邏輯
     $parts = explode('<div id="DataAsset" data-content="', $data);
     if (count($parts) < 2) {
         error_log("HTML 格式不符，找不到 DataAsset");
@@ -722,14 +720,19 @@ function getComponentOf00981A_FromLocal()
     $subParts = str_replace("&quot;", "", $subParts);
     $a = explode("Details:", $subParts)[5];
     $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0] . "]";
-    $jsonReady = preg_replace('/(\b\w+\b)(?=\s*:)/', '"$1"', $a);
-    $jsonReady = preg_replace('/:([^"\[\{,\s][^,\]\}]*)/', ':"$1"', $jsonReady);
-    $jsonReady = str_replace(': ,', ':""', $jsonReady);
-    $dataArray = json_decode($jsonReady, true);
-    if (json_last_error() === JSON_ERROR_NONE) {
-        header('Content-Type: application/json');
-        return json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    } else {
-        return "JSON 解析錯誤: " . json_last_error_msg();
-    }
+    $search = ["FundCode:49YTW,EtfKind:01015,","Type:2,AssetCode:ST,","MoneyType:NTD,","Position:,","MTH:,"]
+    $abc =  str_replace($search,"", $a);
+
+    return $abc;
+
+    // $jsonReady = preg_replace('/(\b\w+\b)(?=\s*:)/', '"$1"', $a);
+    // $jsonReady = preg_replace('/:([^"\[\{,\s][^,\]\}]*)/', ':"$1"', $jsonReady);
+    // $jsonReady = str_replace(': ,', ':""', $jsonReady);
+    // $dataArray = json_decode($jsonReady, true);
+    // if (json_last_error() === JSON_ERROR_NONE) {
+    //     header('Content-Type: application/json');
+    //     return json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    // } else {
+    //     return "JSON 解析錯誤: " . json_last_error_msg();
+    // }
 }
