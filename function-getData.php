@@ -721,13 +721,77 @@ function getComponentOf00981A_FromLocal()
     $subParts = trim(explode('" style="display:none;"></div>', explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0])[0]);
     $a = str_replace("&quot;", "", $subParts);
 
-    if (is_object(json_decode($a))) {
-        echo 'obj';
-    } elseif (is_array(json_decode($a))) {
-        echo 'arr';
-    }
+    $search = [
+        'FundCode:',
+        'AssetCode:',
+        'AssetName:',
+        'Sequence:',
+        'MoneyType:',
+        'Group:',
+        'Value:',
+        'Details:',
+        'Type:',
+        'StartDate:',
+        'EndDate:',
+        'ShowDetail:',
+        'ShowMoneyType:',
+        'EditEmployee:',
+        'EditDate:',
+        'NAV_DIGIT:',
+        'Weight:',
+        'USD_EXRATE:',
+        'EtfKind:',
+        'TranDate:',
+        'DetailCode:',
+        'DetailName:',
+        'Position:',
+        'Share:',
+        'Amount:',
+        'NavRate:',
+        'IssuserCname:',
+        'MTH:',
+        'EditTime:',
+        'null'
+    ];
+
+    // 將 Key 加上雙引號，並將 null 轉為標準 null 值
+    $replace = [
+        '"FundCode":',
+        '"AssetCode":',
+        '"AssetName":',
+        '"Sequence":',
+        '"MoneyType":',
+        '"Group":',
+        '"Value":',
+        '"Details":',
+        '"Type":',
+        '"StartDate":',
+        '"EndDate":',
+        '"ShowDetail":',
+        '"ShowMoneyType":',
+        '"EditEmployee":',
+        '"EditDate":',
+        '"NAV_DIGIT":',
+        '"Weight":',
+        '"USD_EXRATE":',
+        '"EtfKind":',
+        '"TranDate":',
+        '"DetailCode":',
+        '"DetailName":',
+        '"Position":',
+        '"Share":',
+        '"Amount":',
+        '"NavRate":',
+        '"IssuserCname":',
+        '"MTH":',
+        '"EditTime":',
+        'null'
+    ];
+
+    $cleanJson = str_replace($search, $replace, $a);
+
 
     unlink($tempFile);
 
-    return $a;
+    return $cleanJson;
 }
