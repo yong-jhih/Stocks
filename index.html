@@ -62,7 +62,8 @@
                         <th>外資5日</th>
                         <th>投信5日</th>
                         <th>外資連買</th>
-                        <th>Squeeze</th>
+                        <th>券補力</th>
+                        <th>券砸力</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-300">
@@ -155,7 +156,8 @@
                         item.foreign_sum5,
                         item.trust_sum5,
                         item.foreign_streak_days,
-                        item.squeeze
+                        item.squeeze,
+                        item.bullet
                     ]);
                 });
                 table.draw();
