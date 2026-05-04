@@ -724,17 +724,37 @@ function getComponentOf00981A_FromLocal()
     $abc =  str_replace($search, "", $a);
 
     $input = $abc;
-    $cleanString = explode('],', $input)[0] . ']';
-    $pattern = '/(\w+):/';
-    $replacement = '"$1":';
-    $jsonReady = preg_replace($pattern, $replacement, $cleanString);
-    $jsonReady = preg_replace('/:([^"\[\{0-9\-\.][^,\]\}]*)/', ':"$1"', $jsonReady);
-    $jsonReady = preg_replace('/"TranDate":"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})"/', '"TranDate":"$1"', $jsonReady);
-    $dataArray = json_decode($jsonReady, true);
-    if (json_last_error() === JSON_ERROR_NONE) {
-        header('Content-Type: application/json; charset=utf-8');
-        return json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+    // 1. 提取核心陣列部分 (只保留 [{ ... }] 之間的內容)
+    if (preg_match('/\[\s*\{.*\}\s*\]/s', $input, $matches)) {
+        $cleanString = $matches[0];
     } else {
-        echo "JSON 解析失敗，錯誤原因：" . json_last_error_msg();
+        die("找不到有效的陣列結構");
+    }
+
+    // 2. 補上 Key 的雙引號
+    // 找尋所有以冒號結尾的單字，並包上引號
+    $jsonReady = preg_replace('/(\b\w+\b):/', '"$1":', $cleanString);
+
+    // 3. 補上 Value 的雙引號 (針對非數字、非布林、非空值的內容)
+    // 邏輯：在冒號後面，如果不是以引號、數字、負號、中括號或大括號開頭的內容，全部補上引號
+    $jsonReady = preg_replace('/:([^"\[\{0-9\-\.][^,\]\}]*)/', ':"$1"', $jsonReady);
+
+    // 4. 清理可能產生的格式瑕疵
+    $jsonReady = str_replace([': ,', ':,'], ':null', $jsonReady); // 處理空值
+    $jsonReady = preg_replace('/,\s*([\]\}])/', '$1', $jsonReady); // 移除陣列末尾多餘的逗號
+
+    // 5. 執行解析
+    $dataArray = json_decode($jsonReady, true);
+
+    if (json_last_error() === JSON_ERROR_NONE) {
+        // 成功轉換為 PHP 陣列，現在可以自由操作
+        // 例如：過濾出您需要的欄位並轉回標準 JSON
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    } else {
+        // 如果還是失敗，輸出處理後的字串協助除錯
+        echo "JSON 解析依然失敗: " . json_last_error_msg() . "\n";
+        echo "錯誤位置附近的字串: " . substr($jsonReady, json_last_error(), 50);
     }
 }
