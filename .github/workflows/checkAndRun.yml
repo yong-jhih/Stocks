@@ -1,4 +1,4 @@
-name: 每日分析排程
+name: 每日篩選排程
 
 on:
   schedule:
