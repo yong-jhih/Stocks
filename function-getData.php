@@ -723,40 +723,5 @@ function getComponentOf00981A_FromLocal()
     $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", ",USD_EXRATE:1.00000000"];
     $abc =  str_replace($search, "", $a);
 
-    $input = $abc;
-
-    // 1. 提取核心陣列部分 (只保留 [{ ... }] 之間的內容)
-    if (preg_match('/\[\s*\{.*\}\s*\]/s', $input, $matches)) {
-        $cleanString = $matches[0];
-    } else {
-        die("找不到有效的陣列結構");
-    }
-
-    // 2. 先處理 Key：只針對「前面是 { 或 , 」且「後面接著冒號」的單字包引號
-    // 這樣可以避免動到時間格式（如 00:00:00）中間的冒號
-    $jsonReady = preg_replace('/([{,])(\s*)(\w+):/', '$1"$3":', $cleanString);
-
-    // 3. 處理 Value：
-    // 針對冒號後面到下一個逗號或結束括號之間的內容
-    // 只要它不是以引號、數字、[、{ 開頭，就把它當成字串包起來
-    $jsonReady = preg_replace('/:([^"\[\{0-9\-\.][^,\]\}]*)/', ':"$1"', $jsonReady);
-
-    // 4. 強制修正日期格式被誤傷的情況 (如果有的話)
-    // 確保像 "2026-04-30T00:00:00" 這種格式被正確包覆且中間沒有多餘引號
-    $jsonReady = preg_replace('/"(\d{4}-\d{2}-\d{2})T(\d{2})":"(\d{2})":"(\d{2})"/', '"$1T$2:$3:$4"', $jsonReady);
-
-    // 5. 處理空值與格式瑕疵
-    $jsonReady = str_replace(':" ",', ':"",', $jsonReady); // 處理像 Position: , 的空格
-    $jsonReady = str_replace(':,', ':null,', $jsonReady);   // 處理像 IssuserCname:, 的空值
-
-    // 6. 執行解析
-    $dataArray = json_decode($jsonReady, true);
-
-    if (json_last_error() === JSON_ERROR_NONE) {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    } else {
-        echo "解析失敗原因：" . json_last_error_msg() . "\n";
-        echo "處理後的字串片段：\n" . substr($jsonReady, 0, 500);
-    }
+    return $abc;
 }
