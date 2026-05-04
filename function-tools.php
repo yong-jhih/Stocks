@@ -83,9 +83,26 @@ function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
         return "程式執行失敗: " . $e->getMessage();
     }
 }
+
+function updateDateList($date, $folder = 'data')
+{
+    $listPath = $folder . DIRECTORY_SEPARATOR . 'dateList.json';
+    $dateList = [];
+    if (file_exists($listPath)) {
+        $content = file_get_contents($listPath);
+        $dateList = json_decode($content, true) ?: [];
+    }
+    if (!in_array($date, $dateList)) {
+        $dateList[] = $date;
+    }
+    rsort($dateList);
+    $jsonString = json_encode($dateList, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    return file_put_contents($listPath, $jsonString) !== false;
+}
+
 function createJsonFile($date, $name, $data, $folder = 'data')
 {
-    $safeName = preg_replace('/[^a-zA-Z0-0\-\_]/', '', $name);
+    $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name); // 修正原本正則表達式的 0-9 誤打
     $safeDate = preg_replace('/[^0-9\-]/', '', $date);
     $fileName = "{$safeDate}_{$safeName}.json";
     $fullPath = $folder . DIRECTORY_SEPARATOR . $fileName;
@@ -97,6 +114,7 @@ function createJsonFile($date, $name, $data, $folder = 'data')
     }
     $jsonString = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     if (file_put_contents($fullPath, $jsonString) !== false) {
+        updateDateList($safeDate, $folder);
         return $fullPath;
     } else {
         return false;

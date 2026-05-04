@@ -74,18 +74,10 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script>
-        // 設定您預計會有的日期清單 (由於純前端無法直接掃描伺服器目錄，建議手動更新此陣列或透過後端產生)
-        // 若使用 GitHub Pages，您可能需要一個清單檔案，這裡先列出範例日期
-        const availableDates = [
-            "2026-04-30"
-        ];
-
         let table;
 
         $(document).ready(function () {
-            initDateSelect();
-
-            // 初始化 DataTables
+            // 1. 初始化 DataTables (先初始化，資料晚點補)
             table = $('#stockTable').DataTable({
                 responsive: true,
                 language: {
@@ -102,6 +94,9 @@
                 ]
             });
 
+            // 2. 從檔案獲取清單並初始化選單
+            initDateSelectFromJSON();
+
             // 監聽下拉選單變化
             $('#dateSelect').on('change', function () {
                 const date = $(this).val();
@@ -109,19 +104,30 @@
                     loadData(date);
                 }
             });
-
-            // 預設載入最新的日期
-            if (availableDates.length > 0) {
-                $('#dateSelect').val(availableDates[0]).trigger('change');
-            }
         });
 
-        function initDateSelect() {
+        // 改動點：將原本寫死的 initDateSelect 改為異步讀取 JSON
+        async function initDateSelectFromJSON() {
             const select = $('#dateSelect');
-            select.empty();
-            availableDates.forEach(date => {
-                select.append(`<option value="${date}">${date}</option>`);
-            });
+            try {
+                const response = await fetch('./data/dateList.json');
+                if (!response.ok) throw new Error('無法讀取清單');
+
+                const availableDates = await response.json();
+
+                select.empty();
+                availableDates.forEach(date => {
+                    select.append(`<option value="${date}">${date}</option>`);
+                });
+
+                // 預設載入最新的日期
+                if (availableDates.length > 0) {
+                    select.val(availableDates[0]).trigger('change');
+                }
+            } catch (error) {
+                console.error("初始化清單失敗:", error);
+                select.html('<option>載入清單失敗</option>');
+            }
         }
 
         async function loadData(date) {
@@ -133,7 +139,6 @@
 
                 const data = await response.json();
 
-                // 清空並重新填入資料
                 table.clear();
                 data.forEach(item => {
                     table.row.add([
