@@ -10,7 +10,8 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  # 必須改為 write，否則 Action 無法推送程式碼回倉庫
+  contents: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -29,6 +30,9 @@ jobs:
     steps:
     - name: 檢出程式碼
       uses: actions/checkout@v4
+      with:
+        # 預設為 1，改為 0 可以取得完整歷史，對於頻繁 push 較穩定
+        fetch-depth: 0
 
     - name: 設定 PHP 環境
       uses: shivammathur/setup-php@v2
@@ -38,10 +42,7 @@ jobs:
 
     - name: 執行資料檢查與分析
       run: |
-        # 執行檢查程式，並允許失敗後繼續執行後面的 Shell 指令
         php checkAndRun.php || EXIT_STATUS=$?
-        
-        # 取得結束碼，如果沒有出錯則 EXIT_STATUS 會是空的或 0
         STATUS=${EXIT_STATUS:-0}
 
         if [ $STATUS -eq 0 ]; then
@@ -53,4 +54,23 @@ jobs:
         else
           echo "程式發生 exit 1 以外的錯誤 (碼: $STATUS)，回報失敗。"
           exit $STATUS
+        fi
+
+    # --- 新增：將產生的 JSON 檔案提交回倉庫 ---
+    - name: 提交並推送 JSON 檔案
+      run: |
+        # 設定 Git 使用者資訊（GitHub Action 虛擬身份）
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        
+        # 檢查是否有新檔案產生（假設你的 JSON 存在 data/ 資料夾）
+        # 如果你直接存在根目錄，請改為 git add *.json
+        git add .
+        
+        # 檢查是否有變更需要提交，避免沒有新檔案時報錯
+        if git diff --quiet && git diff --staged --quiet; then
+          echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
+        else
+          git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
+          git push
         fi

@@ -3,6 +3,7 @@ require_once("init.php");
 
 $start_time = microtime(true);
 $results = generateDailyDashboard($pdo, $targetDate);
+createJsonFile($targetDate, 'filter', $results);
 saveDailyDashboard($pdo, $targetDate, $results);
 $end_time = microtime(true);
 $execution_time = round($end_time - $start_time, 2);
