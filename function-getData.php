@@ -721,35 +721,9 @@ function getComponentOf00981A_FromLocal()
     $a = explode("Details:", $subParts)[5];
     $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0] . "]";
     $b = explode(",Type:", $a)[0];
-    $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", ",USD_EXRATE:1.00000000"];
+    $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", "IssuserCname:,", ",USD_EXRATE:1.00000000"];
     $abc =  str_replace($search, "", $a);
-
-    $input = $abc;
-
-    // 1. 先處理 Key：把所有冒號前的單字包上雙引號
-    $json = preg_replace('/(\w+):/', '"$1":', $input);
-
-    // 2. 再處理字串 Value：把冒號後面的中文字、帶連字號的日期包上雙引號
-    // 邏輯：找冒號後面「不是數字、不是引號、不是左大/中括號」的內容
-    $json = preg_replace('/: \s*([^"\[\{0-9\-\.][^,\]\}]*)/u', ':"$1"', $json);
-
-    // 3. 處理日期與時間中的冒號誤傷 (因為日期中有冒號，會被上面的步驟搞亂)
-    // 我們直接把 00:00:00 這種格式重新校正
-    $json = preg_replace('/"(\d{2})":"(\d{2})":"(\d{2})"/', '"$1:$2:$3"', $json);
-
-    // 4. 處理空值問題 (IssuserCname: ,)
-    $json = str_replace(':",', ':"",', $json);
-
-    // 5. 現在它可以被 json_decode 認領了
-    $phpArray = json_decode($json, true);
-
-    // 測試輸出
-    if ($phpArray) {
-        echo "轉換成功！第一筆資料是：" . $phpArray[0]['DetailName'];
-    } else {
-        echo "解析失敗，原因：" . json_last_error_msg();
-        // 如果失敗，可以印出 $json 檢查哪裡沒包好
-    }
+    $abc =  str_replace(["TranDate", "Sequence", "DetailCode"], ["date", "sq", "code"], $a);
 
     return $abc;
 }
