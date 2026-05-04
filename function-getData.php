@@ -708,7 +708,6 @@ function getComponentOf00981A_FromLocal()
     if (file_exists($jsonFile)) {
         $jsonStr = file_get_contents($jsonFile);
         $data = json_decode($jsonStr, true);
-        $stocks = [];
         if ($data) {
             foreach ($data as $item) {
                 if ($item['AssetName'] === '股票') {
@@ -717,13 +716,14 @@ function getComponentOf00981A_FromLocal()
             }
             return $details;
         }
+        return null;
     }
 }
 
 function insertComponentOf00981A($pdo, $targetDate, $Data)
 {
     if (!is_array($Data) || empty($Data)) {
-        writeLog($pdo, $targetDate . ' 00981A', "資料格式有誤或無資料", 'error');
+        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "資料格式有誤或無資料", 'error');
         return;
     }
     $start_time = microtime(true);
@@ -738,21 +738,20 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
         $stmt = $pdo->prepare($sql);
         $pdo->beginTransaction();
         foreach ($Data as $row) {
-            // 確保對應到您解析出來的 JSON 鍵名
             $stmt->execute([
                 $targetDate,
-                $row['DetailCode'], // 股票代碼
-                $row['DetailName'], // 股票名稱
-                (int)$row['Share'], // 股數
-                $row['NavRate']     // 權重
+                $row['DetailCode'],
+                $row['DetailName'],
+                (int)$row['Share'],
+                $row['NavRate']
             ]);
         }
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, $targetDate . ' 00981A', "同步成功，耗時 {$execution_time} 秒", 'info');
+        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "抓取成功，耗時 {$execution_time} 秒", 'info');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, $targetDate . ' 00981A', "同步失敗: " . $e->getMessage(), 'error');
+        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "抓取失敗: " . $e->getMessage(), 'error');
     }
 }
