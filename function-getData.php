@@ -718,7 +718,9 @@ function getComponentOf00981A_FromLocal()
         return false;
     }
 
-    $subParts = explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0];
+    $subParts = explode("[", trim(explode('" style="display:none;"></div>', explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0])[0]))[1];
+    // $search = ["&quot;", "FundCode:49YTW,", "EtfKind:01015,", "Type:2,", "AssetCode:ST,", "MoneyType:NTD,",];
+
     $a = str_replace("&quot;", "", $subParts);
 
     // 建議刪除暫存檔以利下次乾淨執行
