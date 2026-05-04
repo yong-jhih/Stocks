@@ -707,17 +707,14 @@ function getComponentOf00981A_FromLocal()
     $jsonFile = 'stock_data.json';
     if (file_exists($jsonFile)) {
         $jsonStr = file_get_contents($jsonFile);
-        return $jsonStr;
-        // $data = json_decode($jsonStr, true);
-        // if ($data) {
-        //     foreach ($data as $item) {
-        //         if ($item['AssetName'] === '股票') {
-        //             $stockValue = $item['Value'];
-        //             $details = $item['Details']; // 這就是你的持股清單陣列
-        //             echo "股票總價值: " . $stockValue;
-        //             break;
-        //         }
-        //     }
-        // }
+        $data = json_decode($jsonStr, true);
+        if ($data) {
+            foreach ($data as $item) {
+                if ($item['AssetName'] === '股票') {
+                    $details = $item['Details'];
+                }
+            }
+            return $details;
+        }
     }
 }
