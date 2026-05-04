@@ -701,32 +701,30 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
         echo "Dashboard 存檔失敗：" . $e->getMessage();
     }
 }
-function getComponentOf00981A()
-{
-    $url = "https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW";
-    $data = fetchUrl($url);
 
-    // 檢查抓取是否成功
-    if (!$data || !is_string($data)) {
-        error_log("無法從 URL 獲取資料: $url");
+function getComponentOf00981A_FromLocal()
+{
+    $tempFile = 'temp_source.html';
+
+    if (!file_exists($tempFile)) {
+        error_log("找不到暫存檔: $tempFile");
         return false;
     }
 
-    // 第一層解析：切分 DataFundList
+    $data = file_get_contents($tempFile);
+
+    // 使用您原有的解析邏輯
     $parts = explode('<div id="DataFundList" data-content="', $data);
     if (count($parts) < 2) {
-        error_log("找不到 DataFundList 標籤");
+        error_log("HTML 格式不符，找不到 DataFundList");
         return false;
     }
 
-    // 第二層解析：切分 DataFundTypes
     $subParts = explode('<div id="DataFundTypes" data-content="', $parts[1]);
-    if (count($subParts) < 1) {
-        return false;
-    }
-
     $a = $subParts[0];
 
-    // 注意：這裡抓出的可能是 HTML Entity 或加密字串，可能需要 htmlspecialchars_decode
+    // 建議刪除暫存檔以利下次乾淨執行
+    // unlink($tempFile);
+
     return $a;
 }

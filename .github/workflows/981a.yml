@@ -1,0 +1,49 @@
+name: test
+
+on:
+  # schedule:
+    # - cron: '*/10 13-16 * * 1-5'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  # 必須改為 write，否則 Action 無法推送程式碼回倉庫
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TiDB_Host: ${{ secrets.TiDB_Host }}
+  TiDB_User: ${{ secrets.TiDB_User }}
+  TIDB_PASS: ${{ secrets.TIDB_PASS }}
+  TIDB_NAME: ${{ secrets.TIDB_NAME }}
+  FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+  FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
+  GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Puppeteer
+        run: npm install puppeteer
+
+      - name: Run Puppeteer to Fetch HTML
+        run: node fetch_data.js
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Run Analysis
+        run: php test.php
