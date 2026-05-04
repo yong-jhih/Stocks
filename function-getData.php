@@ -715,7 +715,6 @@ function getComponentOf00981A_FromLocal()
         error_log("HTML 格式不符，找不到 DataAsset");
         return false;
     }
-
     $subParts = trim(explode('" style="display:none;"></div>', explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0])[0]);
     $subParts = str_replace("&quot;", "", $subParts);
     $a = explode("Details:", $subParts)[5];
@@ -723,7 +722,31 @@ function getComponentOf00981A_FromLocal()
     $b = explode(",Type:", $a)[0];
     $search = ["FundCode:49YTW,EtfKind:01015,", "Type:2,AssetCode:ST,", "MoneyType:NTD,", "Position: ,", "MTH:,", "IssuserCname:,", ",USD_EXRATE:1.00000000"];
     $abc =  str_replace($search, "", $a);
-    $abc =  str_replace(["TranDate", "Sequence", "DetailCode"], ["date", "sq", "code"], $abc);
+    $abc =  str_replace(["TranDate", "Sequence", "DetailCode", "DetailName"], ["date", "sq", "code", "name"], $abc);
 
-    return $abc;
+
+    $input = $abc;
+
+    // Step 1: 先幫所有的鍵 (Key) 加上雙引號
+    // 找尋在 { 或 , 之後的單字，且後面接著冒號
+    $json = preg_replace('/([{,])(\s*)(\w+):/', '$1"$3":', $input);
+
+    // Step 2: 幫所有的值 (Value) 加上雙引號
+    // 排除掉已經有引號、數字、開頭為 [ 或 { 的內容
+    // 特別處理中文字、日期與帶有連字號的名稱 (如 貿聯-KY)
+    $json = preg_replace('/:(\s*)([^"\[\{0-9\-\.][^,\]\}]*)/u', ':"$2"', $json);
+
+    // Step 3: 修正日期時間中被誤傷的冒號
+    // 將 "2026-04-30T16":"41":"23" 縫合回 "2026-04-30T16:41:23"
+    $json = preg_replace('/"(\d{2})":"(\d{2})":"(\d{2})"/', '"$1:$2:$3"', $json);
+
+    // Step 4: 執行轉換
+    $dataArray = json_decode($json, true);
+
+    if (json_last_error() === JSON_ERROR_NONE) {
+        // 成功後即可準備存入 TiDB 或產生靜態網頁所需的 JSON 檔
+        return json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    } else {
+        return "轉換失敗: " . json_last_error_msg();
+    }
 }
