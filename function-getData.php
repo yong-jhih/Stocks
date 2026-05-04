@@ -732,29 +732,31 @@ function getComponentOf00981A_FromLocal()
         die("找不到有效的陣列結構");
     }
 
-    // 2. 補上 Key 的雙引號
-    // 找尋所有以冒號結尾的單字，並包上引號
-    $jsonReady = preg_replace('/(\b\w+\b):/', '"$1":', $cleanString);
+    // 2. 先處理 Key：只針對「前面是 { 或 , 」且「後面接著冒號」的單字包引號
+    // 這樣可以避免動到時間格式（如 00:00:00）中間的冒號
+    $jsonReady = preg_replace('/([{,])(\s*)(\w+):/', '$1"$3":', $cleanString);
 
-    // 3. 補上 Value 的雙引號 (針對非數字、非布林、非空值的內容)
-    // 邏輯：在冒號後面，如果不是以引號、數字、負號、中括號或大括號開頭的內容，全部補上引號
+    // 3. 處理 Value：
+    // 針對冒號後面到下一個逗號或結束括號之間的內容
+    // 只要它不是以引號、數字、[、{ 開頭，就把它當成字串包起來
     $jsonReady = preg_replace('/:([^"\[\{0-9\-\.][^,\]\}]*)/', ':"$1"', $jsonReady);
 
-    // 4. 清理可能產生的格式瑕疵
-    $jsonReady = str_replace([': ,', ':,'], ':null', $jsonReady); // 處理空值
-    $jsonReady = preg_replace('/,\s*([\]\}])/', '$1', $jsonReady); // 移除陣列末尾多餘的逗號
+    // 4. 強制修正日期格式被誤傷的情況 (如果有的話)
+    // 確保像 "2026-04-30T00:00:00" 這種格式被正確包覆且中間沒有多餘引號
+    $jsonReady = preg_replace('/"(\d{4}-\d{2}-\d{2})T(\d{2})":"(\d{2})":"(\d{2})"/', '"$1T$2:$3:$4"', $jsonReady);
 
-    // 5. 執行解析
+    // 5. 處理空值與格式瑕疵
+    $jsonReady = str_replace(':" ",', ':"",', $jsonReady); // 處理像 Position: , 的空格
+    $jsonReady = str_replace(':,', ':null,', $jsonReady);   // 處理像 IssuserCname:, 的空值
+
+    // 6. 執行解析
     $dataArray = json_decode($jsonReady, true);
 
     if (json_last_error() === JSON_ERROR_NONE) {
-        // 成功轉換為 PHP 陣列，現在可以自由操作
-        // 例如：過濾出您需要的欄位並轉回標準 JSON
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     } else {
-        // 如果還是失敗，輸出處理後的字串協助除錯
-        echo "JSON 解析依然失敗: " . json_last_error_msg() . "\n";
-        echo "錯誤位置附近的字串: " . substr($jsonReady, json_last_error(), 50);
+        echo "解析失敗原因：" . json_last_error_msg() . "\n";
+        echo "處理後的字串片段：\n" . substr($jsonReady, 0, 500);
     }
 }
