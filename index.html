@@ -59,11 +59,21 @@
                         <th>昨量比</th>
                         <th>10日位階</th>
                         <th>10日振幅</th>
+                        <th>1日集中度</th>
+                        <th>5日集中度</th>
+                        <th>10日集中度</th>
+                        <th>20日集中度</th>
                         <th>外資5日</th>
                         <th>投信5日</th>
                         <th>外資連買</th>
+                        <th>投信連買</th>
                         <th>券補力</th>
                         <th>券砸力</th>
+                        <th>券淨賣還</th>
+                        <th>券淨賣還5日</th>
+                        <th>融資餘額</th>
+                        <th>借券餘額</th>
+                        <th>券賣餘額</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-300">
@@ -156,11 +166,21 @@
                         item.vol_ratio,
                         item.rank10,
                         item.amp10,
+                        item.con1,
+                        item.con5,
+                        item.con10,
+                        item.con20,
                         item.foreign_sum5,
                         item.trust_sum5,
                         item.foreign_streak_days,
+                        item.trust_streak_days,
                         item.squeeze,
-                        item.bullet
+                        item.bullet,
+                        item.net_sbl,
+                        item.net_sbl_sum5,
+                        item.margin_balance,
+                        item.sbl_total,
+                        item.sbl_sold_balance
                     ]);
                 });
                 table.draw();
