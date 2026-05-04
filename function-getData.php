@@ -719,79 +719,20 @@ function getComponentOf00981A_FromLocal()
     }
 
     $subParts = trim(explode('" style="display:none;"></div>', explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0])[0]);
-    $a = str_replace("&quot;", "", $subParts);
-
-    $search = [
-        'FundCode:',
-        'AssetCode:',
-        'AssetName:',
-        'Sequence:',
-        'MoneyType:',
-        'Group:',
-        'Value:',
-        'Details:',
-        'Type:',
-        'StartDate:',
-        'EndDate:',
-        'ShowDetail:',
-        'ShowMoneyType:',
-        'EditEmployee:',
-        'EditDate:',
-        'NAV_DIGIT:',
-        'Weight:',
-        'USD_EXRATE:',
-        'EtfKind:',
-        'TranDate:',
-        'DetailCode:',
-        'DetailName:',
-        'Position:',
-        'Share:',
-        'Amount:',
-        'NavRate:',
-        'IssuserCname:',
-        'MTH:',
-        'EditTime:',
-        'null'
-    ];
-
-    // 將 Key 加上雙引號，並將 null 轉為標準 null 值
-    $replace = [
-        '"FundCode":',
-        '"AssetCode":',
-        '"AssetName":',
-        '"Sequence":',
-        '"MoneyType":',
-        '"Group":',
-        '"Value":',
-        '"Details":',
-        '"Type":',
-        '"StartDate":',
-        '"EndDate":',
-        '"ShowDetail":',
-        '"ShowMoneyType":',
-        '"EditEmployee":',
-        '"EditDate":',
-        '"NAV_DIGIT":',
-        '"Weight":',
-        '"USD_EXRATE":',
-        '"EtfKind":',
-        '"TranDate":',
-        '"DetailCode":',
-        '"DetailName":',
-        '"Position":',
-        '"Share":',
-        '"Amount":',
-        '"NavRate":',
-        '"IssuserCname":',
-        '"MTH":',
-        '"EditTime":',
-        'null'
-    ];
-
-    $cleanJson = str_replace($search, $replace, $a);
+    $subParts = str_replace("&quot;", "", $subParts);
+    $a = explode("Details:", $subParts)[5];
+    $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0];
 
 
-    unlink($tempFile);
 
-    return $cleanJson;
+    $jsonReady = preg_replace('/(\b\w+\b)(?=\s*:)/', '"$1"', $a);
+    $jsonReady = preg_replace('/:([^"\[\{,\s][^,\]\}]*)/', ':"$1"', $jsonReady);
+    $jsonReady = str_replace(': ,', ':""', $jsonReady);
+    $dataArray = json_decode($jsonReady, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        header('Content-Type: application/json');
+        return json_encode($dataArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    } else {
+        return "JSON 解析錯誤: " . json_last_error_msg();
+    }
 }
