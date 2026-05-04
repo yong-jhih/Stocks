@@ -705,26 +705,24 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
 function getComponentOf00981A_FromLocal()
 {
     $tempFile = 'temp_source.html';
-
     if (!file_exists($tempFile)) {
         error_log("找不到暫存檔: $tempFile");
         return false;
     }
-
     $data = file_get_contents($tempFile);
 
     // 使用您原有的解析邏輯
-    $parts = explode('<div id="DataFundList" data-content="', $data);
+    $parts = explode('<div id="DataAsset" data-content="', $data);
     if (count($parts) < 2) {
-        error_log("HTML 格式不符，找不到 DataFundList");
+        error_log("HTML 格式不符，找不到 DataAsset");
         return false;
     }
 
-    $subParts = explode('<div id="DataFundTypes" data-content="', $parts[1]);
-    $a = $subParts[0];
+    $subParts = explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0];
+    $a = str_replace("&quot;", "", $subParts);
 
     // 建議刪除暫存檔以利下次乾淨執行
-    // unlink($tempFile);
+    unlink($tempFile);
 
     return $a;
 }
