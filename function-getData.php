@@ -701,3 +701,11 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
         echo "Dashboard 存檔失敗：" . $e->getMessage();
     }
 }
+
+function getComponentOf00981A($pdo, $date) // return bool
+{
+    $url = "https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW";
+    $data = fetchUrl($url);
+    $a = explode('<div id="DataFundTypes" data-content="', explode('<div id="DataFundList" data-content="', $data)[1])[0];
+    return $a;
+}
