@@ -721,10 +721,7 @@ function getComponentOf00981A_FromLocal()
     $subParts = trim(explode('" style="display:none;"></div>', explode('<div id="DataAssetDetailSchema" data-content="', $parts[1])[0])[0]);
     $subParts = str_replace("&quot;", "", $subParts);
     $a = explode("Details:", $subParts)[5];
-    $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0];
-
-
-
+    $a = explode(',{FundCode:49YTW,AssetCode:CASH,AssetName:現金,Sequence:1.0,MoneyType:NTD', $a)[0] . "]";
     $jsonReady = preg_replace('/(\b\w+\b)(?=\s*:)/', '"$1"', $a);
     $jsonReady = preg_replace('/:([^"\[\{,\s][^,\]\}]*)/', ':"$1"', $jsonReady);
     $jsonReady = str_replace(': ,', ':""', $jsonReady);
