@@ -2,7 +2,7 @@ name: 每日篩選排程
 
 on:
   schedule:
-    - cron: '*/20 12-15 * * 1-5'
+    - cron: '3,23,43 12-15 * * 1-5'
   workflow_dispatch:
 
 concurrency:
