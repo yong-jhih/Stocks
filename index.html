@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>股票數據分析看板</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DataTables Core -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <!-- FixedColumns Extension -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+
     <style>
-        /* 1. 基本佈局修復 */
         body {
             overflow-x: hidden;
-            /* 防止最外層出現捲軸 */
         }
 
         .dataTables_wrapper {
@@ -21,11 +23,10 @@
             color: #d1d5db;
         }
 
-        /* 2. 強制表格內容不換行，確保欄位能撐開 */
-        table.dataTable {
-            width: 100% !important;
-            margin: 0 !important;
-            border-collapse: collapse !important;
+        /* 凍結欄位必要的背景色設定 (否則滾動時會透過去) */
+        th,
+        td {
+            background-color: #1f2937 !important;
         }
 
         table.dataTable thead th {
@@ -35,48 +36,28 @@
             border-bottom: 1px solid #4b5563 !important;
             text-align: center !important;
             padding: 12px 15px !important;
+            z-index: 2;
+            /* 確保表頭在上面 */
         }
 
-        table.dataTable tbody td {
-            white-space: nowrap !important;
-            padding: 10px 15px !important;
-            border-bottom: 1px solid #374151 !important;
-            text-align: center !important;
+        /* 凍結欄位的邊界陰影感 (可選) */
+        .DTFC_LeftWrapper {
+            border-right: 2px solid #4b5563;
         }
 
-        /* 3. 解決捲軸問題 */
-        .dataTables_scrollBody {
-            border-bottom: 1px solid #4b5563 !important;
+        /* 點擊變色 */
+        table.dataTable tbody tr.selected td {
+            background-color: #1e3a8a !important;
+            color: #ffffff !important;
         }
 
-        /* 自定義捲軸樣式 (Chrome/Edge/Safari) */
-        .dataTables_scrollBody::-webkit-scrollbar {
-            height: 10px;
-            width: 10px;
+        table.dataTable tbody tr {
+            cursor: pointer;
         }
 
-        .dataTables_scrollBody::-webkit-scrollbar-track {
-            background: #111827;
-        }
-
-        .dataTables_scrollBody::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 5px;
-        }
-
-        .dataTables_scrollBody::-webkit-scrollbar-thumb:hover {
-            background: #3b82f6;
-        }
-
-        /* DataTables 分頁按鈕美化 */
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            color: #9ca3af !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #3b82f6 !important;
-            border-color: #3b82f6 !important;
-            color: white !important;
+        /* Modal 樣式保持不變 */
+        #tagModal {
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
@@ -88,21 +69,17 @@
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-bold text-blue-400">Stock Analysis Dashboard</h1>
-                <p class="text-gray-400 text-sm mt-1">自動掃描 /data/ 目錄 JSON 數據</p>
             </div>
-
             <div class="flex items-center gap-3">
-                <label for="dateSelect" class="font-medium">選擇分析日期：</label>
-                <select id="dateSelect"
-                    class="bg-gray-800 border border-gray-600 rounded px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                <label for="dateSelect">選擇日期：</label>
+                <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
                     <option value="">載入中...</option>
                 </select>
             </div>
         </header>
 
-        <!-- 表格容器 -->
-        <div class="shadow-2xl overflow-hidden">
-            <table id="stockTable" class="display nowrap" style="width:100%">
+        <div class="shadow-2xl">
+            <table id="stockTable" class="display stripe nowrap" style="width:100%">
                 <thead>
                     <tr>
                         <th>代號</th>
@@ -134,126 +111,95 @@
                         <th>券賣餘額</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-300">
-                </tbody>
+                <tbody class="text-gray-300"></tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal 結構 (同前) -->
+    <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
+        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-blue-300" id="modalStockTitle"></h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="modalTagContent" class="p-6 flex flex-wrap gap-2"></div>
+            <div class="p-4 text-right"><button onclick="closeModal()" class="bg-blue-600 px-4 py-2 rounded">關閉</button>
+            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <!-- 引入 FixedColumns JS -->
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
 
     <script>
         let table;
 
         $(document).ready(function () {
-            // 1. 初始化 DataTables
             table = $('#stockTable').DataTable({
-                scrollX: true,           // 開啟橫向捲軸
-                scrollCollapse: true,
-                autoWidth: false,        // 關閉自動寬度，交給 CSS nowrap 處理
-                pageLength: 25,
-                language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json"
+                scrollX: true,
+                fixedColumns: {
+                    left: 2 // 凍結左側前兩欄：代號與名稱
                 },
+                paging: true,
+                pageLength: 25,
+                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
-                    { width: "150px", targets: 2 }, // 族群概念給寬一點
-                    { width: "150px", targets: 3 }, // 標籤
-                    {
-                        targets: [4, 5, 6],
-                        render: function (data) {
-                            return `<span class="font-mono font-semibold">${data}</span>`;
-                        }
-                    }
-                ],
-                // 每次表格繪製完成後調整對齊
-                drawCallback: function () {
-                    table.columns.adjust();
-                }
+                    { width: "80px", targets: [0, 1] } // 給凍結欄位固定寬度比較美觀
+                ]
+            });
+
+            // 處理點擊變色 (注意：FixedColumns 會複製一份 HTML，需透過事件委派)
+            $('#stockTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected').siblings().removeClass('selected');
             });
 
             initDateSelectFromJSON();
-
-            $('#dateSelect').on('change', function () {
-                const date = $(this).val();
-                if (date) {
-                    loadData(date);
-                }
-            });
+            $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
         });
 
+        function showTags(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex');
+        }
+
+        function closeModal() { $('#tagModal').addClass('hidden').removeClass('flex'); }
+
         async function initDateSelectFromJSON() {
-            const select = $('#dateSelect');
             try {
-                const response = await fetch('./data/dateList.json');
-                if (!response.ok) throw new Error('無法讀取清單');
-                const availableDates = await response.json();
-
-                select.empty();
-                availableDates.forEach(date => {
-                    select.append(`<option value="${date}">${date}</option>`);
-                });
-
-                if (availableDates.length > 0) {
-                    select.val(availableDates[0]).trigger('change');
-                }
-            } catch (error) {
-                console.error("初始化清單失敗:", error);
-                select.html('<option>載入失敗</option>');
-            }
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect').empty();
+                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
+                if (dates.length) $sel.trigger('change');
+            } catch (e) { console.error(e); }
         }
 
         async function loadData(date) {
-            const filePath = `./data/${date}_filter.json`;
             try {
-                const response = await fetch(filePath);
-                if (!response.ok) throw new Error('找不到該日期的資料檔案');
-                const data = await response.json();
-
+                const res = await fetch(`./data/${date}_filter.json`);
+                const data = await res.json();
                 table.clear();
                 data.forEach(item => {
+                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded">更</button></div>`;
+
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
-                        `<span class="text-xs text-gray-400">${item.concept}</span>`,
-                        item.tags,
-                        item.close,
-                        item.vol,
-                        item.vol_ratio,
-                        item.vma5,
-                        item.vma10,
-                        item.vma20,
-                        item.rank10,
-                        item.amp10,
-                        item.con1,
-                        item.con5,
-                        item.con10,
-                        item.con20,
-                        item.foreign_sum5,
-                        item.trust_sum5,
-                        item.foreign_streak_days,
-                        item.trust_streak_days,
-                        item.squeeze,
-                        item.bullet,
-                        item.net_sbl,
-                        item.net_sbl_sum5,
-                        item.margin_balance,
-                        item.sbl_total,
-                        item.sbl_sold_balance
+                        item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
+                        item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
+                        item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
+                        item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
+                        item.sbl_total, item.sbl_sold_balance
                     ]);
                 });
                 table.draw();
-
-                // 關鍵：資料加載後強制重新計算欄位寬度以對齊表頭
-                setTimeout(() => {
-                    table.columns.adjust().draw();
-                }, 100);
-
-            } catch (error) {
-                console.error(error);
-                alert(`載入失敗: ${error.message}`);
-            }
+            } catch (e) { alert("讀取失敗"); }
         }
     </script>
 </body>
