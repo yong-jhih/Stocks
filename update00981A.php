@@ -3,6 +3,7 @@ require_once("init.php");
 
 if (isHoliday($targetDate)) {
     writeLog($pdo, '00981A成分股抓取', '非交易日跳過', 'success');
+    exit(0);
 }
 
 $start_time = microtime(true);

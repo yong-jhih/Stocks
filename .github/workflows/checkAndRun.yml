@@ -2,7 +2,7 @@ name: 每日篩選排程
 
 on:
   schedule:
-    - cron: '*/10 13-16 * * 1-5'
+    - cron: '*/20 12-15 * * 1-5'
   workflow_dispatch:
 
 concurrency:
@@ -10,7 +10,6 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  # 必須改為 write，否則 Action 無法推送程式碼回倉庫
   contents: write
 
 env:
@@ -41,22 +40,8 @@ jobs:
         extensions: pdo, pdo_mysql
 
     - name: 執行資料檢查與分析
-      run: |
-        php checkAndRun.php || EXIT_STATUS=$?
-        STATUS=${EXIT_STATUS:-0}
+      run: php checkAndRun.php 
 
-        if [ $STATUS -eq 0 ]; then
-          echo "檢查通過 (exit 0)，開始執行數據分析..."
-          php index.php
-        elif [ $STATUS -eq 1 ]; then
-          echo "檢查不通過 (exit 1)，略過後續步驟並正常結束。"
-          exit 0
-        else
-          echo "程式發生 exit 1 以外的錯誤 (碼: $STATUS)，回報失敗。"
-          exit $STATUS
-        fi
-
-    # --- 新增：將產生的 JSON 檔案提交回倉庫 ---
     - name: 提交並推送 JSON 檔案
       run: |
         # 設定 Git 使用者資訊（GitHub Action 虛擬身份）

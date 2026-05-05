@@ -1,8 +1,8 @@
-name: 00981 監控 (每日晚間10點執行 - 已完成成分股抓取)
+name: 00981 成分股監控
 
 on:
   schedule:
-    - cron: '0 14 * * 1-5'
+    - cron: '13 13 * * 1-5'
   workflow_dispatch:
 
 concurrency:

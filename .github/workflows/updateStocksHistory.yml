@@ -1,4 +1,4 @@
-name: 歷史資料批次更新
+name: 歷史資料批次更新(只手動)
 
 on:
   # schedule:

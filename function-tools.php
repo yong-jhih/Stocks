@@ -48,6 +48,13 @@ function writeLog($pdo, $type, $content, $result)
     }
 }
 
+function checkIfDataPublished($pdo, $date, $table)
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `{$table}` WHERE trade_date = ?");
+    $stmt->execute([$date]);
+    return (int)$stmt->fetchColumn() > 500;
+}
+
 function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
 {
     if (!isset($apikey)) return 'api key 不存在';

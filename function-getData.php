@@ -724,9 +724,8 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
 {
     if (!is_array($Data) || empty($Data)) {
         writeLog($pdo, $targetDate . ' 00981A成分股抓取', "資料格式有誤或無資料", 'error');
-        return;
+        exit(1);
     }
-    $start_time = microtime(true);
     try {
         $sql = "INSERT INTO 00981A_component 
                 (trade_date, stock_id, stock_name, amount, weight) 
@@ -747,11 +746,9 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
             ]);
         }
         $pdo->commit();
-        $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "抓取成功，耗時 {$execution_time} 秒", 'info');
     } catch (Exception $e) {
         $pdo->rollBack();
         writeLog($pdo, $targetDate . ' 00981A成分股抓取', "抓取失敗: " . $e->getMessage(), 'error');
+        exit(1);
     }
 }
