@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>股票數據分析看板</title>
+    <title>台股盤後篩選</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- DataTables Core -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <!-- FixedColumns Extension -->
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
-
     <style>
         body {
             overflow-x: hidden;
@@ -23,7 +19,6 @@
             color: #d1d5db;
         }
 
-        /* 凍結欄位必要的背景色設定 (否則滾動時會透過去) */
         th,
         td {
             background-color: #1f2937 !important;
@@ -37,15 +32,12 @@
             text-align: center !important;
             padding: 12px 15px !important;
             z-index: 2;
-            /* 確保表頭在上面 */
         }
 
-        /* 凍結欄位的邊界陰影感 (可選) */
         .DTFC_LeftWrapper {
             border-right: 2px solid #4b5563;
         }
 
-        /* 點擊變色 */
         table.dataTable tbody tr.selected td {
             background-color: #1e3a8a !important;
             color: #ffffff !important;
@@ -55,15 +47,12 @@
             cursor: pointer;
         }
 
-        /* Modal 樣式保持不變 */
         #tagModal {
             transition: opacity 0.3s ease;
         }
     </style>
 </head>
-
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
-
     <div class="max-w-[1600px] mx-auto">
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -77,7 +66,6 @@
                 </select>
             </div>
         </header>
-
         <div class="shadow-2xl">
             <table id="stockTable" class="display stripe nowrap" style="width:100%">
                 <thead>
@@ -115,8 +103,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Modal 結構 (同前) -->
     <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
         <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
@@ -128,47 +114,37 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <!-- 引入 FixedColumns JS -->
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
-
     <script>
         let table;
-
         $(document).ready(function () {
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: {
-                    left: 2 // 凍結左側前兩欄：代號與名稱
+                    left: 2
                 },
                 paging: true,
                 pageLength: 25,
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
-                    { width: "80px", targets: [0, 1] } // 給凍結欄位固定寬度比較美觀
+                    { width: "80px", targets: [0, 1] }
                 ]
             });
-
-            // 處理點擊變色 (注意：FixedColumns 會複製一份 HTML，需透過事件委派)
             $('#stockTable tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected').siblings().removeClass('selected');
             });
-
             initDateSelectFromJSON();
             $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
         });
-
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
             $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
-
         function closeModal() { $('#tagModal').addClass('hidden').removeClass('flex'); }
-
         async function initDateSelectFromJSON() {
             try {
                 const res = await fetch('./data/dateList.json');
@@ -178,7 +154,6 @@
                 if (dates.length) $sel.trigger('change');
             } catch (e) { console.error(e); }
         }
-
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_filter.json`);
@@ -187,7 +162,6 @@
                 data.forEach(item => {
                     const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
                     const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded">更</button></div>`;
-
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
@@ -203,5 +177,4 @@
         }
     </script>
 </body>
-
 </html>
