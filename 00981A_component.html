@@ -1,11 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>跟著瑤姊走</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .dataTables_wrapper {
+            background: #1f2937;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            color: #d1d5db;
+        }
+
+        th,
+        td {
+            background-color: #1f2937 !important;
+        }
+
+        table.dataTable thead th {
+            background-color: #374151 !important;
+            color: #60a5fa !important;
+            white-space: nowrap !important;
+            border-bottom: 1px solid #4b5563 !important;
+            text-align: center !important;
+            padding: 12px 15px !important;
+            z-index: 2;
+        }
+
+        .DTFC_LeftWrapper {
+            border-right: 2px solid #4b5563;
+        }
+
+        table.dataTable tbody tr.selected td {
+            background-color: #1e3a8a !important;
+            color: #ffffff !important;
+        }
+
+        table.dataTable tbody tr {
+            cursor: pointer;
+        }
+
+        #tagModal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </head>
-<body>
-    
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-[1600px] mx-auto">
+        <header
+            class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-400">跟著瑤姊走 - 00981A成分股監控</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <label for="dateSelect">選擇日期：</label>
+                <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
+                    <option value="">載入中...</option>
+                </select>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="index.html" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏠 台股盤後分析篩選</a>
+                <a href="00981A_component.html" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📈 跟著瑤姊走</a>
+                <a href="https://mopsov.twse.com.tw/mops/web/index" target="_blank" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏆 公開資訊觀測站</a>
+                <a href="https://www.twse.com.tw" target="_blank" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🔗 證交所官網</a>
+            </div>
+        </header>
+        <div class="shadow-2xl">
+            <table id="stockTable" class="display stripe nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>代號</th>
+                        <th>名稱</th>
+                        <th>持股數</th>
+                        <th>權重</th>
+                        <th>持股差異</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-300"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        let table;
+        $(document).ready(function () {
+            table = $('#stockTable').DataTable({
+                scrollX: true,
+                fixedColumns: {
+                    left: 2
+                },
+                paging: true,
+                pageLength: 50,
+                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
+                columnDefs: [
+                    { className: "dt-center", targets: "_all" },
+                    { width: "120px", targets: [0, 1] }
+                ]
+            });
+            $('#stockTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected').siblings().removeClass('selected');
+            });
+            initDateSelectFromJSON();
+            $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
+        });
+        function showTags(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex');
+        }
+        function closeModal() { $('#tagModal').addClass('hidden').removeClass('flex'); }
+        async function initDateSelectFromJSON() {
+            try {
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect').empty();
+                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
+                if (dates.length) $sel.trigger('change');
+            } catch (e) { console.error(e); }
+        }
+        async function loadData(date) {
+            try {
+                const res = await fetch(`./data/${date}_componentOf00981A.json`);
+                if (!res.ok) throw new Error("檔案不存在"); // 確保檔案真的存在
+
+                const data = await res.json();
+                console.log("取得的資料:", data); // 除錯用：在瀏覽器 F12 檢查資料格式
+
+                table.clear();
+                data.forEach(item => {
+                    // 預防 tags 欄位缺失導致報錯
+                    const tags = item.tags || "";
+                    const tagShort = tags.length > 8 ? tags.substring(0, 8) + '...' : tags;
+
+                    // 這裡必須確保陣列長度 = HTML <th> 的數量 (目前是5個)
+                    table.row.add([
+                        item.stock_id || "-",
+                        `<span class="text-blue-300 font-bold">${item.stock_name || "無名稱"}</span>`,
+                        item.amount || 0,
+                        item.weight || "0%",
+                        item.diff || 0
+                    ]);
+                });
+                table.draw();
+            } catch (e) {
+                console.error("詳細錯誤訊息:", e); // 在控制台顯示真正的錯誤原因
+                alert("讀取失敗: " + e.message);
+            }
+        }
+    </script>
 </body>
+
 </html>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台股盤後篩選</title>
+    <title>台股盤後分析篩選</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
@@ -52,12 +53,20 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
     <div class="max-w-[1600px] mx-auto">
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-bold text-blue-400">Stock Analysis Dashboard</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-3xl font-bold text-blue-400">台股盤後分析篩選</h1>
+                <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
             </div>
             <div class="flex items-center gap-3">
                 <label for="dateSelect">選擇日期：</label>
@@ -111,6 +120,32 @@
             </div>
             <div id="modalTagContent" class="p-6 flex flex-wrap gap-2"></div>
             <div class="p-4 text-right"><button onclick="closeModal()" class="bg-blue-600 px-4 py-2 rounded">關閉</button>
+            </div>
+        </div>
+    </div>
+    <div id="infoModal"
+        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
+        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-2xl w-full">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-blue-300">篩選條件說明</h3>
+                <button onclick="closeInfoModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[70vh]">
+                <ul class="space-y-4 text-sm text-gray-200">
+                    <li><b class="text-blue-400">僅上市個股且必須同時滿足以下所有條件，才會出現在主頁報表中。</b></li>
+                    <li><b class="text-blue-400">目前條件設置為短線用(約2周內)，續抱與否請自行評估判斷。</b></li>
+                    <hr>
+                    <li><b class="text-blue-400">基礎量能門檻：</b>20日均量 > 700,000 (股)。</li>
+                    <li><b class="text-blue-400">量能趨勢門檻：</b>(今日量>5日均量且5日均量≥20日均量)或(今日量>20日均量*1.3)。</li>
+                    <li><b class="text-blue-400">壓抑後噴發門檻：</b>昨天的成交量 < 5日均量。</li>
+                    <li><b class="text-blue-400">籌碼集中度：</b>(若今日量<20日均量：當日法人集中度須>6%)(若今日量>20日均量：當日法人集中度須>8%)</li>
+                    <li><b class="text-blue-400">價格波動與位階門檻：</b>近10日振幅 > 1% 且 10日位階介於 20% 至 90% 之間。</li>
+                    <li><b class="text-blue-400">短期籌碼積累門檻：</b>5日累計法人集中度 > 3%。</li>
+                </ul>
+            </div>
+            <div class="p-4 text-right border-t border-gray-700">
+                <button onclick="closeInfoModal()"
+                    class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded text-white transition-colors">關閉</button>
             </div>
         </div>
     </div>
@@ -175,6 +210,25 @@
                 table.draw();
             } catch (e) { alert("讀取失敗"); }
         }
+
+        function openInfoModal() {
+            $('#infoModal').removeClass('hidden').addClass('flex');
+        }
+
+        function closeInfoModal() {
+            $('#infoModal').addClass('hidden').removeClass('flex');
+        }
+
+        // 可選：點擊背景關閉 Modal
+        $(window).on('click', function (event) {
+            if ($(event.target).is('#infoModal')) {
+                closeInfoModal();
+            }
+            if ($(event.target).is('#tagModal')) {
+                closeModal();
+            }
+        });
     </script>
 </body>
+
 </html>
