@@ -382,9 +382,11 @@ function generateDailyDashboard($pdo, $targetDate)
                 AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as ma5,
                 AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as ma10,
                 AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as ma20,
+                AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING) as ma60,
                 AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING) as vma5,
                 AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as vma10,
                 AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING) as vma20,
+                AVG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING) as vma60,
                 MAX(h.high_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as high10,
                 MIN(h.low_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as low10,
                 SUM(i.foreign_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as foreign_sum5,
@@ -414,7 +416,12 @@ function generateDailyDashboard($pdo, $targetDate)
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as net_sbl_sum5,
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as net_sbl_sum10,
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as net_sbl_sum20,
-                LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol
+                LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol,
+                LAG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_close,
+                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma5,
+                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma10,
+                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma20,
+                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma60
             FROM stock_history h
             LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
             LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
@@ -446,6 +453,7 @@ function generateDailyDashboard($pdo, $targetDate)
             stock_name as `股名`,
             '待補' as `產業概念`,
             close_price as `收盤價`,
+            yesterday_close as `昨日收盤價`,
             ROUND(trade_volume / 1000, 0) as `成交量`,
             ROUND(trade_volume / NULLIF(yesterday_vol, 0), 2) as `昨量比`,
             CONCAT(ROUND(((close_price - low10) / NULLIF(high10 - low10, 0)) * 100, 2), '%') as `10日位階`,
@@ -483,7 +491,11 @@ function generateDailyDashboard($pdo, $targetDate)
             ROUND(net_sbl_sum10/1000,0) as `券淨賣還10日累計`,
             ROUND(net_sbl_sum20/1000,0) as `券淨賣還20日累計`,
             ROUND(sbl_total/1000,0) as `借券餘額`,
-            ROUND(sbl_sold_balance/1000,0) as `借券賣出餘額`
+            ROUND(sbl_sold_balance/1000,0) as `借券賣出餘額`,
+            ROUND(((ma5 - prev_ma5) / NULLIF(prev_ma5, 0)) * 100, 2) as `5日線斜率`,
+            ROUND(((ma10 - prev_ma10) / NULLIF(prev_ma10, 0)) * 100, 2) as `10日線斜率`,
+            ROUND(((ma20 - prev_ma20) / NULLIF(prev_ma20, 0)) * 100, 2) as `20日線斜率`,
+            ROUND(((ma60 - prev_ma60) / NULLIF(prev_ma60, 0)) * 100, 2) as `60日線斜率`
         FROM ConsecutiveCalc
         WHERE trade_date = :targetDate
             AND vma20 > 700000
@@ -507,6 +519,23 @@ function generateDailyDashboard($pdo, $targetDate)
     $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $dashboardResults = [];
     foreach ($rawStocks as $s) {
+        $tag = [];
+        if ($s['收盤價'] > $s['5日線'] && $s['5日線'] > $s['10日線'] && $s['10日線'] > $s['20日線'] && $s['5日線斜率'] > 0 && $s['10日線斜率'] > 0 && $s['20日線斜率'] > 0) $tag[] = "嚴格多頭";
+        if ($s['收盤價'] > $s['5日線'] && $s['收盤價'] > $s['10日線'] && $s['收盤價'] > $s['20日線'] && $s['昨日收盤價'] < $s['20日線']) $tag[] = "三陽開泰";
+        if ($s['收盤價'] / $s['昨日收盤價'] > 1.03 && $s['昨量比'] > 1.5) $tag[] = "價量齊揚";
+        if ($s['昨量比'] < 0.7 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.01) $tag[] = "量縮價穩";
+        if ((float)$s['5日乖離率'] > 7) $tag[] = "高檔乖離";
+        if ($s['20日線斜率'] > 0 && $s['60日線斜率'] <= 0) $tag[] = "生命線轉揚";
+        if ((float)$s['20日集中度'] > 10) $tag[] = "法人鎖碼";
+        if ($s['投信連買天數'] >= 3 && $s['投信5日累計'] > 0) $tag[] = "投信認養";
+        if ($s['外資連買天數'] >= 1 && $s['外資5日累計'] > $s['外資20日累計']) $tag[] = "外資回補";
+        if ($s['外資連買天數'] > 0 && $s['投信連買天數'] > 0) $tag[] = "土洋合力";
+        if ((float)$s['5日集中度'] > (float)$s['20日集中度']) $tag[] = "籌碼趨於集中";
+        if ($s['券補力'] > 5) $tag[] = "潛在軋空";
+        if ($s['融資'] < 0 && ($s['收盤價'] / $s['昨日收盤價']) >= 1) $tag[] = "主力換手";
+        if ($s['融資'] > 0 && $s['券淨賣還'] > 0) $tag[] = "資券同增";
+        if ($s['券淨賣還5日累計'] < 0) $tag[] = "借券回補";
+
         $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
         $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-2.5-flash');
         $dashboardResults[] = [
@@ -551,7 +580,8 @@ function generateDailyDashboard($pdo, $targetDate)
             'net_sbl_sum10' => $s['券淨賣還10日累計'],
             'net_sbl_sum20' => $s['券淨賣還20日累計'],
             'sbl_total' => $s['借券餘額'],
-            'sbl_sold_balance' => $s['借券賣出餘額']
+            'sbl_sold_balance' => $s['借券賣出餘額'],
+            'tags' => implode(',', $tag)
         ];
     }
     writeLog($pdo, 'Dashboard_Gen', "完成 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
