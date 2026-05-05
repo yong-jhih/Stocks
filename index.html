@@ -108,6 +108,7 @@
                         <th>代號</th>
                         <th>名稱</th>
                         <th>族群概念</th>
+                        <th>標籤</th>
                         <th>收盤</th>
                         <th>成交量</th>
                         <th>昨量比</th>
@@ -158,8 +159,9 @@
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
                     { width: "150px", targets: 2 }, // 族群概念給寬一點
+                    { width: "150px", targets: 3 }, // 標籤
                     {
-                        targets: [3, 4, 5],
+                        targets: [4, 5, 6],
                         render: function (data) {
                             return `<span class="font-mono font-semibold">${data}</span>`;
                         }
@@ -215,6 +217,7 @@
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
                         `<span class="text-xs text-gray-400">${item.concept}</span>`,
+                        item.tags,
                         item.close,
                         item.vol,
                         item.vol_ratio,

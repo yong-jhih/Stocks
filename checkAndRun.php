@@ -15,8 +15,8 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') {
     echo '資料未到齊, 等待下次觸發';
     exit(0);
 } else {
-    // require 'updateAll.php';
-    // echo '資料庫更新完畢, 準備進入分析。';
+    require 'updateAll.php';
+    echo '資料庫更新完畢, 準備進入分析。';
 }
 
 if (
