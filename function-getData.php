@@ -417,11 +417,7 @@ function generateDailyDashboard($pdo, $targetDate)
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as net_sbl_sum10,
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as net_sbl_sum20,
                 LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol,
-                LAG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_close,
-                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma5,
-                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma10,
-                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma20,
-                LAG(AVG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING)) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as prev_ma60
+                LAG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_close
             FROM stock_history h
             LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
             LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
@@ -430,6 +426,10 @@ function generateDailyDashboard($pdo, $targetDate)
         ),
         StreakGrouping AS (
             SELECT *,
+                LAG(ma5) OVER(PARTITION BY stock_id ORDER BY trade_date) as prev_ma5,
+                LAG(ma10) OVER(PARTITION BY stock_id ORDER BY trade_date) as prev_ma10,
+                LAG(ma20) OVER(PARTITION BY stock_id ORDER BY trade_date) as prev_ma20,
+                LAG(ma60) OVER(PARTITION BY stock_id ORDER BY trade_date) as prev_ma60,
                 (ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) - 
                  ROW_NUMBER() OVER(PARTITION BY stock_id, (CASE WHEN trust_buy_sell > 0 THEN 1 ELSE 0 END) ORDER BY trade_date)
                 ) as t_grp,
