@@ -127,3 +127,40 @@ function createJsonFile($date, $name, $data, $folder = 'data')
         return false;
     }
 }
+
+function lineNotification($message = 'testLine')
+{
+    // 1. 設定您的存取權杖與 ID
+    // 建議將這些敏感資訊放在環境變數或設定檔中
+    $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
+    $groupId = 'C5af446be4e364025acc9354b9d48209d';
+    $url = 'https://api.line.me/v2/bot/message/push';
+    $messageText = "系統通知：\n" . $message;
+    $payload = [
+        'to' => $groupId,
+        'messages' => [
+            [
+                'type' => 'text',
+                'text' => $messageText
+            ]
+        ]
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $channelAccessToken
+    ]);
+    $result = curl_exec($ch);
+    $errno = curl_errno($ch);
+    $error_msg = curl_error($ch);
+    curl_close($ch);
+    if ($errno) {
+        return "cURL Error: " . $error_msg;
+    }
+    return $result;
+}
