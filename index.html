@@ -7,43 +7,83 @@
     <title>股票數據分析看板</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <style>
-        /* DataTables 樣式微調 */
-        .dataTables_wrapper .dataTables_length select {
-            padding-right: 2rem;
+        /* 1. 基本佈局修復 */
+        body {
+            overflow-x: hidden;
+            /* 防止最外層出現捲軸 */
         }
 
+        .dataTables_wrapper {
+            background: #1f2937;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            color: #d1d5db;
+        }
+
+        /* 2. 強制表格內容不換行，確保欄位能撐開 */
         table.dataTable {
+            width: 100% !important;
+            margin: 0 !important;
             border-collapse: collapse !important;
-            margin-top: 1rem !important;
-            margin-bottom: 1rem !important;
+        }
+
+        table.dataTable thead th {
+            background-color: #374151 !important;
+            color: #60a5fa !important;
+            white-space: nowrap !important;
+            border-bottom: 1px solid #4b5563 !important;
+            text-align: center !important;
+            padding: 12px 15px !important;
+        }
+
+        table.dataTable tbody td {
+            white-space: nowrap !important;
+            padding: 10px 15px !important;
+            border-bottom: 1px solid #374151 !important;
+            text-align: center !important;
+        }
+
+        /* 3. 解決捲軸問題 */
+        .dataTables_scrollBody {
+            border-bottom: 1px solid #4b5563 !important;
+        }
+
+        /* 自定義捲軸樣式 (Chrome/Edge/Safari) */
+        .dataTables_scrollBody::-webkit-scrollbar {
+            height: 10px;
+            width: 10px;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 5px;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+
+        /* DataTables 分頁按鈕美化 */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: #9ca3af !important;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background: #3b82f6 !important;
+            border-color: #3b82f6 !important;
             color: white !important;
-            border: 1px solid #3b82f6 !important;
-        }
-
-        /* 強制表格內容不換行，確保寬度由內容決定 */
-        #stockTable td,
-        #stockTable th {
-            white-space: nowrap !important;
-            padding: 12px 15px !important;
-            /* 加寬一點比較好閱讀 */
-        }
-
-        /* 讓捲軸更明顯一點 */
-        .dataTables_wrapper {
-            padding-top: 10px;
         }
     </style>
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-[1600px] mx-auto">
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -60,9 +100,10 @@
             </div>
         </header>
 
-        <div class="bg-gray-800 rounded-xl shadow-2xl p-6 overflow-x-auto">
-            <table id="stockTable" class="display nowrap w-full" style="width:100%">
-                <thead class="bg-gray-700 text-gray-200">
+        <!-- 表格容器 -->
+        <div class="shadow-2xl overflow-hidden">
+            <table id="stockTable" class="display nowrap" style="width:100%">
+                <thead>
                     <tr>
                         <th>代號</th>
                         <th>名稱</th>
@@ -97,36 +138,38 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script>
         let table;
 
         $(document).ready(function () {
-            // 1. 初始化 DataTables (先初始化，資料晚點補)
+            // 1. 初始化 DataTables
             table = $('#stockTable').DataTable({
-                responsive: false,
-                scrollX: true,
-                autoWidth: false,
+                scrollX: true,           // 開啟橫向捲軸
+                scrollCollapse: true,
+                autoWidth: false,        // 關閉自動寬度，交給 CSS nowrap 處理
+                pageLength: 25,
                 language: {
                     url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json"
                 },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
-                    { width: "100px", targets: 2 }, // 例如族群概念
+                    { width: "150px", targets: 2 }, // 族群概念給寬一點
                     {
                         targets: [3, 4, 5],
                         render: function (data) {
                             return `<span class="font-mono font-semibold">${data}</span>`;
                         }
                     }
-                ]
+                ],
+                // 每次表格繪製完成後調整對齊
+                drawCallback: function () {
+                    table.columns.adjust();
+                }
             });
 
-            // 2. 從檔案獲取清單並初始化選單
             initDateSelectFromJSON();
 
-            // 監聽下拉選單變化
             $('#dateSelect').on('change', function () {
                 const date = $(this).val();
                 if (date) {
@@ -135,13 +178,11 @@
             });
         });
 
-        // 改動點：將原本寫死的 initDateSelect 改為異步讀取 JSON
         async function initDateSelectFromJSON() {
             const select = $('#dateSelect');
             try {
                 const response = await fetch('./data/dateList.json');
                 if (!response.ok) throw new Error('無法讀取清單');
-
                 const availableDates = await response.json();
 
                 select.empty();
@@ -149,23 +190,20 @@
                     select.append(`<option value="${date}">${date}</option>`);
                 });
 
-                // 預設載入最新的日期
                 if (availableDates.length > 0) {
                     select.val(availableDates[0]).trigger('change');
                 }
             } catch (error) {
                 console.error("初始化清單失敗:", error);
-                select.html('<option>載入清單失敗</option>');
+                select.html('<option>載入失敗</option>');
             }
         }
 
         async function loadData(date) {
             const filePath = `./data/${date}_filter.json`;
-
             try {
                 const response = await fetch(filePath);
                 if (!response.ok) throw new Error('找不到該日期的資料檔案');
-
                 const data = await response.json();
 
                 table.clear();
@@ -198,9 +236,14 @@
                 });
                 table.draw();
 
+                // 關鍵：資料加載後強制重新計算欄位寬度以對齊表頭
+                setTimeout(() => {
+                    table.columns.adjust().draw();
+                }, 100);
+
             } catch (error) {
                 console.error(error);
-                alert(`載入失敗: ${error.message}\n請確認路徑是否存在: ${filePath}`);
+                alert(`載入失敗: ${error.message}`);
             }
         }
     </script>
