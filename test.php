@@ -1,6 +1,8 @@
 <?php
 require_once("init.php");
-// $analysis = analyzeComponentChanges($pdo, '2026-05-05', '2026-05-04');
+$analysis = analyzeComponentChanges($pdo, '2026-05-05', '2026-05-04');
+
+createJsonFile($pdo, '2026-05-05', 'componentOf00981A', $analysis, $folder = 'data');
 // if ($analysis) {
 //     echo "### 新增持股 ###\n";
 //     foreach ($analysis['added'] as $s) echo "{$s['stock_id']} {$s['stock_name']} (權重: {$s['new_weight']}%)\n";
@@ -14,4 +16,4 @@ require_once("init.php");
 //         echo "{$s['stock_id']} {$s['stock_name']}: {$s['old_weight']}% -> {$s['new_weight']}% ({$trend} {$s['diff_weight']}%)\n";
 //     }
 // }
-echo "gas測試成功";
+// echo "gas測試成功";
