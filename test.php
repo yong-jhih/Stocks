@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$analysis = analyzeComponentChanges($pdo, $targetDate, 5);
+$analysis = analyzeMultiPeriodChanges($pdo, $targetDate);
 
 createJsonFile($pdo, $targetDate, 'componentOf00981A', $analysis, $folder = 'data');
 // if ($analysis) {

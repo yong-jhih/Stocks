@@ -791,94 +791,96 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
  * @param int $days 比較的天數 (預設 1 天)
  * @return array|false 成功回傳分析結果，失敗或資料不足回傳 false
  */
-function analyzeComponentChanges($pdo, $targetDate, $days = 1)
+/**
+ * 取得成分股多日股數變動分析 (1, 5, 10, 20日)
+ * 
+ * @param PDO $pdo
+ * @param string $targetDate 目標日期 (Y-m-d)
+ * @return array|false 成功回傳包含多日 diff 的陣列，失敗或當日無資料回傳 false
+ */
+function analyzeMultiPeriodChanges($pdo, $targetDate)
 {
-    $results = [
-        'added' => [],   // 新增持股
-        'removed' => [], // 移除持股
-        'changed' => [], // 股數變動
-        'meta' => []     // 存儲比較的日期資訊
-    ];
-
     try {
-        // 1. 尋找目標日期之前的第 N 個交易日日期
-        $dateSql = "
-            SELECT DISTINCT trade_date 
-            FROM 00981A_component 
-            WHERE trade_date < :targetDate 
-            ORDER BY trade_date DESC 
-            LIMIT :offset, 1
-        ";
+        // 1. 定義要比對的間隔天數
+        $intervals = [1, 5, 10, 20];
+        $compareDates = [];
 
-        $dateStmt = $pdo->prepare($dateSql);
-        $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
-        $dateStmt->bindValue(':offset', $days - 1, PDO::PARAM_INT);
-        $dateStmt->execute();
+        // 2. 找出各個間隔對應的實際交易日期
+        foreach ($intervals as $days) {
+            $dateSql = "
+                SELECT DISTINCT trade_date 
+                FROM 00981A_component 
+                WHERE trade_date < :targetDate 
+                ORDER BY trade_date DESC 
+                LIMIT :offset, 1
+            ";
+            $dateStmt = $pdo->prepare($dateSql);
+            $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
+            $dateStmt->bindValue(':offset', $days - 1, PDO::PARAM_INT);
+            $dateStmt->execute();
 
-        $compareDate = $dateStmt->fetchColumn();
-
-        // 錯誤處理：如果找不到比對日期，表示資料庫天數不足
-        if (!$compareDate) {
-            // 可根據需求紀錄 Log 或直接回傳 false
-            return false;
+            $foundDate = $dateStmt->fetchColumn();
+            // 如果找不到日期（資料不足），則設為 null
+            $compareDates[$days] = $foundDate ?: null;
         }
 
-        $results['meta'] = [
-            'target_date' => $targetDate,
-            'compare_date' => $compareDate,
-            'interval_days' => $days
-        ];
-
-        // 2. 執行差異分析 SQL (僅比較股數 amount)
+        // 3. 構建動態 SQL
+        // 我們以 targetDate 的股票清單為主體，去 JOIN 其它日期的 amount
         $sql = "
             SELECT 
-                COALESCE(curr.stock_id, prev.stock_id) AS stock_id,
-                COALESCE(curr.stock_name, prev.stock_name) AS stock_name,
-                IFNULL(prev.amount, 0) AS old_amount,
-                IFNULL(curr.amount, 0) AS new_amount,
-                (IFNULL(curr.amount, 0) - IFNULL(prev.amount, 0)) AS diff_amount
+                curr.stock_id,
+                curr.stock_name,
+                curr.amount,
+                curr.weight,
+                (curr.amount - IFNULL(d1.amount, 0)) as diff1,
+                (curr.amount - IFNULL(d5.amount, 0)) as diff5,
+                (curr.amount - IFNULL(d10.amount, 0)) as diff10,
+                (curr.amount - IFNULL(d20.amount, 0)) as diff20
             FROM 
-                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :targetDate) curr
+                (SELECT * FROM 00981A_component WHERE trade_date = :targetDate) curr
             LEFT JOIN 
-                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :compareDate) prev
-            ON curr.stock_id = prev.stock_id
-
-            UNION
-
-            SELECT 
-                prev.stock_id,
-                prev.stock_name,
-                prev.amount AS old_amount,
-                0 AS new_amount,
-                (0 - prev.amount) AS diff_amount
-            FROM 
-                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :compareDate) prev
+                00981A_component d1 ON curr.stock_id = d1.stock_id AND d1.trade_date = :d1
             LEFT JOIN 
-                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :targetDate) curr
-            ON prev.stock_id = curr.stock_id
-            WHERE curr.stock_id IS NULL
+                00981A_component d5 ON curr.stock_id = d5.stock_id AND d5.trade_date = :d5
+            LEFT JOIN 
+                00981A_component d10 ON curr.stock_id = d10.stock_id AND d10.trade_date = :d10
+            LEFT JOIN 
+                00981A_component d20 ON curr.stock_id = d20.stock_id AND d20.trade_date = :d20
+            ORDER BY curr.weight DESC
         ";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':targetDate' => $targetDate,
-            ':compareDate' => $compareDate
-        ]);
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if ($row['old_amount'] == 0) {
-                $results['added'][] = $row;
-            } elseif ($row['new_amount'] == 0) {
-                $results['removed'][] = $row;
-            } elseif ($row['diff_amount'] != 0) {
-                $results['changed'][] = $row;
-            }
+        $params = [':targetDate' => $targetDate];
+        foreach ($intervals as $days) {
+            // 如果該日期不存在，傳入一個不存在的日期（如 '0000-00-00'）確保 IFNULL 運作
+            $params[":d$days"] = $compareDates[$days] ?: '1900-01-01';
         }
 
-        return $results;
+        $stmt->execute($params);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 如果當天根本沒抓到資料，回傳 false
+        if (empty($results)) {
+            return false;
+        }
+
+        // 4. 格式轉換：處理數值型態 (PDO 預設取回皆為字串)
+        return array_map(function ($item) {
+            return [
+                'stock_id'   => $item['stock_id'],
+                'stock_name' => $item['stock_name'],
+                'amount'     => (int)$item['amount'],
+                'weight'     => (float)$item['weight'],
+                'diff1'      => (int)$item['diff1'],
+                'diff5'      => (int)$item['diff5'],
+                'diff10'     => (int)$item['diff10'],
+                'diff20'     => (int)$item['diff20']
+            ];
+        }, $results);
     } catch (Exception $e) {
+        // 假設您有外部的寫 Log 函式
         if (function_exists('writeLog')) {
-            writeLog($pdo, $targetDate . " 分析失敗 (Gap: {$days}d)", $e->getMessage(), 'error');
+            writeLog($pdo, "多日差異分析失敗", $e->getMessage(), 'error');
         }
         return false;
     }
