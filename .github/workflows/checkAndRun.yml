@@ -1,8 +1,10 @@
 name: 每日篩選排程
 
 on:
-  schedule:
-    - cron: '3,23,43 12-15 * * 1-5'
+  # schedule:
+  #   - cron: '3,23,43 12-15 * * 1-5'
+  repository_dispatch:
+    types: [checkAndRun]
   workflow_dispatch:
 
 concurrency:

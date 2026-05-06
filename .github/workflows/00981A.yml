@@ -1,8 +1,10 @@
 name: 00981A 成分股監控
 
 on:
-  schedule:
-    - cron: '13 12 * * 1-5'
+  # schedule:
+  #   - cron: '13 12 * * 1-5'
+  repository_dispatch:
+    types: [00981A]
   workflow_dispatch:
 
 concurrency:
