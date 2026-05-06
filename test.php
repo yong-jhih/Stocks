@@ -1,6 +1,7 @@
 <?php
 require_once("init.php");
-lineNotification();
+$a = lineNotification($pdo);
+echo json_encode($a);
 // $analysis = analyzeComponentChanges($pdo, '2026-05-05', '2026-05-04');
 // if ($analysis) {
 //     echo "### 新增持股 ###\n";

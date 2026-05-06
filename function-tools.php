@@ -128,7 +128,7 @@ function createJsonFile($date, $name, $data, $folder = 'data')
     }
 }
 
-function lineNotification($message = 'testLine')
+function lineNotification($pdo, $message = 'testLine')
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
     $groupId = 'Ud79397b3af4623f753f99e76b15a7047';
@@ -158,7 +158,8 @@ function lineNotification($message = 'testLine')
     $error_msg = curl_error($ch);
     curl_close($ch);
     if ($errno) {
-        return "cURL Error: " . $error_msg;
+        writeLog($pdo, 'lineNotification', $error_msg, 'error');
+        echo "cURL Error: " . $error_msg;
     }
     return $result;
 }
