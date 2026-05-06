@@ -776,31 +776,32 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
     }
 }
 
-/**
- * 取得成分股多日變動分析 (含詳細動作備註)
- */
 function analyzeMultiPeriodChanges($pdo, $targetDate)
 {
     try {
         $intervals = [1, 5, 10, 20];
         $compareDates = [];
 
-        // 1. 取得對照日期
+        // 1. 取得對照日期 (加入防錯，確保 $compareDates 永遠有值)
         foreach ($intervals as $days) {
             $dateSql = "SELECT DISTINCT trade_date FROM 00981A_component 
                         WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
             $dateStmt = $pdo->prepare($dateSql);
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
-            $dateStmt->bindValue(':offset', $days - 1, PDO::PARAM_INT);
+            $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT); // 強制轉 int
             $dateStmt->execute();
-            $compareDates[$days] = $dateStmt->fetchColumn() ?: '1900-01-01';
+
+            $found = $dateStmt->fetchColumn();
+            // 如果找不到日期，用一個極早的日期代替，確保 JOIN 不會出錯但會回傳 0 股
+            $compareDates[$days] = $found ?: '1900-01-01';
         }
 
-        // 2. SQL 聯集查詢
+        // 2. 執行查詢
+        // 使用 MAX() 確保即使今天沒這檔股票，也能從歷史紀錄中抓到 stock_name
         $sql = "
             SELECT 
                 all_ids.stock_id,
-                MAX(COALESCE(curr.stock_name, d1.stock_name, d20.stock_name)) as stock_name,
+                MAX(COALESCE(curr.stock_name, d1.stock_name, d5.stock_name, d10.stock_name, d20.stock_name)) as stock_name,
                 IFNULL(curr.amount, 0) as amount,
                 IFNULL(curr.weight, 0) as weight,
                 IFNULL(d1.amount, 0) as prev_amount,
@@ -821,25 +822,29 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
             LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
             LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
             GROUP BY all_ids.stock_id
-            ORDER BY curr.weight DESC, all_ids.stock_id ASC
+            ORDER BY curr.weight DESC, amount DESC, all_ids.stock_id ASC
         ";
 
         $stmt = $pdo->prepare($sql);
-        $params = [':targetDate' => $targetDate];
-        foreach ($intervals as $days) {
-            $params[":d$days"] = $compareDates[$days];
-        }
-        $stmt->execute($params);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->bindValue(':targetDate', $targetDate);
+        $stmt->bindValue(':d1', $compareDates[1]);
+        $stmt->bindValue(':d5', $compareDates[5]);
+        $stmt->bindValue(':d10', $compareDates[10]);
+        $stmt->bindValue(':d20', $compareDates[20]);
+        $stmt->execute();
 
-        // 3. 處理結果與動作標籤
-        return array_map(function ($item) {
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$rows) return []; // 回傳空陣列而非 false，JSON 轉換才不會出錯
+
+        // 3. 處理結果
+        $finalData = [];
+        foreach ($rows as $item) {
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
 
-            // 判斷動作備註 (以 1 日差異為基準)
-            $note = "無變動";
+            // 備註邏輯
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
             } elseif ($prevAmount > 0 && $currAmount == 0) {
@@ -848,12 +853,14 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
                 $note = "增持";
             } elseif ($diff1 < 0) {
                 $note = "減持";
+            } else {
+                $note = "無變動";
             }
 
-            return [
-                'stock_id'   => $item['stock_id'],
-                'stock_name' => $item['stock_name'],
-                'note'       => $note,          // 新增的備註欄位
+            $finalData[] = [
+                'stock_id'   => (string)$item['stock_id'],
+                'stock_name' => (string)$item['stock_name'],
+                'note'       => $note,
                 'amount'     => $currAmount,
                 'weight'     => (float)$item['weight'],
                 'diff1'      => $diff1,
@@ -861,8 +868,12 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
                 'diff10'     => (int)$item['diff10'],
                 'diff20'     => (int)$item['diff20']
             ];
-        }, $results);
-    } catch (Exception $e) {
-        return false;
+        }
+
+        return $finalData;
+    } catch (PDOException $e) {
+        // 輸出錯訊息到 error_log 方便除錯
+        error_log("Database Error: " . $e->getMessage());
+        return null;
     }
 }
