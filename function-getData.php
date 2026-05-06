@@ -782,33 +782,30 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         $intervals = [1, 5, 10, 20];
         $compareDates = [];
 
-        // 1. 取得對照日期 (加入防錯，確保 $compareDates 永遠有值)
         foreach ($intervals as $days) {
             $dateSql = "SELECT DISTINCT trade_date FROM 00981A_component 
                         WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
             $dateStmt = $pdo->prepare($dateSql);
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
-            $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT); // 強制轉 int
+            $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT);
             $dateStmt->execute();
 
             $found = $dateStmt->fetchColumn();
-            // 如果找不到日期，用一個極早的日期代替，確保 JOIN 不會出錯但會回傳 0 股
             $compareDates[$days] = $found ?: '1900-01-01';
         }
 
-        // 2. 執行查詢
-        // 使用 MAX() 確保即使今天沒這檔股票，也能從歷史紀錄中抓到 stock_name
+        // 修正點：在 ORDER BY 中使用聚合後的欄位，避免 ONLY_FULL_GROUP_BY 錯誤
         $sql = "
             SELECT 
                 all_ids.stock_id,
                 MAX(COALESCE(curr.stock_name, d1.stock_name, d5.stock_name, d10.stock_name, d20.stock_name)) as stock_name,
-                IFNULL(curr.amount, 0) as amount,
-                IFNULL(curr.weight, 0) as weight,
-                IFNULL(d1.amount, 0) as prev_amount,
-                (IFNULL(curr.amount, 0) - IFNULL(d1.amount, 0)) as diff1,
-                (IFNULL(curr.amount, 0) - IFNULL(d5.amount, 0)) as diff5,
-                (IFNULL(curr.amount, 0) - IFNULL(d10.amount, 0)) as diff10,
-                (IFNULL(curr.amount, 0) - IFNULL(d20.amount, 0)) as diff20
+                MAX(IFNULL(curr.amount, 0)) as amount,
+                MAX(IFNULL(curr.weight, 0)) as weight,
+                MAX(IFNULL(d1.amount, 0)) as prev_amount,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d1.amount, 0))) as diff1,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d5.amount, 0))) as diff5,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d10.amount, 0))) as diff10,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20
             FROM (
                 SELECT stock_id FROM 00981A_component WHERE trade_date = :targetDate
                 UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d1
@@ -822,7 +819,7 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
             LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
             LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
             GROUP BY all_ids.stock_id
-            ORDER BY curr.weight DESC, amount DESC, all_ids.stock_id ASC
+            ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
         ";
 
         $stmt = $pdo->prepare($sql);
@@ -834,17 +831,15 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         $stmt->execute();
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!$rows) return [];
 
-        if (!$rows) return []; // 回傳空陣列而非 false，JSON 轉換才不會出錯
-
-        // 3. 處理結果
         $finalData = [];
         foreach ($rows as $item) {
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
 
-            // 備註邏輯
+            // 判斷備註
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
             } elseif ($prevAmount > 0 && $currAmount == 0) {
@@ -872,7 +867,6 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
 
         return $finalData;
     } catch (PDOException $e) {
-        // 輸出錯訊息到 error_log 方便除錯
         error_log("Database Error: " . $e->getMessage());
         return null;
     }
