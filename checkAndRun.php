@@ -30,4 +30,5 @@ if (
     $results = generateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'filter', $results);
     saveDailyDashboard($pdo, $targetDate, $results);
+    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成 - https://yong-jhih.github.io/Stocks/');
 }
