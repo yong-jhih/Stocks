@@ -21,6 +21,7 @@ env:
   FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
   FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
   GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+  LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
 
 jobs:
   stock_job:

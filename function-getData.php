@@ -537,7 +537,7 @@ function generateDailyDashboard($pdo, $targetDate)
         if ($s['券淨賣還5日累計'] < 0) $tag[] = "借券回補";
 
         $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
-        $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-2.5-flash');
+        $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
         $dashboardResults[] = [
             'stock_id'   => $s['代碼'],
             'stock_name' => $s['股名'],

@@ -130,10 +130,8 @@ function createJsonFile($date, $name, $data, $folder = 'data')
 
 function lineNotification($message = 'testLine')
 {
-    // 1. 設定您的存取權杖與 ID
-    // 建議將這些敏感資訊放在環境變數或設定檔中
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-    $groupId = 'C5af446be4e364025acc9354b9d48209d';
+    $groupId = 'Ud79397b3af4623f753f99e76b15a7047';
     $url = 'https://api.line.me/v2/bot/message/push';
     $messageText = "系統通知：\n" . $message;
     $payload = [
