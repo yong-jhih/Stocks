@@ -82,7 +82,10 @@
                         <th>名稱</th>
                         <th>持股數</th>
                         <th>權重</th>
+                        <th>1日持股差異</th>
                         <th>5日持股差異</th>
+                        <th>10日持股差異</th>
+                        <th>20日持股差異</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-300"></tbody>
@@ -132,29 +135,27 @@
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_componentOf00981A.json`);
-                if (!res.ok) throw new Error("檔案不存在"); // 確保檔案真的存在
-
+                if (!res.ok) throw new Error("檔案不存在");
                 const data = await res.json();
-                console.log("取得的資料:", data); // 除錯用：在瀏覽器 F12 檢查資料格式
-
+                console.log("取得的資料:", data);
                 table.clear();
                 data.forEach(item => {
-                    // 預防 tags 欄位缺失導致報錯
                     const tags = item.tags || "";
                     const tagShort = tags.length > 8 ? tags.substring(0, 8) + '...' : tags;
-
-                    // 這裡必須確保陣列長度 = HTML <th> 的數量 (目前是5個)
                     table.row.add([
                         item.stock_id || "-",
                         `<span class="text-blue-300 font-bold">${item.stock_name || "無名稱"}</span>`,
                         item.amount || 0,
                         item.weight || "0%",
-                        item.diff || 0
+                        item.diff1 || 0,
+                        item.diff5 || 0,
+                        item.diff10 || 0,
+                        item.diff20 || 0
                     ]);
                 });
                 table.draw();
             } catch (e) {
-                console.error("詳細錯誤訊息:", e); // 在控制台顯示真正的錯誤原因
+                console.error("詳細錯誤訊息:", e);
                 alert("讀取失敗: " + e.message);
             }
         }
