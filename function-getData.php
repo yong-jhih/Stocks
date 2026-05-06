@@ -783,48 +783,78 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
  * @param string $compareDate 基準日期 (YYYY-MM-DD)
  * @return array 包含增減結果的陣列
  */
-function analyzeComponentChanges($pdo, $targetDate, $compareDate)
+/**
+ * 分析成分股股數變動
+ * 
+ * @param PDO $pdo 
+ * @param string $targetDate 當前日期 (Y-m-d)
+ * @param int $days 比較的天數 (預設 1 天)
+ * @return array|false 成功回傳分析結果，失敗或資料不足回傳 false
+ */
+function analyzeComponentChanges($pdo, $targetDate, $days = 1)
 {
     $results = [
         'added' => [],   // 新增持股
         'removed' => [], // 移除持股
-        'changed' => []  // 權重或股數變動
+        'changed' => [], // 股數變動
+        'meta' => []     // 存儲比較的日期資訊
     ];
 
     try {
-        // 使用 FULL OUTER JOIN 的替代方案 (MySQL 不支援 FULL JOIN，故用 UNION 或 LEFT JOIN 技巧)
-        // 這裡採用 LEFT JOIN 找出「新增」與「變動」，再用另一個 LEFT JOIN 找出「刪除」
+        // 1. 尋找目標日期之前的第 N 個交易日日期
+        $dateSql = "
+            SELECT DISTINCT trade_date 
+            FROM 00981A_component 
+            WHERE trade_date < :targetDate 
+            ORDER BY trade_date DESC 
+            LIMIT :offset, 1
+        ";
+
+        $dateStmt = $pdo->prepare($dateSql);
+        $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
+        $dateStmt->bindValue(':offset', $days - 1, PDO::PARAM_INT);
+        $dateStmt->execute();
+
+        $compareDate = $dateStmt->fetchColumn();
+
+        // 錯誤處理：如果找不到比對日期，表示資料庫天數不足
+        if (!$compareDate) {
+            // 可根據需求紀錄 Log 或直接回傳 false
+            return false;
+        }
+
+        $results['meta'] = [
+            'target_date' => $targetDate,
+            'compare_date' => $compareDate,
+            'interval_days' => $days
+        ];
+
+        // 2. 執行差異分析 SQL (僅比較股數 amount)
         $sql = "
             SELECT 
                 COALESCE(curr.stock_id, prev.stock_id) AS stock_id,
                 COALESCE(curr.stock_name, prev.stock_name) AS stock_name,
-                prev.amount AS old_amount,
-                curr.amount AS new_amount,
-                prev.weight AS old_weight,
-                curr.weight AS new_weight,
-                (curr.amount - IFNULL(prev.amount, 0)) AS diff_amount,
-                (curr.weight - IFNULL(prev.weight, 0)) AS diff_weight
+                IFNULL(prev.amount, 0) AS old_amount,
+                IFNULL(curr.amount, 0) AS new_amount,
+                (IFNULL(curr.amount, 0) - IFNULL(prev.amount, 0)) AS diff_amount
             FROM 
-                (SELECT * FROM 00981A_component WHERE trade_date = :targetDate) curr
+                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :targetDate) curr
             LEFT JOIN 
-                (SELECT * FROM 00981A_component WHERE trade_date = :compareDate) prev
+                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :compareDate) prev
             ON curr.stock_id = prev.stock_id
-            
+
             UNION
-            
+
             SELECT 
                 prev.stock_id,
                 prev.stock_name,
                 prev.amount AS old_amount,
-                curr.amount AS new_amount,
-                prev.weight AS old_weight,
-                curr.weight AS new_weight,
-                (IFNULL(curr.amount, 0) - prev.amount) AS diff_amount,
-                (IFNULL(curr.weight, 0) - prev.weight) AS diff_weight
+                0 AS new_amount,
+                (0 - prev.amount) AS diff_amount
             FROM 
-                (SELECT * FROM 00981A_component WHERE trade_date = :compareDate) prev
+                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :compareDate) prev
             LEFT JOIN 
-                (SELECT * FROM 00981A_component WHERE trade_date = :targetDate) curr
+                (SELECT stock_id, stock_name, amount FROM 00981A_component WHERE trade_date = :targetDate) curr
             ON prev.stock_id = curr.stock_id
             WHERE curr.stock_id IS NULL
         ";
@@ -836,18 +866,20 @@ function analyzeComponentChanges($pdo, $targetDate, $compareDate)
         ]);
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if ($row['old_amount'] === null) {
+            if ($row['old_amount'] == 0) {
                 $results['added'][] = $row;
-            } elseif ($row['new_amount'] === null) {
+            } elseif ($row['new_amount'] == 0) {
                 $results['removed'][] = $row;
-            } elseif ($row['diff_amount'] != 0 || $row['diff_weight'] != 0) {
+            } elseif ($row['diff_amount'] != 0) {
                 $results['changed'][] = $row;
             }
         }
 
         return $results;
     } catch (Exception $e) {
-        writeLog($pdo, $targetDate . ' 分析失敗', $e->getMessage(), 'error');
+        if (function_exists('writeLog')) {
+            writeLog($pdo, $targetDate . " 分析失敗 (Gap: {$days}d)", $e->getMessage(), 'error');
+        }
         return false;
     }
 }
