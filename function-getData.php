@@ -827,20 +827,30 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) return [];
         $finalData = [];
+        $new = [];
+        $eliminate = [];
+        $increase = [];
+        $decrease = [];
+        $constant = [];
         foreach ($rows as $item) {
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
+                $new[] = (string)$item['stock_id'] . (string)$item['stock_name'];
             } elseif ($prevAmount > 0 && $currAmount == 0) {
                 $note = "剔除";
+                $eliminate[] = (string)$item['stock_id'] . (string)$item['stock_name'];
             } elseif ($diff1 > 0) {
                 $note = "增持";
+                $increase[] = (string)$item['stock_id'] . (string)$item['stock_name'];
             } elseif ($diff1 < 0) {
                 $note = "減持";
+                $decrease[] = (string)$item['stock_id'] . (string)$item['stock_name'];
             } else {
                 $note = "無變動";
+                $constant[] = (string)$item['stock_id'] . (string)$item['stock_name'];
             }
             $finalData[] = [
                 'stock_id'   => (string)$item['stock_id'],
@@ -854,6 +864,10 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
                 'diff20'     => (int)$item['diff20']
             ];
         }
+        $notificationStr = "00981A成分股今日變動(資料累積中,先看短期就好) - https://yong-jhih.github.io/Stocks/00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
+        if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
+        lineNotification($pdo, getenv('LINE_TARGET'), $notificationStr);
         return $finalData;
     } catch (PDOException $e) {
         writeLog($pdo, 'analyzeMultiPeriodChanges', "Database Error: " . $e->getMessage(), 'error');
