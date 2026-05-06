@@ -2,11 +2,11 @@
 require_once("init.php");
 
 if (isHoliday($targetDate)) {
-    writeLog($pdo, '個股篩選', '非交易日跳過', 'success');
+    echo '非交易日跳過';
     exit(0);
 }
 if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results')) {
-    echo '分析資料已存在, 結束整個任務';
+    echo '分析資料已存在';
     exit(0);
 }
 
@@ -15,6 +15,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') {
     echo '資料未到齊, 等待下次觸發';
     exit(0);
 } else {
+    echo '偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新。';
     require 'updateAll.php';
     echo '資料庫更新完畢, 準備進入分析。';
 }

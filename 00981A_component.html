@@ -82,6 +82,7 @@
                         <th>名稱</th>
                         <th>持股數</th>
                         <th>權重</th>
+                        <th>備註</th>
                         <th>1日持股差異</th>
                         <th>5日持股差異</th>
                         <th>10日持股差異</th>
@@ -104,7 +105,7 @@
                     left: 2
                 },
                 paging: true,
-                pageLength: 50,
+                pageLength: 100,
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
@@ -147,6 +148,7 @@
                         `<span class="text-blue-300 font-bold">${item.stock_name || "無名稱"}</span>`,
                         item.amount || 0,
                         item.weight || "0%",
+                        item.note || "",
                         item.diff1 || 0,
                         item.diff5 || 0,
                         item.diff10 || 0,

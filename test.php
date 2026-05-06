@@ -1,8 +1,6 @@
 <?php
 require_once("init.php");
-$analysis = analyzeMultiPeriodChanges($pdo, $targetDate);
 
-createJsonFile($pdo, $targetDate, 'componentOf00981A', $analysis, $folder = 'data');
 // if ($analysis) {
 //     echo "### 新增持股 ###\n";
 //     foreach ($analysis['added'] as $s) echo "{$s['stock_id']} {$s['stock_name']} (權重: {$s['new_weight']}%)\n";

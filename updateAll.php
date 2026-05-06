@@ -15,4 +15,4 @@ insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
 insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
 $end_time = microtime(true);
 $execution_time = round($end_time - $start_time, 2);
-writeLog($pdo, 'updateAll', $targetDate . '更新資料結束,共耗時 ' . $execution_time . ' 秒', 'success');
+writeLog($pdo, 'updateAll', $targetDate . '更新資料結束,共耗時 ' . $execution_time . ' 秒', 'end');

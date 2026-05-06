@@ -584,7 +584,7 @@ function generateDailyDashboard($pdo, $targetDate)
             'tags' => implode(',', $tag)
         ];
     }
-    writeLog($pdo, 'Dashboard_Gen', "完成 $targetDate 分析，共篩選出 " . count($dashboardResults) . " 檔", 'Success');
+    writeLog($pdo, 'generateDailyDashboard', "$targetDate 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
@@ -715,7 +715,7 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
         $pdo->commit();
         $execution_time = round(microtime(true) - $start_time, 2);
         $count = count($dashboardResults);
-        writeLog($pdo, 'SaveDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆，耗時 {$execution_time} 秒", 'Success');
+        writeLog($pdo, 'saveDailyDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆", 'success');
     } catch (Exception $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
@@ -781,7 +781,6 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
     try {
         $intervals = [1, 5, 10, 20];
         $compareDates = [];
-
         foreach ($intervals as $days) {
             $dateSql = "SELECT DISTINCT trade_date FROM 00981A_component 
                         WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
@@ -789,12 +788,9 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
             $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT);
             $dateStmt->execute();
-
             $found = $dateStmt->fetchColumn();
             $compareDates[$days] = $found ?: '1900-01-01';
         }
-
-        // 修正點：在 ORDER BY 中使用聚合後的欄位，避免 ONLY_FULL_GROUP_BY 錯誤
         $sql = "
             SELECT 
                 all_ids.stock_id,
@@ -821,7 +817,6 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
             GROUP BY all_ids.stock_id
             ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
         ";
-
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':targetDate', $targetDate);
         $stmt->bindValue(':d1', $compareDates[1]);
@@ -829,17 +824,13 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         $stmt->bindValue(':d10', $compareDates[10]);
         $stmt->bindValue(':d20', $compareDates[20]);
         $stmt->execute();
-
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) return [];
-
         $finalData = [];
         foreach ($rows as $item) {
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
-
-            // 判斷備註
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
             } elseif ($prevAmount > 0 && $currAmount == 0) {
@@ -851,7 +842,6 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
             } else {
                 $note = "無變動";
             }
-
             $finalData[] = [
                 'stock_id'   => (string)$item['stock_id'],
                 'stock_name' => (string)$item['stock_name'],
@@ -864,10 +854,9 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
                 'diff20'     => (int)$item['diff20']
             ];
         }
-
         return $finalData;
     } catch (PDOException $e) {
-        error_log("Database Error: " . $e->getMessage());
+        writeLog($pdo, 'analyzeMultiPeriodChanges', "Database Error: " . $e->getMessage(), 'error');
         return null;
     }
 }

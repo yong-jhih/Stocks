@@ -12,5 +12,5 @@ foreach ($date_array as $date) {
     insertSBLSold($pdo, $date, getSBLSold($date, $pdo));
 }
 $end_time = microtime(true);
-$execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-writeLog($pdo, 'batchUpdate', '批次更新結束,共耗時 ' . $execution_time . ' 秒', 'success');
+$execution_time = round($end_time - $start_time, 2);
+writeLog($pdo, 'batchUpdate', '批次更新結束,共耗時 ' . $execution_time . ' 秒', 'end');
