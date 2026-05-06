@@ -777,111 +777,92 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
 }
 
 /**
- * 分析成分股變動
- * @param PDO $pdo
- * @param string $targetDate  目標日期 (YYYY-MM-DD)
- * @param string $compareDate 基準日期 (YYYY-MM-DD)
- * @return array 包含增減結果的陣列
- */
-/**
- * 分析成分股股數變動
- * 
- * @param PDO $pdo 
- * @param string $targetDate 當前日期 (Y-m-d)
- * @param int $days 比較的天數 (預設 1 天)
- * @return array|false 成功回傳分析結果，失敗或資料不足回傳 false
- */
-/**
- * 取得成分股多日股數變動分析 (1, 5, 10, 20日)
- * 
- * @param PDO $pdo
- * @param string $targetDate 目標日期 (Y-m-d)
- * @return array|false 成功回傳包含多日 diff 的陣列，失敗或當日無資料回傳 false
+ * 取得成分股多日變動分析 (含詳細動作備註)
  */
 function analyzeMultiPeriodChanges($pdo, $targetDate)
 {
     try {
-        // 1. 定義要比對的間隔天數
         $intervals = [1, 5, 10, 20];
         $compareDates = [];
 
-        // 2. 找出各個間隔對應的實際交易日期
+        // 1. 取得對照日期
         foreach ($intervals as $days) {
-            $dateSql = "
-                SELECT DISTINCT trade_date 
-                FROM 00981A_component 
-                WHERE trade_date < :targetDate 
-                ORDER BY trade_date DESC 
-                LIMIT :offset, 1
-            ";
+            $dateSql = "SELECT DISTINCT trade_date FROM 00981A_component 
+                        WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
             $dateStmt = $pdo->prepare($dateSql);
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
             $dateStmt->bindValue(':offset', $days - 1, PDO::PARAM_INT);
             $dateStmt->execute();
-
-            $foundDate = $dateStmt->fetchColumn();
-            // 如果找不到日期（資料不足），則設為 null
-            $compareDates[$days] = $foundDate ?: null;
+            $compareDates[$days] = $dateStmt->fetchColumn() ?: '1900-01-01';
         }
 
-        // 3. 構建動態 SQL
-        // 我們以 targetDate 的股票清單為主體，去 JOIN 其它日期的 amount
+        // 2. SQL 聯集查詢
         $sql = "
             SELECT 
-                curr.stock_id,
-                curr.stock_name,
-                curr.amount,
-                curr.weight,
-                (curr.amount - IFNULL(d1.amount, 0)) as diff1,
-                (curr.amount - IFNULL(d5.amount, 0)) as diff5,
-                (curr.amount - IFNULL(d10.amount, 0)) as diff10,
-                (curr.amount - IFNULL(d20.amount, 0)) as diff20
-            FROM 
-                (SELECT * FROM 00981A_component WHERE trade_date = :targetDate) curr
-            LEFT JOIN 
-                00981A_component d1 ON curr.stock_id = d1.stock_id AND d1.trade_date = :d1
-            LEFT JOIN 
-                00981A_component d5 ON curr.stock_id = d5.stock_id AND d5.trade_date = :d5
-            LEFT JOIN 
-                00981A_component d10 ON curr.stock_id = d10.stock_id AND d10.trade_date = :d10
-            LEFT JOIN 
-                00981A_component d20 ON curr.stock_id = d20.stock_id AND d20.trade_date = :d20
-            ORDER BY curr.weight DESC
+                all_ids.stock_id,
+                MAX(COALESCE(curr.stock_name, d1.stock_name, d20.stock_name)) as stock_name,
+                IFNULL(curr.amount, 0) as amount,
+                IFNULL(curr.weight, 0) as weight,
+                IFNULL(d1.amount, 0) as prev_amount,
+                (IFNULL(curr.amount, 0) - IFNULL(d1.amount, 0)) as diff1,
+                (IFNULL(curr.amount, 0) - IFNULL(d5.amount, 0)) as diff5,
+                (IFNULL(curr.amount, 0) - IFNULL(d10.amount, 0)) as diff10,
+                (IFNULL(curr.amount, 0) - IFNULL(d20.amount, 0)) as diff20
+            FROM (
+                SELECT stock_id FROM 00981A_component WHERE trade_date = :targetDate
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d1
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d5
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d10
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d20
+            ) all_ids
+            LEFT JOIN 00981A_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate
+            LEFT JOIN 00981A_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1
+            LEFT JOIN 00981A_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5
+            LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
+            LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
+            GROUP BY all_ids.stock_id
+            ORDER BY curr.weight DESC, all_ids.stock_id ASC
         ";
 
         $stmt = $pdo->prepare($sql);
         $params = [':targetDate' => $targetDate];
         foreach ($intervals as $days) {
-            // 如果該日期不存在，傳入一個不存在的日期（如 '0000-00-00'）確保 IFNULL 運作
-            $params[":d$days"] = $compareDates[$days] ?: '1900-01-01';
+            $params[":d$days"] = $compareDates[$days];
         }
-
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 如果當天根本沒抓到資料，回傳 false
-        if (empty($results)) {
-            return false;
-        }
-
-        // 4. 格式轉換：處理數值型態 (PDO 預設取回皆為字串)
+        // 3. 處理結果與動作標籤
         return array_map(function ($item) {
+            $currAmount = (int)$item['amount'];
+            $prevAmount = (int)$item['prev_amount'];
+            $diff1 = (int)$item['diff1'];
+
+            // 判斷動作備註 (以 1 日差異為基準)
+            $note = "無變動";
+            if ($prevAmount == 0 && $currAmount > 0) {
+                $note = "新增";
+            } elseif ($prevAmount > 0 && $currAmount == 0) {
+                $note = "剔除";
+            } elseif ($diff1 > 0) {
+                $note = "增持";
+            } elseif ($diff1 < 0) {
+                $note = "減持";
+            }
+
             return [
                 'stock_id'   => $item['stock_id'],
                 'stock_name' => $item['stock_name'],
-                'amount'     => (int)$item['amount'],
+                'note'       => $note,          // 新增的備註欄位
+                'amount'     => $currAmount,
                 'weight'     => (float)$item['weight'],
-                'diff1'      => (int)$item['diff1'],
+                'diff1'      => $diff1,
                 'diff5'      => (int)$item['diff5'],
                 'diff10'     => (int)$item['diff10'],
                 'diff20'     => (int)$item['diff20']
             ];
         }, $results);
     } catch (Exception $e) {
-        // 假設您有外部的寫 Log 函式
-        if (function_exists('writeLog')) {
-            writeLog($pdo, "多日差異分析失敗", $e->getMessage(), 'error');
-        }
         return false;
     }
 }
