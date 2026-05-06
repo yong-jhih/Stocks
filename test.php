@@ -14,3 +14,4 @@ require_once("init.php");
 //         echo "{$s['stock_id']} {$s['stock_name']}: {$s['old_weight']}% -> {$s['new_weight']}% ({$trend} {$s['diff_weight']}%)\n";
 //     }
 // }
+echo "gas測試成功";
