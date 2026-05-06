@@ -27,6 +27,6 @@ if (
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold')
 ) {
     $results = generateDailyDashboard($pdo, $targetDate);
-    createJsonFile($targetDate, 'filter', $results);
+    createJsonFile($pdo, $targetDate, 'filter', $results);
     saveDailyDashboard($pdo, $targetDate, $results);
 }

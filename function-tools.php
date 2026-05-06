@@ -1,6 +1,6 @@
 <?php
 
-function convertTaiwanDateToWestern($dateStr = '1150228')
+function convertTaiwanDateToWestern($dateStr)
 {
     if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {
         $taiwanYear = (int)$matches[1];
@@ -17,7 +17,7 @@ function convertTaiwanDateToWestern($dateStr = '1150228')
 
 function fetchUrl($url) // return array
 {
-    sleep(5);
+    sleep(3);
     $options = [
         "http" => [
             "method" => "GET",
@@ -44,7 +44,7 @@ function writeLog($pdo, $type, $content, $result)
         $currentTime = date('Y-m-d H:i:s');
         $stmt->execute([$currentTime, $type, $content, $result]);
     } catch (Exception $e) {
-        error_log("Critical Error: Unable to write to system_logs. " . $e->getMessage());
+        echo "Critical Error: Unable to write to system_logs. " . $e->getMessage();
     }
 }
 
@@ -107,15 +107,15 @@ function updateDateList($date, $folder = 'data')
     return file_put_contents($listPath, $jsonString) !== false;
 }
 
-function createJsonFile($date, $name, $data, $folder = 'data')
+function createJsonFile($pdo, $date, $name, $data, $folder = 'data')
 {
-    $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name); // 修正原本正則表達式的 0-9 誤打
+    $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
     $safeDate = preg_replace('/[^0-9\-]/', '', $date);
     $fileName = "{$safeDate}_{$safeName}.json";
     $fullPath = $folder . DIRECTORY_SEPARATOR . $fileName;
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
-            error_log("無法建立目錄: $folder");
+            writeLog($pdo, 'createJsonFile', "無法建立目錄: $folder", 'error');
             return false;
         }
     }
@@ -128,14 +128,13 @@ function createJsonFile($date, $name, $data, $folder = 'data')
     }
 }
 
-function lineNotification($pdo, $message = 'testLine')
+function lineNotification($pdo, $target, $message = 'testLine')
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-    $groupId = 'Ud79397b3af4623f753f99e76b15a7047';
     $url = 'https://api.line.me/v2/bot/message/push';
     $messageText = "系統通知：\n" . $message;
     $payload = [
-        'to' => $groupId,
+        'to' => $target,
         'messages' => [
             [
                 'type' => 'text',
@@ -161,5 +160,4 @@ function lineNotification($pdo, $message = 'testLine')
         writeLog($pdo, 'lineNotification', $error_msg, 'error');
         echo "cURL Error: " . $error_msg;
     }
-    return $result;
 }

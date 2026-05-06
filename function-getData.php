@@ -594,10 +594,7 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
         writeLog($pdo, 'SaveDashboard', "日期 {$targetDate} 無資料可供寫入", 'Warning');
         return;
     }
-
     $start_time = microtime(true);
-
-    // 1. 完整的 SQL 語句，包含所有新增的累計與技術指標欄位
     $sql = "INSERT INTO daily_dashboard_results (
                 trade_date, stock_id, stock_name, concept, close_price, 
                 vol_k, vol_ratio, rank10, amp10, ma5, ma10, ma20, 
@@ -662,20 +659,18 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
                 sbl_sold_balance = VALUES(sbl_sold_balance),
                 action_tip = VALUES(action_tip),
                 tags = VALUES(tags)";
-
     try {
         $pdo->beginTransaction();
         $stmt = $pdo->prepare($sql);
 
         foreach ($dashboardResults as $row) {
-            // 2. 嚴格對應 $dashboardResults 陣列中的 Key 進行參數綁定
             $stmt->execute([
                 $targetDate,
                 $row['stock_id'],
                 $row['stock_name'],
                 $row['concept'],
                 $row['close'],
-                $row['vol'],      // 修正：對應之前的 'vol'
+                $row['vol'],
                 $row['vol_ratio'],
                 $row['rank10'],
                 $row['amp10'],    // 新增
@@ -717,9 +712,7 @@ function saveDailyDashboard($pdo, $targetDate, $dashboardResults)
                 $row['tags'] ?? ''                // 預留欄位賦予空值
             ]);
         }
-
         $pdo->commit();
-
         $execution_time = round(microtime(true) - $start_time, 2);
         $count = count($dashboardResults);
         writeLog($pdo, 'SaveDashboard', "{$targetDate} 分析結果存檔完成，共 {$count} 筆，耗時 {$execution_time} 秒", 'Success');
