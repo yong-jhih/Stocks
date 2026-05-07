@@ -5,7 +5,7 @@ if (isHoliday($targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
-if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results')) {
+if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0)) {
     echo '分析資料已存在';
     exit(0);
 }
@@ -21,11 +21,11 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') {
 }
 
 if (
-    checkIfDataPublished($pdo, $targetDate, 'stock_history') &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_insti') &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_margin') &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total') &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold')
+    checkIfDataPublished($pdo, $targetDate, 'stock_history', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_insti', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_margin', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
 ) {
     $results = generateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'filter', $results);
