@@ -196,7 +196,7 @@
         }
         async function loadData(date) {
             try {
-                const res = await fetch(`./data/${date}_filter.json`);
+                const res = await fetch(`./data/${date}_self-select.json`);
                 const data = await res.json();
                 table.clear();
                 data.forEach(item => {
