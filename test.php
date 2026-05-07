@@ -1,7 +1,7 @@
 <?php
 require_once("init.php");
 
-$date = ['2026-05-05'];
+$date = ['2026-05-06'];
 foreach ($date as $d) {
     if (
         checkIfDataPublished($pdo, $d, 'stock_history', 500) &&
