@@ -1,17 +1,16 @@
 <?php
 require_once("init.php");
 
-// if ($analysis) {
-//     echo "### 新增持股 ###\n";
-//     foreach ($analysis['added'] as $s) echo "{$s['stock_id']} {$s['stock_name']} (權重: {$s['new_weight']}%)\n";
-
-//     echo "\n### 移除持股 ###\n";
-//     foreach ($analysis['removed'] as $s) echo "{$s['stock_id']} {$s['stock_name']}\n";
-
-//     echo "\n### 權重/股數變動 ###\n";
-//     foreach ($analysis['changed'] as $s) {
-//         $trend = $s['diff_weight'] > 0 ? "↑" : "↓";
-//         echo "{$s['stock_id']} {$s['stock_name']}: {$s['old_weight']}% -> {$s['new_weight']}% ({$trend} {$s['diff_weight']}%)\n";
-//     }
-// }
-// echo "gas測試成功";
+$date = ['2026-05-05', '2026-05-05'];
+foreach ($date as $d) {
+    if (
+        checkIfDataPublished($pdo, $date, 'stock_history', 500) &&
+        checkIfDataPublished($pdo, $date, 'stock_insti', 500) &&
+        checkIfDataPublished($pdo, $date, 'stock_margin', 500) &&
+        checkIfDataPublished($pdo, $date, 'stock_sbl_total', 500) &&
+        checkIfDataPublished($pdo, $date, 'stock_sbl_sold', 500)
+    ) {
+        $results = selfSelectGenerateDailyDashboard($pdo, $d, [2449]);
+        createJsonFile($pdo, $date, 'self-select', $results);
+    }
+}
