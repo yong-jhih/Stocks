@@ -39,9 +39,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Puppeteer
-        run: npm install puppeteer
+      - name: Install dependencies
+        run: npm install
 
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+  
       - name: Run Puppeteer to Fetch HTML
         run: node fetch_00981A.js
 
