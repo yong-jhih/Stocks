@@ -735,8 +735,23 @@ function getComponentOf00981A_FromLocal()
             foreach ($data as $item) {
                 if ($item['AssetName'] === '股票') {
                     $details = $item['Details'];
+                    $value = (int)$item['Value'];
                 }
             }
+
+            $todayStr = date('Y-m-d');
+            $isAllUpdated = true;
+            $totalAmount = 0;
+            foreach ($details as $detail) {
+                $itemDate = substr($detail['EditTime'], 0, 10);
+                if ($itemDate !== $todayStr) {
+                    $isAllUpdated = false;
+                    break;
+                }
+                $totalAmount += (int)$detail['Amount'];
+            }
+            if (isset($value) && $value !== $totalAmount) return null;
+            if (!$isAllUpdated) return null;
             return $details;
         }
         return null;
