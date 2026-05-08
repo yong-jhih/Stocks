@@ -6,7 +6,6 @@ if (isHoliday($targetDate)) {
     exit(0);
 }
 
-$targetDate = '2026-05-07';
 $start_time = microtime(true);
 $results = getComponentOf0050_FromLocal($pdo, $targetDate);
 insertComponentOf0050($pdo, $targetDate, $results);
