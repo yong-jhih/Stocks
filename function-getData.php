@@ -890,6 +890,154 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
     }
 }
 
+function getComponentOf0050_FromLocal($pdo, $targetDate)
+{
+    $url = "https://etfapi.yuantaetfs.com/ectranslation/api/bridge?APIType=ETFAPI&CompanyName=YUANTAFUNDS&PageName=%2Fproduct%2Fdetail%2F0050%2Fratio&DeviceId=ff3c1748-07e2-4e73-a0fc-4b4999116776&FuncId=PCF%2FDaily&AppName=ETF&Device=3&Platform=ETF&ticker=0050";
+    $data = fetchUrl($url);
+    if (isset($data['status']) && $data['status'] === 'error') {
+        writeLog($pdo, 'getComponentOf0050_FromLocal', $data['msg'], 'error');
+        return null;
+    }
+    if (isset($data) && $data['PCF']['trandate'] == str_replace('-', '', $targetDate)) {
+        $results = $data['FundWeights']['StockWeights'];
+        return $results;
+    } else {
+        return null;
+    }
+}
+
+function insertComponentOf0050($pdo, $targetDate, $Data)
+{
+    if (!is_array($Data) || empty($Data)) {
+        writeLog($pdo, $targetDate . ' 0050成分股抓取', "資料格式有誤或無資料", 'error');
+        exit(1);
+    }
+    try {
+        $sql = "INSERT INTO 0050_component 
+                (trade_date, stock_id, stock_name, amount, weight) 
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE 
+                stock_name = VALUES(stock_name),
+                amount = VALUES(amount),
+                weight = VALUES(weight)";
+        $stmt = $pdo->prepare($sql);
+        $pdo->beginTransaction();
+        foreach ($Data as $row) {
+            $stmt->execute([
+                $targetDate,
+                $row['code'],
+                $row['name'],
+                (int)$row['qty'],
+                $row['weights']
+            ]);
+        }
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        writeLog($pdo, $targetDate . ' 0050成分股抓取', "抓取失敗: " . $e->getMessage(), 'error');
+        exit(1);
+    }
+}
+
+function analyzeMultiPeriodChanges0050($pdo, $targetDate)
+{
+    try {
+        $intervals = [1, 5, 10, 20];
+        $compareDates = [];
+        foreach ($intervals as $days) {
+            $dateSql = "SELECT DISTINCT trade_date FROM 0050_component 
+                        WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
+            $dateStmt = $pdo->prepare($dateSql);
+            $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
+            $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT);
+            $dateStmt->execute();
+            $found = $dateStmt->fetchColumn();
+            $compareDates[$days] = $found ?: '1900-01-01';
+        }
+        $sql = "
+            SELECT 
+                all_ids.stock_id,
+                MAX(COALESCE(curr.stock_name, d1.stock_name, d5.stock_name, d10.stock_name, d20.stock_name)) as stock_name,
+                MAX(IFNULL(curr.amount, 0)) as amount,
+                MAX(IFNULL(curr.weight, 0)) as weight,
+                MAX(IFNULL(d1.amount, 0)) as prev_amount,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d1.amount, 0))) as diff1,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d5.amount, 0))) as diff5,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d10.amount, 0))) as diff10,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20
+            FROM (
+                SELECT stock_id FROM 00981A_component WHERE trade_date = :targetDate
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d1
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d5
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d10
+                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d20
+            ) all_ids
+            LEFT JOIN 00981A_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate
+            LEFT JOIN 00981A_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1
+            LEFT JOIN 00981A_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5
+            LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
+            LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
+            GROUP BY all_ids.stock_id
+            ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':targetDate', $targetDate);
+        $stmt->bindValue(':d1', $compareDates[1]);
+        $stmt->bindValue(':d5', $compareDates[5]);
+        $stmt->bindValue(':d10', $compareDates[10]);
+        $stmt->bindValue(':d20', $compareDates[20]);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!$rows) return [];
+        $finalData = [];
+        $new = [];
+        $eliminate = [];
+        $increase = [];
+        $decrease = [];
+        $constant = [];
+        foreach ($rows as $item) {
+            $currAmount = (int)$item['amount'];
+            $prevAmount = (int)$item['prev_amount'];
+            $diff1 = (int)$item['diff1'];
+            if ($prevAmount == 0 && $currAmount > 0) {
+                $note = "新增";
+                $new[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+            } elseif ($prevAmount > 0 && $currAmount == 0) {
+                $note = "剔除";
+                $eliminate[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+            } elseif ($diff1 > 0) {
+                $note = "增持";
+                $increase[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+            } elseif ($diff1 < 0) {
+                $note = "減持";
+                $decrease[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+            } else {
+                $note = "無變動";
+                $constant[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+            }
+            $finalData[] = [
+                'stock_id'   => (string)$item['stock_id'],
+                'stock_name' => (string)$item['stock_name'],
+                'note'       => $note,
+                'amount'     => $currAmount,
+                'weight'     => (float)$item['weight'],
+                'diff1'      => $diff1,
+                'diff5'      => (int)$item['diff5'],
+                'diff10'     => (int)$item['diff10'],
+                'diff20'     => (int)$item['diff20']
+            ];
+        }
+        $notificationStr = "0050成分股今日變動(資料累積中,先看短期就好) - https://yong-jhih.github.io/Stocks/00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
+        if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
+        // lineNotification($pdo, getenv('LINE_TARGET'), $notificationStr);
+        return $finalData;
+    } catch (PDOException $e) {
+        writeLog($pdo, 'analyzeMultiPeriodChanges0050', "Database Error: " . $e->getMessage(), 'error');
+        return null;
+    }
+}
+
 function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
 {
     $sql = "
