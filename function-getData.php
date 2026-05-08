@@ -966,17 +966,17 @@ function analyzeMultiPeriodChanges0050($pdo, $targetDate)
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d10.amount, 0))) as diff10,
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20
             FROM (
-                SELECT stock_id FROM 00981A_component WHERE trade_date = :targetDate
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d1
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d5
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d10
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d20
+                SELECT stock_id FROM 0050_component WHERE trade_date = :targetDate
+                UNION SELECT stock_id FROM 0050_component WHERE trade_date = :d1
+                UNION SELECT stock_id FROM 0050_component WHERE trade_date = :d5
+                UNION SELECT stock_id FROM 0050_component WHERE trade_date = :d10
+                UNION SELECT stock_id FROM 0050_component WHERE trade_date = :d20
             ) all_ids
-            LEFT JOIN 00981A_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate
-            LEFT JOIN 00981A_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1
-            LEFT JOIN 00981A_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5
-            LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
-            LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
+            LEFT JOIN 0050_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate
+            LEFT JOIN 0050_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1
+            LEFT JOIN 0050_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5
+            LEFT JOIN 0050_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
+            LEFT JOIN 0050_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
             GROUP BY all_ids.stock_id
             ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
         ";
@@ -1027,7 +1027,7 @@ function analyzeMultiPeriodChanges0050($pdo, $targetDate)
                 'diff20'     => (int)$item['diff20']
             ];
         }
-        $notificationStr = "0050成分股今日變動(資料累積中,先看短期就好) - https://yong-jhih.github.io/Stocks/00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        $notificationStr = "0050成分股今日變動(資料累積中,先看短期就好) - https://yong-jhih.github.io/Stocks/0050_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
         if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
         if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
         // lineNotification($pdo, getenv('LINE_TARGET'), $notificationStr);
