@@ -1091,6 +1091,6 @@ function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
             'tags' => implode(',', $tag)
         ];
     }
-    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "$targetDate 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "$targetDate 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
