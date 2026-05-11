@@ -152,14 +152,3 @@ CREATE TABLE IF NOT EXISTS 00981A_component (
     PRIMARY KEY (trade_date, stock_id),
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- 9. 0050 成分股
-CREATE TABLE IF NOT EXISTS 0050_component (
-    trade_date DATE NOT NULL COMMENT '日期',
-    stock_id VARCHAR(10) NOT NULL COMMENT '代碼',
-    stock_name VARCHAR(50) COMMENT '股名',
-    amount BIGINT DEFAULT 0 COMMENT '股數',
-    weight DECIMAL(10, 2) COMMENT '權重',
-    PRIMARY KEY (trade_date, stock_id),
-    INDEX idx_stock (stock_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
