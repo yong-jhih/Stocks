@@ -1,5 +1,19 @@
 <?php
 require_once("init.php");
 
-$result = getStockAnalysisChart($pdo, 2330, '2026-05-11', 20);
-createJsonFile($pdo, '2026-05-11', 'analysisChart', $result);
+$stockList = json_decode(file_get_contents("data/" . "2026-05-11" . "_filter.json"), true);
+$allData = [
+    'date' => "2026-05-11",
+    'stocks' => []
+];
+
+foreach ($stockList as $stock) {
+    $data = getStockAnalysisChart($pdo, $stock['stock_id'], "2026-05-11");
+    if ($data) {
+        $allData['stocks'][$stock['id']] = $data;
+    }
+}
+createJsonFile($pdo, "2026-05-11", 'all_stocks', $allData);
+
+// $result = getStockAnalysisChart($pdo, 2330, '2026-05-11', 20);
+// createJsonFile($pdo, '2026-05-11', 'analysisChart', $result);
