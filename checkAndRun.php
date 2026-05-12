@@ -5,7 +5,7 @@ if (isHoliday($targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
-if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0)) {
+if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0) || file_exists($targetDate . "_" . "filter.json")) {
     echo '分析資料已存在';
     exit(0);
 }
@@ -32,6 +32,6 @@ if (
     saveDailyDashboard($pdo, $targetDate, $results);
     lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
 
-    $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449,3665,3017,2368,2330,1590,6412,2363,6165,2383,8210]);
+    $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449, 3665, 3017, 2368, 2330, 1590, 6412, 2363, 6165, 2383, 8210]);
     createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
 }
