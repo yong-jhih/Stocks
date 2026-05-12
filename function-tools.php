@@ -161,3 +161,42 @@ function lineNotification($pdo, $target, $message = 'testLine')
         echo "cURL Error: " . $error_msg;
     }
 }
+
+function cleanData($days)
+{
+    $jsonPath = "data/dateList.json";
+    if (file_exists($jsonPath)) {
+        $dateArray = json_decode(file_get_contents($jsonPath), true);
+        if (!is_array($dateArray)) return;
+        if (count($dateArray) <= $days) {
+            echo "ℹ️ 目前資料量未超過 $days 筆，無需清理。<br>";
+            return;
+        }
+        $dateArray = array_slice($dateArray, 0, $days);
+        $newJson = json_encode($dateArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (file_put_contents($jsonPath, $newJson)) {
+            echo "✅ 成功清理 JSON！目前保留最新 $days 筆日期。<br>";
+        } else {
+            echo "❌ 寫入 JSON 失敗，請檢查權限。<br>";
+            return;
+        }
+
+        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json"];
+        foreach ($targetFiles as $pattern) {
+            $allFiles = glob("data/" . $pattern);
+            if ($allFiles) {
+                foreach ($allFiles as $filePath) {
+                    $basename = basename($filePath);
+                    $fileDate = explode('_', $basename)[0];
+                    if (!in_array($fileDate, $dateArray)) {
+                        if (unlink($filePath)) {
+                            echo "🗑️ 已刪除過期檔案: {$basename}<br>";
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        echo "❌ 找不到 dateList.json";
+    }
+}
