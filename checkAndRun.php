@@ -5,7 +5,7 @@ if (isHoliday($targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
-if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0) || file_exists($targetDate . "_" . "filter.json")) {
+if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0) || file_exists($targetDate . "_filter.json")) {
     echo '分析資料已存在';
     exit(0);
 }
