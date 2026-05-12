@@ -13,7 +13,4 @@ foreach ($stockList as $stock) {
         $allData['stocks'][$stock['stock_id']] = $data;
     }
 }
-createJsonFile($pdo, "2026-05-11", 'all_stocks', $allData);
-
-// $result = getStockAnalysisChart($pdo, 2330, '2026-05-11', 20);
-// createJsonFile($pdo, '2026-05-11', 'analysisChart', $result);
+createJsonFile($pdo, "2026-05-11", 'chart', $allData);
