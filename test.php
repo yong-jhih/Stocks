@@ -10,7 +10,7 @@ $allData = [
 foreach ($stockList as $stock) {
     $data = getStockAnalysisChart($pdo, $stock['stock_id'], "2026-05-11");
     if ($data) {
-        $allData['stocks'][$stock['id']] = $data;
+        $allData['stocks'][$stock['stock_id']] = $data;
     }
 }
 createJsonFile($pdo, "2026-05-11", 'all_stocks', $allData);
