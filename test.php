@@ -1,6 +1,5 @@
 <?php
-date_default_timezone_set('Asia/Taipei');
-set_time_limit(0);
+require_once("init.php");
 
-require_once("function-tools.php");
-require_once("function-getData.php");
+$result = getStockAnalysisChart($pdo, 2330, '2026-05-11', 20);
+createJsonFile($pdo, '2026-05-11', 'analysisChart', $result);
