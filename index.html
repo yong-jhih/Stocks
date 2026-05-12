@@ -4,168 +4,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>盤後分析篩選 - 圖表版</title>
+    <title>籌碼大數據分析 - 專業版</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
     <style>
         body {
-            overflow-x: hidden;
+            background-color: #020617;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
         }
 
         .dataTables_wrapper {
-            background: #1f2937;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            color: #d1d5db;
-        }
-
-        th,
-        td {
-            background-color: #1f2937 !important;
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
         }
 
         table.dataTable thead th {
-            background-color: #374151 !important;
-            color: #60a5fa !important;
-            white-space: nowrap !important;
-            border-bottom: 1px solid #4b5563 !important;
-            text-align: center !important;
-            padding: 12px 15px !important;
-            z-index: 2;
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border-bottom: 2px solid #0ea5e9 !important;
+        }
+
+        table.dataTable tbody td {
+            background-color: #0f172a !important;
+            border-bottom: 1px solid #1e293b !important;
         }
 
         .DTFC_LeftWrapper {
-            border-right: 2px solid #4b5563;
+            border-right: 3px solid #0ea5e9;
         }
 
-        table.dataTable tbody tr.selected td {
-            background-color: #1e3a8a !important;
-            color: #ffffff !important;
-        }
-
-        table.dataTable tbody tr {
-            cursor: pointer;
-        }
-
-        table.dataTable tbody tr:hover td {
-            background-color: #2d3748 !important;
-        }
-
-        .tab-active {
-            border-bottom: 2px solid #60a5fa;
-            color: #60a5fa;
+        tr:hover td {
+            background-color: #1e293b !important;
         }
 
         #chartModal {
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
 
-<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
-    <div class="max-w-[1600px] mx-auto">
-        <header
-            class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div class="flex items-center gap-2">
-                <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
-                <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-            </div>
-            <div class="flex items-center gap-3">
-                <label for="dateSelect">選擇日期：</label>
-                <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
-                    <option value="">載入中...</option>
-                </select>
-            </div>
-            <div class="flex flex-wrap gap-3">
-                <a href="#" class="px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-sm text-blue-300">🏠
-                    盤後分析</a>
-                <a href="https://mopsov.twse.com.tw" target="_blank"
-                    class="px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-sm text-blue-300">🏆 公開資訊</a>
+<body class="p-4 md:p-6">
+    <div class="max-w-[1650px] mx-auto">
+        <header class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-2xl font-bold text-sky-400 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                </svg>
+                盤後籌碼深度篩選
+            </h1>
+            <div class="flex items-center gap-3 bg-slate-800 p-2 rounded-xl">
+                <span class="text-slate-400 text-sm">數據日期</span>
+                <select id="dateSelect"
+                    class="bg-slate-900 border-none text-sky-400 rounded-md focus:ring-2 focus:ring-sky-500"></select>
             </div>
         </header>
 
-        <div class="shadow-2xl">
-            <table id="stockTable" class="display stripe nowrap" style="width:100%">
+        <div class="shadow-xl">
+            <table id="stockTable" class="display stripe nowrap w-full">
                 <thead>
                     <tr>
                         <th>代號</th>
                         <th>名稱</th>
-                        <th>族群概念</th>
+                        <th>族群</th>
                         <th>標籤</th>
                         <th>收盤</th>
                         <th>成交量</th>
                         <th>昨量比</th>
-                        <th>5日均量</th>
-                        <th>10日均量</th>
-                        <th>20日均量</th>
-                        <th>10日位階</th>
-                        <th>10日振幅</th>
                         <th>1日集中</th>
                         <th>5日集中</th>
-                        <th>10日集中</th>
-                        <th>20日集中</th>
                         <th>外資5日</th>
                         <th>投信5日</th>
-                        <th>外資連買</th>
-                        <th>投信連買</th>
                         <th>券補力</th>
                         <th>券砸力</th>
-                        <th>券淨賣還</th>
-                        <th>券淨5日</th>
                         <th>融資餘額</th>
                         <th>借券餘額</th>
-                        <th>券賣餘額</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-300"></tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 
-    <!-- 圖表 Modal -->
-    <div id="chartModal"
-        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-80 p-4">
-        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl w-full max-w-5xl h-[80vh] flex flex-col">
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-blue-300" id="chartStockTitle">個股趨勢分析</h3>
-                <button onclick="closeChartModal()" class="text-gray-400 hover:text-white text-3xl">&times;</button>
-            </div>
-            <div id="stockChartContainer" class="flex-1 w-full p-4"></div>
-            <div class="p-4 text-right border-t border-gray-700">
-                <button onclick="closeChartModal()"
-                    class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded text-white transition-colors">關閉視窗</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 標籤明細 Modal -->
-    <div id="tagModal" class="hidden fixed inset-0 z-[110] flex items-center justify-center bg-black bg-opacity-75 p-4">
-        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full p-4">
-            <h3 class="text-lg font-bold text-blue-300 mb-4" id="modalStockTitle"></h3>
-            <div id="modalTagContent" class="flex flex-wrap gap-2 mb-6"></div>
-            <button onclick="closeModal()" class="w-full bg-blue-600 py-2 rounded">確定</button>
-        </div>
-    </div>
-
-    <!-- 說明 Modal (省略部分內容以保持簡潔，邏輯保留) -->
-    <div id="infoModal"
-        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
+    <!-- 圖表彈窗 -->
+    <div id="chartModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 p-4">
         <div
-            class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h3 class="text-lg font-bold text-blue-300">系統說明</h3>
-                <button onclick="closeInfoModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-800/40">
+                <div>
+                    <h2 class="text-2xl font-bold text-white" id="chartStockTitle">---</h2>
+                    <p class="text-slate-400 text-sm">柱狀：每日增減值 | 折線：5日累計數值與價格</p>
+                </div>
+                <button onclick="closeChartModal()"
+                    class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-700 text-slate-300 text-2xl transition-all">✕</button>
             </div>
-            <div class="p-6 overflow-y-auto">
-                <p>點擊表格列可查看該股籌碼趨勢圖表。</p>
+
+            <div id="mainChart" class="flex-1 w-full p-4"></div>
+
+            <div class="p-4 border-t border-slate-800 bg-slate-900 flex justify-end">
+                <button onclick="closeChartModal()"
+                    class="px-8 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-medium transition-colors">確認並關閉</button>
             </div>
         </div>
     </div>
@@ -177,149 +121,122 @@
     <script>
         let table;
         let chartInstance = null;
-        let chartRawData = {}; // 儲存圖表用的 JSON 資料
+        let cachedChartData = {};
 
         $(document).ready(function () {
             table = $('#stockTable').DataTable({
-                scrollX: true,
-                fixedColumns: { left: 2 },
-                paging: true,
+                scrollX: true, fixedColumns: { left: 2 },
                 pageLength: 25,
-                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
-                columnDefs: [{ className: "dt-center", targets: "_all" }]
+                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" }
             });
 
-            // 點擊行觸發圖表
             $('#stockTable tbody').on('click', 'tr', function () {
-                const data = table.row(this).data();
-                if (data) {
-                    const stockId = data[0];
-                    const stockName = $(data[1]).text();
-                    openChartModal(stockId, stockName);
-                }
+                const row = table.row(this).data();
+                if (row) openChart(row[0], $(row[1]).text());
             });
 
-            initDateSelectFromJSON();
-
-            $('#dateSelect').on('change', function () {
-                if (this.value) {
-                    loadData(this.value);
-                    loadChartData(this.value); // 同步讀取圖表 JSON
-                }
-            });
+            initSystem();
         });
 
-        // 讀取表格資料
-        async function loadData(date) {
+        async function initSystem() {
             try {
-                const res = await fetch(`./data/${date}_filter.json`);
-                const data = await res.json();
-                table.clear();
-                data.forEach(item => {
-                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
-                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded">更</button></div>`;
-                    table.row.add([
-                        item.stock_id, `<span class="text-blue-400 font-bold">${item.stock_name}</span>`,
-                        item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
-                        item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
-                        item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
-                        item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
-                        item.sbl_total, item.sbl_sold_balance
-                    ]);
-                });
-                table.draw();
-            } catch (e) { console.error("表格讀取失敗", e); }
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect');
+                dates.forEach(d => $sel.append(new Option(d, d)));
+
+                $sel.on('change', async function () {
+                    const date = this.value;
+                    loadMainTable(date);
+                    const chartRes = await fetch(`./data/${date}_charts.json`);
+                    const jsonBody = await chartRes.json();
+                    cachedChartData = jsonBody.stocks;
+                }).trigger('change');
+            } catch (e) { console.error("Data loading error:", e); }
         }
 
-        // 讀取圖表資料 (對應你提供的第二個 JSON 格式)
-        async function loadChartData(date) {
-            try {
-                const res = await fetch(`./data/${date}_charts.json`); // 假設檔名為此
-                const data = await res.json();
-                chartRawData = data.stocks;
-            } catch (e) { console.error("圖表資料讀取失敗", e); }
+        async function loadMainTable(date) {
+            const res = await fetch(`./data/${date}_filter.json`);
+            const data = await res.json();
+            table.clear();
+            data.forEach(item => {
+                table.row.add([
+                    item.stock_id, `<span class="text-sky-400 font-bold">${item.stock_name}</span>`,
+                    item.concept, `<span class="text-xs">${item.tags.substring(0, 8)}...</span>`,
+                    item.close, item.vol, item.vol_ratio, item.con1, item.con5,
+                    item.foreign_sum5, item.trust_sum5, item.squeeze, item.bullet,
+                    item.margin_balance, item.sbl_total
+                ]);
+            });
+            table.draw();
         }
 
-        function openChartModal(id, name) {
-            const stockData = chartRawData[id];
-            if (!stockData) {
-                alert("暫無該股序列資料");
-                return;
-            }
+        function openChart(id, name) {
+            const stockData = cachedChartData[id];
+            if (!stockData) { alert("找不到該股的圖表數據"); return; }
 
-            $('#chartStockTitle').text(`${id} ${name} - 近期趨勢`);
+            $('#chartStockTitle').text(`${id} ${name}`);
             $('#chartModal').removeClass('hidden').addClass('flex');
 
-            // 延遲初始化確保容器寬度正確
-            setTimeout(() => renderChart(stockData.series), 100);
-        }
-
-        function renderChart(series) {
             if (chartInstance) chartInstance.dispose();
-            chartInstance = echarts.init(document.getElementById('stockChartContainer'), 'dark');
+            chartInstance = echarts.init(document.getElementById('mainChart'), 'dark');
 
-            const dates = series.map(s => s.date);
-            const prices = series.map(s => s.price);
-            const inst = series.map(s => s.bar_inst);
-            const sbl = series.map(s => s.bar_sbl);
+            const s = stockData.series;
+            const dates = s.map(x => x.date);
 
             const option = {
                 backgroundColor: 'transparent',
-                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-                legend: { data: ['股價', '法人買賣超', '借券增減'], bottom: 0 },
-                grid: { left: '5%', right: '5%', top: '10%', bottom: '15%' },
-                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#4b5563' } } },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'cross', label: { backgroundColor: '#1e293b' } },
+                    borderWidth: 0,
+                    backgroundColor: 'rgba(15, 23, 42, 0.85)'
+                },
+                legend: {
+                    data: ['股價', '法人累計', '融資累計', '借券累計', '法人增減', '融資增減', '借券增減'],
+                    top: 0, itemGap: 20, inactiveColor: '#475569'
+                },
+                grid: { top: '15%', left: '5%', right: '5%', bottom: '8%', containLabel: true },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#475569' } } },
                 yAxis: [
-                    { type: 'value', name: '價格', position: 'right', splitLine: { show: false } },
-                    { type: 'value', name: '張數', position: 'left', splitLine: { lineStyle: { color: '#374151' } } }
+                    { type: 'value', name: '張數', splitLine: { lineStyle: { color: '#1e293b' } } },
+                    { type: 'value', name: '價格', position: 'right', scale: true, splitLine: { show: false } }
                 ],
                 series: [
+                    // 1. 柱狀圖：每日增減 (放在底層)
+                    { name: '法人增減', type: 'bar', stack: 'daily', data: s.map(x => x.bar_inst), itemStyle: { color: '#ef4444', opacity: 0.4 } },
+                    { name: '融資增減', type: 'bar', stack: 'daily', data: s.map(x => x.bar_margin), itemStyle: { color: '#f59e0b', opacity: 0.4 } },
+                    { name: '借券增減', type: 'bar', stack: 'daily', data: s.map(x => x.bar_sbl), itemStyle: { color: '#a855f7', opacity: 0.4 } },
+
+                    // 2. 折線圖：5日累計 (加粗)
                     {
-                        name: '股價', type: 'line', yAxisIndex: 0, data: prices,
-                        itemStyle: { color: '#60a5fa' }, lineStyle: { width: 3 },
-                        symbol: 'circle', symbolSize: 8
+                        name: '法人累計', type: 'line', smooth: true, symbol: 'none',
+                        data: s.map(x => x.line_inst5), lineStyle: { width: 3, color: '#f87171' }
                     },
                     {
-                        name: '法人買賣超', type: 'bar', yAxisIndex: 1, data: inst,
-                        itemStyle: {
-                            color: (params) => params.value >= 0 ? '#ef4444' : '#10b981'
-                        }
+                        name: '融資累計', type: 'line', smooth: true, symbol: 'none',
+                        data: s.map(x => x.line_margin5), lineStyle: { width: 3, color: '#fbbf24' }
                     },
                     {
-                        name: '借券增減', type: 'bar', yAxisIndex: 1, data: sbl,
-                        itemStyle: { color: '#f59e0b', opacity: 0.6 }
+                        name: '借券累計', type: 'line', smooth: true, symbol: 'none',
+                        data: s.map(x => x.line_sbl5), lineStyle: { width: 3, color: '#c084fc' }
+                    },
+
+                    // 3. 股價折線 (置頂且最粗)
+                    {
+                        name: '股價', type: 'line', yAxisIndex: 1,
+                        data: s.map(x => x.price), z: 20,
+                        lineStyle: { width: 5, color: '#38bdf8', shadowBlur: 10, shadowColor: 'rgba(56, 189, 248, 0.5)' },
+                        itemStyle: { color: '#38bdf8' }
                     }
                 ]
             };
+
             chartInstance.setOption(option);
         }
 
         function closeChartModal() { $('#chartModal').addClass('hidden').removeClass('flex'); }
-        function showTags(name, tags) {
-            $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
-            $('#tagModal').removeClass('hidden').addClass('flex');
-        }
-        function closeModal() { $('#tagModal').addClass('hidden').removeClass('flex'); }
-        function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex'); }
-        function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
-
-        async function initDateSelectFromJSON() {
-            try {
-                const res = await fetch('./data/dateList.json');
-                const dates = await res.json();
-                const $sel = $('#dateSelect').empty();
-                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
-                if (dates.length) $sel.trigger('change');
-            } catch (e) { console.error(e); }
-        }
-
         window.onresize = () => chartInstance && chartInstance.resize();
-        $(window).on('click', function (e) {
-            if ($(e.target).is('#chartModal')) closeChartModal();
-            if ($(e.target).is('#tagModal')) closeModal();
-            if ($(e.target).is('#infoModal')) closeInfoModal();
-        });
     </script>
 </body>
 
