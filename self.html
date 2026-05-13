@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,8 +59,13 @@
         }
 
         #mainChart {
-            min-height: 400px;
             width: 100%;
+            height: 70vh;
+            min-height: 400px;
+        }
+
+        #mainChart canvas {
+            touch-action: pan-y;
         }
 
         body {
@@ -133,9 +137,88 @@
                 opacity: 1;
             }
         }
+
+        @media (max-width: 768px) {
+
+            body {
+                padding: 8px !important;
+                overflow-x: hidden;
+            }
+
+            h1 {
+                font-size: 1.5rem !important;
+            }
+
+            header {
+                gap: 12px !important;
+            }
+
+            header .flex-wrap {
+                width: 100%;
+            }
+
+            header a {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                font-size: 12px !important;
+                padding: 8px 6px !important;
+            }
+
+            .dataTables_wrapper {
+                padding: 0.5rem !important;
+                overflow-x: auto;
+            }
+
+            table.dataTable {
+                font-size: 12px !important;
+            }
+
+            table.dataTable thead th,
+            table.dataTable tbody td {
+                padding: 6px 8px !important;
+                white-space: nowrap;
+            }
+
+            .DTFC_LeftWrapper {
+                display: none !important;
+            }
+
+            #infoModal .bg-gray-800,
+            #tagModal .bg-gray-800 {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 90vh;
+                overflow-y: auto;
+                border-radius: 12px;
+            }
+
+            #chartModal {
+                padding: 0 !important;
+            }
+
+            #chartModal>div {
+                width: 100vw !important;
+                height: 100vh !important;
+                max-width: 100vw !important;
+                border-radius: 0 !important;
+            }
+
+            #mainChart {
+                height: calc(100vh - 140px) !important;
+                min-height: auto !important;
+                padding: 0 !important;
+            }
+
+            #chartTitle {
+                font-size: 1rem !important;
+            }
+
+            #infoModal button {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
-
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
     <div class="max-w-[1600px] mx-auto">
         <header
@@ -208,8 +291,6 @@
             </table>
         </div>
     </div>
-
-    <!-- 標籤明細 Modal -->
     <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
         <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
@@ -221,8 +302,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 篩選條件與標籤說明 Modal -->
     <div id="infoModal"
         class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
         <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full">
@@ -309,7 +388,6 @@
                             </div>
                         </div>
                     </section>
-
                     <section>
                         <h4 class="text-yellow-400 font-bold mb-3 flex items-center gap-2">🟡 警訊 / 中性 (需搭配位階判斷)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px]">
@@ -335,8 +413,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 專業趨勢圖表 Modal -->
     <div id="chartModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-slate-950/90 p-4">
         <div
             class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
@@ -356,7 +432,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
@@ -367,7 +442,7 @@
         $(document).ready(function () {
             table = $('#stockTable').DataTable({
                 scrollX: true,
-                fixedColumns: { left: 2 },
+                fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
                 paging: true,
                 pageLength: 25,
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
@@ -387,20 +462,17 @@
             $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
             initSystem();
         });
-
         function switchTab(tabName) {
             $('[id^="tab-"]').removeClass('tab-active').addClass('text-gray-400');
             $('[id^="content-"]').addClass('hidden');
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
             $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
-
         function closeModal(id) {
             if (id) {
                 $(`#${id}`).addClass('hidden').removeClass('flex modal-active');
@@ -409,7 +481,6 @@
             }
         }
         function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
-
         async function initDateSelectFromJSON() {
             try {
                 const res = await fetch('./data/dateList.json');
@@ -419,7 +490,6 @@
                 if (dates.length) $sel.trigger('change');
             } catch (e) { console.error(e); }
         }
-
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_self-select.json`);
@@ -442,7 +512,6 @@
                 table.draw();
             } catch (e) { alert("讀取失敗"); }
         }
-
         async function initSystem() {
             try {
                 const res = await fetch('./data/dateList.json');
@@ -465,7 +534,6 @@
                 console.error("初始化失敗:", e);
             }
         }
-
         async function loadChartData(date) {
             try {
                 const response = await fetch(`./data/${date}_self-charts.json`);
@@ -476,7 +544,6 @@
                 console.error("載入圖表 JSON 失敗:", error);
             }
         }
-
         function openChart(id, name) {
             id = String(id).trim();
             console.log("比對的 ID:", id);
@@ -504,6 +571,7 @@
                     chartInstance.dispose();
                 }
                 chartInstance = echarts.init(chartDom, 'dark');
+                const isMobile = window.innerWidth < 768;
                 const option = {
                     title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
                     tooltip: {
@@ -518,19 +586,20 @@
                         }
                     },
                     legend: {
-                        bottom: 0,
+                        bottom: isMobile ? 0 : 0,
                         textStyle: {
-                            color: '#cbd5e1'
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12
                         },
-                        data: [
-                            '股價',
-                            '法人買賣超',
-                            '融資增減',
-                            '借券淨賣還',
-                            '法人5日累計',
-                            '融資5日累計',
-                            '借券5日累計'
-                        ]
+                        itemWidth: isMobile ? 12 : 20,
+                        itemHeight: isMobile ? 8 : 12,
+                        type: 'scroll'
+                    },
+                    grid: {
+                        left: isMobile ? 40 : 60,
+                        right: isMobile ? 30 : 60,
+                        top: 60,
+                        bottom: isMobile ? 80 : 60
                     },
                     xAxis: {
                         type: 'category',
@@ -541,7 +610,9 @@
                             }
                         },
                         axisLabel: {
-                            color: '#cbd5e1'
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12,
+                            rotate: isMobile ? 45 : 0
                         }
                     },
                     yAxis: [
@@ -582,7 +653,6 @@
                         }
                     ],
                     series: [
-                        // ===== 股價 =====
                         {
                             name: '股價',
                             type: 'line',
@@ -599,11 +669,10 @@
                                 color: '#facc15'
                             }
                         },
-
-                        // ===== 法人買賣超 =====
                         {
                             name: '法人買賣超',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: instBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -611,11 +680,10 @@
                                     params.value >= 0 ? '#ef4444' : '#22c55e'
                             }
                         },
-
-                        // ===== 融資增減 =====
                         {
                             name: '融資增減',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: marginBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -623,11 +691,10 @@
                                     params.value >= 0 ? '#fb923c' : '#38bdf8'
                             }
                         },
-
-                        // ===== 借券淨賣還 =====
                         {
                             name: '借券淨賣還',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: sblBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -635,8 +702,6 @@
                                     params.value >= 0 ? '#a855f7' : '#64748b'
                             }
                         },
-
-                        // ===== 法人5日累計 =====
                         {
                             name: '法人5日累計',
                             type: 'line',
@@ -649,8 +714,6 @@
                                 color: '#f87171'
                             }
                         },
-
-                        // ===== 融資5日累計 =====
                         {
                             name: '融資5日累計',
                             type: 'line',
@@ -664,8 +727,6 @@
                                 color: '#38bdf8'
                             }
                         },
-
-                        // ===== 借券5日累計 =====
                         {
                             name: '借券5日累計',
                             type: 'line',
@@ -687,21 +748,25 @@
                 }, 50);
             });
         }
-
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
         function showTagDetails(name, tags) {
             $('#modalStockTitle').text(name);
             $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-sky-900/50 text-sky-300 border border-sky-700 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
-        window.onresize = () => chartInstance && chartInstance.resize();
+        window.addEventListener('resize', () => {
+            if (chartInstance) {
+                chartInstance.resize();
+            }
+            if ($.fn.DataTable.isDataTable('#stockTable')) {
+                table.columns.adjust();
+            }
+        });
         $(window).on('click', function (event) {
-            // 點擊 Modal 外部黑底處關閉
             if ($(event.target).is('#chartModal')) closeModal('chartModal');
             if ($(event.target).is('#infoModal')) closeInfoModal();
             if ($(event.target).is('#tagModal')) closeModal();
         });
     </script>
 </body>
-
 </html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,9 +138,6 @@
             }
         }
 
-        /* =========================
-   Mobile Responsive
-========================= */
         @media (max-width: 768px) {
 
             body {
@@ -153,7 +149,6 @@
                 font-size: 1.5rem !important;
             }
 
-            /* Header */
             header {
                 gap: 12px !important;
             }
@@ -169,7 +164,6 @@
                 padding: 8px 6px !important;
             }
 
-            /* DataTable */
             .dataTables_wrapper {
                 padding: 0.5rem !important;
                 overflow-x: auto;
@@ -185,12 +179,10 @@
                 white-space: nowrap;
             }
 
-            /* 手機不要 fixed column */
             .DTFC_LeftWrapper {
                 display: none !important;
             }
 
-            /* Modal */
             #infoModal .bg-gray-800,
             #tagModal .bg-gray-800 {
                 width: 100% !important;
@@ -200,7 +192,6 @@
                 border-radius: 12px;
             }
 
-            /* Chart Modal */
             #chartModal {
                 padding: 0 !important;
             }
@@ -218,19 +209,16 @@
                 padding: 0 !important;
             }
 
-            /* Chart title */
             #chartTitle {
                 font-size: 1rem !important;
             }
 
-            /* Tabs */
             #infoModal button {
                 font-size: 12px;
             }
         }
     </style>
 </head>
-
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
     <div class="max-w-[1600px] mx-auto">
         <header
@@ -304,8 +292,6 @@
             </table>
         </div>
     </div>
-
-    <!-- 標籤明細 Modal -->
     <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
         <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
@@ -317,8 +303,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 篩選條件與標籤說明 Modal -->
     <div id="infoModal"
         class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
         <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full">
@@ -405,7 +389,6 @@
                             </div>
                         </div>
                     </section>
-
                     <section>
                         <h4 class="text-yellow-400 font-bold mb-3 flex items-center gap-2">🟡 警訊 / 中性 (需搭配位階判斷)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px]">
@@ -431,8 +414,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 專業趨勢圖表 Modal -->
     <div id="chartModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-slate-950/90 p-4">
         <div
             class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
@@ -452,7 +433,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
@@ -483,20 +463,17 @@
             $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
             initSystem();
         });
-
         function switchTab(tabName) {
             $('[id^="tab-"]').removeClass('tab-active').addClass('text-gray-400');
             $('[id^="content-"]').addClass('hidden');
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
             $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
-
         function closeModal(id) {
             if (id) {
                 $(`#${id}`).addClass('hidden').removeClass('flex modal-active');
@@ -505,7 +482,6 @@
             }
         }
         function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
-
         async function initDateSelectFromJSON() {
             try {
                 const res = await fetch('./data/dateList.json');
@@ -515,7 +491,6 @@
                 if (dates.length) $sel.trigger('change');
             } catch (e) { console.error(e); }
         }
-
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_filter.json`);
@@ -538,7 +513,6 @@
                 table.draw();
             } catch (e) { alert("讀取失敗"); }
         }
-
         async function initSystem() {
             try {
                 const res = await fetch('./data/dateList.json');
@@ -561,7 +535,6 @@
                 console.error("初始化失敗:", e);
             }
         }
-
         async function loadChartData(date) {
             try {
                 const response = await fetch(`./data/${date}_charts.json`);
@@ -572,7 +545,6 @@
                 console.error("載入圖表 JSON 失敗:", error);
             }
         }
-
         function openChart(id, name) {
             id = String(id).trim();
             console.log("比對的 ID:", id);
@@ -682,7 +654,6 @@
                         }
                     ],
                     series: [
-                        // ===== 股價 =====
                         {
                             name: '股價',
                             type: 'line',
@@ -699,8 +670,6 @@
                                 color: '#facc15'
                             }
                         },
-
-                        // ===== 法人買賣超 =====
                         {
                             name: '法人買賣超',
                             type: 'bar',
@@ -712,8 +681,6 @@
                                     params.value >= 0 ? '#ef4444' : '#22c55e'
                             }
                         },
-
-                        // ===== 融資增減 =====
                         {
                             name: '融資增減',
                             type: 'bar',
@@ -725,8 +692,6 @@
                                     params.value >= 0 ? '#fb923c' : '#38bdf8'
                             }
                         },
-
-                        // ===== 借券淨賣還 =====
                         {
                             name: '借券淨賣還',
                             type: 'bar',
@@ -738,8 +703,6 @@
                                     params.value >= 0 ? '#a855f7' : '#64748b'
                             }
                         },
-
-                        // ===== 法人5日累計 =====
                         {
                             name: '法人5日累計',
                             type: 'line',
@@ -752,8 +715,6 @@
                                 color: '#f87171'
                             }
                         },
-
-                        // ===== 融資5日累計 =====
                         {
                             name: '融資5日累計',
                             type: 'line',
@@ -767,8 +728,6 @@
                                 color: '#38bdf8'
                             }
                         },
-
-                        // ===== 借券5日累計 =====
                         {
                             name: '借券5日累計',
                             type: 'line',
@@ -790,7 +749,6 @@
                 }, 50);
             });
         }
-
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
         function showTagDetails(name, tags) {
             $('#modalStockTitle').text(name);
@@ -801,18 +759,15 @@
             if (chartInstance) {
                 chartInstance.resize();
             }
-
             if ($.fn.DataTable.isDataTable('#stockTable')) {
                 table.columns.adjust();
             }
         });
         $(window).on('click', function (event) {
-            // 點擊 Modal 外部黑底處關閉
             if ($(event.target).is('#chartModal')) closeModal('chartModal');
             if ($(event.target).is('#infoModal')) closeInfoModal();
             if ($(event.target).is('#tagModal')) closeModal();
         });
     </script>
 </body>
-
 </html>
