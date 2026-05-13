@@ -1,7 +1,7 @@
 <?php
 require_once("init.php");
 
-$stockList = json_decode(file_get_contents("data/" . "2026-05-12" . "_filter.json"), true);
+$stockList = json_decode(file_get_contents("data/" . "2026-05-12" . "_self-select.json"), true);
 $allData = [
     'date' => "2026-05-12",
     'stocks' => []
@@ -13,4 +13,4 @@ foreach ($stockList as $stock) {
         $allData['stocks'][$stock['stock_id']] = $data;
     }
 }
-createJsonFile($pdo, "2026-05-12", 'charts', $allData);
+createJsonFile($pdo, "2026-05-12", 'self-charts', $allData);
