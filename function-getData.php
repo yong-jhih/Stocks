@@ -1521,7 +1521,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
             )
     ),
-
     NumberedData AS (
         SELECT
             *,
@@ -1591,79 +1590,46 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         AND ma20 IS NOT NULL
         AND ma60 IS NOT NULL
     ";
-
     $stmt = $pdo->prepare($sql);
-
     $stmt->execute([
         'targetDate' => $targetDate
     ]);
 
     $stocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     $dashboardResults = [];
-
     foreach ($stocks as $s) {
-
         // =========================
         // Base Numbers
         // =========================
-
         $close = (float)$s['close_price'];
         $open  = (float)$s['open_price'];
         $high  = (float)$s['high_price'];
-
         $yClose = (float)$s['yesterday_close'];
         $yOpen  = (float)$s['yesterday_open'];
         $yHigh  = (float)$s['yesterday_high'];
-
         $ma5  = (float)$s['ma5'];
         $ma10 = (float)$s['ma10'];
         $ma20 = (float)$s['ma20'];
         $ma60 = (float)$s['ma60'];
-
         $prevMa5  = (float)$s['prev_ma5'];
         $prevMa10 = (float)$s['prev_ma10'];
         $prevMa20 = (float)$s['prev_ma20'];
-
         $vma5  = (float)$s['vma5'];
         $vma20 = (float)$s['vma20'];
-
-        $volRatio = ($s['yesterday_vol'] > 0)
-            ? ($s['trade_volume'] / $s['yesterday_vol'])
-            : 0;
-
-        $rank10 = ($s['high10'] - $s['low10']) != 0
-            ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100)
-            : 0;
-
-        $amp10 = ($s['low10'] != 0)
-            ? (($s['high10'] - $s['low10']) / $s['low10'] * 100)
-            : 0;
-
+        $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
+        $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
+        $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
         $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
         $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
         $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
-
-        $con1 = $s['vol_sum1']
-            ? ($s['insti_sum1'] / $s['vol_sum1'] * 100)
-            : 0;
-
-        $con5 = $s['vol_sum5']
-            ? ($s['insti_sum5'] / $s['vol_sum5'] * 100)
-            : 0;
-
-        $con20 = $s['vol_sum20']
-            ? ($s['insti_sum20'] / $s['vol_sum20'] * 100)
-            : 0;
-
-        $squeeze = $vma20
-            ? ($s['sbl_sold_balance'] / $vma20)
-            : 0;
+        $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
+        $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
+        $con20 = $s['vol_sum20'] ? ($s['insti_sum20'] / $s['vol_sum20'] * 100) : 0;
+        $squeeze = $vma20 ? ($s['sbl_sold_balance'] / $vma20) : 0;
 
         // =========================
         // Signal Containers
         // =========================
-
         $signals = [
             'trend' => [],
             'momentum' => [],
@@ -1671,23 +1637,18 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             'risk' => [],
             'structure' => []
         ];
-
         $addSignal = function (
             string $group,
             bool $condition,
             string $tag,
             int $score
         ) use (&$signals): void {
-
-            if ($condition) {
-                $signals[$group][$tag] = $score;
-            }
+            if ($condition) $signals[$group][$tag] = $score;
         };
 
         // =========================
         // Trend
         // =========================
-
         $addSignal(
             'trend',
             $close > $ma5 &&
@@ -1696,14 +1657,12 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '多頭排列',
             15
         );
-
         $addSignal(
             'trend',
             $close > $ma20,
             '站上月線',
             8
         );
-
         $addSignal(
             'trend',
             $ma5 > $prevMa5 &&
@@ -1712,7 +1671,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '均線上彎',
             5
         );
-
         $addSignal(
             'trend',
             $close > $ma60,
@@ -1723,7 +1681,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Momentum
         // =========================
-
         $addSignal(
             'momentum',
             $volRatio > 1.5 &&
@@ -1731,7 +1688,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '爆量突破',
             20
         );
-
         $addSignal(
             'momentum',
             $volRatio > 2 &&
@@ -1739,7 +1695,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '強勢突破',
             20
         );
-
         $addSignal(
             'momentum',
             $close / max($yClose, 0.01) > 1.03 &&
@@ -1747,7 +1702,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '價量齊揚',
             15
         );
-
         $addSignal(
             'momentum',
             $close > $ma5 &&
@@ -1761,35 +1715,30 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Chip
         // =========================
-
         $addSignal(
             'chip',
             $con20 > 10,
             '法人鎖碼',
             20
         );
-
         $addSignal(
             'chip',
             $con5 > 15,
             '法人集中',
             15
         );
-
         $addSignal(
             'chip',
             $s['foreign_streak_days'] >= 3,
             '外資連買',
             12
         );
-
         $addSignal(
             'chip',
             $s['trust_streak_days'] >= 3,
             '投信連買',
             15
         );
-
         $addSignal(
             'chip',
             $s['foreign_streak_days'] > 0 &&
@@ -1797,7 +1746,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '土洋合力',
             18
         );
-
         $addSignal(
             'chip',
             $s['margin_balance_diff'] < 0 &&
@@ -1809,7 +1757,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Structure
         // =========================
-
         $addSignal(
             'structure',
             $amp10 < 8 &&
@@ -1817,14 +1764,12 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '整理末端',
             8
         );
-
         $addSignal(
             'structure',
             $rank10 < 30,
             '低檔區',
             6
         );
-
         $addSignal(
             'structure',
             $rank10 > 80,
@@ -1835,7 +1780,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Risk
         // =========================
-
         $addSignal(
             'risk',
             $rank10 > 85 &&
@@ -1843,7 +1787,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '短線過熱',
             -15
         );
-
         $addSignal(
             'risk',
             $volRatio > 2 &&
@@ -1851,7 +1794,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '爆量出貨',
             -20
         );
-
         $addSignal(
             'risk',
             $s['foreign_sum5'] < 0 &&
@@ -1859,7 +1801,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             '法人倒貨',
             -18
         );
-
         $addSignal(
             'risk',
             $close < $ma20,
@@ -1870,7 +1811,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Category Scores
         // =========================
-
         $trendScore     = array_sum($signals['trend']);
         $momentumScore  = array_sum($signals['momentum']);
         $chipScore      = array_sum($signals['chip']);
@@ -1880,7 +1820,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Final Score
         // =========================
-
         $finalScore =
             ($trendScore * 1.0) +
             ($momentumScore * 1.2) +
@@ -1893,7 +1832,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Rating
         // =========================
-
         $rating = match (true) {
             $finalScore >= 85 => 'S',
             $finalScore >= 70 => 'A',
@@ -1905,9 +1843,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Strategy Type
         // =========================
-
         $strategyType = '觀察';
-
         if (
             $trendScore >= 20 &&
             $momentumScore >= 20 &&
@@ -1933,9 +1869,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Confidence
         // =========================
-
         $positiveGroups = 0;
-
         foreach (
             [
                 $trendScore,
@@ -1948,7 +1882,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 $positiveGroups++;
             }
         }
-
         $confidence = round(
             min(
                 1,
@@ -1961,9 +1894,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Flatten Tags
         // =========================
-
         $tags = [];
-
         foreach ($signals as $group => $groupSignals) {
             foreach ($groupSignals as $tag => $score) {
                 $tags[] = $tag;
@@ -1973,23 +1904,18 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Trigger Reasons
         // =========================
-
         $triggerReasons = [];
-
         if ($s['foreign_streak_days'] >= 3) {
             $triggerReasons[] =
                 '外資連買 ' . $s['foreign_streak_days'] . ' 日';
         }
-
         if ($volRatio > 1.5) {
             $triggerReasons[] =
                 '成交量放大 ' . round($volRatio, 2) . ' 倍';
         }
-
         if ($close > $yHigh) {
             $triggerReasons[] = '突破前高';
         }
-
         if ($con20 > 10) {
             $triggerReasons[] =
                 '法人持股集中度提升';
@@ -1998,112 +1924,73 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Concept
         // =========================
-
         $concept = '';
-
-        try {
-
-            $prompt = sprintf(
-                "請幫我分析[%s%s]的產業別(使用證交所產業別分類)及佔營收20%%以上概念標籤，格式限定：XXX業-標籤1,標籤2",
-                $s['stock_id'],
-                $s['stock_name']
-            );
-
-            $concept = "123";
-        } catch (\Throwable $e) {
-
-            $concept = '';
-        }
 
         // =========================
         // Output
         // =========================
-
         $dashboardResults[] = [
-
             'stock_id' => $s['stock_id'],
             'stock_name' => $s['stock_name'],
-
             'concept' => $concept,
-
             'score' => $finalScore,
             'rating' => $rating,
-
             'strategy_type' => $strategyType,
             'confidence' => $confidence,
-
             // Score Breakdown
             'trend_score' => round($trendScore),
             'momentum_score' => round($momentumScore),
             'chip_score' => round($chipScore),
             'structure_score' => round($structureScore),
             'risk_score' => round($riskScore),
-
             // Price
             'close' => round($close, 2),
-
             // Volume
             'vol' => round($s['trade_volume'] / 1000, 0),
             'vol_ratio' => round($volRatio, 2),
-
             // Structure
             'rank10' => round($rank10, 2),
             'amp10' => round($amp10, 2),
-
             // MA
             'ma5' => round($ma5, 2),
             'ma10' => round($ma10, 2),
             'ma20' => round($ma20, 2),
             'ma60' => round($ma60, 2),
-
             // Volume MA
             'vma5' => round($vma5 / 1000, 0),
             'vma10' => round($s['vma10'] / 1000, 0),
             'vma20' => round($vma20 / 1000, 0),
-
             // Bias
             'bia5' => round($bia5, 2),
             'bia10' => round($bia10, 2),
             'bia20' => round($bia20, 2),
-
             // Chip Ratios
             'con1' => round($con1, 2),
             'con5' => round($con5, 2),
             'con20' => round($con20, 2),
-
             // Institution
             'foreign_buy_sell' => $s['foreign_buy_sell'],
             'trust_buy_sell' => $s['trust_buy_sell'],
-
             'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
             'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
             'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
-
             'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
             'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
             'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
-
             'foreign_streak_days' => (int)$s['foreign_streak_days'],
             'trust_streak_days' => (int)$s['trust_streak_days'],
-
             // Margin
             'margin_balance' => (int)$s['margin_balance'],
             'margin_balance_diff' => (int)$s['margin_balance_diff'],
-
             // SBL
             'squeeze' => round($squeeze, 2),
-
             'net_sbl' => round($s['net_sbl'] / 1000, 0),
-
             'sbl_total' => round($s['sbl_total'] / 1000, 0),
             'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
-
             // Signals
             'signals' => $signals,
-
             // Flat Tags
             'tags' => $tags,
-
             // Trigger
             'trigger_reasons' => $triggerReasons
         ];
@@ -2112,12 +1999,10 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
     // =========================
     // Sort by Score
     // =========================
-
     usort(
         $dashboardResults,
         fn($a, $b) => $b['score'] <=> $a['score']
     );
-
     writeLog(
         $pdo,
         'generateDailyDashboard',
@@ -2126,6 +2011,5 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             " 檔",
         'success'
     );
-
     return $dashboardResults;
 }
