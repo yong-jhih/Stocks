@@ -494,49 +494,199 @@
             const dates = s.map(item => item.date);
             const prices = s.map(item => item.price);
             const instBars = s.map(item => item.bar_inst);
+            const marginBars = s.map(item => item.bar_margin);
+            const sblBars = s.map(item => item.bar_sbl);
             const instLine = s.map(item => item.line_inst5);
+            const marginLine = s.map(item => item.line_margin5);
+            const sblLine = s.map(item => item.line_sbl5);
             requestAnimationFrame(() => {
                 const chartDom = document.getElementById('mainChart');
-                if (chartInstance) { chartInstance.dispose(); }
+                if (chartInstance) {
+                    chartInstance.dispose();
+                }
                 chartInstance = echarts.init(chartDom, 'dark');
                 const option = {
                     title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
-                    tooltip: { trigger: 'axis' },
-                    legend: { data: ['股價', '外資買賣', '外資累積'], bottom: 0 },
-                    xAxis: { type: 'category', data: dates },
+                    tooltip: {
+                        trigger: 'axis',
+                        backgroundColor: '#0f172a',
+                        borderColor: '#334155',
+                        textStyle: {
+                            color: '#e2e8f0'
+                        },
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    legend: {
+                        bottom: 0,
+                        textStyle: {
+                            color: '#cbd5e1'
+                        },
+                        data: [
+                            '股價',
+                            '法人買賣超',
+                            '融資增減',
+                            '借券淨賣還',
+                            '法人5日累計',
+                            '融資5日累計',
+                            '借券5日累計'
+                        ]
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: dates,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#64748b'
+                            }
+                        },
+                        axisLabel: {
+                            color: '#cbd5e1'
+                        }
+                    },
                     yAxis: [
-                        { type: 'value', name: '金額', position: 'left' },
-                        { type: 'value', name: '張數', position: 'right' }
+                        {
+                            type: 'value',
+                            name: '股價',
+                            position: 'left',
+                            scale: true,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#facc15'
+                                }
+                            },
+                            axisLabel: {
+                                color: '#facc15'
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    color: '#1e293b'
+                                }
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '籌碼',
+                            position: 'right',
+                            scale: true,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#38bdf8'
+                                }
+                            },
+                            axisLabel: {
+                                color: '#38bdf8'
+                            }
+                        }
                     ],
                     series: [
+                        // ===== 股價 =====
                         {
                             name: '股價',
                             type: 'line',
                             data: prices,
                             yAxisIndex: 0,
-                            itemStyle: { color: '#ffeb3b' }
+                            smooth: true,
+                            symbol: 'circle',
+                            symbolSize: 6,
+                            lineStyle: {
+                                width: 3,
+                                color: '#facc15'
+                            },
+                            itemStyle: {
+                                color: '#facc15'
+                            }
                         },
+
+                        // ===== 法人買賣超 =====
                         {
-                            name: '外資買賣',
+                            name: '法人買賣超',
                             type: 'bar',
                             data: instBars,
                             yAxisIndex: 1,
                             itemStyle: {
-                                color: (params) => params.value >= 0 ? '#ef5350' : '#66bb6a'
+                                color: (params) =>
+                                    params.value >= 0 ? '#ef4444' : '#22c55e'
                             }
                         },
+
+                        // ===== 融資增減 =====
                         {
-                            name: '外資累積',
+                            name: '融資增減',
+                            type: 'bar',
+                            data: marginBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) =>
+                                    params.value >= 0 ? '#fb923c' : '#38bdf8'
+                            }
+                        },
+
+                        // ===== 借券淨賣還 =====
+                        {
+                            name: '借券淨賣還',
+                            type: 'bar',
+                            data: sblBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) =>
+                                    params.value >= 0 ? '#a855f7' : '#64748b'
+                            }
+                        },
+
+                        // ===== 法人5日累計 =====
+                        {
+                            name: '法人5日累計',
                             type: 'line',
                             data: instLine,
                             yAxisIndex: 1,
-                            lineStyle: { width: 3 }
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 3,
+                                color: '#f87171'
+                            }
+                        },
+
+                        // ===== 融資5日累計 =====
+                        {
+                            name: '融資5日累計',
+                            type: 'line',
+                            data: marginLine,
+                            yAxisIndex: 1,
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 2,
+                                type: 'dashed',
+                                color: '#38bdf8'
+                            }
+                        },
+
+                        // ===== 借券5日累計 =====
+                        {
+                            name: '借券5日累計',
+                            type: 'line',
+                            data: sblLine,
+                            yAxisIndex: 1,
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 2,
+                                type: 'dashed',
+                                color: '#c084fc'
+                            }
                         }
                     ]
                 };
                 chartInstance.setOption(option);
-                chartInstance.resize();
-            }, 200);
+                setTimeout(() => {
+                    chartInstance.resize();
+                }, 50);
+            });
         }
 
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
