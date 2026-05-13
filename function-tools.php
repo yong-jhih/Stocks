@@ -200,3 +200,19 @@ function cleanData($days)
         echo "❌ 找不到 dateList.json";
     }
 }
+
+function renewCharts($pdo, $targetDate, $getCode, $name)
+{
+    $stockList = json_decode(file_get_contents("data/" . $targetDate . "_" . $getCode . ".json"), true);
+    $allData = [
+        'date' => $targetDate,
+        'stocks' => []
+    ];
+    foreach ($stockList as $stock) {
+        $data = getStockAnalysisChart($pdo, $stock['stock_id'], $targetDate);
+        if ($data) {
+            $allData['stocks'][$stock['stock_id']] = $data;
+        }
+    }
+    createJsonFile($pdo, $targetDate, $name, $allData);
+}
