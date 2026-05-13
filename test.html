@@ -540,20 +540,21 @@
         }
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(tags
-                .split(',')
-                .map(t => t.trim())
-                .map(t => `
-                <span class="
-                    ${getTagClass(t.trim())}
-                    text-xs
-                    px-2
-                    py-1
-                    rounded
-                ">
-                    ${t.trim()}
-                </span>
-            `).join(''));
+            $('#modalTagContent').html(
+                tags
+                    .map(t => t.trim())
+                    .map(t => `
+                        <span class="
+                            ${getTagClass(t)}
+                            text-xs
+                            px-2
+                            py-1
+                            rounded
+                        ">
+                            ${t}
+                        </span>
+                    `).join('')
+            );
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
         function closeModal(id) {
@@ -580,8 +581,9 @@
                 table.clear();
                 if (data.length === 0) alert('沒有符合篩選條件的標的');
                 data.forEach(item => {
-                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
-                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
+                    const tagText = item.tags.join(', ');
+                    const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', ${JSON.stringify(item.tags)})" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
@@ -834,20 +836,21 @@
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
         function showTagDetails(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(tags
-                .split(',')
-                .map(t => t.trim())
-                .map(t => `
-                <span class="
-                    ${getTagClass(t.trim())}
-                    text-xs
-                    px-2
-                    py-1
-                    rounded
-                ">
-                    ${t.trim()}
-                </span>
-            `).join(''));
+            $('#modalTagContent').html(
+                tags
+                    .map(t => t.trim())
+                    .map(t => `
+                        <span class="
+                            ${getTagClass(t)}
+                            text-xs
+                            px-2
+                            py-1
+                            rounded
+                        ">
+                            ${t}
+                        </span>
+                    `).join('')
+            );
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
         window.addEventListener('resize', () => {
