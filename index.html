@@ -60,8 +60,13 @@
         }
 
         #mainChart {
-            min-height: 400px;
             width: 100%;
+            height: 70vh;
+            min-height: 400px;
+        }
+
+        #mainChart canvas {
+            touch-action: pan-y;
         }
 
         body {
@@ -131,6 +136,96 @@
 
             to {
                 opacity: 1;
+            }
+        }
+
+        /* =========================
+   Mobile Responsive
+========================= */
+        @media (max-width: 768px) {
+
+            body {
+                padding: 8px !important;
+                overflow-x: hidden;
+            }
+
+            h1 {
+                font-size: 1.5rem !important;
+            }
+
+            /* Header */
+            header {
+                gap: 12px !important;
+            }
+
+            header .flex-wrap {
+                width: 100%;
+            }
+
+            header a {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                font-size: 12px !important;
+                padding: 8px 6px !important;
+            }
+
+            /* DataTable */
+            .dataTables_wrapper {
+                padding: 0.5rem !important;
+                overflow-x: auto;
+            }
+
+            table.dataTable {
+                font-size: 12px !important;
+            }
+
+            table.dataTable thead th,
+            table.dataTable tbody td {
+                padding: 6px 8px !important;
+                white-space: nowrap;
+            }
+
+            /* 手機不要 fixed column */
+            .DTFC_LeftWrapper {
+                display: none !important;
+            }
+
+            /* Modal */
+            #infoModal .bg-gray-800,
+            #tagModal .bg-gray-800 {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 90vh;
+                overflow-y: auto;
+                border-radius: 12px;
+            }
+
+            /* Chart Modal */
+            #chartModal {
+                padding: 0 !important;
+            }
+
+            #chartModal>div {
+                width: 100vw !important;
+                height: 100vh !important;
+                max-width: 100vw !important;
+                border-radius: 0 !important;
+            }
+
+            #mainChart {
+                height: calc(100vh - 140px) !important;
+                min-height: auto !important;
+                padding: 0 !important;
+            }
+
+            /* Chart title */
+            #chartTitle {
+                font-size: 1rem !important;
+            }
+
+            /* Tabs */
+            #infoModal button {
+                font-size: 12px;
             }
         }
     </style>
@@ -368,7 +463,7 @@
         $(document).ready(function () {
             table = $('#stockTable').DataTable({
                 scrollX: true,
-                fixedColumns: { left: 2 },
+                fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
                 paging: true,
                 pageLength: 25,
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
@@ -505,6 +600,7 @@
                     chartInstance.dispose();
                 }
                 chartInstance = echarts.init(chartDom, 'dark');
+                const isMobile = window.innerWidth < 768;
                 const option = {
                     title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
                     tooltip: {
@@ -519,19 +615,20 @@
                         }
                     },
                     legend: {
-                        bottom: 0,
+                        bottom: isMobile ? 0 : 0,
                         textStyle: {
-                            color: '#cbd5e1'
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12
                         },
-                        data: [
-                            '股價',
-                            '法人買賣超',
-                            '融資增減',
-                            '借券淨賣還',
-                            '法人5日累計',
-                            '融資5日累計',
-                            '借券5日累計'
-                        ]
+                        itemWidth: isMobile ? 12 : 20,
+                        itemHeight: isMobile ? 8 : 12,
+                        type: 'scroll'
+                    },
+                    grid: {
+                        left: isMobile ? 40 : 60,
+                        right: isMobile ? 30 : 60,
+                        top: 60,
+                        bottom: isMobile ? 80 : 60
                     },
                     xAxis: {
                         type: 'category',
@@ -542,7 +639,9 @@
                             }
                         },
                         axisLabel: {
-                            color: '#cbd5e1'
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12,
+                            rotate: isMobile ? 45 : 0
                         }
                     },
                     yAxis: [
@@ -605,6 +704,7 @@
                         {
                             name: '法人買賣超',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: instBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -617,6 +717,7 @@
                         {
                             name: '融資增減',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: marginBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -629,6 +730,7 @@
                         {
                             name: '借券淨賣還',
                             type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
                             data: sblBars,
                             yAxisIndex: 1,
                             itemStyle: {
@@ -695,7 +797,15 @@
             $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-sky-900/50 text-sky-300 border border-sky-700 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
-        window.onresize = () => chartInstance && chartInstance.resize();
+        window.addEventListener('resize', () => {
+            if (chartInstance) {
+                chartInstance.resize();
+            }
+
+            if ($.fn.DataTable.isDataTable('#stockTable')) {
+                table.columns.adjust();
+            }
+        });
         $(window).on('click', function (event) {
             // 點擊 Modal 外部黑底處關閉
             if ($(event.target).is('#chartModal')) closeModal('chartModal');
