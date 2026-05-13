@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>盤後分析篩選</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
     <style>
@@ -56,6 +57,81 @@
         .tab-active {
             border-bottom: 2px solid #60a5fa;
             color: #60a5fa;
+        }
+
+        #mainChart {
+            min-height: 400px;
+            width: 100%;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .dataTables_wrapper {
+            background: #0f172a;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+
+        table.dataTable thead th {
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border-bottom: 2px solid #0ea5e9 !important;
+            text-align: center !important;
+            padding: 12px 10px !important;
+        }
+
+        table.dataTable tbody td {
+            background-color: #0f172a !important;
+            border-bottom: 1px solid #1e293b !important;
+            text-align: center;
+        }
+
+        .DTFC_LeftWrapper {
+            border-right: 3px solid #0ea5e9;
+        }
+
+        tr:hover td {
+            background-color: #1e293b !important;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .modal-active {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -155,17 +231,13 @@
                 <h3 class="text-lg font-bold text-blue-300">系統說明手冊</h3>
                 <button onclick="closeInfoModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-
-            <!-- Tab 切換 -->
             <div class="flex border-b border-gray-700 px-4">
                 <button onclick="switchTab('filterRule')" id="tab-filterRule"
                     class="px-4 py-2 text-sm font-medium tab-active">篩選條件</button>
                 <button onclick="switchTab('tagManual')" id="tab-tagManual"
                     class="px-4 py-2 text-sm font-medium text-gray-400">標籤定義</button>
             </div>
-
             <div class="p-6 overflow-y-auto max-h-[65vh]">
-                <!-- 篩選條件內容 -->
                 <div id="content-filterRule" class="space-y-4 text-sm text-gray-200">
                     <div class="bg-blue-900/30 border-l-4 border-blue-500 p-3 mb-4">
                         <p class="font-bold text-blue-300">※ 核心規則：僅上市個股，需同時滿足以下條件。建議短線觀測週期約 2 週。</p>
@@ -199,8 +271,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- 標籤定義內容 (優化核對版) -->
                 <div id="content-tagManual" class="hidden space-y-6">
                     <section>
                         <h4 class="text-green-400 font-bold mb-3 flex items-center gap-2">🟢 多方好事 (趨勢與籌碼同步轉強)</h4>
@@ -265,87 +335,224 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
-        <script>
-            let table;
-            $(document).ready(function () {
-                table = $('#stockTable').DataTable({
-                    scrollX: true,
-                    fixedColumns: { left: 2 },
-                    paging: true,
-                    pageLength: 25,
-                    language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
-                    columnDefs: [
-                        { className: "dt-center", targets: "_all" },
-                        { width: "80px", targets: [0, 1] }
-                    ]
-                });
-                $('#stockTable tbody').on('click', 'tr', function () {
-                    $(this).toggleClass('selected').siblings().removeClass('selected');
-                });
-                initDateSelectFromJSON();
-                $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
+    <!-- 專業趨勢圖表 Modal -->
+    <div id="chartModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-slate-950/90 p-4">
+        <div
+            class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-800/40">
+                <div>
+                    <h2 class="text-2xl font-bold text-white" id="chartTitle">個股趨勢</h2>
+                    <p class="text-slate-400 text-sm mt-1">折線：5日累計 & 價格 | 柱狀：每日增減</p>
+                </div>
+                <button onclick="closeModal('chartModal')"
+                    class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-700 text-slate-300 text-2xl">✕</button>
+            </div>
+            <div id="mainChart" class="flex-1 w-full bg-slate-900 p-4"></div>
+            <div class="p-4 border-t border-slate-800 flex justify-between items-center bg-slate-900">
+                <div class="text-xs text-slate-500">※數據僅供參考，不構成投資建議</div>
+                <button onclick="closeModal('chartModal')"
+                    class="px-8 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-bold transition-colors">關閉圖表</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        let table;
+        let chartInstance = null;
+        let cachedChartData = {};
+        $(document).ready(function () {
+            table = $('#stockTable').DataTable({
+                scrollX: true,
+                fixedColumns: { left: 2 },
+                paging: true,
+                pageLength: 25,
+                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
+                columnDefs: [
+                    { className: "dt-center", targets: "_all" },
+                    { width: "80px", targets: [0, 1] }
+                ]
             });
+            table.on('click', 'tbody tr', function (e) {
+                const rowData = table.row(this).data();
+                console.log("整行資料:", rowData);
 
-            // Tab 切換邏輯
-            function switchTab(tabName) {
-                $('[id^="tab-"]').removeClass('tab-active').addClass('text-gray-400');
-                $('[id^="content-"]').addClass('hidden');
-                $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
-                $(`#content-${tabName}`).removeClass('hidden');
+                if (rowData) {
+                    openChart(rowData[0], $(rowData[1]).text());
+                }
+            });
+            $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
+            initSystem();
+        });
+
+        function switchTab(tabName) {
+            $('[id^="tab-"]').removeClass('tab-active').addClass('text-gray-400');
+            $('[id^="content-"]').addClass('hidden');
+            $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
+            $(`#content-${tabName}`).removeClass('hidden');
+        }
+
+        function showTags(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex');
+        }
+
+        function closeModal(id) {
+            if (id) {
+                $(`#${id}`).addClass('hidden').removeClass('flex modal-active');
+            } else {
+                $('#tagModal').addClass('hidden').removeClass('flex');
             }
+        }
+        function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
 
-            function showTags(name, tags) {
-                $('#modalStockTitle').text(name);
-                $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
-                $('#tagModal').removeClass('hidden').addClass('flex');
-            }
+        async function initDateSelectFromJSON() {
+            try {
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect').empty();
+                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
+                if (dates.length) $sel.trigger('change');
+            } catch (e) { console.error(e); }
+        }
 
-            function closeModal() { $('#tagModal').addClass('hidden').removeClass('flex'); }
-            function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex'); }
-            function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
+        async function loadData(date) {
+            try {
+                const res = await fetch(`./data/${date}_filter.json`);
+                const data = await res.json();
+                table.clear();
+                if (data.length === 0) alert('沒有符合篩選條件的標的');
+                data.forEach(item => {
+                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
+                    table.row.add([
+                        item.stock_id,
+                        `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
+                        item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
+                        item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
+                        item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
+                        item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
+                        item.sbl_total, item.sbl_sold_balance
+                    ]);
+                });
+                table.draw();
+            } catch (e) { alert("讀取失敗"); }
+        }
 
-            async function initDateSelectFromJSON() {
-                try {
-                    const res = await fetch('./data/dateList.json');
-                    const dates = await res.json();
-                    const $sel = $('#dateSelect').empty();
-                    dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
-                    if (dates.length) $sel.trigger('change');
-                } catch (e) { console.error(e); }
-            }
-
-            async function loadData(date) {
-                try {
-                    const res = await fetch(`./data/${date}_filter.json`);
-                    const data = await res.json();
-                    table.clear();
-                    if (data.length === 0) alert('沒有符合篩選條件的標的');
-                    data.forEach(item => {
-                        const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
-                        const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
-                        table.row.add([
-                            item.stock_id,
-                            `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
-                            item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
-                            item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
-                            item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
-                            item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
-                            item.sbl_total, item.sbl_sold_balance
-                        ]);
+        async function initSystem() {
+            try {
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect');
+                $sel.empty();
+                if (dates.length > 0) {
+                    dates.forEach(d => $sel.append(new Option(d, d)));
+                    $sel.off('change').on('change', function () {
+                        const selectedDate = $(this).val();
+                        if (selectedDate) {
+                            console.log("當前選擇日期:", selectedDate);
+                            loadData(selectedDate);
+                            loadChartData(selectedDate);
+                        }
                     });
-                    table.draw();
-                } catch (e) { alert("讀取失敗"); }
+                    $sel.val(dates[0]).trigger('change');
+                }
+            } catch (e) {
+                console.error("初始化失敗:", e);
             }
+        }
 
-            $(window).on('click', function (event) {
-                if ($(event.target).is('#infoModal')) closeInfoModal();
-                if ($(event.target).is('#tagModal')) closeModal();
-            });
-        </script>
+        async function loadChartData(date) {
+            try {
+                const response = await fetch(`./data/${date}_charts.json`);
+                const data = await response.json();
+                cachedChartData = data;
+                console.log("圖表快取已更新:", cachedChartData);
+            } catch (error) {
+                console.error("載入圖表 JSON 失敗:", error);
+            }
+        }
+
+        function openChart(id, name) {
+            id = String(id).trim();
+            console.log("比對的 ID:", id);
+            console.log("快取內擁有的 ID:", Object.keys(cachedChartData.stocks || {}));
+            if (!cachedChartData || !cachedChartData.stocks || !cachedChartData.stocks[id]) {
+                console.error("找不到該股票的快取資料:", id);
+                return;
+            }
+            $('#chartModal')
+                .removeClass('hidden')
+                .addClass('flex modal-active');
+            const stockData = cachedChartData.stocks[id];
+            const s = stockData.series;
+            const dates = s.map(item => item.date);
+            const prices = s.map(item => item.price);
+            const instBars = s.map(item => item.bar_inst);
+            const instLine = s.map(item => item.line_inst5);
+            requestAnimationFrame(() => {
+                const chartDom = document.getElementById('mainChart');
+                if (chartInstance) { chartInstance.dispose(); }
+                chartInstance = echarts.init(chartDom, 'dark');
+                const option = {
+                    title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
+                    tooltip: { trigger: 'axis' },
+                    legend: { data: ['股價', '外資買賣', '外資累積'], bottom: 0 },
+                    xAxis: { type: 'category', data: dates },
+                    yAxis: [
+                        { type: 'value', name: '金額', position: 'left' },
+                        { type: 'value', name: '張數', position: 'right' }
+                    ],
+                    series: [
+                        {
+                            name: '股價',
+                            type: 'line',
+                            data: prices,
+                            yAxisIndex: 0,
+                            itemStyle: { color: '#ffeb3b' }
+                        },
+                        {
+                            name: '外資買賣',
+                            type: 'bar',
+                            data: instBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) => params.value >= 0 ? '#ef5350' : '#66bb6a'
+                            }
+                        },
+                        {
+                            name: '外資累積',
+                            type: 'line',
+                            data: instLine,
+                            yAxisIndex: 1,
+                            lineStyle: { width: 3 }
+                        }
+                    ]
+                };
+                chartInstance.setOption(option);
+                chartInstance.resize();
+            }, 200);
+        }
+
+        function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
+        function showTagDetails(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-sky-900/50 text-sky-300 border border-sky-700 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex modal-active');
+        }
+        window.onresize = () => chartInstance && chartInstance.resize();
+        $(window).on('click', function (event) {
+            // 點擊 Modal 外部黑底處關閉
+            if ($(event.target).is('#chartModal')) closeModal('chartModal');
+            if ($(event.target).is('#infoModal')) closeInfoModal();
+            if ($(event.target).is('#tagModal')) closeModal();
+        });
+    </script>
 </body>
 
 </html>
