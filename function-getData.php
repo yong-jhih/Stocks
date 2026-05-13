@@ -1382,45 +1382,27 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             ns20 AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW)
     ),
 
-    FeatureData AS (
-        SELECT
-            *,
+    NumberedData AS (
+    SELECT
+        *,
+        
+        ROW_NUMBER() OVER(
+            PARTITION BY stock_id
+            ORDER BY trade_date
+        ) AS rn_all,
 
-            LAG(ma5)  OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma5,
-            LAG(ma10) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma10,
-            LAG(ma20) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma20,
-            LAG(ma60) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma60,
+        ROW_NUMBER() OVER(
+            PARTITION BY stock_id, (foreign_buy_sell > 0)
+            ORDER BY trade_date
+        ) AS rn_foreign,
 
-            CASE
-                WHEN foreign_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER (
-                        PARTITION BY stock_id,
-                        (
-                            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date)
-                            -
-                            ROW_NUMBER() OVER(PARTITION BY stock_id, (foreign_buy_sell > 0) ORDER BY trade_date)
-                        )
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS foreign_streak_days,
+        ROW_NUMBER() OVER(
+            PARTITION BY stock_id, (trust_buy_sell > 0)
+            ORDER BY trade_date
+        ) AS rn_trust
 
-            CASE
-                WHEN trust_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER (
-                        PARTITION BY stock_id,
-                        (
-                            ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date)
-                            -
-                            ROW_NUMBER() OVER(PARTITION BY stock_id, (trust_buy_sell > 0) ORDER BY trade_date)
-                        )
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS trust_streak_days
-
-        FROM BaseData
-    )
+    FROM BaseData
+),
 
     SELECT *
     FROM FeatureData
