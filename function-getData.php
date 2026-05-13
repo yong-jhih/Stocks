@@ -1251,38 +1251,29 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             h.trade_date,
             h.stock_id,
             h.stock_name,
-
             h.open_price,
             h.high_price,
             h.low_price,
             h.close_price,
             h.trade_volume,
 
-            -- =========================
             -- 均線
-            -- =========================
             AVG(h.close_price) OVER w5  AS ma5,
             AVG(h.close_price) OVER w10 AS ma10,
             AVG(h.close_price) OVER w20 AS ma20,
             AVG(h.close_price) OVER w60 AS ma60,
 
-            -- =========================
             -- 均量
-            -- =========================
             AVG(h.trade_volume) OVER vw5  AS vma5,
             AVG(h.trade_volume) OVER vw10 AS vma10,
             AVG(h.trade_volume) OVER vw20 AS vma20,
             AVG(h.trade_volume) OVER vw60 AS vma60,
 
-            -- =========================
             -- 區間
-            -- =========================
             MAX(h.high_price) OVER r10 AS high10,
             MIN(h.low_price)  OVER r10 AS low10,
 
-            -- =========================
             -- 法人
-            -- =========================
             COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
             COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
             COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
@@ -1305,9 +1296,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             SUM(h.trade_volume) OVER vs10 AS vol_sum10,
             SUM(h.trade_volume) OVER vs20 AS vol_sum20,
 
-            -- =========================
             -- 融資
-            -- =========================
             COALESCE(m.margin_balance, 0)      AS margin_balance,
             COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
 
@@ -1315,29 +1304,16 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             SUM(COALESCE(m.margin_balance_diff,0)) OVER ms10 AS margin_balance_diff_sum10,
             SUM(COALESCE(m.margin_balance_diff,0)) OVER ms20 AS margin_balance_diff_sum20,
 
-            -- =========================
             -- 借券
-            -- =========================
-            COALESCE(st.sbl_balance, 0)      AS sbl_total,
+            COALESCE(st.sbl_balance, 0) AS sbl_total,
             COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
-
             (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
 
-            SUM(
-                COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)
-            ) OVER ns5 AS net_sbl_sum5,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns5  AS net_sbl_sum5,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns10 AS net_sbl_sum10,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns20 AS net_sbl_sum20,
 
-            SUM(
-                COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)
-            ) OVER ns10 AS net_sbl_sum10,
-
-            SUM(
-                COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)
-            ) OVER ns20 AS net_sbl_sum20,
-
-            -- =========================
-            -- 昨日資料
-            -- =========================
+            -- 昨日
             LAG(h.open_price)   OVER lagw AS yesterday_open,
             LAG(h.high_price)   OVER lagw AS yesterday_high,
             LAG(h.low_price)    OVER lagw AS yesterday_low,
@@ -1366,13 +1342,12 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             AND h.trade_date = ss.trade_date
 
         WINDOW
-
             lagw AS (
                 PARTITION BY h.stock_id
                 ORDER BY h.trade_date
             ),
 
-            w5 AS (
+            w5  AS (
                 PARTITION BY h.stock_id
                 ORDER BY h.trade_date
                 ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
@@ -1396,7 +1371,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
             ),
 
-            vw5 AS (
+            vw5  AS (
                 PARTITION BY h.stock_id
                 ORDER BY h.trade_date
                 ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
@@ -1588,14 +1563,9 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 ORDER BY trade_date
             ) AS prev_ma20,
 
-            LAG(ma60) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma60,
-
             CASE
                 WHEN foreign_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER (
+                    ROW_NUMBER() OVER(
                         PARTITION BY stock_id, (rn_all - rn_foreign)
                         ORDER BY trade_date
                     )
@@ -1604,7 +1574,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
 
             CASE
                 WHEN trust_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER (
+                    ROW_NUMBER() OVER(
                         PARTITION BY stock_id, (rn_all - rn_trust)
                         ORDER BY trade_date
                     )
@@ -1616,59 +1586,10 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
 
     SELECT *
     FROM FeatureData
-
     WHERE trade_date = :targetDate
-
-        -- 流動性
         AND vma20 > 700000
-
-        -- 成交量
-        AND (
-            (trade_volume > vma5 AND vma5 >= vma20)
-            OR
-            (trade_volume > vma20 * 1.3)
-        )
-
-        -- 前一天整理
-        AND yesterday_vol < vma5
-
-        AND ABS(
-            yesterday_close - yesterday_open
-        ) / NULLIF(yesterday_open, 0) < 0.03
-
-        AND (
-            yesterday_high - yesterday_low
-        ) / NULLIF(yesterday_low, 0) < 0.035
-
-        -- 趨勢
-        AND yesterday_close > ma20
-
-        -- 籌碼
-        AND (
-            (
-                trade_volume < vma20
-                AND (insti_sum1 / NULLIF(vol_sum1,0)) > 0.06
-            )
-            OR
-            (
-                trade_volume >= vma20
-                AND (insti_sum1 / NULLIF(vol_sum1,0)) > 0.08
-            )
-        )
-
-        -- 波動
-        AND ((high10 - low10) / NULLIF(low10,0)) > 0.01
-
-        -- 位階
-        AND (
-            (close_price - low10)
-            / NULLIF(high10 - low10,0)
-        ) BETWEEN 0.2 AND 0.9
-
-        -- 中期籌碼
-        AND (insti_sum5 / NULLIF(vol_sum5,0)) > 0.03
-
-    ORDER BY trade_volume DESC
+        AND ma20 IS NOT NULL
+        AND ma60 IS NOT NULL
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -1684,12 +1605,12 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
     foreach ($stocks as $s) {
 
         // =========================
-        // Raw
+        // Base Numbers
         // =========================
 
-        $close  = (float)$s['close_price'];
-        $open   = (float)$s['open_price'];
-        $high   = (float)$s['high_price'];
+        $close = (float)$s['close_price'];
+        $open  = (float)$s['open_price'];
+        $high  = (float)$s['high_price'];
 
         $yClose = (float)$s['yesterday_close'];
         $yOpen  = (float)$s['yesterday_open'];
@@ -1700,87 +1621,66 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         $ma20 = (float)$s['ma20'];
         $ma60 = (float)$s['ma60'];
 
+        $prevMa5  = (float)$s['prev_ma5'];
+        $prevMa10 = (float)$s['prev_ma10'];
+        $prevMa20 = (float)$s['prev_ma20'];
+
         $vma5  = (float)$s['vma5'];
         $vma20 = (float)$s['vma20'];
-
-        // =========================
-        // Metrics
-        // =========================
 
         $volRatio = ($s['yesterday_vol'] > 0)
             ? ($s['trade_volume'] / $s['yesterday_vol'])
             : 0;
 
         $rank10 = ($s['high10'] - $s['low10']) != 0
-            ? (
-                ($close - $s['low10'])
-                / ($s['high10'] - $s['low10'])
-            ) * 100
+            ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100)
             : 0;
 
         $amp10 = ($s['low10'] != 0)
-            ? (
-                ($s['high10'] - $s['low10'])
-                / $s['low10']
-            ) * 100
+            ? (($s['high10'] - $s['low10']) / $s['low10'] * 100)
             : 0;
 
-        $bia5 = $ma5
-            ? (($close - $ma5) / $ma5) * 100
-            : 0;
-
-        $bia10 = $ma10
-            ? (($close - $ma10) / $ma10) * 100
-            : 0;
-
-        $bia20 = $ma20
-            ? (($close - $ma20) / $ma20) * 100
-            : 0;
+        $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
+        $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
+        $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
 
         $con1 = $s['vol_sum1']
-            ? ($s['insti_sum1'] / $s['vol_sum1']) * 100
+            ? ($s['insti_sum1'] / $s['vol_sum1'] * 100)
             : 0;
 
         $con5 = $s['vol_sum5']
-            ? ($s['insti_sum5'] / $s['vol_sum5']) * 100
-            : 0;
-
-        $con10 = $s['vol_sum10']
-            ? ($s['insti_sum10'] / $s['vol_sum10']) * 100
+            ? ($s['insti_sum5'] / $s['vol_sum5'] * 100)
             : 0;
 
         $con20 = $s['vol_sum20']
-            ? ($s['insti_sum20'] / $s['vol_sum20']) * 100
+            ? ($s['insti_sum20'] / $s['vol_sum20'] * 100)
             : 0;
 
         $squeeze = $vma20
             ? ($s['sbl_sold_balance'] / $vma20)
             : 0;
 
-        $bullet = $vma5
-            ? (
-                ($s['sbl_total'] - $s['sbl_sold_balance'])
-                / $vma5
-            )
-            : 0;
-
         // =========================
-        // Score Engine
+        // Signal Containers
         // =========================
 
-        $score = 0;
-        $tags  = [];
+        $signals = [
+            'trend' => [],
+            'momentum' => [],
+            'chip' => [],
+            'risk' => [],
+            'structure' => []
+        ];
 
-        $addScore = static function (
-            int &$score,
-            array &$tags,
+        $addSignal = function (
+            string $group,
             bool $condition,
-            int $point,
-            string $tag
-        ): void {
+            string $tag,
+            int $score
+        ) use (&$signals): void {
+
             if ($condition) {
-                $score += $point;
-                $tags[$tag] = $point;
+                $signals[$group][$tag] = $score;
             }
         };
 
@@ -1788,207 +1688,332 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         // Trend
         // =========================
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'trend',
             $close > $ma5 &&
                 $ma5 > $ma10 &&
                 $ma10 > $ma20,
-            15,
-            '多頭排列'
+            '多頭排列',
+            15
         );
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'trend',
             $close > $ma20,
-            8,
-            '站上月線'
+            '站上月線',
+            8
         );
 
-        $addScore(
-            $score,
-            $tags,
-            $ma20 > $ma60,
-            10,
-            '中期多頭'
+        $addSignal(
+            'trend',
+            $ma5 > $prevMa5 &&
+                $ma10 > $prevMa10 &&
+                $ma20 > $prevMa20,
+            '均線上彎',
+            5
         );
 
-        $addScore(
-            $score,
-            $tags,
-            $s['prev_ma5'] < $ma5 &&
-                $s['prev_ma10'] < $ma10,
-            5,
-            '均線上彎'
+        $addSignal(
+            'trend',
+            $close > $ma60,
+            '站上季線',
+            10
         );
 
         // =========================
-        // Volume
+        // Momentum
         // =========================
 
-        $addScore(
-            $score,
-            $tags,
-            $volRatio > 1.5,
-            8,
-            '量能放大'
+        $addSignal(
+            'momentum',
+            $volRatio > 1.5 &&
+                $close > $yHigh,
+            '爆量突破',
+            20
         );
 
-        $addScore(
-            $score,
-            $tags,
-            $volRatio > 2,
-            12,
-            '爆量'
+        $addSignal(
+            'momentum',
+            $volRatio > 2 &&
+                ($close / max($yClose, 0.01)) > 1.04,
+            '強勢突破',
+            20
+        );
+
+        $addSignal(
+            'momentum',
+            $close / max($yClose, 0.01) > 1.03 &&
+                $volRatio > 1.3,
+            '價量齊揚',
+            15
+        );
+
+        $addSignal(
+            'momentum',
+            $close > $ma5 &&
+                $ma5 > $ma10 &&
+                $volRatio > 1.8 &&
+                $con5 > 8,
+            '主升段啟動',
+            25
         );
 
         // =========================
         // Chip
         // =========================
 
-        $addScore(
-            $score,
-            $tags,
-            $con5 > 8,
-            15,
-            '法人集中'
-        );
-
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'chip',
             $con20 > 10,
-            20,
-            '法人鎖碼'
+            '法人鎖碼',
+            20
         );
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'chip',
+            $con5 > 15,
+            '法人集中',
+            15
+        );
+
+        $addSignal(
+            'chip',
             $s['foreign_streak_days'] >= 3,
-            12,
-            '外資連買'
+            '外資連買',
+            12
         );
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'chip',
             $s['trust_streak_days'] >= 3,
-            15,
-            '投信連買'
+            '投信連買',
+            15
         );
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'chip',
             $s['foreign_streak_days'] > 0 &&
                 $s['trust_streak_days'] > 0,
-            8,
-            '土洋同步'
+            '土洋合力',
+            18
+        );
+
+        $addSignal(
+            'chip',
+            $s['margin_balance_diff'] < 0 &&
+                $close >= $yClose,
+            '融資減肥',
+            8
         );
 
         // =========================
-        // Breakout
+        // Structure
         // =========================
 
-        $addScore(
-            $score,
-            $tags,
-            $close > $yHigh &&
-                $volRatio > 1.5,
-            20,
-            '突破'
+        $addSignal(
+            'structure',
+            $amp10 < 8 &&
+                $vma5 < $vma20,
+            '整理末端',
+            8
         );
 
-        $addScore(
-            $score,
-            $tags,
-            ($close / max($yClose, 0.01)) > 1.04,
-            12,
-            '強勢漲幅'
+        $addSignal(
+            'structure',
+            $rank10 < 30,
+            '低檔區',
+            6
         );
 
-        // =========================
-        // Squeeze
-        // =========================
-
-        $addScore(
-            $score,
-            $tags,
-            $squeeze > 5,
-            10,
-            '潛在軋空'
-        );
-
-        $addScore(
-            $score,
-            $tags,
-            $squeeze > 8,
-            20,
-            '軋空預備'
+        $addSignal(
+            'structure',
+            $rank10 > 80,
+            '高檔區',
+            3
         );
 
         // =========================
         // Risk
         // =========================
 
-        $addScore(
-            $score,
-            $tags,
-            $bia20 > 12,
-            -15,
-            '過熱'
+        $addSignal(
+            'risk',
+            $rank10 > 85 &&
+                $bia20 > 12,
+            '短線過熱',
+            -15
         );
 
-        $addScore(
-            $score,
-            $tags,
-            $rank10 > 90,
-            -10,
-            '高檔'
+        $addSignal(
+            'risk',
+            $volRatio > 2 &&
+                ($close / max($yClose, 0.01)) < 1.01,
+            '爆量出貨',
+            -20
         );
 
-        $addScore(
-            $score,
-            $tags,
+        $addSignal(
+            'risk',
             $s['foreign_sum5'] < 0 &&
                 $s['trust_sum5'] < 0,
-            -20,
-            '法人倒貨'
+            '法人倒貨',
+            -18
         );
+
+        $addSignal(
+            'risk',
+            $close < $ma20,
+            '跌破月線',
+            -12
+        );
+
+        // =========================
+        // Category Scores
+        // =========================
+
+        $trendScore     = array_sum($signals['trend']);
+        $momentumScore  = array_sum($signals['momentum']);
+        $chipScore      = array_sum($signals['chip']);
+        $structureScore = array_sum($signals['structure']);
+        $riskScore      = array_sum($signals['risk']);
+
+        // =========================
+        // Final Score
+        // =========================
+
+        $finalScore =
+            ($trendScore * 1.0) +
+            ($momentumScore * 1.2) +
+            ($chipScore * 1.3) +
+            ($structureScore * 0.7) +
+            ($riskScore);
+
+        $finalScore = max(0, min(100, round($finalScore)));
 
         // =========================
         // Rating
         // =========================
 
-        if ($score >= 90) {
-            $rating = 'S';
-        } elseif ($score >= 75) {
-            $rating = 'A';
-        } elseif ($score >= 60) {
-            $rating = 'B';
-        } elseif ($score >= 45) {
-            $rating = 'C';
-        } else {
-            $rating = 'D';
+        $rating = match (true) {
+            $finalScore >= 85 => 'S',
+            $finalScore >= 70 => 'A',
+            $finalScore >= 55 => 'B',
+            $finalScore >= 40 => 'C',
+            default => 'D'
+        };
+
+        // =========================
+        // Strategy Type
+        // =========================
+
+        $strategyType = '觀察';
+
+        if (
+            $trendScore >= 20 &&
+            $momentumScore >= 20 &&
+            $chipScore >= 20
+        ) {
+            $strategyType = '主升段';
+        } elseif (
+            $chipScore >= 25 &&
+            $momentumScore < 15
+        ) {
+            $strategyType = '籌碼潛伏';
+        } elseif (
+            $momentumScore >= 25 &&
+            $trendScore < 15
+        ) {
+            $strategyType = '短線轉強';
+        } elseif (
+            $riskScore <= -25
+        ) {
+            $strategyType = '高風險';
         }
 
         // =========================
-        // Gemini
+        // Confidence
         // =========================
 
-        $prompt = sprintf(
-            '請幫我分析[%s%s]的產業別(使用證交所產業別分類)及佔營收20%%以上概念標籤，格式限定：XXX業-標籤1,標籤2',
-            $s['stock_id'],
-            $s['stock_name']
+        $positiveGroups = 0;
+
+        foreach (
+            [
+                $trendScore,
+                $momentumScore,
+                $chipScore
+            ] as $v
+        ) {
+
+            if ($v >= 15) {
+                $positiveGroups++;
+            }
+        }
+
+        $confidence = round(
+            min(
+                1,
+                ($positiveGroups / 3) +
+                    max(0, (-$riskScore / 100))
+            ),
+            2
         );
 
-        $concept = callGeminiAI(
-            getenv('GEMINI_TOKEN'),
-            $prompt,
-            'gemini-3.1-flash-lite-preview'
-        );
+        // =========================
+        // Flatten Tags
+        // =========================
+
+        $tags = [];
+
+        foreach ($signals as $group => $groupSignals) {
+            foreach ($groupSignals as $tag => $score) {
+                $tags[] = $tag;
+            }
+        }
+
+        // =========================
+        // Trigger Reasons
+        // =========================
+
+        $triggerReasons = [];
+
+        if ($s['foreign_streak_days'] >= 3) {
+            $triggerReasons[] =
+                '外資連買 ' . $s['foreign_streak_days'] . ' 日';
+        }
+
+        if ($volRatio > 1.5) {
+            $triggerReasons[] =
+                '成交量放大 ' . round($volRatio, 2) . ' 倍';
+        }
+
+        if ($close > $yHigh) {
+            $triggerReasons[] = '突破前高';
+        }
+
+        if ($con20 > 10) {
+            $triggerReasons[] =
+                '法人持股集中度提升';
+        }
+
+        // =========================
+        // Concept
+        // =========================
+
+        $concept = '';
+
+        try {
+
+            $prompt = sprintf(
+                "請幫我分析[%s%s]的產業別(使用證交所產業別分類)及佔營收20%%以上概念標籤，格式限定：XXX業-標籤1,標籤2",
+                $s['stock_id'],
+                $s['stock_name']
+            );
+
+            $concept = "123";
+        } catch (\Throwable $e) {
+
+            $concept = '';
+        }
 
         // =========================
         // Output
@@ -1996,103 +2021,109 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
 
         $dashboardResults[] = [
 
-            // 基本
-            'stock_id'   => $s['stock_id'],
+            'stock_id' => $s['stock_id'],
             'stock_name' => $s['stock_name'],
-            'concept'    => $concept,
 
-            // 評分
-            'score'  => $score,
+            'concept' => $concept,
+
+            'score' => $finalScore,
             'rating' => $rating,
 
-            // 價格
+            'strategy_type' => $strategyType,
+            'confidence' => $confidence,
+
+            // Score Breakdown
+            'trend_score' => round($trendScore),
+            'momentum_score' => round($momentumScore),
+            'chip_score' => round($chipScore),
+            'structure_score' => round($structureScore),
+            'risk_score' => round($riskScore),
+
+            // Price
             'close' => round($close, 2),
 
-            // 量
-            'vol'       => round($s['trade_volume'] / 1000, 0),
+            // Volume
+            'vol' => round($s['trade_volume'] / 1000, 0),
             'vol_ratio' => round($volRatio, 2),
 
-            // 區間
+            // Structure
             'rank10' => round($rank10, 2),
-            'amp10'  => round($amp10, 2),
+            'amp10' => round($amp10, 2),
 
-            // 均線
-            'ma5'  => round($ma5, 2),
+            // MA
+            'ma5' => round($ma5, 2),
             'ma10' => round($ma10, 2),
             'ma20' => round($ma20, 2),
             'ma60' => round($ma60, 2),
 
-            // 均量
-            'vma5'  => round($vma5 / 1000, 0),
+            // Volume MA
+            'vma5' => round($vma5 / 1000, 0),
             'vma10' => round($s['vma10'] / 1000, 0),
             'vma20' => round($vma20 / 1000, 0),
 
-            // 乖離
-            'bia5'  => round($bia5, 2),
+            // Bias
+            'bia5' => round($bia5, 2),
             'bia10' => round($bia10, 2),
             'bia20' => round($bia20, 2),
 
-            // 籌碼
-            'con1'  => round($con1, 2),
-            'con5'  => round($con5, 2),
-            'con10' => round($con10, 2),
+            // Chip Ratios
+            'con1' => round($con1, 2),
+            'con5' => round($con5, 2),
             'con20' => round($con20, 2),
 
-            // 法人
+            // Institution
             'foreign_buy_sell' => $s['foreign_buy_sell'],
-            'trust_buy_sell'   => $s['trust_buy_sell'],
+            'trust_buy_sell' => $s['trust_buy_sell'],
 
-            'foreign_sum5'  => round($s['foreign_sum5'] / 1000, 0),
+            'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
             'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
             'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
 
-            'trust_sum5'  => round($s['trust_sum5'] / 1000, 0),
+            'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
             'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
             'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
 
             'foreign_streak_days' => (int)$s['foreign_streak_days'],
-            'trust_streak_days'   => (int)$s['trust_streak_days'],
+            'trust_streak_days' => (int)$s['trust_streak_days'],
 
-            // 融資
-            'margin_balance'            => $s['margin_balance'],
-            'margin_balance_diff'       => $s['margin_balance_diff'],
-            'margin_balance_diff_sum5'  => $s['margin_balance_diff_sum5'],
-            'margin_balance_diff_sum10' => $s['margin_balance_diff_sum10'],
-            'margin_balance_diff_sum20' => $s['margin_balance_diff_sum20'],
+            // Margin
+            'margin_balance' => (int)$s['margin_balance'],
+            'margin_balance_diff' => (int)$s['margin_balance_diff'],
 
-            // 借券
+            // SBL
             'squeeze' => round($squeeze, 2),
-            'bullet'  => round($bullet, 2),
 
-            'net_sbl'       => round($s['net_sbl'] / 1000, 0),
-            'net_sbl_sum5'  => round($s['net_sbl_sum5'] / 1000, 0),
-            'net_sbl_sum10' => round($s['net_sbl_sum10'] / 1000, 0),
-            'net_sbl_sum20' => round($s['net_sbl_sum20'] / 1000, 0),
+            'net_sbl' => round($s['net_sbl'] / 1000, 0),
 
-            'sbl_total'        => round($s['sbl_total'] / 1000, 0),
+            'sbl_total' => round($s['sbl_total'] / 1000, 0),
             'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
 
-            // 前端顯示用
-            'tags' => array_keys($tags),
+            // Signals
+            'signals' => $signals,
 
-            // Debug / 分析用
-            'tag_scores' => $tags
+            // Flat Tags
+            'tags' => $tags,
+
+            // Trigger
+            'trigger_reasons' => $triggerReasons
         ];
     }
 
     // =========================
-    // 排序
+    // Sort by Score
     // =========================
 
     usort(
         $dashboardResults,
-        static fn($a, $b) => $b['score'] <=> $a['score']
+        fn($a, $b) => $b['score'] <=> $a['score']
     );
 
     writeLog(
         $pdo,
         'generateDailyDashboard',
-        "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔",
+        "{$targetDate} 分析完成，共篩選出 " .
+            count($dashboardResults) .
+            " 檔",
         'success'
     );
 
