@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盤後分析篩選</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .dataTables_wrapper {
+            background: #1f2937;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            color: #d1d5db;
+        }
+
+        th,
+        td {
+            background-color: #1f2937 !important;
+        }
+
+        table.dataTable thead th {
+            background-color: #374151 !important;
+            color: #60a5fa !important;
+            white-space: nowrap !important;
+            border-bottom: 1px solid #4b5563 !important;
+            text-align: center !important;
+            padding: 12px 15px !important;
+            z-index: 2;
+        }
+
+        .DTFC_LeftWrapper {
+            border-right: 2px solid #4b5563;
+        }
+
+        table.dataTable tbody tr.selected td {
+            background-color: #1e3a8a !important;
+            color: #ffffff !important;
+        }
+
+        table.dataTable tbody tr {
+            cursor: pointer;
+        }
+
+        #tagModal,
+        #infoModal {
+            transition: opacity 0.3s ease;
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #60a5fa;
+            color: #60a5fa;
+        }
+
+        #mainChart {
+            width: 100%;
+            height: 70vh;
+            min-height: 400px;
+        }
+
+        #mainChart canvas {
+            touch-action: pan-y;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .dataTables_wrapper {
+            background: #0f172a;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+
+        table.dataTable thead th {
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border-bottom: 2px solid #0ea5e9 !important;
+            text-align: center !important;
+            padding: 12px 10px !important;
+        }
+
+        table.dataTable tbody td {
+            background-color: #0f172a !important;
+            border-bottom: 1px solid #1e293b !important;
+            text-align: center;
+        }
+
+        .DTFC_LeftWrapper {
+            border-right: 3px solid #0ea5e9;
+        }
+
+        tr:hover td {
+            background-color: #1e293b !important;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .modal-active {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            body {
+                padding: 8px !important;
+                overflow-x: hidden;
+            }
+
+            h1 {
+                font-size: 1.5rem !important;
+            }
+
+            header {
+                gap: 12px !important;
+            }
+
+            header .flex-wrap {
+                width: 100%;
+            }
+
+            header a {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                font-size: 12px !important;
+                padding: 8px 6px !important;
+            }
+
+            .dataTables_wrapper {
+                padding: 0.5rem !important;
+                overflow-x: auto;
+            }
+
+            table.dataTable {
+                font-size: 12px !important;
+            }
+
+            table.dataTable thead th,
+            table.dataTable tbody td {
+                padding: 6px 8px !important;
+                white-space: nowrap;
+            }
+
+            .DTFC_LeftWrapper {
+                display: none !important;
+            }
+
+            #infoModal .bg-gray-800,
+            #tagModal .bg-gray-800 {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 90vh;
+                overflow-y: auto;
+                border-radius: 12px;
+            }
+
+            #chartModal {
+                padding: 0 !important;
+            }
+
+            #chartModal>div {
+                width: 100vw !important;
+                height: 100vh !important;
+                max-width: 100vw !important;
+                border-radius: 0 !important;
+            }
+
+            #mainChart {
+                height: calc(100vh - 140px) !important;
+                min-height: auto !important;
+                padding: 0 !important;
+            }
+
+            #chartTitle {
+                font-size: 1rem !important;
+            }
+
+            #infoModal button {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-[1600px] mx-auto">
+        <header
+            class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
+                <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
+                    title="查看篩選與標籤說明">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-3">
+                <label for="dateSelect">選擇日期：</label>
+                <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
+                    <option value="">載入中...</option>
+                </select>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="index"
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏠
+                    盤後分析篩選</a>
+                <a href="00981A_component"
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📈
+                    跟著瑤姐走</a>
+                <a href="https://mopsov.twse.com.tw/mops/web/index" target="_blank"
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏆
+                    公開資訊觀測站</a>
+                <a href="https://www.twse.com.tw" target="_blank"
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🔗
+                    證交所官網</a>
+            </div>
+        </header>
+        <div class="shadow-2xl">
+            <table id="stockTable" class="display stripe nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>代號</th>
+                        <th>名稱</th>
+                        <th>族群概念</th>
+                        <th>標籤</th>
+                        <th>收盤</th>
+                        <th>成交量</th>
+                        <th>昨量比</th>
+                        <th>5日均量</th>
+                        <th>10日均量</th>
+                        <th>20日均量</th>
+                        <th>10日位階</th>
+                        <th>10日振幅</th>
+                        <th>1日集中度</th>
+                        <th>5日集中度</th>
+                        <th>10日集中度</th>
+                        <th>20日集中度</th>
+                        <th>外資5日</th>
+                        <th>投信5日</th>
+                        <th>外資連買</th>
+                        <th>投信連買</th>
+                        <th>券補力</th>
+                        <th>券砸力</th>
+                        <th>券淨賣還</th>
+                        <th>券淨賣還5日</th>
+                        <th>融資餘額</th>
+                        <th>借券餘額</th>
+                        <th>券賣餘額</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-300"></tbody>
+            </table>
+        </div>
+    </div>
+    <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
+        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-blue-300" id="modalStockTitle"></h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="modalTagContent" class="p-6 flex flex-wrap gap-2"></div>
+            <div class="p-4 text-right"><button onclick="closeModal()" class="bg-blue-600 px-4 py-2 rounded">關閉</button>
+            </div>
+        </div>
+    </div>
+    <div id="infoModal"
+        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
+        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-blue-300">系統說明手冊</h3>
+                <button onclick="closeInfoModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div class="flex border-b border-gray-700 px-4">
+                <button onclick="switchTab('filterRule')" id="tab-filterRule"
+                    class="px-4 py-2 text-sm font-medium tab-active">篩選條件</button>
+                <button onclick="switchTab('tagManual')" id="tab-tagManual"
+                    class="px-4 py-2 text-sm font-medium text-gray-400">標籤定義</button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[65vh]">
+                <div id="content-filterRule" class="space-y-4 text-sm text-gray-200">
+                    <div class="bg-blue-900/30 border-l-4 border-blue-500 p-3 mb-4">
+                        <p class="font-bold text-blue-300">※ 核心規則：僅上市個股，需同時滿足以下條件。建議短線觀測週期約 2 週。</p>
+                    </div>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">1. 基礎量能門檻</b>
+                            20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">2. 攻擊量能確認</b>
+                            今日量 > 5日均量 且 5日均量 > 20日均量（量增趨勢），或 今日量 > 20日均量 1.3 倍(爆量趨勢)。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">3. 極致洗盤確認 (重要)</b>
+                            昨日成交量 < 5日均量，且昨日震幅 < 3.5%。代表發動前籌碼經過極度壓抑與洗盤。</li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">4. 價穩冷靜型態</b>
+                            昨日 K 線實體 < 3% 且收盤高於 20日線。確認股價在生命線之上進行「窄幅整理」，而非破位大跌。</li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">5. 籌碼集中強度</b>
+                            今日法人集中度：若未放量需 > 6%，若放量需 > 8%。代表當日籌碼主要由大戶收購。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">6. 波段位階保護</b>
+                            10日位階處於 20%~90% 之間。避開絕對高檔噴發末端，也避開剛破底的弱勢股。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">7. 短期籌碼積累</b>
+                            5日累計法人集中度 > 3%。確保法人不是只買一天（隔日沖），而是具備連續佈局。
+                        </li>
+                    </ul>
+                </div>
+                <div id="content-tagManual" class="hidden space-y-6">
+                    <section>
+                        <h4 class="text-green-400 font-bold mb-3 flex items-center gap-2">🟢 多方好事 (趨勢與籌碼同步轉強)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>嚴格多頭：</b>5/10/20MA均線多頭排列且斜率向上
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>三陽開泰：</b>強勢突破！今日一舉站上5/10/20MA
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>價量齊揚：</b>漲幅 > 3%
+                                且量能放大1.5 倍</div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>土洋合力：</b>外資、投信今日同步買進
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>投信認養：</b>投信連買 ≥
+                                3天，波段主力護盤</div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>投信作帳股：</b>連買5天且佔比達3%，強力拉抬中。
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>投信試單：</b>昨日不買今日大買 >
+                                100張，捕捉起漲點。</div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>主力換手：</b>融資減少但股價走穩，散戶退大戶進
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>生命線轉揚：</b>20MA扣抵結束轉為上揚趨勢
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>籌碼趨於集中：</b>短期籌碼集中度優於長期
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded"><b>法人鎖碼：</b>20日法人集中度 >10%
+                                籌碼極穩</div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>借券回補：</b>借券賣出餘額顯著減少，空頭回補
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-green-900/50 rounded">
+                                <b>潛在軋空：</b>券補力高，隨時引發放空者認賠買盤
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-yellow-400 font-bold mb-3 flex items-center gap-2">🟡 警訊 / 中性 (需搭配位階判斷)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-gray-700/30 p-2 border border-yellow-900/50 rounded">
+                                <b>高檔乖離：</b>離5日線過遠(>7%)，防短線獲利回吐
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-yellow-900/50 rounded">
+                                <b>資券同增：</b>市場分歧大，融資與借券同步增加
+                            </div>
+                            <div class="bg-gray-700/30 p-2 border border-yellow-900/50 rounded"><b>量縮價穩：</b>成交量縮且震幅 <
+                                    1%，等待變盤</div>
+                                    <div class="bg-gray-700/30 p-2 border border-yellow-900/50 rounded">
+                                        <b>外資回補：</b>外資開始轉買，需觀察是否具連續性
+                                    </div>
+                            </div>
+                    </section>
+                </div>
+
+                <div class="p-4 text-right border-t border-gray-700">
+                    <button onclick="closeInfoModal()"
+                        class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded text-white transition-colors">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chartModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-slate-950/90 p-4">
+        <div
+            class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-800/40">
+                <div>
+                    <h2 class="text-2xl font-bold text-white" id="chartTitle">個股趨勢</h2>
+                    <p class="text-slate-400 text-sm mt-1">折線：5日累計 & 價格 | 柱狀：每日增減</p>
+                </div>
+                <button onclick="closeModal('chartModal')"
+                    class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-700 text-slate-300 text-2xl">✕</button>
+            </div>
+            <div id="mainChart" class="flex-1 w-full bg-slate-900 p-4"></div>
+            <div class="p-4 border-t border-slate-800 flex justify-between items-center bg-slate-900">
+                <div class="text-xs text-slate-500">※數據僅供參考，不構成投資建議</div>
+                <button onclick="closeModal('chartModal')"
+                    class="px-8 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-bold transition-colors">關閉圖表</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        const TAG_STYLES = {
+            bullish: [
+                '嚴格多頭',
+                '三陽開泰',
+                '價量齊揚',
+                '土洋合力',
+                '投信認養',
+                '投信作帳股',
+                '投信試單',
+                '主力換手',
+                '生命線轉揚',
+                '籌碼趨於集中',
+                '法人鎖碼',
+                '借券回補',
+                '潛在軋空'
+            ],
+
+            warning: [
+                '高檔乖離',
+                '資券同增',
+                '量縮價穩',
+                '外資回補'
+            ],
+
+            bearish: [
+                // 未來可自行加入
+                // '跌破月線',
+                // '法人倒貨'
+            ]
+        };
+        function getTagClass(tag) {
+
+            if (TAG_STYLES.bullish.includes(tag)) {
+                return `
+            bg-green-900/40
+            text-green-300
+            border
+            border-green-700
+        `;
+            }
+
+            if (TAG_STYLES.warning.includes(tag)) {
+                return `
+            bg-yellow-900/40
+            text-yellow-300
+            border
+            border-yellow-700
+        `;
+            }
+
+            if (TAG_STYLES.bearish.includes(tag)) {
+                return `
+            bg-red-900/40
+            text-red-300
+            border
+            border-red-700
+        `;
+            }
+
+            // 未分類
+            return `
+        bg-slate-700
+        text-slate-200
+        border
+        border-slate-500
+    `;
+        }
+        let table;
+        let chartInstance = null;
+        let cachedChartData = {};
+        $(document).ready(function () {
+            table = $('#stockTable').DataTable({
+                scrollX: true,
+                fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
+                paging: true,
+                pageLength: 25,
+                language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
+                columnDefs: [
+                    { className: "dt-center", targets: "_all" },
+                    { width: "80px", targets: [0, 1] }
+                ]
+            });
+            table.on('click', 'tbody tr', function (e) {
+                const rowData = table.row(this).data();
+                console.log("整行資料:", rowData);
+
+                if (rowData) {
+                    openChart(rowData[0], $(rowData[1]).text());
+                }
+            });
+            $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
+            initSystem();
+        });
+        function switchTab(tabName) {
+            $('[id^="tab-"]').removeClass('tab-active').addClass('text-gray-400');
+            $('[id^="content-"]').addClass('hidden');
+            $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
+            $(`#content-${tabName}`).removeClass('hidden');
+        }
+        function showTags(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex');
+        }
+        function closeModal(id) {
+            if (id) {
+                $(`#${id}`).addClass('hidden').removeClass('flex modal-active');
+            } else {
+                $('#tagModal').addClass('hidden').removeClass('flex');
+            }
+        }
+        function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
+        async function initDateSelectFromJSON() {
+            try {
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect').empty();
+                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
+                if (dates.length) $sel.trigger('change');
+            } catch (e) { console.error(e); }
+        }
+        async function loadData(date) {
+            try {
+                const res = await fetch(`./data/${date}_test.json`);
+                const data = await res.json();
+                table.clear();
+                if (data.length === 0) alert('沒有符合篩選條件的標的');
+                data.forEach(item => {
+                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
+                    table.row.add([
+                        item.stock_id,
+                        `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
+                        item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
+                        item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
+                        item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
+                        item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
+                        item.sbl_total, item.sbl_sold_balance
+                    ]);
+                });
+                table.draw();
+            } catch (e) { alert("讀取失敗"); }
+        }
+        async function initSystem() {
+            try {
+                const res = await fetch('./data/dateList.json');
+                const dates = await res.json();
+                const $sel = $('#dateSelect');
+                $sel.empty();
+                if (dates.length > 0) {
+                    dates.forEach(d => $sel.append(new Option(d, d)));
+                    $sel.off('change').on('change', function () {
+                        const selectedDate = $(this).val();
+                        if (selectedDate) {
+                            console.log("當前選擇日期:", selectedDate);
+                            loadData(selectedDate);
+                            loadChartData(selectedDate);
+                        }
+                    });
+                    $sel.val(dates[0]).trigger('change');
+                }
+            } catch (e) {
+                console.error("初始化失敗:", e);
+            }
+        }
+        async function loadChartData(date) {
+            try {
+                const response = await fetch(`./data/${date}_test-charts.json`);
+                const data = await response.json();
+                cachedChartData = data;
+                console.log("圖表快取已更新:", cachedChartData);
+            } catch (error) {
+                console.error("載入圖表 JSON 失敗:", error);
+            }
+        }
+        function openChart(id, name) {
+            id = String(id).trim();
+            console.log("比對的 ID:", id);
+            console.log("快取內擁有的 ID:", Object.keys(cachedChartData.stocks || {}));
+            if (!cachedChartData || !cachedChartData.stocks || !cachedChartData.stocks[id]) {
+                console.error("找不到該股票的快取資料:", id);
+                return;
+            }
+            $('#chartModal')
+                .removeClass('hidden')
+                .addClass('flex modal-active');
+            const stockData = cachedChartData.stocks[id];
+            const s = stockData.series;
+            const dates = s.map(item => item.date);
+            const prices = s.map(item => item.price);
+            const instBars = s.map(item => item.bar_inst);
+            const marginBars = s.map(item => item.bar_margin);
+            const sblBars = s.map(item => item.bar_sbl);
+            const instLine = s.map(item => item.line_inst5);
+            const marginLine = s.map(item => item.line_margin5);
+            const sblLine = s.map(item => item.line_sbl5);
+            requestAnimationFrame(() => {
+                const chartDom = document.getElementById('mainChart');
+                if (chartInstance) {
+                    chartInstance.dispose();
+                }
+                chartInstance = echarts.init(chartDom, 'dark');
+                const isMobile = window.innerWidth < 768;
+                const option = {
+                    title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
+                    tooltip: {
+                        trigger: 'axis',
+                        backgroundColor: '#0f172a',
+                        borderColor: '#334155',
+                        textStyle: {
+                            color: '#e2e8f0'
+                        },
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    legend: {
+                        bottom: isMobile ? 0 : 0,
+                        textStyle: {
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12
+                        },
+                        itemWidth: isMobile ? 12 : 20,
+                        itemHeight: isMobile ? 8 : 12,
+                        type: 'scroll'
+                    },
+                    grid: {
+                        left: isMobile ? 40 : 60,
+                        right: isMobile ? 30 : 60,
+                        top: 60,
+                        bottom: isMobile ? 80 : 60
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: dates,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#64748b'
+                            }
+                        },
+                        axisLabel: {
+                            color: '#cbd5e1',
+                            fontSize: isMobile ? 10 : 12,
+                            rotate: isMobile ? 45 : 0
+                        }
+                    },
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '股價',
+                            position: 'left',
+                            scale: true,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#facc15'
+                                }
+                            },
+                            axisLabel: {
+                                color: '#facc15'
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    color: '#1e293b'
+                                }
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '籌碼',
+                            position: 'right',
+                            scale: true,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#38bdf8'
+                                }
+                            },
+                            axisLabel: {
+                                color: '#38bdf8'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '股價',
+                            type: 'line',
+                            data: prices,
+                            yAxisIndex: 0,
+                            smooth: true,
+                            symbol: 'circle',
+                            symbolSize: 6,
+                            lineStyle: {
+                                width: 3,
+                                color: '#facc15'
+                            },
+                            itemStyle: {
+                                color: '#facc15'
+                            }
+                        },
+                        {
+                            name: '法人買賣超',
+                            type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
+                            data: instBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) =>
+                                    params.value >= 0 ? '#ef4444' : '#22c55e'
+                            }
+                        },
+                        {
+                            name: '融資增減',
+                            type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
+                            data: marginBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) =>
+                                    params.value >= 0 ? '#fb923c' : '#38bdf8'
+                            }
+                        },
+                        {
+                            name: '借券淨賣還',
+                            type: 'bar',
+                            barMaxWidth: isMobile ? 10 : 18,
+                            data: sblBars,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: (params) =>
+                                    params.value >= 0 ? '#a855f7' : '#64748b'
+                            }
+                        },
+                        {
+                            name: '法人5日累計',
+                            type: 'line',
+                            data: instLine,
+                            yAxisIndex: 1,
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 3,
+                                color: '#f87171'
+                            }
+                        },
+                        {
+                            name: '融資5日累計',
+                            type: 'line',
+                            data: marginLine,
+                            yAxisIndex: 1,
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 2,
+                                type: 'dashed',
+                                color: '#38bdf8'
+                            }
+                        },
+                        {
+                            name: '借券5日累計',
+                            type: 'line',
+                            data: sblLine,
+                            yAxisIndex: 1,
+                            smooth: true,
+                            symbol: 'none',
+                            lineStyle: {
+                                width: 2,
+                                type: 'dashed',
+                                color: '#c084fc'
+                            }
+                        }
+                    ]
+                };
+                chartInstance.setOption(option);
+                setTimeout(() => {
+                    chartInstance.resize();
+                }, 50);
+            });
+        }
+        function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
+        function showTagDetails(name, tags) {
+            $('#modalStockTitle').text(name);
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
+            $('#tagModal').removeClass('hidden').addClass('flex modal-active');
+        }
+        window.addEventListener('resize', () => {
+            if (chartInstance) {
+                chartInstance.resize();
+            }
+            if ($.fn.DataTable.isDataTable('#stockTable')) {
+                table.columns.adjust();
+            }
+        });
+        $(window).on('click', function (event) {
+            if ($(event.target).is('#chartModal')) closeModal('chartModal');
+            if ($(event.target).is('#infoModal')) closeInfoModal();
+            if ($(event.target).is('#tagModal')) closeModal();
+        });
+    </script>
+</body>
+
+</html>
