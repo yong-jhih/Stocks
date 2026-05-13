@@ -960,8 +960,13 @@ function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as net_sbl_sum5,
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW) as net_sbl_sum10,
                 SUM(ss.sbl_sold - ss.sbl_return) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) as net_sbl_sum20,
+                LAG(i.trust_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_trust_buy_sell,
+                LAG(i.foreign_buy_sell) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_foreign_buy_sell,
                 LAG(h.trade_volume) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_vol,
-                LAG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_close
+                LAG(h.close_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_close,
+                LAG(h.open_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_open,
+                LAG(h.high_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_high,
+                LAG(h.low_price) OVER(PARTITION BY h.stock_id ORDER BY h.trade_date) as yesterday_low
             FROM stock_history h
             LEFT JOIN stock_insti i ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
             LEFT JOIN stock_margin m ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
@@ -997,6 +1002,9 @@ function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
             stock_name as `股名`,
             '待補' as `產業概念`,
             close_price as `收盤價`,
+            yesterday_open as `昨日開盤價`,
+            yesterday_high as `昨日高價`,
+            yesterday_low as `昨日低價`,
             yesterday_close as `昨日收盤價`,
             ROUND(trade_volume / 1000, 0) as `成交量`,
             ROUND(trade_volume / NULLIF(yesterday_vol, 0), 2) as `昨量比`,
@@ -1020,9 +1028,13 @@ function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
             margin_balance_diff_sum10 as `融資10日累計`,
             margin_balance_diff_sum20 as `融資20日累計`,
             margin_balance as `融資餘額`,
+            foreign_buy_sell as `外資買賣超`,
+            yesterday_foreign_buy_sell as `昨日外資買賣超`,
             ROUND(foreign_sum5/1000,0) as `外資5日累計`,
             ROUND(foreign_sum10/1000,0) as `外資10日累計`,
             ROUND(foreign_sum20/1000,0) as `外資20日累計`,
+            trust_buy_sell as `投信買賣超`,
+            yesterday_trust_buy_sell as `昨日投信買賣超`,
             ROUND(trust_sum5/1000,0) as `投信5日累計`, 
             ROUND(trust_sum10/1000,0) as `投信10日累計`, 
             ROUND(trust_sum20/1000,0) as `投信20日累計`, 
@@ -1058,6 +1070,12 @@ function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
         if ($s['20日線斜率'] > 0 && $s['60日線斜率'] <= 0) $tag[] = "生命線轉揚";
         if ((float)$s['20日集中度'] > 10) $tag[] = "法人鎖碼";
         if ($s['投信連買天數'] >= 3 && $s['投信5日累計'] > 0) $tag[] = "投信認養";
+        $denominator = $s['5日均量'] * 5;
+        $trust_ratio_5d = ($denominator == 0) ? null : ($s['投信5日累計'] / $denominator);
+        if ($s['投信連買天數'] >= 5 && $trust_ratio_5d > 0.03) {
+            $tag[] = "投信作帳股";
+        }
+        if ($s['投信連買天數'] == 1 && $s['昨日投信買賣超'] <= 0 && $s['投信買賣超'] > 100) $tag[] = "投信試單";
         if ($s['外資連買天數'] >= 1 && $s['外資5日累計'] > $s['外資20日累計']) $tag[] = "外資回補";
         if ($s['外資連買天數'] > 0 && $s['投信連買天數'] > 0) $tag[] = "土洋合力";
         if ((float)$s['5日集中度'] > (float)$s['20日集中度']) $tag[] = "籌碼趨於集中";

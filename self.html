@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -219,6 +220,7 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
     <div class="max-w-[1600px] mx-auto">
         <header
@@ -436,6 +438,73 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
     <script>
+        const TAG_STYLES = {
+            bullish: [
+                '嚴格多頭',
+                '三陽開泰',
+                '價量齊揚',
+                '土洋合力',
+                '投信認養',
+                '投信作帳股',
+                '投信試單',
+                '主力換手',
+                '生命線轉揚',
+                '籌碼趨於集中',
+                '法人鎖碼',
+                '借券回補',
+                '潛在軋空'
+            ],
+
+            warning: [
+                '高檔乖離',
+                '資券同增',
+                '量縮價穩',
+                '外資回補'
+            ],
+
+            bearish: [
+                // 未來可自行加入
+                // '跌破月線',
+                // '法人倒貨'
+            ]
+        };
+        function getTagClass(tag) {
+
+            if (TAG_STYLES.bullish.includes(tag)) {
+                return `
+            bg-green-900/40
+            text-green-300
+            border
+            border-green-700
+        `;
+            }
+
+            if (TAG_STYLES.warning.includes(tag)) {
+                return `
+            bg-yellow-900/40
+            text-yellow-300
+            border
+            border-yellow-700
+        `;
+            }
+
+            if (TAG_STYLES.bearish.includes(tag)) {
+                return `
+            bg-red-900/40
+            text-red-300
+            border
+            border-red-700
+        `;
+            }
+
+            // 未分類
+            return `
+        bg-slate-700
+        text-slate-200
+        border
+        border-slate-500
+    `;
+        }
         let table;
         let chartInstance = null;
         let cachedChartData = {};
@@ -470,7 +539,20 @@
         }
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-blue-900 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
         function closeModal(id) {
@@ -751,7 +833,20 @@
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
         function showTagDetails(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(tags.split(',').map(t => `<span class="bg-sky-900/50 text-sky-300 border border-sky-700 text-xs px-2 py-1 rounded">${t}</span>`).join(''));
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
         window.addEventListener('resize', () => {
@@ -769,4 +864,5 @@
         });
     </script>
 </body>
+
 </html>
