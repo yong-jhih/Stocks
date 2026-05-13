@@ -1587,9 +1587,40 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
     SELECT *
     FROM FeatureData
     WHERE trade_date = :targetDate
-        AND vma20 > 700000
-        AND ma20 IS NOT NULL
-        AND ma60 IS NOT NULL
+                
+        -- 基本流動性
+        AND vma20 > 1000000
+                
+        -- 趨勢
+        AND ma5 > ma10
+        AND ma10 > ma20
+                
+        -- 均線加速
+        AND ((ma5 - prev_ma5) / NULLIF(prev_ma5,0)) > 0.003
+                
+        -- 爆量
+        AND trade_volume > vma20 * 1.8
+                
+        -- 前一天整理
+        AND yesterday_vol < vma5
+                
+        -- 今日量能放大
+        AND trade_volume / NULLIF(yesterday_vol,0) > 1.8
+                
+        -- 強勢位階
+        AND ((close_price - low10) / NULLIF(high10 - low10,0)) > 0.7
+                
+        -- 要有波動
+        AND ((high10 - low10) / NULLIF(low10,0)) BETWEEN 0.08 AND 0.35
+                
+        -- 法人開始進
+        AND (
+            foreign_streak_days >= 2
+            OR trust_streak_days >= 2
+        )
+                
+        -- 籌碼集中
+        AND (insti_sum5 / NULLIF(vol_sum5,0)) > 0.04
     ";
 
     $stmt = $pdo->prepare($sql);
