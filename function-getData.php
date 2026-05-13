@@ -1383,26 +1383,70 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
     ),
 
     NumberedData AS (
+        SELECT
+            *,
+            
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS rn_all,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (foreign_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_foreign,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (trust_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_trust
+
+        FROM BaseData
+    ),
+    FeatureData AS (
     SELECT
         *,
-        
-        ROW_NUMBER() OVER(
+
+        LAG(ma5) OVER(
             PARTITION BY stock_id
             ORDER BY trade_date
-        ) AS rn_all,
+        ) AS prev_ma5,
 
-        ROW_NUMBER() OVER(
-            PARTITION BY stock_id, (foreign_buy_sell > 0)
+        LAG(ma10) OVER(
+            PARTITION BY stock_id
             ORDER BY trade_date
-        ) AS rn_foreign,
+        ) AS prev_ma10,
 
-        ROW_NUMBER() OVER(
-            PARTITION BY stock_id, (trust_buy_sell > 0)
+        LAG(ma20) OVER(
+            PARTITION BY stock_id
             ORDER BY trade_date
-        ) AS rn_trust
+        ) AS prev_ma20,
 
-    FROM BaseData
-),
+        LAG(ma60) OVER(
+            PARTITION BY stock_id
+            ORDER BY trade_date
+        ) AS prev_ma60,
+
+        CASE
+            WHEN foreign_buy_sell > 0 THEN
+                ROW_NUMBER() OVER (
+                    PARTITION BY stock_id, (rn_all - rn_foreign)
+                    ORDER BY trade_date
+                )
+            ELSE 0
+        END AS foreign_streak_days,
+
+        CASE
+            WHEN trust_buy_sell > 0 THEN
+                ROW_NUMBER() OVER (
+                    PARTITION BY stock_id, (rn_all - rn_trust)
+                    ORDER BY trade_date
+                )
+            ELSE 0
+        END AS trust_streak_days
+
+    FROM NumberedData
+)
 
     SELECT *
     FROM FeatureData
