@@ -2,7 +2,7 @@
 require_once("init.php");
 
 
-$targetDate = '2026-05-12';
+$targetDate = '2026-05-13';
 $results = tetsGenerateDailyDashboard($pdo, $targetDate);
 createJsonFile($pdo, $targetDate, 'test', $results);
 renewCharts($pdo, $targetDate, 'test', 'test-charts');
