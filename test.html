@@ -263,6 +263,14 @@
                     <tr>
                         <th>代號</th>
                         <th>名稱</th>
+                        <th>策略分類</th>
+                        <th>信心度</th>
+                        <th>綜合評分</th>
+                        <th>趨勢分數</th>
+                        <th>動能分數</th>
+                        <th>籌碼分數</th>
+                        <th>結構分數</th>
+                        <th>風險分數</th>
                         <th>標籤</th>
                         <th>收盤</th>
                         <th>成交量</th>
@@ -604,6 +612,15 @@
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
+                        item.strategy_type,
+                        item.confidence,
+                        item.score,
+                        item.trend_score,
+                        item.momentum_score,
+                        item.chip_score,
+                        item.structure_score,
+                        item.risk_score,
+
                         tagBtn, item.close, item.vol, item.vol_ratio
                         // , item.vma5, item.vma10, item.vma20,
                         // item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
