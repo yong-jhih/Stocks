@@ -1927,73 +1927,75 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         $concept = '';
 
         // =========================
-        // Output
+        // Output      稍微過濾下,只保留高分
         // =========================
-        $dashboardResults[] = [
-            'stock_id' => $s['stock_id'],
-            'stock_name' => $s['stock_name'],
-            'concept' => $concept,
-            'score' => $finalScore,
-            'rating' => $rating,
-            'strategy_type' => $strategyType,
-            'confidence' => $confidence,
-            // Score Breakdown
-            'trend_score' => round($trendScore),
-            'momentum_score' => round($momentumScore),
-            'chip_score' => round($chipScore),
-            'structure_score' => round($structureScore),
-            'risk_score' => round($riskScore),
-            // Price
-            'close' => round($close, 2),
-            // Volume
-            'vol' => round($s['trade_volume'] / 1000, 0),
-            'vol_ratio' => round($volRatio, 2),
-            // Structure
-            'rank10' => round($rank10, 2),
-            'amp10' => round($amp10, 2),
-            // MA
-            'ma5' => round($ma5, 2),
-            'ma10' => round($ma10, 2),
-            'ma20' => round($ma20, 2),
-            'ma60' => round($ma60, 2),
-            // Volume MA
-            'vma5' => round($vma5 / 1000, 0),
-            'vma10' => round($s['vma10'] / 1000, 0),
-            'vma20' => round($vma20 / 1000, 0),
-            // Bias
-            'bia5' => round($bia5, 2),
-            'bia10' => round($bia10, 2),
-            'bia20' => round($bia20, 2),
-            // Chip Ratios
-            'con1' => round($con1, 2),
-            'con5' => round($con5, 2),
-            'con20' => round($con20, 2),
-            // Institution
-            'foreign_buy_sell' => $s['foreign_buy_sell'],
-            'trust_buy_sell' => $s['trust_buy_sell'],
-            'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
-            'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
-            'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
-            'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
-            'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
-            'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
-            'foreign_streak_days' => (int)$s['foreign_streak_days'],
-            'trust_streak_days' => (int)$s['trust_streak_days'],
-            // Margin
-            'margin_balance' => (int)$s['margin_balance'],
-            'margin_balance_diff' => (int)$s['margin_balance_diff'],
-            // SBL
-            'squeeze' => round($squeeze, 2),
-            'net_sbl' => round($s['net_sbl'] / 1000, 0),
-            'sbl_total' => round($s['sbl_total'] / 1000, 0),
-            'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
-            // Signals
-            'signals' => $signals,
-            // Flat Tags
-            'tags' => $tags,
-            // Trigger
-            'trigger_reasons' => $triggerReasons
-        ];
+        if ($rating == 'S' || $rating == 'A') {
+            $dashboardResults[] = [
+                'stock_id' => $s['stock_id'],
+                'stock_name' => $s['stock_name'],
+                'concept' => $concept,
+                'score' => $finalScore,
+                'rating' => $rating,
+                'strategy_type' => $strategyType,
+                'confidence' => $confidence,
+                // Score Breakdown
+                'trend_score' => round($trendScore),
+                'momentum_score' => round($momentumScore),
+                'chip_score' => round($chipScore),
+                'structure_score' => round($structureScore),
+                'risk_score' => round($riskScore),
+                // Price
+                'close' => round($close, 2),
+                // Volume
+                'vol' => round($s['trade_volume'] / 1000, 0),
+                'vol_ratio' => round($volRatio, 2),
+                // Structure
+                'rank10' => round($rank10, 2),
+                'amp10' => round($amp10, 2),
+                // MA
+                'ma5' => round($ma5, 2),
+                'ma10' => round($ma10, 2),
+                'ma20' => round($ma20, 2),
+                'ma60' => round($ma60, 2),
+                // Volume MA
+                'vma5' => round($vma5 / 1000, 0),
+                'vma10' => round($s['vma10'] / 1000, 0),
+                'vma20' => round($vma20 / 1000, 0),
+                // Bias
+                'bia5' => round($bia5, 2),
+                'bia10' => round($bia10, 2),
+                'bia20' => round($bia20, 2),
+                // Chip Ratios
+                'con1' => round($con1, 2),
+                'con5' => round($con5, 2),
+                'con20' => round($con20, 2),
+                // Institution
+                'foreign_buy_sell' => $s['foreign_buy_sell'],
+                'trust_buy_sell' => $s['trust_buy_sell'],
+                'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
+                'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
+                'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
+                'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
+                'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
+                'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
+                'foreign_streak_days' => (int)$s['foreign_streak_days'],
+                'trust_streak_days' => (int)$s['trust_streak_days'],
+                // Margin
+                'margin_balance' => (int)$s['margin_balance'],
+                'margin_balance_diff' => (int)$s['margin_balance_diff'],
+                // SBL
+                'squeeze' => round($squeeze, 2),
+                'net_sbl' => round($s['net_sbl'] / 1000, 0),
+                'sbl_total' => round($s['sbl_total'] / 1000, 0),
+                'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
+                // Signals
+                'signals' => $signals,
+                // Flat Tags
+                'tags' => $tags,
+                // Trigger
+                'trigger_reasons' => $triggerReasons
+            ];
+        }
     }
 
     // =========================
