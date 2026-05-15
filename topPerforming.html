@@ -10,34 +10,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
     <style>
-        body {
-            overflow-x: hidden;
-        }
-
-        .dataTables_wrapper {
-            background: #1f2937;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            color: #d1d5db;
-        }
-
         th,
         td {
             background-color: #1f2937 !important;
-        }
-
-        table.dataTable thead th {
-            background-color: #374151 !important;
-            color: #60a5fa !important;
-            white-space: nowrap !important;
-            border-bottom: 1px solid #4b5563 !important;
-            text-align: center !important;
-            padding: 12px 15px !important;
-            z-index: 2;
-        }
-
-        .DTFC_LeftWrapper {
-            border-right: 2px solid #4b5563;
         }
 
         table.dataTable tbody tr.selected td {
@@ -516,7 +491,6 @@
             });
             table.on('click', 'tbody tr', function (e) {
                 const rowData = table.row(this).data();
-                console.log("整行資料:", rowData);
                 if (rowData) {
                     openChart(rowData[0], $(rowData[1]).text());
                 }
@@ -547,15 +521,6 @@
             }
         }
         function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
-        async function initDateSelectFromJSON() {
-            try {
-                const res = await fetch('./data/dateList.json');
-                const dates = await res.json();
-                const $sel = $('#dateSelect').empty();
-                dates.forEach(d => $sel.append(`<option value="${d}">${d}</option>`));
-                if (dates.length) $sel.trigger('change');
-            } catch (e) { console.error(e); }
-        }
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_topPerforming.json`);
@@ -617,7 +582,6 @@
                     $sel.off('change').on('change', function () {
                         const selectedDate = $(this).val();
                         if (selectedDate) {
-                            console.log("當前選擇日期:", selectedDate);
                             loadData(selectedDate);
                             loadChartData(selectedDate);
                         }
@@ -633,15 +597,12 @@
                 const response = await fetch(`./data/${date}_topPerforming-charts.json`);
                 const data = await response.json();
                 cachedChartData = data;
-                console.log("圖表快取已更新:", cachedChartData);
             } catch (error) {
                 console.error("載入圖表 JSON 失敗:", error);
             }
         }
         function openChart(id, name) {
             id = String(id).trim();
-            console.log("比對的 ID:", id);
-            console.log("快取內擁有的 ID:", Object.keys(cachedChartData.stocks || {}));
             if (!cachedChartData || !cachedChartData.stocks || !cachedChartData.stocks[id]) {
                 console.error("找不到該股票的快取資料:", id);
                 return;
@@ -828,15 +789,6 @@
             });
         }
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
-        function showTagDetails(name, tags) {
-            $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(
-                tags
-                    .map(t => t.trim())
-                    .map(t => `<span class="${getTagClass(t)} text-xs px-2 py-1 rounded">${t}</span>`).join('')
-            );
-            $('#tagModal').removeClass('hidden').addClass('flex modal-active');
-        }
         window.addEventListener('resize', () => {
             if (chartInstance) {
                 chartInstance.resize();
