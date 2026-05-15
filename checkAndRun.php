@@ -37,8 +37,8 @@ if (
     renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
 
     $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
-    createJsonFile($pdo, $targetDate, 'topPerformimg', $resultsTop);
-    renewCharts($pdo, $targetDate, 'topPerformimg', 'topPerformimg-charts');
+    createJsonFile($pdo, $targetDate, 'topPerforming', $resultsTop);
+    renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
     cleanData(20);
     lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
