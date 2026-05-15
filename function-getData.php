@@ -1625,8 +1625,10 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
         $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
         $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
+        $con10 = $s['vol_sum10'] ? ($s['insti_sum10'] / $s['vol_sum10'] * 100) : 0;
         $con20 = $s['vol_sum20'] ? ($s['insti_sum20'] / $s['vol_sum20'] * 100) : 0;
         $squeeze = $vma20 ? ($s['sbl_sold_balance'] / $vma20) : 0;
+        $bullet = $vma20 ? (($s['sbl_total'] - $s['sbl_sold_balance']) / $vma20) : 0;
 
         // =========================
         // Signal Containers
@@ -2069,6 +2071,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 // Chip Ratios
                 'con1' => round($con1, 2),
                 'con5' => round($con5, 2),
+                'con10' => round($con10, 2),
                 'con20' => round($con20, 2),
                 // Institution
                 'foreign_buy_sell' => $s['foreign_buy_sell'],
@@ -2086,6 +2089,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 'margin_balance_diff' => (int)$s['margin_balance_diff'],
                 // SBL
                 'squeeze' => round($squeeze, 2),
+                'bullet' => round($bullet, 2),
                 'net_sbl' => round($s['net_sbl'] / 1000, 0),
                 'sbl_total' => round($s['sbl_total'] / 1000, 0),
                 'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),

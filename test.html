@@ -275,7 +275,7 @@
                         <th>收盤</th>
                         <th>成交量</th>
                         <th>昨量比</th>
-                        <!-- <th>5日均量</th>
+                        <th>5日均量</th>
                         <th>10日均量</th>
                         <th>20日均量</th>
                         <th>10日位階</th>
@@ -294,7 +294,7 @@
                         <th>券淨賣還5日</th>
                         <th>融資餘額</th>
                         <th>借券餘額</th>
-                        <th>券賣餘額</th> -->
+                        <th>券賣餘額</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-300"></tbody>
@@ -620,13 +620,30 @@
                         item.chip_score,
                         item.structure_score,
                         item.risk_score,
-
-                        tagBtn, item.close, item.vol, item.vol_ratio
-                        // , item.vma5, item.vma10, item.vma20,
-                        // item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
-                        // item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
-                        // item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
-                        // item.sbl_total, item.sbl_sold_balance
+                        tagBtn,
+                        item.close,
+                        item.vol,
+                        item.vol_ratio,
+                        item.vma5,
+                        item.vma10,
+                        item.vma20,
+                        item.rank10,
+                        item.amp10,
+                        item.con1,
+                        item.con5,
+                        item.con10,
+                        item.con20,
+                        item.foreign_sum5,
+                        item.trust_sum5,
+                        item.foreign_streak_days,
+                        item.trust_streak_days,
+                        item.squeeze,
+                        item.bullet,
+                        item.net_sbl,
+                        item.net_sbl_sum5,
+                        item.margin_balance,
+                        item.sbl_total,
+                        item.sbl_sold_balance
                     ]);
                 });
                 table.draw();

@@ -37,10 +37,10 @@ if (
     renewCharts($pdo, $targetDate, 'filter', 'charts');
     renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
 
-    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
-    cleanData(20);
-
     $results = tetsGenerateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'test', $results);
     renewCharts($pdo, $targetDate, 'test', 'test-charts');
+
+    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+    cleanData(20);
 }
