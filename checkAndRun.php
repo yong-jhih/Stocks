@@ -29,18 +29,17 @@ if (
 ) {
     $results = generateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'filter', $results);
+    renewCharts($pdo, $targetDate, 'filter', 'charts');
     saveDailyDashboard($pdo, $targetDate, $results);
 
     $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449, 3665, 3017, 2368, 2330, 1590, 6412, 2363, 2383, 8210]);
     createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
-
-    renewCharts($pdo, $targetDate, 'filter', 'charts');
     renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
 
-    $results = tetsGenerateDailyDashboard($pdo, $targetDate);
-    createJsonFile($pdo, $targetDate, 'test', $results);
-    renewCharts($pdo, $targetDate, 'test', 'test-charts');
+    $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
+    createJsonFile($pdo, $targetDate, 'topPerformimg', $resultsTop);
+    renewCharts($pdo, $targetDate, 'topPerformimg', 'topPerformimg-charts');
 
-    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     cleanData(20);
+    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後個股篩選已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
 }

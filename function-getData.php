@@ -1243,7 +1243,7 @@ function getStockAnalysisChart($pdo, $stockId, $targetDate, $displayDays = 20)
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
-function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
+function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): array
 {
     $sql = "
     WITH BaseData AS (
@@ -2113,7 +2113,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
     );
     writeLog(
         $pdo,
-        'generateDailyDashboard',
+        'topPerformingGenerateDailyDashboard',
         "{$targetDate} 分析完成，共篩選出 " .
             count($dashboardResults) .
             " 檔",
