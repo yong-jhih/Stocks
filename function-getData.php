@@ -2091,6 +2091,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 'squeeze' => round($squeeze, 2),
                 'bullet' => round($bullet, 2),
                 'net_sbl' => round($s['net_sbl'] / 1000, 0),
+                'net_sbl_sum5' => round($s['net_sbl_sum5'] / 1000, 0),
                 'sbl_total' => round($s['sbl_total'] / 1000, 0),
                 'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
                 // Signals
