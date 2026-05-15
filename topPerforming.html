@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>盤後分析篩選</title>
+    <title>市場強勢股排行</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
@@ -226,7 +226,7 @@
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
-                <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
+                <h1 class="text-3xl font-bold text-blue-400">市場強勢股排行</h1>
                 <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
@@ -415,7 +415,6 @@
                             </div>
                     </section>
                 </div>
-
                 <div class="p-4 text-right border-t border-gray-700">
                     <button onclick="closeInfoModal()"
                         class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded text-white transition-colors">關閉</button>
@@ -446,7 +445,7 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
     <script>
-        const TAG_STYLES = {
+        const TAG_STYLES = { // 標籤顏色
             bullish: [
                 '嚴格多頭',
                 '三陽開泰',
@@ -462,14 +461,12 @@
                 '借券回補',
                 '潛在軋空'
             ],
-
             warning: [
                 '高檔乖離',
                 '資券同增',
                 '量縮價穩',
                 '外資回補'
             ],
-
             bearish: [
                 // 未來可自行加入
                 // '跌破月線',
@@ -477,41 +474,10 @@
             ]
         };
         function getTagClass(tag) {
-
-            if (TAG_STYLES.bullish.includes(tag)) {
-                return `
-            bg-green-900/40
-            text-green-300
-            border
-            border-green-700
-        `;
-            }
-
-            if (TAG_STYLES.warning.includes(tag)) {
-                return `
-            bg-yellow-900/40
-            text-yellow-300
-            border
-            border-yellow-700
-        `;
-            }
-
-            if (TAG_STYLES.bearish.includes(tag)) {
-                return `
-            bg-red-900/40
-            text-red-300
-            border
-            border-red-700
-        `;
-            }
-
-            // 未分類
-            return `
-        bg-slate-700
-        text-slate-200
-        border
-        border-slate-500
-    `;
+            if (TAG_STYLES.bullish.includes(tag)) return `bg-green-900/40 text-green-300 border border-green-700`;
+            if (TAG_STYLES.warning.includes(tag)) return `bg-yellow-900/40 text-yellow-300 border border-yellow-700`;
+            if (TAG_STYLES.bearish.includes(tag)) return `bg-red-900/40 text-red-300 border border-red-700`;
+            return `bg-slate-700 text-slate-200 border border-slate-500`; // 未分類
         }
         let table;
         let chartInstance = null;
@@ -519,17 +485,15 @@
         $(document).ready(function () {
             $('#stockTable tbody').on('click', '.tag-btn', function (e) {
                 e.stopPropagation();
-
                 const name = $(this).data('name');
                 const tags = $(this).data('tags');
-
                 showTags(name, tags);
             });
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
                 paging: true,
-                pageLength: 25,
+                pageLength: 100,
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
@@ -539,7 +503,6 @@
             table.on('click', 'tbody tr', function (e) {
                 const rowData = table.row(this).data();
                 console.log("整行資料:", rowData);
-
                 if (rowData) {
                     openChart(rowData[0], $(rowData[1]).text());
                 }
@@ -558,17 +521,7 @@
             $('#modalTagContent').html(
                 tags
                     .map(t => t.trim())
-                    .map(t => `
-                        <span class="
-                            ${getTagClass(t)}
-                            text-xs
-                            px-2
-                            py-1
-                            rounded
-                        ">
-                            ${t}
-                        </span>
-                    `).join('')
+                    .map(t => `<span class="${getTagClass(t)} text-xs px-2 py-1 rounded">${t}</span>`).join('')
             );
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
@@ -598,17 +551,7 @@
                 data.forEach(item => {
                     const tagText = item.tags.join(', ');
                     const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
-                    const tagBtn = `
-<div class="flex items-center gap-1">
-    <span>${tagShort}</span>
-    <button 
-        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-        data-name="${item.stock_name}"
-        data-tags='${JSON.stringify(item.tags)}'
-    >
-        更
-    </button>
-</div>`;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600" data-name="${item.stock_name}" data-tags='${JSON.stringify(item.tags)}'>更</button></div>`;
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
@@ -715,19 +658,12 @@
                         trigger: 'axis',
                         backgroundColor: '#0f172a',
                         borderColor: '#334155',
-                        textStyle: {
-                            color: '#e2e8f0'
-                        },
-                        axisPointer: {
-                            type: 'cross'
-                        }
+                        textStyle: { color: '#e2e8f0' },
+                        axisPointer: { type: 'cross' }
                     },
                     legend: {
                         bottom: isMobile ? 0 : 0,
-                        textStyle: {
-                            color: '#cbd5e1',
-                            fontSize: isMobile ? 10 : 12
-                        },
+                        textStyle: { color: '#cbd5e1', fontSize: isMobile ? 10 : 12 },
                         itemWidth: isMobile ? 12 : 20,
                         itemHeight: isMobile ? 8 : 12,
                         type: 'scroll'
@@ -742,9 +678,7 @@
                         type: 'category',
                         data: dates,
                         axisLine: {
-                            lineStyle: {
-                                color: '#64748b'
-                            }
+                            lineStyle: { color: '#64748b' }
                         },
                         axisLabel: {
                             color: '#cbd5e1',
@@ -760,17 +694,11 @@
                             scale: true,
                             axisLine: {
                                 show: true,
-                                lineStyle: {
-                                    color: '#facc15'
-                                }
+                                lineStyle: { color: '#facc15' }
                             },
-                            axisLabel: {
-                                color: '#facc15'
-                            },
+                            axisLabel: { color: '#facc15' },
                             splitLine: {
-                                lineStyle: {
-                                    color: '#1e293b'
-                                }
+                                lineStyle: { color: '#1e293b' }
                             }
                         },
                         {
@@ -891,17 +819,7 @@
             $('#modalTagContent').html(
                 tags
                     .map(t => t.trim())
-                    .map(t => `
-                        <span class="
-                            ${getTagClass(t)}
-                            text-xs
-                            px-2
-                            py-1
-                            rounded
-                        ">
-                            ${t}
-                        </span>
-                    `).join('')
+                    .map(t => `<span class="${getTagClass(t)} text-xs px-2 py-1 rounded">${t}</span>`).join('')
             );
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
