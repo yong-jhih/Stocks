@@ -181,7 +181,7 @@ function cleanData($days)
             return;
         }
 
-        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json"];
+        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json", "*_charts.json", "*_self-charts.json"];
         foreach ($targetFiles as $pattern) {
             $allFiles = glob("data/" . $pattern);
             if ($allFiles) {

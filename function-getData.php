@@ -1604,6 +1604,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         $close = (float)$s['close_price'];
         $open  = (float)$s['open_price'];
         $high  = (float)$s['high_price'];
+        $low  = (float)$s['low_price'];
         $yClose = (float)$s['yesterday_close'];
         $yOpen  = (float)$s['yesterday_open'];
         $yHigh  = (float)$s['yesterday_high'];
@@ -1659,23 +1660,17 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         );
         $addSignal(
             'trend',
-            $close > $ma20,
-            '站上月線',
-            8
-        );
-        $addSignal(
-            'trend',
             $ma5 > $prevMa5 &&
                 $ma10 > $prevMa10 &&
                 $ma20 > $prevMa20,
             '均線上彎',
-            5
+            10
         );
         $addSignal(
             'trend',
             $close > $ma60,
             '站上季線',
-            10
+            8
         );
 
         // =========================
@@ -1690,37 +1685,15 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         );
         $addSignal(
             'momentum',
-            $volRatio > 2 &&
-                ($close / max($yClose, 0.01)) > 1.04,
-            '強勢突破',
-            20
-        );
-        $addSignal(
-            'momentum',
-            $close / max($yClose, 0.01) > 1.03 &&
+            ($close / max($yClose, 0.01)) > 1.03 &&
                 $volRatio > 1.3,
             '價量齊揚',
             15
-        );
-        $addSignal(
-            'momentum',
-            $close > $ma5 &&
-                $ma5 > $ma10 &&
-                $volRatio > 1.8 &&
-                $con5 > 8,
-            '主升段啟動',
-            25
         );
 
         // =========================
         // Chip
         // =========================
-        $addSignal(
-            'chip',
-            $con20 > 10,
-            '法人鎖碼',
-            20
-        );
         $addSignal(
             'chip',
             $con5 > 15,
@@ -1731,27 +1704,27 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             'chip',
             $s['foreign_streak_days'] >= 3,
             '外資連買',
-            12
+            10
         );
         $addSignal(
             'chip',
             $s['trust_streak_days'] >= 3,
             '投信連買',
-            15
+            12
         );
         $addSignal(
             'chip',
             $s['foreign_streak_days'] > 0 &&
                 $s['trust_streak_days'] > 0,
             '土洋合力',
-            18
+            15
         );
         $addSignal(
             'chip',
             $s['margin_balance_diff'] < 0 &&
                 $close >= $yClose,
             '融資減肥',
-            8
+            6
         );
 
         // =========================
@@ -1772,78 +1745,214 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
         );
         $addSignal(
             'structure',
-            $rank10 > 80,
-            '高檔區',
-            3
+            $close > $ma20 &&
+                $volRatio < 0.9 &&
+                $close >= $yClose,
+            '量縮抗跌',
+            10
         );
 
         // =========================
-        // Risk
+        // Market State
+        // 不加分，只做分類
         // =========================
-        $addSignal(
-            'risk',
-            $rank10 > 85 &&
-                $bia20 > 12,
-            '短線過熱',
-            -15
-        );
-        $addSignal(
-            'risk',
+        $marketStates = [];
+
+        if (
+            $close > $ma5 &&
+            $ma5 > $ma10 &&
+            $volRatio > 1.8 &&
+            $con5 > 8
+        ) {
+            $marketStates[] = '主升段';
+        }
+
+        if (
+            $amp10 < 12 &&
+            $vma5 < $vma20 &&
+            $close > $ma20 &&
+            $con5 > 5
+        ) {
+            $marketStates[] = '發動前夕';
+        }
+
+        // =========================
+        // Risk 同類只觸發最嚴重
+        // =========================
+        // ---- 過熱類 ----
+        if ($rank10 > 90 && $bia20 > 15) {
+            $addSignal(
+                'risk',
+                true,
+                '極度過熱',
+                -35
+            );
+        } elseif ($rank10 > 85 && $bia20 > 12) {
+            $addSignal(
+                'risk',
+                true,
+                '短線過熱',
+                -18
+            );
+        } elseif ($bia20 > 18) {
+            $addSignal(
+                'risk',
+                true,
+                '乖離過大',
+                -12
+            );
+        }
+
+        // ---- 出貨類 ----
+        if (
+            $volRatio > 2.5 &&
+            ($close / max($yClose, 0.01)) < 1.01
+        ) {
+            $addSignal(
+                'risk',
+                true,
+                '爆量滯漲',
+                -30
+            );
+        } elseif (
             $volRatio > 2 &&
-                ($close / max($yClose, 0.01)) < 1.01,
-            '爆量出貨',
-            -20
+            (
+                ($high - max($close, $open))
+                / max(($high - $low), 0.01)
+            ) > 0.45
+        ) {
+            $addSignal(
+                'risk',
+                true,
+                '高檔出貨',
+                -25
+            );
+        } elseif (
+            $high > $yHigh &&
+            $close < $yHigh
+        ) {
+            $addSignal(
+                'risk',
+                true,
+                '假突破',
+                -20
+            );
+        }
+
+        // ---- 趨勢轉弱類 ----
+        if (
+            $close < $ma20 &&
+            $s['trade_volume'] < $vma20
+        ) {
+            $addSignal(
+                'risk',
+                true,
+                '量縮走弱',
+                -20
+            );
+        } elseif ($ma20 < $prevMa20) {
+            $addSignal(
+                'risk',
+                true,
+                '月線轉弱',
+                -18
+            );
+        } elseif ($close < $ma20) {
+            $addSignal(
+                'risk',
+                true,
+                '跌破月線',
+                -12
+            );
+        }
+
+        // ---- 籌碼轉弱 ----
+        $addSignal(
+            'risk',
+            $s['foreign_buy_sell'] < 0 &&
+                $s['trust_buy_sell'] < 0,
+            '法人同步轉賣',
+            -18
         );
         $addSignal(
             'risk',
             $s['foreign_sum5'] < 0 &&
                 $s['trust_sum5'] < 0,
             '法人倒貨',
-            -18
-        );
-        $addSignal(
-            'risk',
-            $close < $ma20,
-            '跌破月線',
-            -12
+            -22
         );
 
         // =========================
         // Category Scores
         // =========================
-        $trendScore     = array_sum($signals['trend']);
-        $momentumScore  = array_sum($signals['momentum']);
-        $chipScore      = array_sum($signals['chip']);
-        $structureScore = array_sum($signals['structure']);
-        $riskScore      = array_sum($signals['risk']);
+        $trendScore = min(
+            35,
+            array_sum($signals['trend'])
+        );
+
+        $momentumScore = min(
+            35,
+            array_sum($signals['momentum'])
+        );
+
+        $chipScore = min(
+            40,
+            array_sum($signals['chip'])
+        );
+
+        $structureScore = min(
+            20,
+            array_sum($signals['structure'])
+        );
+
+        $riskScore = array_sum($signals['risk']);
+
+        // =========================
+        // Risk Multiplier
+        // =========================
+        $riskMultiplier = 1.0;
+        if ($riskScore <= -20) {
+            $riskMultiplier = 0.9;
+        }
+        if ($riskScore <= -40) {
+            $riskMultiplier = 0.75;
+        }
+        if ($riskScore <= -60) {
+            $riskMultiplier = 0.6;
+        }
 
         // =========================
         // Final Score
         // =========================
-        $finalScore =
+        $rawScore =
             ($trendScore * 1.0) +
-            ($momentumScore * 1.2) +
-            ($chipScore * 1.3) +
-            ($structureScore * 0.7) +
-            ($riskScore);
+            ($momentumScore * 1.1) +
+            ($chipScore * 1.2) +
+            ($structureScore * 0.8);
 
-        $finalScore = max(0, min(100, round($finalScore)));
+        $finalScore = ($rawScore * $riskMultiplier);
+
+        // Normalize
+        $finalScore = max(
+            0,
+            min(100, round($finalScore))
+        );
 
         // =========================
         // Rating
         // =========================
         $rating = match (true) {
-            $finalScore >= 85 => 'S',
-            $finalScore >= 70 => 'A',
-            $finalScore >= 55 => 'B',
-            $finalScore >= 40 => 'C',
+            $finalScore >= 80 => 'S',
+            $finalScore >= 65 => 'A',
+            $finalScore >= 50 => 'B',
+            $finalScore >= 35 => 'C',
             default => 'D'
         };
 
         // =========================
         // Strategy Type
         // =========================
-        $strategyType = '觀察';
+        $strategyType = $marketStates[0] ?? '觀察';
         if (
             $trendScore >= 20 &&
             $momentumScore >= 20 &&
@@ -1882,14 +1991,7 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
                 $positiveGroups++;
             }
         }
-        $confidence = round(
-            min(
-                1,
-                ($positiveGroups / 3) +
-                    max(0, (-$riskScore / 100))
-            ),
-            2
-        );
+        $confidence = round(max(0, min(1, (($positiveGroups / 3) * $riskMultiplier))), 2);
 
         // =========================
         // Flatten Tags
@@ -1920,7 +2022,6 @@ function tetsGenerateDailyDashboard(PDO $pdo, string $targetDate): array
             $triggerReasons[] =
                 '法人持股集中度提升';
         }
-
         // =========================
         // Concept
         // =========================
