@@ -2489,105 +2489,78 @@ function testgenerateDailyDashboard($pdo, $targetDate)
     $stmt->execute(['targetDate' => $targetDate]);
     $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $dashboardResults = [];
+
     foreach ($rawStocks as $s) {
-        $tag = [];
-        if ($s['收盤價'] > $s['5日線'] && $s['5日線'] > $s['10日線'] && $s['10日線'] > $s['20日線'] && $s['5日線斜率'] > 0 && $s['10日線斜率'] > 0 && $s['20日線斜率'] > 0) $tag[] = "嚴格多頭";
-        if ($s['收盤價'] > $s['5日線'] && $s['收盤價'] > $s['10日線'] && $s['收盤價'] > $s['20日線'] && $s['昨日收盤價'] < $s['20日線']) $tag[] = "三陽開泰";
-        if ($s['收盤價'] / $s['昨日收盤價'] > 1.03 && $s['昨量比'] > 1.5) $tag[] = "價量齊揚";
-        if ($s['昨量比'] < 0.7 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.01) $tag[] = "量縮價穩";
-        if ((float)$s['5日乖離率'] > 7) $tag[] = "高檔乖離";
-        if ($s['20日線斜率'] > 0 && $s['60日線斜率'] <= 0) $tag[] = "生命線轉揚";
-        if ((float)$s['20日集中度'] > 10) $tag[] = "法人鎖碼";
-        if ($s['投信連買天數'] >= 3 && $s['投信5日累計'] > 0) $tag[] = "投信認養";
-        $denominator = $s['5日均量'] * 5;
-        $trust_ratio_5d = ($denominator == 0) ? null : ($s['投信5日累計'] / $denominator);
-        if ($s['投信連買天數'] >= 5 && $trust_ratio_5d > 0.03) {
-            $tag[] = "投信作帳股";
-        }
-        // if (floatval($s['10日振幅']) < 8 && $s['5日均量'] < $s['20日均量']) $tag[] = "整理末端";
-        // if ($s['昨量比'] > 2 && $s['收盤價'] > $s['昨日高價'] && $s['收盤價'] < $s['高價'] * 0.97) $tag[] = "假突破";
-        // if (($s['5日線'] - $s['10日線']) / $s['10日線'] > 0.03 && ($s['10日線'] - $s['20日線']) / $s['20日線'] > 0.03 && (float)$s['5日乖離率'] > 5) $tag[] = "均線發散";
-        // if ($s['昨量比'] > 1.5 && $s['收盤價'] > $s['5日線'] && $s['收盤價'] > $s['昨日高價']) $tag[] = "爆量突破";
-        // if ($s['昨量比'] > 2 && ($s['收盤價'] / $s['昨日收盤價']) > 1.04) $tag[] = "強勢突破";
-        // if ($s['外資5日累計'] > 500 && $s['外資5日累計'] > abs($s['外資20日累計'])) $tag[] = "法人急買";
-        // if ((float)$s['10日位階'] > 80 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.02) $tag[] = "高檔震盪";
-        // if ((float)$s['10日位階'] > 85 && $s['20日乖離率'] > 12) $tag[] = "短線過熱";
-        // if ($s['外資買賣超'] > 0 && $s['投信買賣超'] < 0) $tag[] = "法人分歧";
-        // if ($s['昨量比'] > 2 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.01 && $s['收盤價'] < $s['昨日高價']) $tag[] = "爆量不漲";
-        // if ($s['收盤價'] / $s['昨日收盤價'] < 0.97 && $s['昨量比'] > 1.5) $tag[] = "爆量長黑";
-        // if ($s['收盤價'] < $s['20日線'] && $s['昨日收盤價'] >= $s['20日線']) $tag[] = "跌破生命線";
-        // if ($s['外資5日累計'] < 0 && $s['投信5日累計'] < 0) $tag[] = "法人倒貨";
-        // if ($s['融資5日累計'] > 0 && $s['收盤價'] < $s['10日線'] && $s['外資5日累計'] <= 0) $tag[] = "融資失控";
-        // if ($s['券淨賣還5日累計'] > 0 && $s['券砸力'] > 3 && $s['收盤價'] < $s['5日線']) $tag[] = "空方加壓";
-        // if ($s['昨量比'] < 0.8 && (float)$s['5日集中度'] > 5 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.015) $tag[] = "洗盤吸籌";
-        // if ($s['外資連買天數'] >= 3 && $s['昨量比'] < 1 && $s['收盤價'] > $s['20日線']) $tag[] = "偷偷吃貨";
-        // if ((float)$s['20日集中度'] > 15 && $s['券補力'] > 3) $tag[] = "籌碼鎖死";
-        // if ($s['券補力'] > 8 && $s['收盤價'] > $s['5日線']) $tag[] = "軋空預備";
-        // if ($s['收盤價'] > $s['5日線'] && $s['5日線'] > $s['10日線'] && $s['昨量比'] > 1.8 && (float)$s['5日集中度'] > 8) $tag[] = "主升段啟動";
-        // if ($s['收盤價'] > $s['20日線'] && $s['5日線斜率'] < $s['10日線斜率'] && $s['10日線斜率'] < $s['20日線斜率']) $tag[] = "多頭鈍化";
-        // if ($s['昨量比'] > 2 && $s['收盤價'] / $s['昨日收盤價'] < 1.01 && $s['外資買賣超'] < 0) $tag[] = "爆量出貨";
-        // if ($s['外資連買天數'] >= 5 && $s['外資買賣超'] < 0 && abs($s['外資買賣超']) > ($s['外資5日累計'] * 0.3)) $tag[] = "法人落跑";
-        // if ($s['收盤價'] > $s['20日線'] && $s['5日線斜率'] > 0 && $s['20日線斜率'] < 0 && $s['昨量比'] > 1.5) $tag[] = "底部甦醒";
-        // if ((float)$s['10日位階'] > 80 && $s['收盤價'] < $s['5日線'] && $s['外資買賣超'] < 0) $tag[] = "高檔轉弱";
-        // if ($s['5日線斜率'] < 0 && $s['10日線斜率'] < 0 && $s['收盤價'] < $s['10日線']) $tag[] = "短線轉空";
-        if ($s['投信連買天數'] == 1 && $s['昨日投信買賣超'] <= 0 && $s['投信買賣超'] > 100) $tag[] = "投信試單";
-        if ($s['外資5日累計'] > abs($s['外資20日累計'] * 0.3) && $s['外資20日累計'] < 0) $tag[] = "外資回補";
-        if ($s['外資連買天數'] > 0 && $s['投信連買天數'] > 0) $tag[] = "土洋合力";
-        if ((float)$s['5日集中度'] > (float)$s['20日集中度']) $tag[] = "籌碼趨於集中";
-        if ($s['券補力'] > 5) $tag[] = "潛在軋空";
-        if ($s['融資'] < 0 && ($s['收盤價'] / $s['昨日收盤價']) >= 1) $tag[] = "主力換手";
-        if ($s['融資'] > 0 && $s['券淨賣還'] > 0) $tag[] = "資券同增";
-        if ($s['券淨賣還5日累計'] < 0) $tag[] = "借券回補";
-        // if (in_array('爆量長黑', $tag)) $tag = array_diff($tag, ['主升段啟動', '均線發散']);
-        // if (in_array('高檔震盪', $tag)) $tag = array_diff($tag, ['主升段啟動']);
-        // $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
-        // $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
+        $close = (float)$s['close_price'];
+        $open  = (float)$s['open_price'];
+        $high  = (float)$s['high_price'];
+        $low  = (float)$s['low_price'];
+        $yClose = (float)$s['yesterday_close'];
+        $yOpen  = (float)$s['yesterday_open'];
+        $yHigh  = (float)$s['yesterday_high'];
+        $ma5  = (float)$s['ma5'];
+        $ma10 = (float)$s['ma10'];
+        $ma20 = (float)$s['ma20'];
+        $ma60 = (float)$s['ma60'];
+        $prevMa5  = (float)$s['prev_ma5'];
+        $prevMa10 = (float)$s['prev_ma10'];
+        $prevMa20 = (float)$s['prev_ma20'];
+        $vma5  = (float)$s['vma5'];
+        $vma20 = (float)$s['vma20'];
+        $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
+        $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
+        $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
+        $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
+        $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
+        $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
+        $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
+        $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
+        $con10 = $s['vol_sum10'] ? ($s['insti_sum10'] / $s['vol_sum10'] * 100) : 0;
+        $con20 = $s['vol_sum20'] ? ($s['insti_sum20'] / $s['vol_sum20'] * 100) : 0;
+        $squeeze = $vma20 ? ($s['sbl_sold_balance'] / $vma20) : 0;
+        $bullet = $vma20 ? (($s['sbl_total'] - $s['sbl_sold_balance']) / $vma20) : 0;
         $dashboardResults[] = [
-            'stock_id'   => $s['代碼'],
-            'stock_name' => $s['股名'],
+            'stock_id' => $s['stock_id'],
+            'stock_name' => $s['stock_name'],
             'concept'    => '',
-            'close'      => $s['收盤價'],
-            'vol'      => $s['成交量'],
-            'vol_ratio'  => $s['昨量比'],
-            'rank10'     => $s['10日位階'],
-            'amp10'     => $s['10日振幅'],
-            'ma5'     => $s['5日線'],
-            'ma10'     => $s['10日線'],
-            'ma20'     => $s['20日線'],
-            'vma5'     => $s['5日均量'],
-            'vma10'     => $s['10日均量'],
-            'vma20'     => $s['20日均量'],
-            'bia5'     => $s['5日乖離率'],
-            'bia10'     => $s['10日乖離率'],
-            'bia20'     => $s['20日乖離率'],
-            'con1'     => $s['1日集中度'],
-            'con5'     => $s['5日集中度'],
-            'con10'     => $s['10日集中度'],
-            'con20'     => $s['20日集中度'],
-            'margin_balance_diff' => $s['融資'],
-            'margin_balance_diff_sum5' => $s['融資5日累計'],
-            'margin_balance_diff_sum10' => $s['融資10日累計'],
-            'margin_balance_diff_sum20' => $s['融資20日累計'],
-            'margin_balance' => $s['融資餘額'],
-            'foreign_sum5' => $s['外資5日累計'],
-            'foreign_sum10' => $s['外資10日累計'],
-            'foreign_sum20' => $s['外資20日累計'],
-            'trust_sum5' => $s['投信5日累計'],
-            'trust_sum10' => $s['投信10日累計'],
-            'trust_sum20' => $s['投信20日累計'],
-            'foreign_streak_days' => $s['外資連買天數'],
-            'trust_streak_days' => $s['投信連買天數'],
-            'foreign_buy_sell' => $s['外資買賣超'],
-            'trust_buy_sell' => $s['投信買賣超'],
-            'squeeze' => $s['券補力'],
-            'bullet' => $s['券砸力'],
-            'net_sbl' => $s['券淨賣還'],
-            'net_sbl_sum5' => $s['券淨賣還5日累計'],
-            'net_sbl_sum10' => $s['券淨賣還10日累計'],
-            'net_sbl_sum20' => $s['券淨賣還20日累計'],
-            'sbl_total' => $s['借券餘額'],
-            'sbl_sold_balance' => $s['借券賣出餘額'],
-            'tags' => implode(',', $tag)
+            'close' => round($close, 2),
+            'vol' => round($s['trade_volume'] / 1000, 0),
+            'vol_ratio' => round($volRatio, 2),
+            'rank10' => round($rank10, 2),
+            'amp10' => round($amp10, 2),
+            'ma5' => round($ma5, 2),
+            'ma10' => round($ma10, 2),
+            'ma20' => round($ma20, 2),
+            'ma60' => round($ma60, 2),
+            'vma5' => round($vma5 / 1000, 0),
+            'vma10' => round($s['vma10'] / 1000, 0),
+            'vma20' => round($vma20 / 1000, 0),
+            'bia5' => round($bia5, 2),
+            'bia10' => round($bia10, 2),
+            'bia20' => round($bia20, 2),
+            'con1' => round($con1, 2),
+            'con5' => round($con5, 2),
+            'con10' => round($con10, 2),
+            'con20' => round($con20, 2),
+            'margin_balance_diff' => (int)$s['margin_balance_diff'],
+            'foreign_buy_sell' => $s['foreign_buy_sell'],
+            'trust_buy_sell' => $s['trust_buy_sell'],
+            'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
+            'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
+            'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
+            'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
+            'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
+            'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
+            'foreign_streak_days' => (int)$s['foreign_streak_days'],
+            'trust_streak_days' => (int)$s['trust_streak_days'],
+            'margin_balance' => (int)$s['margin_balance'],
+            'squeeze' => round($squeeze, 2),
+            'bullet' => round($bullet, 2),
+            'net_sbl' => round($s['net_sbl'] / 1000, 0),
+            'net_sbl_sum5' => round($s['net_sbl_sum5'] / 1000, 0),
+            'sbl_total' => round($s['sbl_total'] / 1000, 0),
+            'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
+            'tags' => ''
         ];
     }
     writeLog($pdo, 'generateDailyDashboard', "$targetDate 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
