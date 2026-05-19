@@ -30,7 +30,6 @@ if (
     $results = generateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'filter', $results);
     renewCharts($pdo, $targetDate, 'filter', 'charts');
-    saveDailyDashboard($pdo, $targetDate, $results);
 
     $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449, 3665, 3017, 2368, 2330, 1590, 6412, 2363, 2383, 8210]);
     createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
