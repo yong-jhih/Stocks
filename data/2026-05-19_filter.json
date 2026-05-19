@@ -2,7 +2,7 @@
     {
         "stock_id": "2412",
         "stock_name": "中華電",
-        "concept": "請提供您想要查詢的股票代號或公司名稱，以便為您進行分析。",
+        "concept": "通信網路業-電信服務,行動通信,固網寬頻",
         "score": 100,
         "rating": "S",
         "strategy_type": "主升段",
@@ -88,7 +88,7 @@
     {
         "stock_id": "3045",
         "stock_name": "台灣大",
-        "concept": "請提供您想要查詢的股票代號或名稱，以便為您進行分析。",
+        "concept": "通信網路業-行動寬頻服務,固網寬頻服務,數位匯流服務",
         "score": 88,
         "rating": "S",
         "strategy_type": "主升段",
@@ -171,7 +171,7 @@
     {
         "stock_id": "5876",
         "stock_name": "上海商銀",
-        "concept": "請提供您想要查詢的股票代號或名稱，以便我為您進行分析。",
+        "concept": "金融保險業-銀行業,金融控股業",
         "score": 82,
         "rating": "S",
         "strategy_type": "主升段",
@@ -254,7 +254,7 @@
     {
         "stock_id": "9939",
         "stock_name": "宏全",
-        "concept": "請提供您欲分析的標的股票代號或名稱，以便為您進行準確的產業別歸類與營收佔比分析。",
+        "concept": "食品工業-食品包裝,寶特瓶,飲料代工",
         "score": 55,
         "rating": "B",
         "strategy_type": "觀察",
@@ -328,7 +328,7 @@
     {
         "stock_id": "2882",
         "stock_name": "國泰金",
-        "concept": "請提供您想要查詢的具體公司名稱或代號，以便我為您進行分析。",
+        "concept": "金融保險業-壽險,產險,證券,銀行,資產管理",
         "score": 24,
         "rating": "D",
         "strategy_type": "觀察",
