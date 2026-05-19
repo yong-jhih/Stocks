@@ -190,7 +190,7 @@
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
                 <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
-                <h6>2026-05-15開始...</h6>
+                <h6>2026-05-18開始...</h6>
                 <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
@@ -228,6 +228,14 @@
                         <th>代號</th>
                         <th>名稱</th>
                         <th>族群概念</th>
+                        <th>策略分類</th>
+                        <th>信心度</th>
+                        <th>綜合評分</th>
+                        <th>趨勢分數</th>
+                        <th>動能分數</th>
+                        <th>籌碼分數</th>
+                        <th>結構分數</th>
+                        <th>風險分數</th>
                         <th>標籤</th>
                         <th>收盤</th>
                         <th>成交量</th>
@@ -535,6 +543,14 @@
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
                         item.concept,
+                        item.strategy_type,
+                        item.confidence,
+                        item.score,
+                        item.trend_score,
+                        item.momentum_score,
+                        item.chip_score,
+                        item.structure_score,
+                        item.risk_score,
                         tagBtn,
                         item.close,
                         item.vol,

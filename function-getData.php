@@ -381,18 +381,451 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
         "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
     ]);
+    $dashboardResults = outputModel($stocks, true);
+    writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    return $dashboardResults;
+}
+
+function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $code_array = []): array
+{
+    $stocks = returnSqlFetch($pdo, $targetDate, [
+        "stock_id IN(" . implode(",", $code_array) . ")"
+    ]);
+    $dashboardResults = outputModel($stocks, false);
+    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    return $dashboardResults;
+}
+
+function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): array
+{
+    $stocks = returnSqlFetch($pdo, $targetDate, [
+        "vma20 > 700000",
+        "ma20 IS NOT NULL",
+        "ma60 IS NOT NULL"
+    ]);
+    $dashboardResults = outputModel($stocks, false);
+    writeLog($pdo, 'topPerformingGenerateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    return $dashboardResults;
+}
+
+function returnSqlFetch($pdo, $targetDate, $where)
+{
+    $sql = "
+    WITH BaseData AS (
+        SELECT
+            h.trade_date,
+            h.stock_id,
+            h.stock_name,
+            h.open_price,
+            h.high_price,
+            h.low_price,
+            h.close_price,
+            h.trade_volume,
+
+            -- 均線
+            AVG(h.close_price) OVER w5  AS ma5,
+            AVG(h.close_price) OVER w10 AS ma10,
+            AVG(h.close_price) OVER w20 AS ma20,
+            AVG(h.close_price) OVER w60 AS ma60,
+
+            -- 均量
+            AVG(h.trade_volume) OVER vw5  AS vma5,
+            AVG(h.trade_volume) OVER vw10 AS vma10,
+            AVG(h.trade_volume) OVER vw20 AS vma20,
+            AVG(h.trade_volume) OVER vw60 AS vma60,
+
+            -- 區間
+            MAX(h.high_price) OVER r10 AS high10,
+            MIN(h.low_price)  OVER r10 AS low10,
+            MAX(h.high_price) OVER r20 AS high20,
+            MIN(h.low_price)  OVER r20 AS low20,
+
+            -- 法人
+            COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
+            COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
+            COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
+
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s5  AS foreign_sum5,
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s10 AS foreign_sum10,
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s20 AS foreign_sum20,
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s60 AS foreign_sum60,
+
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts5  AS trust_sum5,
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts10 AS trust_sum10,
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts20 AS trust_sum20,
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts60 AS trust_sum60,
+
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is1  AS insti_sum1,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is5  AS insti_sum5,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is10 AS insti_sum10,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is20 AS insti_sum20,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is60 AS insti_sum60,
+
+            SUM(h.trade_volume) OVER vs1  AS vol_sum1,
+            SUM(h.trade_volume) OVER vs5  AS vol_sum5,
+            SUM(h.trade_volume) OVER vs10 AS vol_sum10,
+            SUM(h.trade_volume) OVER vs20 AS vol_sum20,
+
+            -- 融資
+            COALESCE(m.margin_balance, 0)      AS margin_balance,
+            COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
+
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms5  AS margin_balance_diff_sum5,
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms10 AS margin_balance_diff_sum10,
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms20 AS margin_balance_diff_sum20,
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms60 AS margin_balance_diff_sum60,
+
+            -- 借券
+            COALESCE(st.sbl_balance, 0) AS sbl_total,
+            COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
+            (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
+
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns5  AS net_sbl_sum5,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns10 AS net_sbl_sum10,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns20 AS net_sbl_sum20,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns60 AS net_sbl_sum60,
+
+            -- 昨日
+            LAG(h.open_price)   OVER lagw AS yesterday_open,
+            LAG(h.high_price)   OVER lagw AS yesterday_high,
+            LAG(h.low_price)    OVER lagw AS yesterday_low,
+            LAG(h.close_price)  OVER lagw AS yesterday_close,
+            LAG(h.trade_volume) OVER lagw AS yesterday_vol,
+
+            LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
+            LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
+
+        FROM stock_history h
+
+        LEFT JOIN stock_insti i
+            ON h.stock_id = i.stock_id
+            AND h.trade_date = i.trade_date
+
+        LEFT JOIN stock_margin m
+            ON h.stock_id = m.stock_id
+            AND h.trade_date = m.trade_date
+
+        LEFT JOIN stock_sbl_total st
+            ON h.stock_id = st.stock_id
+            AND h.trade_date = st.trade_date
+
+        LEFT JOIN stock_sbl_sold ss
+            ON h.stock_id = ss.stock_id
+            AND h.trade_date = ss.trade_date
+
+        WINDOW
+            lagw AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+            ),
+
+            w5  AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
+            ),
+
+            w10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
+            ),
+
+            w20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
+            ),
+
+            w60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw5  AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
+            ),
+
+            r10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            r20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            s5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            s10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            s20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            s60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
+            ),
+
+            ts5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ts10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ts20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ts60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
+            ),
+
+            is1 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
+            ),
+
+            is5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            is10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            is20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            is60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
+            ),
+
+            vs1 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
+            ),
+
+            vs5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            vs10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            vs20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ms5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ms10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ms20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ms60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
+            ),
+
+            ns5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ns10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ns20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ns60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
+            )
+    ),
+    NumberedData AS (
+        SELECT
+            *,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS rn_all,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (foreign_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_foreign,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (trust_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_trust
+
+        FROM BaseData
+    ),
+
+    FeatureData AS (
+        SELECT
+            *,
+
+            LAG(ma5) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma5,
+
+            LAG(ma10) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma10,
+
+            LAG(ma20) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma20,
+
+            LAG(ma60) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma60,
+
+            CASE
+                WHEN foreign_buy_sell > 0 THEN
+                    ROW_NUMBER() OVER(
+                        PARTITION BY stock_id, (rn_all - rn_foreign)
+                        ORDER BY trade_date
+                    )
+                ELSE 0
+            END AS foreign_streak_days,
+
+            CASE
+                WHEN trust_buy_sell > 0 THEN
+                    ROW_NUMBER() OVER(
+                        PARTITION BY stock_id, (rn_all - rn_trust)
+                        ORDER BY trade_date
+                    )
+                ELSE 0
+            END AS trust_streak_days
+
+        FROM NumberedData
+    )
+
+    SELECT *
+    FROM FeatureData
+    WHERE trade_date = :targetDatereplaceHere;";
+    $replaceStr = "";
+    foreach ($where as $whereStr) {
+        $replaceStr .= " AND " . $whereStr;
+    }
+    $sql = str_replace('replaceHere', $replaceStr, $sql);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'targetDate' => $targetDate
+    ]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function outputModel($sqlFetch, $ai)
+{
     $dashboardResults = [];
-    foreach ($stocks as $s) {
+    foreach ($sqlFetch as $s) {
         // =========================
         // Base Numbers
         // =========================
-        $close = (float)$s['close_price'];
         $open  = (float)$s['open_price'];
         $high  = (float)$s['high_price'];
         $low  = (float)$s['low_price'];
-        $yClose = (float)$s['yesterday_close'];
+        $close = (float)$s['close_price'];
         $yOpen  = (float)$s['yesterday_open'];
         $yHigh  = (float)$s['yesterday_high'];
+        $yLow  = (float)$s['yesterday_low'];
+        $yClose = (float)$s['yesterday_close'];
         $ma5  = (float)$s['ma5'];
         $ma10 = (float)$s['ma10'];
         $ma20 = (float)$s['ma20'];
@@ -400,14 +833,18 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         $prevMa5  = (float)$s['prev_ma5'];
         $prevMa10 = (float)$s['prev_ma10'];
         $prevMa20 = (float)$s['prev_ma20'];
+        $prevMa60 = (float)$s['prev_ma60'];
         $vma5  = (float)$s['vma5'];
+        $vma10  = (float)$s['vma10'];
         $vma20 = (float)$s['vma20'];
+        $vma60 = (float)$s['vma60'];
         $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
         $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
         $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
         $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
         $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
         $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
+        $bia60 = $ma60 ? (($close - $ma60) / $ma60 * 100) : 0;
         $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
         $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
         $con10 = $s['vol_sum10'] ? ($s['insti_sum10'] / $s['vol_sum10'] * 100) : 0;
@@ -812,8 +1249,12 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         // =========================
         // Concept
         // =========================
-        $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
-        $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
+        if ($ai) {
+            $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
+            $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
+        } else {
+            $concept = '';
+        }
 
         // =========================
         // 輸出
@@ -895,15 +1336,83 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         $dashboardResults,
         fn($a, $b) => $b['score'] <=> $a['score']
     );
-    writeLog(
-        $pdo,
-        'generateDailyDashboard',
-        "{$targetDate} 分析完成，共篩選出 " .
-            count($dashboardResults) .
-            " 檔",
-        'success'
-    );
     return $dashboardResults;
+}
+
+function getStockAnalysisChart($pdo, $stockId, $targetDate, $displayDays = 20)
+{
+    $fetchLimit = $displayDays + 10;
+    $sql = "
+        SELECT 
+            h.trade_date,
+            h.close_price,
+            i.total_buy_sell as inst_diff,
+            m.margin_balance,
+            s.sbl_sold,
+            s.sbl_return
+        FROM stock_history h
+        LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+        LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+        LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+        WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+        ORDER BY h.trade_date DESC
+        LIMIT :limit
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':stockId', $stockId);
+    $stmt->bindValue(':targetDate', $targetDate);
+    $stmt->bindValue(':limit', (int)$fetchLimit, PDO::PARAM_INT);
+    $stmt->execute();
+    $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
+    $count = count($rows);
+    $results = [];
+    for ($i = 0; $i < $count; $i++) {
+        if ($i < ($count - $displayDays)) continue;
+        $curr = $rows[$i];
+        $prev = $rows[$i - 1] ?? $curr;
+
+        // --- 1. 法人 (Institutional) ---
+        $instDiff = round(($curr['inst_diff'] ?? 0) / 1000); // 今日張數
+        $instCum5 = 0;
+        for ($j = max(0, $i - 4); $j <= $i; $j++) {
+            $instCum5 += ($rows[$j]['inst_diff'] ?? 0);
+        }
+        $instCum5 = round($instCum5 / 1000);
+
+        // --- 2. 融資 (Margin) ---
+        $marginToday = $curr['margin_balance'] ?? 0;
+        $marginPrev = $prev['margin_balance'] ?? $marginToday;
+        $marginDiff = round(($marginToday - $marginPrev) / 1000); // 今日增減張數
+
+        $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
+        $marginCum5 = round(($marginToday - $refMargin5) / 1000);
+
+        // --- 3. 借券賣出 (SBL) ---
+        $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
+        $sblNetDiffIdx = round($sblNetDiff / 1000); // 今日淨張數
+
+        $sblNet5 = 0;
+        for ($k = max(0, $i - 4); $k <= $i; $k++) {
+            $sblNet5 += (($rows[$k]['sbl_sold'] ?? 0) - ($rows[$k]['sbl_return'] ?? 0));
+        }
+        $sblNet5 = round($sblNet5 / 1000);
+
+        // --- 4. 組合資料 ---
+        $results[] = [
+            'date'  => date('m/d', strtotime($curr['trade_date'])),
+            'price' => (float)$curr['close_price'],
+            // 柱狀圖用 (Bars)
+            'bar_inst'   => $instDiff,
+            'bar_margin' => $marginDiff,
+            'bar_sbl'    => $sblNetDiffIdx,
+            // 折線圖用 (Lines)
+            'line_inst5'   => $instCum5,
+            'line_margin5' => $marginCum5,
+            'line_sbl5'    => $sblNet5
+        ];
+    }
+    return ['stockId' => $stockId, 'series'  => $results];
 }
 
 function getComponentOf00981A_FromLocal()
@@ -1069,1499 +1578,4 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         writeLog($pdo, 'analyzeMultiPeriodChanges', "Database Error: " . $e->getMessage(), 'error');
         return null;
     }
-}
-
-function selfSelectGenerateDailyDashboard($pdo, $targetDate, $code_array = [])
-{
-    $stocks = returnSqlFetch($pdo, $targetDate, [
-        "stock_id IN(" . implode(",", $code_array) . ")"
-    ]);
-    $dashboardResults = [];
-    foreach ($stocks as $s) {
-        // =========================
-        // Base Numbers
-        // =========================
-        $close = (float)$s['close_price'];
-        $open  = (float)$s['open_price'];
-        $high  = (float)$s['high_price'];
-        $low  = (float)$s['low_price'];
-        $yClose = (float)$s['yesterday_close'];
-        $yOpen  = (float)$s['yesterday_open'];
-        $yHigh  = (float)$s['yesterday_high'];
-        $ma5  = (float)$s['ma5'];
-        $ma10 = (float)$s['ma10'];
-        $ma20 = (float)$s['ma20'];
-        $ma60 = (float)$s['ma60'];
-        $prevMa5  = (float)$s['prev_ma5'];
-        $prevMa10 = (float)$s['prev_ma10'];
-        $prevMa20 = (float)$s['prev_ma20'];
-        $vma5  = (float)$s['vma5'];
-        $vma20 = (float)$s['vma20'];
-        $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
-        $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
-        $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
-        $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
-        $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
-        $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
-        $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
-        $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
-        $con10 = $s['vol_sum10'] ? ($s['insti_sum10'] / $s['vol_sum10'] * 100) : 0;
-        $con20 = $s['vol_sum20'] ? ($s['insti_sum20'] / $s['vol_sum20'] * 100) : 0;
-        $squeeze = $vma20 ? ($s['sbl_sold_balance'] / $vma20) : 0;
-        $bullet = $vma20 ? (($s['sbl_total'] - $s['sbl_sold_balance']) / $vma20) : 0;
-
-        // =========================
-        // Signal Containers
-        // =========================
-        $signals = [
-            'trend' => [],
-            'momentum' => [],
-            'chip' => [],
-            'risk' => [],
-            'structure' => []
-        ];
-        $addSignal = function (
-            string $group,
-            bool $condition,
-            string $tag,
-            int $score
-        ) use (&$signals): void {
-            if ($condition) $signals[$group][$tag] = $score;
-        };
-
-        // =========================
-        // Trend
-        // =========================
-        $addSignal(
-            'trend',
-            $close > $ma5 &&
-                $ma5 > $ma10 &&
-                $ma10 > $ma20,
-            '多頭排列',
-            15
-        );
-        $addSignal(
-            'trend',
-            $ma5 > $prevMa5 &&
-                $ma10 > $prevMa10 &&
-                $ma20 > $prevMa20,
-            '均線上彎',
-            10
-        );
-        $addSignal(
-            'trend',
-            $close > $ma60,
-            '站上季線',
-            8
-        );
-
-        // =========================
-        // Momentum
-        // =========================
-        $addSignal(
-            'momentum',
-            $volRatio > 1.5 &&
-                $close > $yHigh,
-            '爆量突破',
-            20
-        );
-        $addSignal(
-            'momentum',
-            ($close / max($yClose, 0.01)) > 1.03 &&
-                $volRatio > 1.3,
-            '價量齊揚',
-            15
-        );
-
-        // =========================
-        // Chip
-        // =========================
-        $addSignal(
-            'chip',
-            $con5 > 15,
-            '法人集中',
-            15
-        );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] >= 3,
-            '外資連買',
-            10
-        );
-        $addSignal(
-            'chip',
-            $s['trust_streak_days'] >= 3,
-            '投信連買',
-            12
-        );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] > 0 &&
-                $s['trust_streak_days'] > 0,
-            '土洋合力',
-            15
-        );
-        $addSignal(
-            'chip',
-            $s['margin_balance_diff'] < 0 &&
-                $close >= $yClose,
-            '融資減肥',
-            6
-        );
-
-        // =========================
-        // Structure
-        // =========================
-        $addSignal(
-            'structure',
-            $amp10 < 8 &&
-                $vma5 < $vma20,
-            '整理末端',
-            8
-        );
-        $addSignal(
-            'structure',
-            $rank10 < 30,
-            '低檔區',
-            6
-        );
-        $addSignal(
-            'structure',
-            $close > $ma20 &&
-                $volRatio < 0.9 &&
-                $close >= $yClose,
-            '量縮抗跌',
-            10
-        );
-
-        // =========================
-        // Market State
-        // 不加分，只做分類
-        // =========================
-        $marketStates = [];
-
-        if (
-            $close > $ma5 &&
-            $ma5 > $ma10 &&
-            $volRatio > 1.8 &&
-            $con5 > 8
-        ) {
-            $marketStates[] = '主升段';
-        }
-
-        if (
-            $amp10 < 12 &&
-            $vma5 < $vma20 &&
-            $close > $ma20 &&
-            $con5 > 5
-        ) {
-            $marketStates[] = '發動前夕';
-        }
-
-        // =========================
-        // Risk 同類只觸發最嚴重
-        // =========================
-        // ---- 過熱類 ----
-        if ($rank10 > 90 && $bia20 > 15) {
-            $addSignal(
-                'risk',
-                true,
-                '極度過熱',
-                -35
-            );
-        } elseif ($rank10 > 85 && $bia20 > 12) {
-            $addSignal(
-                'risk',
-                true,
-                '短線過熱',
-                -18
-            );
-        } elseif ($bia20 > 18) {
-            $addSignal(
-                'risk',
-                true,
-                '乖離過大',
-                -12
-            );
-        }
-
-        // ---- 出貨類 ----
-        if (
-            $volRatio > 2.5 &&
-            ($close / max($yClose, 0.01)) < 1.01
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '爆量滯漲',
-                -30
-            );
-        } elseif (
-            $volRatio > 2 &&
-            (
-                ($high - max($close, $open))
-                / max(($high - $low), 0.01)
-            ) > 0.45
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '高檔出貨',
-                -25
-            );
-        } elseif (
-            $high > $yHigh &&
-            $close < $yHigh
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '假突破',
-                -20
-            );
-        }
-
-        // ---- 趨勢轉弱類 ----
-        if (
-            $close < $ma20 &&
-            $s['trade_volume'] < $vma20
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '量縮走弱',
-                -20
-            );
-        } elseif ($ma20 < $prevMa20) {
-            $addSignal(
-                'risk',
-                true,
-                '月線轉弱',
-                -18
-            );
-        } elseif ($close < $ma20) {
-            $addSignal(
-                'risk',
-                true,
-                '跌破月線',
-                -12
-            );
-        }
-
-        // ---- 籌碼轉弱 ----
-        $addSignal(
-            'risk',
-            $s['foreign_buy_sell'] < 0 &&
-                $s['trust_buy_sell'] < 0,
-            '法人同步轉賣',
-            -18
-        );
-        $addSignal(
-            'risk',
-            $s['foreign_sum5'] < 0 &&
-                $s['trust_sum5'] < 0,
-            '法人倒貨',
-            -22
-        );
-
-        // =========================
-        // Category Scores
-        // =========================
-        $trendScore = min(
-            35,
-            array_sum($signals['trend'])
-        );
-
-        $momentumScore = min(
-            35,
-            array_sum($signals['momentum'])
-        );
-
-        $chipScore = min(
-            40,
-            array_sum($signals['chip'])
-        );
-
-        $structureScore = min(
-            20,
-            array_sum($signals['structure'])
-        );
-
-        $riskScore = array_sum($signals['risk']);
-
-        // =========================
-        // Risk Multiplier
-        // =========================
-        $riskMultiplier = 1.0;
-        if ($riskScore <= -20) {
-            $riskMultiplier = 0.9;
-        }
-        if ($riskScore <= -40) {
-            $riskMultiplier = 0.75;
-        }
-        if ($riskScore <= -60) {
-            $riskMultiplier = 0.6;
-        }
-
-        // =========================
-        // Final Score
-        // =========================
-        $rawScore =
-            ($trendScore * 1.0) +
-            ($momentumScore * 1.1) +
-            ($chipScore * 1.2) +
-            ($structureScore * 0.8);
-
-        $finalScore = ($rawScore * $riskMultiplier);
-
-        // Normalize
-        $finalScore = max(
-            0,
-            min(100, round($finalScore))
-        );
-
-        // =========================
-        // Rating
-        // =========================
-        $rating = match (true) {
-            $finalScore >= 80 => 'S',
-            $finalScore >= 65 => 'A',
-            $finalScore >= 50 => 'B',
-            $finalScore >= 35 => 'C',
-            default => 'D'
-        };
-
-        // =========================
-        // Strategy Type
-        // =========================
-        $strategyType = $marketStates[0] ?? '觀察';
-        if (
-            $trendScore >= 20 &&
-            $momentumScore >= 20 &&
-            $chipScore >= 20
-        ) {
-            $strategyType = '主升段';
-        } elseif (
-            $chipScore >= 25 &&
-            $momentumScore < 15
-        ) {
-            $strategyType = '籌碼潛伏';
-        } elseif (
-            $momentumScore >= 25 &&
-            $trendScore < 15
-        ) {
-            $strategyType = '短線轉強';
-        } elseif (
-            $riskScore <= -25
-        ) {
-            $strategyType = '高風險';
-        }
-
-        // =========================
-        // Confidence
-        // =========================
-        $positiveGroups = 0;
-        foreach (
-            [
-                $trendScore,
-                $momentumScore,
-                $chipScore
-            ] as $v
-        ) {
-
-            if ($v >= 15) {
-                $positiveGroups++;
-            }
-        }
-        $confidence = round(max(0, min(1, (($positiveGroups / 3) * $riskMultiplier))), 2);
-
-        // =========================
-        // Flatten Tags
-        // =========================
-        $tags = [];
-        foreach ($signals as $group => $groupSignals) {
-            foreach ($groupSignals as $tag => $score) {
-                $tags[] = $tag;
-            }
-        }
-
-        // =========================
-        // Trigger Reasons
-        // =========================
-        $triggerReasons = [];
-        if ($s['foreign_streak_days'] >= 3) {
-            $triggerReasons[] =
-                '外資連買 ' . $s['foreign_streak_days'] . ' 日';
-        }
-        if ($volRatio > 1.5) {
-            $triggerReasons[] =
-                '成交量放大 ' . round($volRatio, 2) . ' 倍';
-        }
-        if ($close > $yHigh) {
-            $triggerReasons[] = '突破前高';
-        }
-        if ($con20 > 10) {
-            $triggerReasons[] =
-                '法人持股集中度提升';
-        }
-        // =========================
-        // Concept
-        // =========================
-        $concept = '';
-
-        // =========================
-        // Output      稍微過濾下,只保留高分
-        // =========================
-        if ($rating == 'S' || $rating == 'A') {
-            $dashboardResults[] = [
-                'stock_id' => $s['stock_id'],
-                'stock_name' => $s['stock_name'],
-                'concept' => $concept,
-                'score' => $finalScore,
-                'rating' => $rating,
-                'strategy_type' => $strategyType,
-                'confidence' => $confidence,
-                // Score Breakdown
-                'trend_score' => round($trendScore),
-                'momentum_score' => round($momentumScore),
-                'chip_score' => round($chipScore),
-                'structure_score' => round($structureScore),
-                'risk_score' => round($riskScore),
-                // Price
-                'close' => round($close, 2),
-                // Volume
-                'vol' => round($s['trade_volume'] / 1000, 0),
-                'vol_ratio' => round($volRatio, 2),
-                // Structure
-                'rank10' => round($rank10, 2),
-                'amp10' => round($amp10, 2),
-                // MA
-                'ma5' => round($ma5, 2),
-                'ma10' => round($ma10, 2),
-                'ma20' => round($ma20, 2),
-                'ma60' => round($ma60, 2),
-                // Volume MA
-                'vma5' => round($vma5 / 1000, 0),
-                'vma10' => round($s['vma10'] / 1000, 0),
-                'vma20' => round($vma20 / 1000, 0),
-                // Bias
-                'bia5' => round($bia5, 2),
-                'bia10' => round($bia10, 2),
-                'bia20' => round($bia20, 2),
-                // Chip Ratios
-                'con1' => round($con1, 2),
-                'con5' => round($con5, 2),
-                'con10' => round($con10, 2),
-                'con20' => round($con20, 2),
-                // Institution
-                'foreign_buy_sell' => $s['foreign_buy_sell'],
-                'trust_buy_sell' => $s['trust_buy_sell'],
-                'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
-                'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
-                'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
-                'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
-                'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
-                'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
-                'foreign_streak_days' => (int)$s['foreign_streak_days'],
-                'trust_streak_days' => (int)$s['trust_streak_days'],
-                // Margin
-                'margin_balance' => (int)$s['margin_balance'],
-                'margin_balance_diff' => (int)$s['margin_balance_diff'],
-                // SBL
-                'squeeze' => round($squeeze, 2),
-                'bullet' => round($bullet, 2),
-                'net_sbl' => round($s['net_sbl'] / 1000, 0),
-                'net_sbl_sum5' => round($s['net_sbl_sum5'] / 1000, 0),
-                'sbl_total' => round($s['sbl_total'] / 1000, 0),
-                'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
-                // Signals
-                'signals' => $signals,
-                // Flat Tags
-                'tags' => $tags,
-                // Trigger
-                'trigger_reasons' => $triggerReasons
-            ];
-        }
-    }
-
-    // =========================
-    // Sort by Score
-    // =========================
-    usort(
-        $dashboardResults,
-        fn($a, $b) => $b['score'] <=> $a['score']
-    );
-    writeLog(
-        $pdo,
-        'topPerformingGenerateDailyDashboard',
-        "{$targetDate} 分析完成，共篩選出 " .
-            count($dashboardResults) .
-            " 檔",
-        'success'
-    );
-    return $dashboardResults;
-}
-
-function getStockAnalysisChart($pdo, $stockId, $targetDate, $displayDays = 20)
-{
-    $fetchLimit = $displayDays + 10;
-    $sql = "
-        SELECT 
-            h.trade_date,
-            h.close_price,
-            i.total_buy_sell as inst_diff,
-            m.margin_balance,
-            s.sbl_sold,
-            s.sbl_return
-        FROM stock_history h
-        LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
-        LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
-        LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
-        WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
-        ORDER BY h.trade_date DESC
-        LIMIT :limit
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':stockId', $stockId);
-    $stmt->bindValue(':targetDate', $targetDate);
-    $stmt->bindValue(':limit', (int)$fetchLimit, PDO::PARAM_INT);
-    $stmt->execute();
-    $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
-    $count = count($rows);
-    $results = [];
-    for ($i = 0; $i < $count; $i++) {
-        if ($i < ($count - $displayDays)) continue;
-        $curr = $rows[$i];
-        $prev = $rows[$i - 1] ?? $curr;
-
-        // --- 1. 法人 (Institutional) ---
-        $instDiff = round(($curr['inst_diff'] ?? 0) / 1000); // 今日張數
-        $instCum5 = 0;
-        for ($j = max(0, $i - 4); $j <= $i; $j++) {
-            $instCum5 += ($rows[$j]['inst_diff'] ?? 0);
-        }
-        $instCum5 = round($instCum5 / 1000);
-
-        // --- 2. 融資 (Margin) ---
-        $marginToday = $curr['margin_balance'] ?? 0;
-        $marginPrev = $prev['margin_balance'] ?? $marginToday;
-        $marginDiff = round(($marginToday - $marginPrev) / 1000); // 今日增減張數
-
-        $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
-        $marginCum5 = round(($marginToday - $refMargin5) / 1000);
-
-        // --- 3. 借券賣出 (SBL) ---
-        $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
-        $sblNetDiffIdx = round($sblNetDiff / 1000); // 今日淨張數
-
-        $sblNet5 = 0;
-        for ($k = max(0, $i - 4); $k <= $i; $k++) {
-            $sblNet5 += (($rows[$k]['sbl_sold'] ?? 0) - ($rows[$k]['sbl_return'] ?? 0));
-        }
-        $sblNet5 = round($sblNet5 / 1000);
-
-        // --- 4. 組合資料 ---
-        $results[] = [
-            'date'  => date('m/d', strtotime($curr['trade_date'])),
-            'price' => (float)$curr['close_price'],
-            // 柱狀圖用 (Bars)
-            'bar_inst'   => $instDiff,
-            'bar_margin' => $marginDiff,
-            'bar_sbl'    => $sblNetDiffIdx,
-            // 折線圖用 (Lines)
-            'line_inst5'   => $instCum5,
-            'line_margin5' => $marginCum5,
-            'line_sbl5'    => $sblNet5
-        ];
-    }
-    return ['stockId' => $stockId, 'series'  => $results];
-}
-
-function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): array
-{
-    $stocks = returnSqlFetch($pdo, $targetDate, [
-        "vma20 > 700000",
-        "ma20 IS NOT NULL",
-        "ma60 IS NOT NULL"
-    ]);
-    $dashboardResults = [];
-    foreach ($stocks as $s) {
-        // =========================
-        // Base Numbers
-        // =========================
-        $close = (float)$s['close_price'];
-        $open  = (float)$s['open_price'];
-        $high  = (float)$s['high_price'];
-        $low  = (float)$s['low_price'];
-        $yClose = (float)$s['yesterday_close'];
-        $yOpen  = (float)$s['yesterday_open'];
-        $yHigh  = (float)$s['yesterday_high'];
-        $ma5  = (float)$s['ma5'];
-        $ma10 = (float)$s['ma10'];
-        $ma20 = (float)$s['ma20'];
-        $ma60 = (float)$s['ma60'];
-        $prevMa5  = (float)$s['prev_ma5'];
-        $prevMa10 = (float)$s['prev_ma10'];
-        $prevMa20 = (float)$s['prev_ma20'];
-        $vma5  = (float)$s['vma5'];
-        $vma20 = (float)$s['vma20'];
-        $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
-        $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
-        $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
-        $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
-        $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
-        $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
-        $con1 = $s['vol_sum1'] ? ($s['insti_sum1'] / $s['vol_sum1'] * 100) : 0;
-        $con5 = $s['vol_sum5'] ? ($s['insti_sum5'] / $s['vol_sum5'] * 100) : 0;
-        $con10 = $s['vol_sum10'] ? ($s['insti_sum10'] / $s['vol_sum10'] * 100) : 0;
-        $con20 = $s['vol_sum20'] ? ($s['insti_sum20'] / $s['vol_sum20'] * 100) : 0;
-        $squeeze = $vma20 ? ($s['sbl_sold_balance'] / $vma20) : 0;
-        $bullet = $vma20 ? (($s['sbl_total'] - $s['sbl_sold_balance']) / $vma20) : 0;
-
-        // =========================
-        // Signal Containers
-        // =========================
-        $signals = [
-            'trend' => [],
-            'momentum' => [],
-            'chip' => [],
-            'risk' => [],
-            'structure' => []
-        ];
-        $addSignal = function (
-            string $group,
-            bool $condition,
-            string $tag,
-            int $score
-        ) use (&$signals): void {
-            if ($condition) $signals[$group][$tag] = $score;
-        };
-
-        // =========================
-        // Trend
-        // =========================
-        $addSignal(
-            'trend',
-            $close > $ma5 &&
-                $ma5 > $ma10 &&
-                $ma10 > $ma20,
-            '多頭排列',
-            15
-        );
-        $addSignal(
-            'trend',
-            $ma5 > $prevMa5 &&
-                $ma10 > $prevMa10 &&
-                $ma20 > $prevMa20,
-            '均線上彎',
-            10
-        );
-        $addSignal(
-            'trend',
-            $close > $ma60,
-            '站上季線',
-            8
-        );
-
-        // =========================
-        // Momentum
-        // =========================
-        $addSignal(
-            'momentum',
-            $volRatio > 1.5 &&
-                $close > $yHigh,
-            '爆量突破',
-            20
-        );
-        $addSignal(
-            'momentum',
-            ($close / max($yClose, 0.01)) > 1.03 &&
-                $volRatio > 1.3,
-            '價量齊揚',
-            15
-        );
-
-        // =========================
-        // Chip
-        // =========================
-        $addSignal(
-            'chip',
-            $con5 > 15,
-            '法人集中',
-            15
-        );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] >= 3,
-            '外資連買',
-            10
-        );
-        $addSignal(
-            'chip',
-            $s['trust_streak_days'] >= 3,
-            '投信連買',
-            12
-        );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] > 0 &&
-                $s['trust_streak_days'] > 0,
-            '土洋合力',
-            15
-        );
-        $addSignal(
-            'chip',
-            $s['margin_balance_diff'] < 0 &&
-                $close >= $yClose,
-            '融資減肥',
-            6
-        );
-
-        // =========================
-        // Structure
-        // =========================
-        $addSignal(
-            'structure',
-            $amp10 < 8 &&
-                $vma5 < $vma20,
-            '整理末端',
-            8
-        );
-        $addSignal(
-            'structure',
-            $rank10 < 30,
-            '低檔區',
-            6
-        );
-        $addSignal(
-            'structure',
-            $close > $ma20 &&
-                $volRatio < 0.9 &&
-                $close >= $yClose,
-            '量縮抗跌',
-            10
-        );
-
-        // =========================
-        // Market State
-        // 不加分，只做分類
-        // =========================
-        $marketStates = [];
-
-        if (
-            $close > $ma5 &&
-            $ma5 > $ma10 &&
-            $volRatio > 1.8 &&
-            $con5 > 8
-        ) {
-            $marketStates[] = '主升段';
-        }
-
-        if (
-            $amp10 < 12 &&
-            $vma5 < $vma20 &&
-            $close > $ma20 &&
-            $con5 > 5
-        ) {
-            $marketStates[] = '發動前夕';
-        }
-
-        // =========================
-        // Risk 同類只觸發最嚴重
-        // =========================
-        // ---- 過熱類 ----
-        if ($rank10 > 90 && $bia20 > 15) {
-            $addSignal(
-                'risk',
-                true,
-                '極度過熱',
-                -35
-            );
-        } elseif ($rank10 > 85 && $bia20 > 12) {
-            $addSignal(
-                'risk',
-                true,
-                '短線過熱',
-                -18
-            );
-        } elseif ($bia20 > 18) {
-            $addSignal(
-                'risk',
-                true,
-                '乖離過大',
-                -12
-            );
-        }
-
-        // ---- 出貨類 ----
-        if (
-            $volRatio > 2.5 &&
-            ($close / max($yClose, 0.01)) < 1.01
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '爆量滯漲',
-                -30
-            );
-        } elseif (
-            $volRatio > 2 &&
-            (
-                ($high - max($close, $open))
-                / max(($high - $low), 0.01)
-            ) > 0.45
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '高檔出貨',
-                -25
-            );
-        } elseif (
-            $high > $yHigh &&
-            $close < $yHigh
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '假突破',
-                -20
-            );
-        }
-
-        // ---- 趨勢轉弱類 ----
-        if (
-            $close < $ma20 &&
-            $s['trade_volume'] < $vma20
-        ) {
-            $addSignal(
-                'risk',
-                true,
-                '量縮走弱',
-                -20
-            );
-        } elseif ($ma20 < $prevMa20) {
-            $addSignal(
-                'risk',
-                true,
-                '月線轉弱',
-                -18
-            );
-        } elseif ($close < $ma20) {
-            $addSignal(
-                'risk',
-                true,
-                '跌破月線',
-                -12
-            );
-        }
-
-        // ---- 籌碼轉弱 ----
-        $addSignal(
-            'risk',
-            $s['foreign_buy_sell'] < 0 &&
-                $s['trust_buy_sell'] < 0,
-            '法人同步轉賣',
-            -18
-        );
-        $addSignal(
-            'risk',
-            $s['foreign_sum5'] < 0 &&
-                $s['trust_sum5'] < 0,
-            '法人倒貨',
-            -22
-        );
-
-        // =========================
-        // Category Scores
-        // =========================
-        $trendScore = min(
-            35,
-            array_sum($signals['trend'])
-        );
-
-        $momentumScore = min(
-            35,
-            array_sum($signals['momentum'])
-        );
-
-        $chipScore = min(
-            40,
-            array_sum($signals['chip'])
-        );
-
-        $structureScore = min(
-            20,
-            array_sum($signals['structure'])
-        );
-
-        $riskScore = array_sum($signals['risk']);
-
-        // =========================
-        // Risk Multiplier
-        // =========================
-        $riskMultiplier = 1.0;
-        if ($riskScore <= -20) {
-            $riskMultiplier = 0.9;
-        }
-        if ($riskScore <= -40) {
-            $riskMultiplier = 0.75;
-        }
-        if ($riskScore <= -60) {
-            $riskMultiplier = 0.6;
-        }
-
-        // =========================
-        // Final Score
-        // =========================
-        $rawScore =
-            ($trendScore * 1.0) +
-            ($momentumScore * 1.1) +
-            ($chipScore * 1.2) +
-            ($structureScore * 0.8);
-
-        $finalScore = ($rawScore * $riskMultiplier);
-
-        // Normalize
-        $finalScore = max(
-            0,
-            min(100, round($finalScore))
-        );
-
-        // =========================
-        // Rating
-        // =========================
-        $rating = match (true) {
-            $finalScore >= 80 => 'S',
-            $finalScore >= 65 => 'A',
-            $finalScore >= 50 => 'B',
-            $finalScore >= 35 => 'C',
-            default => 'D'
-        };
-
-        // =========================
-        // Strategy Type
-        // =========================
-        $strategyType = $marketStates[0] ?? '觀察';
-        if (
-            $trendScore >= 20 &&
-            $momentumScore >= 20 &&
-            $chipScore >= 20
-        ) {
-            $strategyType = '主升段';
-        } elseif (
-            $chipScore >= 25 &&
-            $momentumScore < 15
-        ) {
-            $strategyType = '籌碼潛伏';
-        } elseif (
-            $momentumScore >= 25 &&
-            $trendScore < 15
-        ) {
-            $strategyType = '短線轉強';
-        } elseif (
-            $riskScore <= -25
-        ) {
-            $strategyType = '高風險';
-        }
-
-        // =========================
-        // Confidence
-        // =========================
-        $positiveGroups = 0;
-        foreach (
-            [
-                $trendScore,
-                $momentumScore,
-                $chipScore
-            ] as $v
-        ) {
-
-            if ($v >= 15) {
-                $positiveGroups++;
-            }
-        }
-        $confidence = round(max(0, min(1, (($positiveGroups / 3) * $riskMultiplier))), 2);
-
-        // =========================
-        // Flatten Tags
-        // =========================
-        $tags = [];
-        foreach ($signals as $group => $groupSignals) {
-            foreach ($groupSignals as $tag => $score) {
-                $tags[] = $tag;
-            }
-        }
-
-        // =========================
-        // Trigger Reasons
-        // =========================
-        $triggerReasons = [];
-        if ($s['foreign_streak_days'] >= 3) {
-            $triggerReasons[] =
-                '外資連買 ' . $s['foreign_streak_days'] . ' 日';
-        }
-        if ($volRatio > 1.5) {
-            $triggerReasons[] =
-                '成交量放大 ' . round($volRatio, 2) . ' 倍';
-        }
-        if ($close > $yHigh) {
-            $triggerReasons[] = '突破前高';
-        }
-        if ($con20 > 10) {
-            $triggerReasons[] =
-                '法人持股集中度提升';
-        }
-        // =========================
-        // Concept
-        // =========================
-        $concept = '';
-
-        // =========================
-        // Output      稍微過濾下,只保留高分
-        // =========================
-        if ($rating == 'S' || $rating == 'A') {
-            $dashboardResults[] = [
-                'stock_id' => $s['stock_id'],
-                'stock_name' => $s['stock_name'],
-                'concept' => $concept,
-                'score' => $finalScore,
-                'rating' => $rating,
-                'strategy_type' => $strategyType,
-                'confidence' => $confidence,
-                // Score Breakdown
-                'trend_score' => round($trendScore),
-                'momentum_score' => round($momentumScore),
-                'chip_score' => round($chipScore),
-                'structure_score' => round($structureScore),
-                'risk_score' => round($riskScore),
-                // Price
-                'close' => round($close, 2),
-                // Volume
-                'vol' => round($s['trade_volume'] / 1000, 0),
-                'vol_ratio' => round($volRatio, 2),
-                // Structure
-                'rank10' => round($rank10, 2),
-                'amp10' => round($amp10, 2),
-                // MA
-                'ma5' => round($ma5, 2),
-                'ma10' => round($ma10, 2),
-                'ma20' => round($ma20, 2),
-                'ma60' => round($ma60, 2),
-                // Volume MA
-                'vma5' => round($vma5 / 1000, 0),
-                'vma10' => round($s['vma10'] / 1000, 0),
-                'vma20' => round($vma20 / 1000, 0),
-                // Bias
-                'bia5' => round($bia5, 2),
-                'bia10' => round($bia10, 2),
-                'bia20' => round($bia20, 2),
-                // Chip Ratios
-                'con1' => round($con1, 2),
-                'con5' => round($con5, 2),
-                'con10' => round($con10, 2),
-                'con20' => round($con20, 2),
-                // Institution
-                'foreign_buy_sell' => $s['foreign_buy_sell'],
-                'trust_buy_sell' => $s['trust_buy_sell'],
-                'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
-                'foreign_sum10' => round($s['foreign_sum10'] / 1000, 0),
-                'foreign_sum20' => round($s['foreign_sum20'] / 1000, 0),
-                'trust_sum5' => round($s['trust_sum5'] / 1000, 0),
-                'trust_sum10' => round($s['trust_sum10'] / 1000, 0),
-                'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
-                'foreign_streak_days' => (int)$s['foreign_streak_days'],
-                'trust_streak_days' => (int)$s['trust_streak_days'],
-                // Margin
-                'margin_balance' => (int)$s['margin_balance'],
-                'margin_balance_diff' => (int)$s['margin_balance_diff'],
-                // SBL
-                'squeeze' => round($squeeze, 2),
-                'bullet' => round($bullet, 2),
-                'net_sbl' => round($s['net_sbl'] / 1000, 0),
-                'net_sbl_sum5' => round($s['net_sbl_sum5'] / 1000, 0),
-                'sbl_total' => round($s['sbl_total'] / 1000, 0),
-                'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
-                // Signals
-                'signals' => $signals,
-                // Flat Tags
-                'tags' => $tags,
-                // Trigger
-                'trigger_reasons' => $triggerReasons
-            ];
-        }
-    }
-
-    // =========================
-    // Sort by Score
-    // =========================
-    usort(
-        $dashboardResults,
-        fn($a, $b) => $b['score'] <=> $a['score']
-    );
-    writeLog(
-        $pdo,
-        'topPerformingGenerateDailyDashboard',
-        "{$targetDate} 分析完成，共篩選出 " .
-            count($dashboardResults) .
-            " 檔",
-        'success'
-    );
-    return $dashboardResults;
-}
-
-function returnSqlFetch($pdo, $targetDate, $where)
-{
-    $sql = "
-    WITH BaseData AS (
-        SELECT
-            h.trade_date,
-            h.stock_id,
-            h.stock_name,
-            h.open_price,
-            h.high_price,
-            h.low_price,
-            h.close_price,
-            h.trade_volume,
-
-            -- 均線
-            AVG(h.close_price) OVER w5  AS ma5,
-            AVG(h.close_price) OVER w10 AS ma10,
-            AVG(h.close_price) OVER w20 AS ma20,
-            AVG(h.close_price) OVER w60 AS ma60,
-
-            -- 均量
-            AVG(h.trade_volume) OVER vw5  AS vma5,
-            AVG(h.trade_volume) OVER vw10 AS vma10,
-            AVG(h.trade_volume) OVER vw20 AS vma20,
-            AVG(h.trade_volume) OVER vw60 AS vma60,
-
-            -- 區間
-            MAX(h.high_price) OVER r10 AS high10,
-            MIN(h.low_price)  OVER r10 AS low10,
-
-            -- 法人
-            COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
-            COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
-            COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
-
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s5  AS foreign_sum5,
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s10 AS foreign_sum10,
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s20 AS foreign_sum20,
-
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts5  AS trust_sum5,
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts10 AS trust_sum10,
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts20 AS trust_sum20,
-
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is1  AS insti_sum1,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is5  AS insti_sum5,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is10 AS insti_sum10,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is20 AS insti_sum20,
-
-            SUM(h.trade_volume) OVER vs1  AS vol_sum1,
-            SUM(h.trade_volume) OVER vs5  AS vol_sum5,
-            SUM(h.trade_volume) OVER vs10 AS vol_sum10,
-            SUM(h.trade_volume) OVER vs20 AS vol_sum20,
-
-            -- 融資
-            COALESCE(m.margin_balance, 0)      AS margin_balance,
-            COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
-
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms5  AS margin_balance_diff_sum5,
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms10 AS margin_balance_diff_sum10,
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms20 AS margin_balance_diff_sum20,
-
-            -- 借券
-            COALESCE(st.sbl_balance, 0) AS sbl_total,
-            COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
-            (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
-
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns5  AS net_sbl_sum5,
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns10 AS net_sbl_sum10,
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns20 AS net_sbl_sum20,
-
-            -- 昨日
-            LAG(h.open_price)   OVER lagw AS yesterday_open,
-            LAG(h.high_price)   OVER lagw AS yesterday_high,
-            LAG(h.low_price)    OVER lagw AS yesterday_low,
-            LAG(h.close_price)  OVER lagw AS yesterday_close,
-            LAG(h.trade_volume) OVER lagw AS yesterday_vol,
-
-            LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
-            LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
-
-        FROM stock_history h
-
-        LEFT JOIN stock_insti i
-            ON h.stock_id = i.stock_id
-            AND h.trade_date = i.trade_date
-
-        LEFT JOIN stock_margin m
-            ON h.stock_id = m.stock_id
-            AND h.trade_date = m.trade_date
-
-        LEFT JOIN stock_sbl_total st
-            ON h.stock_id = st.stock_id
-            AND h.trade_date = st.trade_date
-
-        LEFT JOIN stock_sbl_sold ss
-            ON h.stock_id = ss.stock_id
-            AND h.trade_date = ss.trade_date
-
-        WINDOW
-            lagw AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-            ),
-
-            w5  AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-            ),
-
-            w10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
-            ),
-
-            w20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
-            ),
-
-            w60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw5  AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
-            ),
-
-            r10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            s5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            s10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            s20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ts5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ts10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ts20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            is1 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
-            ),
-
-            is5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            is10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            is20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            vs1 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
-            ),
-
-            vs5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            vs10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            vs20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ms5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ms10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ms20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ns5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ns10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ns20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            )
-    ),
-    NumberedData AS (
-        SELECT
-            *,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS rn_all,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id, (foreign_buy_sell > 0)
-                ORDER BY trade_date
-            ) AS rn_foreign,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id, (trust_buy_sell > 0)
-                ORDER BY trade_date
-            ) AS rn_trust
-
-        FROM BaseData
-    ),
-
-    FeatureData AS (
-        SELECT
-            *,
-
-            LAG(ma5) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma5,
-
-            LAG(ma10) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma10,
-
-            LAG(ma20) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma20,
-
-            CASE
-                WHEN foreign_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER(
-                        PARTITION BY stock_id, (rn_all - rn_foreign)
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS foreign_streak_days,
-
-            CASE
-                WHEN trust_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER(
-                        PARTITION BY stock_id, (rn_all - rn_trust)
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS trust_streak_days
-
-        FROM NumberedData
-    )
-
-    SELECT *
-    FROM FeatureData
-    WHERE trade_date = :targetDatereplaceHere;";
-    $replaceStr = "";
-    foreach ($where as $whereStr) {
-        $replaceStr .= " AND " . $whereStr;
-    }
-    $sql = str_replace('replaceHere', $replaceStr, $sql);
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'targetDate' => $targetDate
-    ]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
