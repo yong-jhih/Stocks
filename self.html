@@ -472,7 +472,8 @@
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
-                    { width: "80px", targets: [0, 1] }
+                    { width: "80px", targets: [0, 1] },
+                    { type: 'num', targets: 5 }
                 ]
             });
             table.on('click', 'tbody tr', function (e) {
