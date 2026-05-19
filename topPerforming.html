@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市場強勢股排行</title>
+    <title>市場評分排行</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
@@ -189,7 +189,7 @@
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
-                <h1 class="text-3xl font-bold text-blue-400">市場強勢股排行</h1>
+                <h1 class="text-3xl font-bold text-blue-400">市場評分排行</h1>
                 <h6>2026-05-18開始...</h6>
                 <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
@@ -215,7 +215,7 @@
                     跟著瑤姐走</a>
                 <a href="topPerforming"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏆
-                    市場強勢股排行</a>
+                    市場評分排行</a>
                 <a href="https://www.twse.com.tw" target="_blank"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🔗
                     證交所官網</a>
@@ -299,10 +299,10 @@
                             <b class="text-blue-400 block mb-1">1. 基礎量能門檻</b>
                             20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。
                         </li>
-                        <li class="bg-gray-700/50 p-3 rounded">
+                        <!-- <li class="bg-gray-700/50 p-3 rounded">
                             <b class="text-blue-400 block mb-1">2. 綜合評分</b>
                             僅保留綜合評分 65 分以上個股
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div id="content-tagManual" class="hidden space-y-6">
