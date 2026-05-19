@@ -5,7 +5,7 @@ if (isHoliday($targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
-if (checkIfDataPublished($pdo, $targetDate, 'daily_dashboard_results', 0) || file_exists("data/" . $targetDate . "_filter.json")) {
+if (file_exists("data/" . $targetDate . "_filter.json")) {
     echo '分析資料已存在';
     exit(0);
 }
@@ -31,9 +31,9 @@ if (
     createJsonFile($pdo, $targetDate, 'filter', $results);
     renewCharts($pdo, $targetDate, 'filter', 'charts');
 
-    $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449, 3665, 3017, 2368, 2330, 1590, 6412, 2363, 2383, 8210]);
-    createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
-    renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
+    // $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, [2449, 3665, 3017, 2368, 2330, 1590, 6412, 2363, 2383, 8210]);
+    // createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
+    // renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
 
     $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'topPerforming', $resultsTop);
