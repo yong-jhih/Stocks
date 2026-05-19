@@ -227,6 +227,7 @@
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
                 <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
+                <h6>2026-05-11開始...</h6>
                 <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
@@ -249,9 +250,9 @@
                 <a href="00981A_component"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📈
                     跟著瑤姐走</a>
-                <a href="https://mopsov.twse.com.tw/mops/web/index" target="_blank"
+                <a href="topPerforming"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏆
-                    公開資訊觀測站</a>
+                    市場強勢股排行</a>
                 <a href="https://www.twse.com.tw" target="_blank"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🔗
                     證交所官網</a>
@@ -263,14 +264,7 @@
                     <tr>
                         <th>代號</th>
                         <th>名稱</th>
-                        <th>策略分類</th>
-                        <th>信心度</th>
-                        <th>綜合評分</th>
-                        <th>趨勢分數</th>
-                        <th>動能分數</th>
-                        <th>籌碼分數</th>
-                        <th>結構分數</th>
-                        <th>風險分數</th>
+                        <th>族群概念</th>
                         <th>標籤</th>
                         <th>收盤</th>
                         <th>成交量</th>
@@ -517,14 +511,6 @@
         let chartInstance = null;
         let cachedChartData = {};
         $(document).ready(function () {
-            $('#stockTable tbody').on('click', '.tag-btn', function (e) {
-                e.stopPropagation();
-
-                const name = $(this).data('name');
-                const tags = $(this).data('tags');
-
-                showTags(name, tags);
-            });
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
@@ -555,21 +541,20 @@
         }
         function showTags(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(
-                tags
-                    .map(t => t.trim())
-                    .map(t => `
-                        <span class="
-                            ${getTagClass(t)}
-                            text-xs
-                            px-2
-                            py-1
-                            rounded
-                        ">
-                            ${t}
-                        </span>
-                    `).join('')
-            );
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
         function closeModal(id) {
@@ -596,54 +581,16 @@
                 table.clear();
                 if (data.length === 0) alert('沒有符合篩選條件的標的');
                 data.forEach(item => {
-                    const tagText = item.tags.join(', ');
-                    const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
-                    const tagBtn = `
-<div class="flex items-center gap-1">
-    <span>${tagShort}</span>
-    <button 
-        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-        data-name="${item.stock_name}"
-        data-tags='${JSON.stringify(item.tags)}'
-    >
-        更
-    </button>
-</div>`;
+                    const tagShort = item.tags.length > 8 ? item.tags.substring(0, 8) + '...' : item.tags;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button onclick="event.stopPropagation(); showTags('${item.stock_name}', '${item.tags}')" class="text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600">更</button></div>`;
                     table.row.add([
                         item.stock_id,
                         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
-                        item.strategy_type,
-                        item.confidence,
-                        item.score,
-                        item.trend_score,
-                        item.momentum_score,
-                        item.chip_score,
-                        item.structure_score,
-                        item.risk_score,
-                        tagBtn,
-                        item.close,
-                        item.vol,
-                        item.vol_ratio,
-                        item.vma5,
-                        item.vma10,
-                        item.vma20,
-                        item.rank10,
-                        item.amp10,
-                        item.con1,
-                        item.con5,
-                        item.con10,
-                        item.con20,
-                        item.foreign_sum5,
-                        item.trust_sum5,
-                        item.foreign_streak_days,
-                        item.trust_streak_days,
-                        item.squeeze,
-                        item.bullet,
-                        item.net_sbl,
-                        item.net_sbl_sum5,
-                        item.margin_balance,
-                        item.sbl_total,
-                        item.sbl_sold_balance
+                        item.concept, tagBtn, item.close, item.vol, item.vol_ratio, item.vma5, item.vma10, item.vma20,
+                        item.rank10, item.amp10, item.con1, item.con5, item.con10, item.con20,
+                        item.foreign_sum5, item.trust_sum5, item.foreign_streak_days, item.trust_streak_days,
+                        item.squeeze, item.bullet, item.net_sbl, item.net_sbl_sum5, item.margin_balance,
+                        item.sbl_total, item.sbl_sold_balance
                     ]);
                 });
                 table.draw();
@@ -888,21 +835,20 @@
         function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
         function showTagDetails(name, tags) {
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(
-                tags
-                    .map(t => t.trim())
-                    .map(t => `
-                        <span class="
-                            ${getTagClass(t)}
-                            text-xs
-                            px-2
-                            py-1
-                            rounded
-                        ">
-                            ${t}
-                        </span>
-                    `).join('')
-            );
+            $('#modalTagContent').html(tags
+                .split(',')
+                .map(t => t.trim())
+                .map(t => `
+                <span class="
+                    ${getTagClass(t.trim())}
+                    text-xs
+                    px-2
+                    py-1
+                    rounded
+                ">
+                    ${t.trim()}
+                </span>
+            `).join(''));
             $('#tagModal').removeClass('hidden').addClass('flex modal-active');
         }
         window.addEventListener('resize', () => {

@@ -2121,3 +2121,475 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
     );
     return $dashboardResults;
 }
+
+
+function testgenerateDailyDashboard($pdo, $targetDate)
+{
+    $sql = "
+        WITH BaseData AS (
+        SELECT
+            h.trade_date,
+            h.stock_id,
+            h.stock_name,
+            h.open_price,
+            h.high_price,
+            h.low_price,
+            h.close_price,
+            h.trade_volume,
+
+            -- 均線
+            AVG(h.close_price) OVER w5  AS ma5,
+            AVG(h.close_price) OVER w10 AS ma10,
+            AVG(h.close_price) OVER w20 AS ma20,
+            AVG(h.close_price) OVER w60 AS ma60,
+
+            -- 均量
+            AVG(h.trade_volume) OVER vw5  AS vma5,
+            AVG(h.trade_volume) OVER vw10 AS vma10,
+            AVG(h.trade_volume) OVER vw20 AS vma20,
+            AVG(h.trade_volume) OVER vw60 AS vma60,
+
+            -- 區間
+            MAX(h.high_price) OVER r10 AS high10,
+            MIN(h.low_price)  OVER r10 AS low10,
+
+            -- 法人
+            COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
+            COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
+            COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
+
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s5  AS foreign_sum5,
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s10 AS foreign_sum10,
+            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s20 AS foreign_sum20,
+
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts5  AS trust_sum5,
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts10 AS trust_sum10,
+            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts20 AS trust_sum20,
+
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is1  AS insti_sum1,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is5  AS insti_sum5,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is10 AS insti_sum10,
+            SUM(COALESCE(i.total_buy_sell,0)) OVER is20 AS insti_sum20,
+
+            SUM(h.trade_volume) OVER vs1  AS vol_sum1,
+            SUM(h.trade_volume) OVER vs5  AS vol_sum5,
+            SUM(h.trade_volume) OVER vs10 AS vol_sum10,
+            SUM(h.trade_volume) OVER vs20 AS vol_sum20,
+
+            -- 融資
+            COALESCE(m.margin_balance, 0)      AS margin_balance,
+            COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
+
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms5  AS margin_balance_diff_sum5,
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms10 AS margin_balance_diff_sum10,
+            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms20 AS margin_balance_diff_sum20,
+
+            -- 借券
+            COALESCE(st.sbl_balance, 0) AS sbl_total,
+            COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
+            (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
+
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns5  AS net_sbl_sum5,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns10 AS net_sbl_sum10,
+            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns20 AS net_sbl_sum20,
+
+            -- 昨日
+            LAG(h.open_price)   OVER lagw AS yesterday_open,
+            LAG(h.high_price)   OVER lagw AS yesterday_high,
+            LAG(h.low_price)    OVER lagw AS yesterday_low,
+            LAG(h.close_price)  OVER lagw AS yesterday_close,
+            LAG(h.trade_volume) OVER lagw AS yesterday_vol,
+
+            LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
+            LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
+
+        FROM stock_history h
+
+        LEFT JOIN stock_insti i
+            ON h.stock_id = i.stock_id
+            AND h.trade_date = i.trade_date
+
+        LEFT JOIN stock_margin m
+            ON h.stock_id = m.stock_id
+            AND h.trade_date = m.trade_date
+
+        LEFT JOIN stock_sbl_total st
+            ON h.stock_id = st.stock_id
+            AND h.trade_date = st.trade_date
+
+        LEFT JOIN stock_sbl_sold ss
+            ON h.stock_id = ss.stock_id
+            AND h.trade_date = ss.trade_date
+
+        WINDOW
+            lagw AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+            ),
+
+            w5  AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
+            ),
+
+            w10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
+            ),
+
+            w20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
+            ),
+
+            w60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw5  AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
+            ),
+
+            vw60 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
+            ),
+
+            r10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            s5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            s10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            s20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ts5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ts10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ts20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            is1 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
+            ),
+
+            is5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            is10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            is20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            vs1 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
+            ),
+
+            vs5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            vs10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            vs20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ms5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ms10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ms20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            ),
+
+            ns5 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
+            ),
+
+            ns10 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
+            ),
+
+            ns20 AS (
+                PARTITION BY h.stock_id
+                ORDER BY h.trade_date
+                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+            )
+    ),
+    NumberedData AS (
+        SELECT
+            *,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS rn_all,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (foreign_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_foreign,
+
+            ROW_NUMBER() OVER(
+                PARTITION BY stock_id, (trust_buy_sell > 0)
+                ORDER BY trade_date
+            ) AS rn_trust
+
+        FROM BaseData
+    ),
+
+    FeatureData AS (
+        SELECT
+            *,
+
+            LAG(ma5) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma5,
+
+            LAG(ma10) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma10,
+
+            LAG(ma20) OVER(
+                PARTITION BY stock_id
+                ORDER BY trade_date
+            ) AS prev_ma20,
+
+            CASE
+                WHEN foreign_buy_sell > 0 THEN
+                    ROW_NUMBER() OVER(
+                        PARTITION BY stock_id, (rn_all - rn_foreign)
+                        ORDER BY trade_date
+                    )
+                ELSE 0
+            END AS foreign_streak_days,
+
+            CASE
+                WHEN trust_buy_sell > 0 THEN
+                    ROW_NUMBER() OVER(
+                        PARTITION BY stock_id, (rn_all - rn_trust)
+                        ORDER BY trade_date
+                    )
+                ELSE 0
+            END AS trust_streak_days
+
+        FROM NumberedData
+    )
+
+    SELECT *
+    FROM FeatureData
+        WHERE trade_date = :targetDate
+            AND vma20 > 700000
+            AND (
+                (trade_volume > vma5 AND vma5 >= vma20) 
+                OR 
+                (trade_volume > vma20 * 1.3)
+            )
+            AND yesterday_vol < vma5
+            AND ABS(yesterday_close - yesterday_open) / NULLIF(yesterday_open, 0) < 0.03
+            AND (yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035
+            AND yesterday_close > ma20
+            AND (
+                (trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06)
+                OR
+                (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08)
+            )
+            AND ((high10 - low10) / NULLIF(low10, 0)) > 0.01
+            AND ((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9
+            AND (insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03;
+    ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['targetDate' => $targetDate]);
+    $rawStocks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $dashboardResults = [];
+    foreach ($rawStocks as $s) {
+        $tag = [];
+        if ($s['收盤價'] > $s['5日線'] && $s['5日線'] > $s['10日線'] && $s['10日線'] > $s['20日線'] && $s['5日線斜率'] > 0 && $s['10日線斜率'] > 0 && $s['20日線斜率'] > 0) $tag[] = "嚴格多頭";
+        if ($s['收盤價'] > $s['5日線'] && $s['收盤價'] > $s['10日線'] && $s['收盤價'] > $s['20日線'] && $s['昨日收盤價'] < $s['20日線']) $tag[] = "三陽開泰";
+        if ($s['收盤價'] / $s['昨日收盤價'] > 1.03 && $s['昨量比'] > 1.5) $tag[] = "價量齊揚";
+        if ($s['昨量比'] < 0.7 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.01) $tag[] = "量縮價穩";
+        if ((float)$s['5日乖離率'] > 7) $tag[] = "高檔乖離";
+        if ($s['20日線斜率'] > 0 && $s['60日線斜率'] <= 0) $tag[] = "生命線轉揚";
+        if ((float)$s['20日集中度'] > 10) $tag[] = "法人鎖碼";
+        if ($s['投信連買天數'] >= 3 && $s['投信5日累計'] > 0) $tag[] = "投信認養";
+        $denominator = $s['5日均量'] * 5;
+        $trust_ratio_5d = ($denominator == 0) ? null : ($s['投信5日累計'] / $denominator);
+        if ($s['投信連買天數'] >= 5 && $trust_ratio_5d > 0.03) {
+            $tag[] = "投信作帳股";
+        }
+        // if (floatval($s['10日振幅']) < 8 && $s['5日均量'] < $s['20日均量']) $tag[] = "整理末端";
+        // if ($s['昨量比'] > 2 && $s['收盤價'] > $s['昨日高價'] && $s['收盤價'] < $s['高價'] * 0.97) $tag[] = "假突破";
+        // if (($s['5日線'] - $s['10日線']) / $s['10日線'] > 0.03 && ($s['10日線'] - $s['20日線']) / $s['20日線'] > 0.03 && (float)$s['5日乖離率'] > 5) $tag[] = "均線發散";
+        // if ($s['昨量比'] > 1.5 && $s['收盤價'] > $s['5日線'] && $s['收盤價'] > $s['昨日高價']) $tag[] = "爆量突破";
+        // if ($s['昨量比'] > 2 && ($s['收盤價'] / $s['昨日收盤價']) > 1.04) $tag[] = "強勢突破";
+        // if ($s['外資5日累計'] > 500 && $s['外資5日累計'] > abs($s['外資20日累計'])) $tag[] = "法人急買";
+        // if ((float)$s['10日位階'] > 80 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.02) $tag[] = "高檔震盪";
+        // if ((float)$s['10日位階'] > 85 && $s['20日乖離率'] > 12) $tag[] = "短線過熱";
+        // if ($s['外資買賣超'] > 0 && $s['投信買賣超'] < 0) $tag[] = "法人分歧";
+        // if ($s['昨量比'] > 2 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.01 && $s['收盤價'] < $s['昨日高價']) $tag[] = "爆量不漲";
+        // if ($s['收盤價'] / $s['昨日收盤價'] < 0.97 && $s['昨量比'] > 1.5) $tag[] = "爆量長黑";
+        // if ($s['收盤價'] < $s['20日線'] && $s['昨日收盤價'] >= $s['20日線']) $tag[] = "跌破生命線";
+        // if ($s['外資5日累計'] < 0 && $s['投信5日累計'] < 0) $tag[] = "法人倒貨";
+        // if ($s['融資5日累計'] > 0 && $s['收盤價'] < $s['10日線'] && $s['外資5日累計'] <= 0) $tag[] = "融資失控";
+        // if ($s['券淨賣還5日累計'] > 0 && $s['券砸力'] > 3 && $s['收盤價'] < $s['5日線']) $tag[] = "空方加壓";
+        // if ($s['昨量比'] < 0.8 && (float)$s['5日集中度'] > 5 && abs($s['收盤價'] / $s['昨日收盤價'] - 1) < 0.015) $tag[] = "洗盤吸籌";
+        // if ($s['外資連買天數'] >= 3 && $s['昨量比'] < 1 && $s['收盤價'] > $s['20日線']) $tag[] = "偷偷吃貨";
+        // if ((float)$s['20日集中度'] > 15 && $s['券補力'] > 3) $tag[] = "籌碼鎖死";
+        // if ($s['券補力'] > 8 && $s['收盤價'] > $s['5日線']) $tag[] = "軋空預備";
+        // if ($s['收盤價'] > $s['5日線'] && $s['5日線'] > $s['10日線'] && $s['昨量比'] > 1.8 && (float)$s['5日集中度'] > 8) $tag[] = "主升段啟動";
+        // if ($s['收盤價'] > $s['20日線'] && $s['5日線斜率'] < $s['10日線斜率'] && $s['10日線斜率'] < $s['20日線斜率']) $tag[] = "多頭鈍化";
+        // if ($s['昨量比'] > 2 && $s['收盤價'] / $s['昨日收盤價'] < 1.01 && $s['外資買賣超'] < 0) $tag[] = "爆量出貨";
+        // if ($s['外資連買天數'] >= 5 && $s['外資買賣超'] < 0 && abs($s['外資買賣超']) > ($s['外資5日累計'] * 0.3)) $tag[] = "法人落跑";
+        // if ($s['收盤價'] > $s['20日線'] && $s['5日線斜率'] > 0 && $s['20日線斜率'] < 0 && $s['昨量比'] > 1.5) $tag[] = "底部甦醒";
+        // if ((float)$s['10日位階'] > 80 && $s['收盤價'] < $s['5日線'] && $s['外資買賣超'] < 0) $tag[] = "高檔轉弱";
+        // if ($s['5日線斜率'] < 0 && $s['10日線斜率'] < 0 && $s['收盤價'] < $s['10日線']) $tag[] = "短線轉空";
+        if ($s['投信連買天數'] == 1 && $s['昨日投信買賣超'] <= 0 && $s['投信買賣超'] > 100) $tag[] = "投信試單";
+        if ($s['外資5日累計'] > abs($s['外資20日累計'] * 0.3) && $s['外資20日累計'] < 0) $tag[] = "外資回補";
+        if ($s['外資連買天數'] > 0 && $s['投信連買天數'] > 0) $tag[] = "土洋合力";
+        if ((float)$s['5日集中度'] > (float)$s['20日集中度']) $tag[] = "籌碼趨於集中";
+        if ($s['券補力'] > 5) $tag[] = "潛在軋空";
+        if ($s['融資'] < 0 && ($s['收盤價'] / $s['昨日收盤價']) >= 1) $tag[] = "主力換手";
+        if ($s['融資'] > 0 && $s['券淨賣還'] > 0) $tag[] = "資券同增";
+        if ($s['券淨賣還5日累計'] < 0) $tag[] = "借券回補";
+        // if (in_array('爆量長黑', $tag)) $tag = array_diff($tag, ['主升段啟動', '均線發散']);
+        // if (in_array('高檔震盪', $tag)) $tag = array_diff($tag, ['主升段啟動']);
+        // $prompt = "請幫我分析[" . $s['代碼'] . $s['股名'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
+        // $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
+        $dashboardResults[] = [
+            'stock_id'   => $s['代碼'],
+            'stock_name' => $s['股名'],
+            'concept'    => '',
+            'close'      => $s['收盤價'],
+            'vol'      => $s['成交量'],
+            'vol_ratio'  => $s['昨量比'],
+            'rank10'     => $s['10日位階'],
+            'amp10'     => $s['10日振幅'],
+            'ma5'     => $s['5日線'],
+            'ma10'     => $s['10日線'],
+            'ma20'     => $s['20日線'],
+            'vma5'     => $s['5日均量'],
+            'vma10'     => $s['10日均量'],
+            'vma20'     => $s['20日均量'],
+            'bia5'     => $s['5日乖離率'],
+            'bia10'     => $s['10日乖離率'],
+            'bia20'     => $s['20日乖離率'],
+            'con1'     => $s['1日集中度'],
+            'con5'     => $s['5日集中度'],
+            'con10'     => $s['10日集中度'],
+            'con20'     => $s['20日集中度'],
+            'margin_balance_diff' => $s['融資'],
+            'margin_balance_diff_sum5' => $s['融資5日累計'],
+            'margin_balance_diff_sum10' => $s['融資10日累計'],
+            'margin_balance_diff_sum20' => $s['融資20日累計'],
+            'margin_balance' => $s['融資餘額'],
+            'foreign_sum5' => $s['外資5日累計'],
+            'foreign_sum10' => $s['外資10日累計'],
+            'foreign_sum20' => $s['外資20日累計'],
+            'trust_sum5' => $s['投信5日累計'],
+            'trust_sum10' => $s['投信10日累計'],
+            'trust_sum20' => $s['投信20日累計'],
+            'foreign_streak_days' => $s['外資連買天數'],
+            'trust_streak_days' => $s['投信連買天數'],
+            'foreign_buy_sell' => $s['外資買賣超'],
+            'trust_buy_sell' => $s['投信買賣超'],
+            'squeeze' => $s['券補力'],
+            'bullet' => $s['券砸力'],
+            'net_sbl' => $s['券淨賣還'],
+            'net_sbl_sum5' => $s['券淨賣還5日累計'],
+            'net_sbl_sum10' => $s['券淨賣還10日累計'],
+            'net_sbl_sum20' => $s['券淨賣還20日累計'],
+            'sbl_total' => $s['借券餘額'],
+            'sbl_sold_balance' => $s['借券賣出餘額'],
+            'tags' => implode(',', $tag)
+        ];
+    }
+    writeLog($pdo, 'generateDailyDashboard', "$targetDate 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    return $dashboardResults;
+}
