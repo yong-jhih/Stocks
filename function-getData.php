@@ -1,5 +1,5 @@
 <?php
-function getLatestTradingDateWithTWSE() // return string "YYYY-MM-DD"
+function getLatestTradingDateWithTWSE($pdo) // return string "YYYY-MM-DD"
 {
     $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
     $data = fetchUrl($url);
@@ -7,24 +7,27 @@ function getLatestTradingDateWithTWSE() // return string "YYYY-MM-DD"
         $rawDate = end($data['data'])[0];
         $cleanDate = str_replace('/', '', $rawDate);
         $convertedDate = convertTaiwanDateToWestern($cleanDate);
-        if (!$convertedDate) return ["status" => "error", "msg" => "日期格式轉換失敗"];
+        if (!$convertedDate) {
+            writeLog($pdo, 'getLatestTradingDateWithTWSE', "日期格式轉換失敗", 'error');
+            return null;
+        }
         $latestDate = new DateTime($convertedDate);
         $today = new DateTime();
         $interval = $today->diff($latestDate);
         $daysDiff = $interval->days;
         $threshold = 10;
         if ($daysDiff > $threshold) {
-            // return ["status" => "error", "msg" => "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)"];
+            writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)", 'error');
             return null;
         }
         return $convertedDate;
     } else {
-        // return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
         return null;
     }
 }
 
-function getLatestTradingDateWithFugle($symbol = '2330') // return string "YYYY-MM-DD"
+function getLatestTradingDateWithFugle($pdo, $symbol = '2330') // return string "YYYY-MM-DD"
 {
     $apiToken = getenv('FUGLE_TOKEN');
     if (!$apiToken) return ['status' => 'error', 'msg' => '找不到 Fugle Token 環境變數'];

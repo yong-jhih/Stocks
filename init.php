@@ -24,4 +24,4 @@ function getPDOConnection()
 }
 
 $pdo = getPDOConnection();
-$targetDate = getLatestTradingDateWithTWSE() ?? getLatestTradingDateWithFugle();
+$targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
