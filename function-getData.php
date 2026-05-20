@@ -13,10 +13,14 @@ function getLatestTradingDateWithTWSE() // return string "YYYY-MM-DD"
         $interval = $today->diff($latestDate);
         $daysDiff = $interval->days;
         $threshold = 10;
-        if ($daysDiff > $threshold) return ["status" => "error", "msg" => "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)"];
+        if ($daysDiff > $threshold) {
+            // return ["status" => "error", "msg" => "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)"];
+            return null;
+        }
         return $convertedDate;
     } else {
-        return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        // return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        return null;
     }
 }
 
