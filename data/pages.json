@@ -1,0 +1,54 @@
+[
+    {
+        "page": "index",
+        "title": "盤後分析篩選",
+        "dataSource": {
+            "table": "filter.json",
+            "chart": "charts.json"
+        },
+        "datatable": {
+            "order": [
+                5,
+                "desc"
+            ],
+            "fixedColumns": 2
+        },
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id"
+            },
+            {
+                "title": "名稱",
+                "field": "stock_name",
+                "class": "text-blue-300 font-bold"
+            }
+        ]
+    },
+    {
+        "page": "self",
+        "title": "自選分析",
+        "dataSource": {
+            "table": "self-select.json",
+            "chart": "self-charts.json"
+        },
+        "datatable": {
+            "order": [
+                4,
+                "desc"
+            ],
+            "fixedColumns": 2
+        },
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id"
+            },
+            {
+                "title": "名稱",
+                "field": "stock_name",
+                "class": "text-blue-300 font-bold"
+            }
+        ]
+    }
+]
