@@ -10,12 +10,6 @@ if (file_exists("data/" . $targetDate . "_self-select.json")) {
     exit(0);
 }
 
-$SBLSoldData = getSBLSold($targetDate, $pdo);
-if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') {
-    echo '資料未到齊, 等待下次觸發';
-    exit(0);
-}
-
 if (
     checkIfDataPublished($pdo, $targetDate, 'stock_history', 500) &&
     checkIfDataPublished($pdo, $targetDate, 'stock_insti', 500) &&
