@@ -1,0 +1,83 @@
+[
+    {
+        "stock_id": "2027",
+        "stock_name": "大成鋼",
+        "concept": "鋼鐵工業-鋁製品,不鏽鋼,金屬製品",
+        "score": 85,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 33,
+        "momentum_score": 20,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 41.15,
+        "vol": 46971,
+        "vol_ratio": 1.81,
+        "rank10": 81.61,
+        "amp10": 11.57,
+        "ma5": 39.43,
+        "ma10": 39.4,
+        "ma20": 38.32,
+        "ma60": 37.28,
+        "vma5": 41931,
+        "vma10": 35855,
+        "vma20": 28117,
+        "bia5": 4.36,
+        "bia10": 4.45,
+        "bia20": 7.39,
+        "con1": 41.3,
+        "con5": 41.98,
+        "con10": 32.18,
+        "con20": 25.74,
+        "foreign_buy_sell": 21268768,
+        "trust_buy_sell": -1319000,
+        "foreign_sum5": 96614,
+        "foreign_sum10": 133607,
+        "foreign_sum20": 166341,
+        "trust_sum5": -4688,
+        "trust_sum10": -11289,
+        "trust_sum20": -13888,
+        "foreign_streak_days": 5,
+        "trust_streak_days": 0,
+        "margin_balance": 33366,
+        "margin_balance_diff": 608,
+        "squeeze": 3.01,
+        "bullet": 1.16,
+        "net_sbl": -902,
+        "net_sbl_sum5": -27749,
+        "sbl_total": 117204,
+        "sbl_sold_balance": 84612,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上季線": 8
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 5 日",
+            "成交量放大 1.81 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    }
+]
