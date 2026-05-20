@@ -415,6 +415,32 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
     <script>
+        const TAG_DESCRIPTIONS = {
+            '多頭排列': '股價與均線呈現多頭結構，趨勢偏強。',
+            '均線上彎': '5/10/20MA 同步上揚，中期趨勢轉強。',
+            '站上季線': '股價重新站回60MA，中波段轉強。',
+            '爆量突破': '量能放大且突破前高，攻擊訊號。',
+            '價量齊揚': '股價上漲搭配量增，多方動能強。',
+            '法人集中': '法人近期集中買超，籌碼偏向主力。',
+            '外資連買': '外資連續買進，具持續性。',
+            '投信連買': '投信連續加碼，具波段意味。',
+            '土洋合力': '外資與投信同步偏多。',
+            '融資減肥': '融資下降但價格穩定，籌碼改善。',
+            '整理末端': '低波動整理接近尾聲，可能醞釀發動。',
+            '低檔區': '位階偏低，具反彈空間。',
+            '量縮抗跌': '縮量但價格未破壞，代表賣壓有限。',
+            '短線過熱': '乖離偏大，可能進入震盪。',
+            '乖離過大': '價格遠離均線，容易拉回。',
+            '假突破': '盤中突破但收盤失敗，追價風險高。',
+            '極度過熱': '短線漲幅與位階過高，需慎防急跌。',
+            '爆量滯漲': '大量但價格無法續漲，疑似出貨。',
+            '高檔出貨': '高檔長上影搭配大量，主力可能調節。',
+            '量縮走弱': '跌破月線且量縮，趨勢偏空。',
+            '月線轉弱': '20MA 開始下彎，中期結構轉差。',
+            '跌破月線': '跌破重要支撐，需提高警覺。',
+            '法人同步轉賣': '外資與投信同步賣超。',
+            '法人倒貨': '法人連續賣超，籌碼轉弱。'
+        };
         const TAG_STYLES = { // 標籤顏色
             bullish: [
                 '多頭排列',
@@ -496,7 +522,16 @@
             $('#modalTagContent').html(
                 tags
                     .map(t => t.trim())
-                    .map(t => `<span class="${getTagClass(t)} text-xs px-2 py-1 rounded">${t}</span>`).join('')
+                    .map(t => `
+                <div class="w-full bg-slate-800/60 border border-slate-700 rounded-lg p-3">
+                    <div class="${getTagClass(t)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">
+                        ${t}
+                    </div>
+                    <div class="text-sm text-slate-300 leading-relaxed">
+                        ${TAG_DESCRIPTIONS[t] || '尚無說明'}
+                    </div>
+                </div>
+            `).join('')
             );
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
