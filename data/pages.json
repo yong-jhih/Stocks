@@ -6,6 +6,37 @@
             "table": "filter.json",
             "chart": "charts.json"
         },
+        "illustrate_main": "※ 核心規則：僅上市個股，需同時滿足以下條件。建議短線觀測週期約 2 週。",
+        "illustrate": [
+            {
+                "condition": "基礎量能門檻",
+                "content": "20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。"
+            },
+            {
+                "condition": "攻擊量能確認",
+                "content": "今日量 > 5日均量 且 5日均量 > 20日均量（量增趨勢），或 今日量 > 20日均量 1.3 倍(爆量趨勢)。"
+            },
+            {
+                "condition": "極致洗盤確認 (重要)",
+                "content": "昨日成交量 < 5日均量，且昨日震幅 < 3.5%。代表發動前籌碼經過極度壓抑與洗盤。"
+            },
+            {
+                "condition": "價穩冷靜型態",
+                "content": "昨日 K 線實體 < 3% 且收盤高於 20日線。確認股價在生命線之上進行「窄幅整理」，而非破位大跌。"
+            },
+            {
+                "condition": "籌碼集中強度",
+                "content": "今日法人集中度：若未放量需 > 6%，若放量需 > 8%。代表當日籌碼主要由大戶收購。"
+            },
+            {
+                "condition": "波段位階保護",
+                "content": "10日位階處於 20%~90% 之間。避開絕對高檔噴發末端，也避開剛破底的弱勢股。"
+            },
+            {
+                "condition": "短期籌碼積累",
+                "content": "5日累計法人集中度 > 3%。確保法人不是只買一天（隔日沖），而是具備連續佈局。"
+            }
+        ],
         "datatable": {
             "order": [
                 5,
@@ -22,6 +53,138 @@
                 "title": "名稱",
                 "field": "stock_name",
                 "class": "text-blue-300 font-bold"
+            },
+            {
+                "title": "族群概念",
+                "field": "concept"
+            },
+            {
+                "title": "策略分類",
+                "field": "strategy_type"
+            },
+            {
+                "title": "信心度",
+                "field": "confidence"
+            },
+            {
+                "title": "綜合評分",
+                "field": "score"
+            },
+            {
+                "title": "趨勢分數",
+                "field": "trend_score"
+            },
+            {
+                "title": "動能分數",
+                "field": "momentum_score"
+            },
+            {
+                "title": "籌碼分數",
+                "field": "chip_score"
+            },
+            {
+                "title": "結構分數",
+                "field": "structure_score"
+            },
+            {
+                "title": "風險分數",
+                "field": "risk_score"
+            },
+            {
+                "title": "標籤",
+                "field": "tags"
+            },
+            {
+                "title": "收盤",
+                "field": "close"
+            },
+            {
+                "title": "成交量",
+                "field": "vol"
+            },
+            {
+                "title": "昨量比",
+                "field": "vol_ratio"
+            },
+            {
+                "title": "5日均量",
+                "field": "vma5"
+            },
+            {
+                "title": "10日均量",
+                "field": "vma10"
+            },
+            {
+                "title": "20日均量",
+                "field": "vma20"
+            },
+            {
+                "title": "10日位階",
+                "field": "rank10"
+            },
+            {
+                "title": "10日振幅",
+                "field": "amp10"
+            },
+            {
+                "title": "1日集中度",
+                "field": "con1"
+            },
+            {
+                "title": "5日集中度",
+                "field": "con5"
+            },
+            {
+                "title": "10日集中度",
+                "field": "con10"
+            },
+            {
+                "title": "20日集中度",
+                "field": "con20"
+            },
+            {
+                "title": "外資5日",
+                "field": "foreign_sum5"
+            },
+            {
+                "title": "投信5日",
+                "field": "trust_sum5"
+            },
+            {
+                "title": "外資連買",
+                "field": "foreign_streak_days"
+            },
+            {
+                "title": "投信連買",
+                "field": "trust_streak_days"
+            },
+            {
+                "title": "券補力",
+                "field": "squeeze"
+            },
+            {
+                "title": "券砸力",
+                "field": "bullet"
+            },
+            {
+                "title": "券淨賣還",
+                "field": "net_sbl"
+            },
+            {
+                "title": "券淨賣還5日",
+                "field": "net_sbl_sum5"
+            },
+            {
+                "title": "融資餘額",
+                "field": "margin_balance"
+            },
+            {
+                "title": "借券餘額",
+                "field": "sbl_total"
+            },
+            {
+                "title": "券賣餘額",
+                "field": "sbl_sold_balance"
             }
         ]
     },
