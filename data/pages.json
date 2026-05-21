@@ -202,6 +202,13 @@
             ],
             "fixedColumns": 2
         },
+        "illustrate_main": "※ 核心規則：僅上市個股，評分僅使用 技術面 籌碼面 結構面，未考量題材面及基本面。",
+        "illustrate": [
+            {
+                "condition": "設定股票代碼",
+                "content": "僅針對設定個股分析"
+            }
+        ],
         "columns": [
             {
                 "title": "代號",
@@ -211,6 +218,356 @@
                 "title": "名稱",
                 "field": "stock_name",
                 "class": "text-blue-300 font-bold"
+            },
+            {
+                "title": "策略分類",
+                "field": "strategy_type"
+            },
+            {
+                "title": "信心度",
+                "field": "confidence"
+            },
+            {
+                "title": "綜合評分",
+                "field": "score"
+            },
+            {
+                "title": "趨勢分數",
+                "field": "trend_score"
+            },
+            {
+                "title": "動能分數",
+                "field": "momentum_score"
+            },
+            {
+                "title": "籌碼分數",
+                "field": "chip_score"
+            },
+            {
+                "title": "結構分數",
+                "field": "structure_score"
+            },
+            {
+                "title": "風險分數",
+                "field": "risk_score"
+            },
+            {
+                "title": "標籤",
+                "field": "tags"
+            },
+            {
+                "title": "收盤",
+                "field": "close"
+            },
+            {
+                "title": "成交量",
+                "field": "vol"
+            },
+            {
+                "title": "昨量比",
+                "field": "vol_ratio"
+            },
+            {
+                "title": "5日均量",
+                "field": "vma5"
+            },
+            {
+                "title": "10日均量",
+                "field": "vma10"
+            },
+            {
+                "title": "20日均量",
+                "field": "vma20"
+            },
+            {
+                "title": "10日位階",
+                "field": "rank10"
+            },
+            {
+                "title": "10日振幅",
+                "field": "amp10"
+            },
+            {
+                "title": "1日集中度",
+                "field": "con1"
+            },
+            {
+                "title": "5日集中度",
+                "field": "con5"
+            },
+            {
+                "title": "10日集中度",
+                "field": "con10"
+            },
+            {
+                "title": "20日集中度",
+                "field": "con20"
+            },
+            {
+                "title": "外資5日",
+                "field": "foreign_sum5"
+            },
+            {
+                "title": "投信5日",
+                "field": "trust_sum5"
+            },
+            {
+                "title": "外資連買",
+                "field": "foreign_streak_days"
+            },
+            {
+                "title": "投信連買",
+                "field": "trust_streak_days"
+            },
+            {
+                "title": "券補力",
+                "field": "squeeze"
+            },
+            {
+                "title": "券砸力",
+                "field": "bullet"
+            },
+            {
+                "title": "券淨賣還",
+                "field": "net_sbl"
+            },
+            {
+                "title": "券淨賣還5日",
+                "field": "net_sbl_sum5"
+            },
+            {
+                "title": "融資餘額",
+                "field": "margin_balance"
+            },
+            {
+                "title": "借券餘額",
+                "field": "sbl_total"
+            },
+            {
+                "title": "券賣餘額",
+                "field": "sbl_sold_balance"
+            }
+        ]
+    },
+    {
+        "page": "topPerforming",
+        "title": "市場評分排行",
+        "dataSource": {
+            "table": "topPerforming.json",
+            "chart": "topPerforming-charts.json"
+        },
+        "datatable": {
+            "order": [
+                4,
+                "desc"
+            ],
+            "fixedColumns": 2
+        },
+        "illustrate_main": "※ 核心規則：僅上市個股，評分僅使用 技術面 籌碼面 結構面，未考量題材面及基本面。",
+        "illustrate": [
+            {
+                "condition": "基礎量能門檻",
+                "content": "20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。"
+            }
+        ],
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id"
+            },
+            {
+                "title": "名稱",
+                "field": "stock_name",
+                "class": "text-blue-300 font-bold"
+            },
+            {
+                "title": "策略分類",
+                "field": "strategy_type"
+            },
+            {
+                "title": "信心度",
+                "field": "confidence"
+            },
+            {
+                "title": "綜合評分",
+                "field": "score"
+            },
+            {
+                "title": "趨勢分數",
+                "field": "trend_score"
+            },
+            {
+                "title": "動能分數",
+                "field": "momentum_score"
+            },
+            {
+                "title": "籌碼分數",
+                "field": "chip_score"
+            },
+            {
+                "title": "結構分數",
+                "field": "structure_score"
+            },
+            {
+                "title": "風險分數",
+                "field": "risk_score"
+            },
+            {
+                "title": "標籤",
+                "field": "tags"
+            },
+            {
+                "title": "收盤",
+                "field": "close"
+            },
+            {
+                "title": "成交量",
+                "field": "vol"
+            },
+            {
+                "title": "昨量比",
+                "field": "vol_ratio"
+            },
+            {
+                "title": "5日均量",
+                "field": "vma5"
+            },
+            {
+                "title": "10日均量",
+                "field": "vma10"
+            },
+            {
+                "title": "20日均量",
+                "field": "vma20"
+            },
+            {
+                "title": "10日位階",
+                "field": "rank10"
+            },
+            {
+                "title": "10日振幅",
+                "field": "amp10"
+            },
+            {
+                "title": "1日集中度",
+                "field": "con1"
+            },
+            {
+                "title": "5日集中度",
+                "field": "con5"
+            },
+            {
+                "title": "10日集中度",
+                "field": "con10"
+            },
+            {
+                "title": "20日集中度",
+                "field": "con20"
+            },
+            {
+                "title": "外資5日",
+                "field": "foreign_sum5"
+            },
+            {
+                "title": "投信5日",
+                "field": "trust_sum5"
+            },
+            {
+                "title": "外資連買",
+                "field": "foreign_streak_days"
+            },
+            {
+                "title": "投信連買",
+                "field": "trust_streak_days"
+            },
+            {
+                "title": "券補力",
+                "field": "squeeze"
+            },
+            {
+                "title": "券砸力",
+                "field": "bullet"
+            },
+            {
+                "title": "券淨賣還",
+                "field": "net_sbl"
+            },
+            {
+                "title": "券淨賣還5日",
+                "field": "net_sbl_sum5"
+            },
+            {
+                "title": "融資餘額",
+                "field": "margin_balance"
+            },
+            {
+                "title": "借券餘額",
+                "field": "sbl_total"
+            },
+            {
+                "title": "券賣餘額",
+                "field": "sbl_sold_balance"
+            }
+        ]
+    }
+    {
+        "page": "00981A_component",
+        "title": "跟著瑤姐走",
+        "dataSource": {
+            "table": "00981A_component.json",
+            "chart": ""
+        },
+        "datatable": {
+            "order": [
+                3,
+                "desc"
+            ],
+            "fixedColumns": 2
+        },
+        "illustrate_main": "※ 核心規則：僅上市個股，評分僅使用 技術面 籌碼面 結構面，未考量題材面及基本面。",
+        "illustrate": [
+            {
+                "condition": "基礎量能門檻",
+                "content": "20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。"
+            }
+        ],
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id"
+            },
+            {
+                "title": "名稱",
+                "field": "stock_name",
+                "class": "text-blue-300 font-bold"
+            },
+            {
+                "title": "持股數",
+                "field": "amount"
+            },
+            {
+                "title": "權重",
+                "field": "weight"
+            },
+            {
+                "title": "備註",
+                "field": "note"
+            },
+            {
+                "title": "1日持股差異",
+                "field": "diff1"
+            },
+            {
+                "title": "5日持股差異",
+                "field": "diff5"
+            },
+            {
+                "title": "10日持股差異",
+                "field": "diff10"
+            },
+            {
+                "title": "20日持股差異",
+                "field": "diff20"
             }
         ]
     }
