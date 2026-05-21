@@ -82,3 +82,17 @@ CREATE TABLE IF NOT EXISTS 00981A_component (
     PRIMARY KEY (trade_date, stock_id),
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 8. 股票基本資料 / 產業概念
+CREATE TABLE IF NOT EXISTS stock_profile (
+    stock_id VARCHAR(10) NOT NULL COMMENT '股票代號',
+    stock_name VARCHAR(50) NOT NULL COMMENT '股票名稱',
+    market VARCHAR(20) DEFAULT '' COMMENT '市場別(上市/上櫃/興櫃)',
+    industry VARCHAR(100) DEFAULT '' COMMENT '產業分類',
+    concepts TEXT COMMENT '概念題材(逗號分隔)',
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+    PRIMARY KEY (stock_id),
+    INDEX idx_industry (industry),
+    INDEX idx_market (market)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
