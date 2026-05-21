@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css">
     <style>
         table.dataTable tbody tr {
             cursor: pointer;
@@ -385,6 +386,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
     <script>
         const TAG_DESCRIPTIONS = {
             '多頭排列': '股價與均線呈現多頭結構，趨勢偏強。',
@@ -464,6 +466,7 @@
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: { left: 2 },
+                fixedHeader: true,
                 lengthMenu: [10, 20, 50, 100, 200, 800],
                 paging: true,
                 pageLength: 20,
