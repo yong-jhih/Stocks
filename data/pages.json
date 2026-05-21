@@ -514,7 +514,7 @@
         "page": "00981A_component",
         "title": "跟著瑤姐走",
         "dataSource": {
-            "table": "00981A_component.json",
+            "table": "componentOf00981A.json",
             "chart": ""
         },
         "datatable": {
