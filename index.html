@@ -535,91 +535,27 @@
                 const data = await res.json();
                 table.clear();
                 if (data.length === 0) alert('沒有符合篩選條件的標的');
-                // data.forEach(item => {
-                //     const tagText = item.tags.join(', ');
-                //     const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
-                //     const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600" data-name="${item.stock_name}" data-tags='${JSON.stringify(item.tags)}'>更</button></div>`;
-                //     table.row.add([
-                //         item.stock_id,
-                //         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
-                //         item.concept,
-                //         item.strategy_type,
-                //         item.confidence,
-                //         item.score,
-                //         item.trend_score,
-                //         item.momentum_score,
-                //         item.chip_score,
-                //         item.structure_score,
-                //         item.risk_score,
-                //         tagBtn,
-                //         item.close,
-                //         item.vol,
-                //         item.vol_ratio,
-                //         item.vma5,
-                //         item.vma10,
-                //         item.vma20,
-                //         item.rank10,
-                //         item.amp10,
-                //         item.con1,
-                //         item.con5,
-                //         item.con10,
-                //         item.con20,
-                //         item.foreign_sum5,
-                //         item.trust_sum5,
-                //         item.foreign_streak_days,
-                //         item.trust_streak_days,
-                //         item.squeeze,
-                //         item.bullet,
-                //         item.net_sbl,
-                //         item.net_sbl_sum5,
-                //         item.margin_balance,
-                //         item.sbl_total,
-                //         item.sbl_sold_balance
-                //     ]);
-                // });
                 data.forEach(item => {
                     const row = page_info.columns.map(col => {
                         let value = item[col.field];
-
-                        // tags 特殊處理
                         if (col.field === 'tags') {
                             const tagText = item.tags.join(', ');
-                            const tagShort =
-                                tagText.length > 8
-                                    ? tagText.substring(0, 8) + '...'
-                                    : tagText;
-
+                            const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
                             return `
-                <div class="flex items-center gap-1">
-                    <span>${tagShort}</span>
-                    <button
-                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-                        data-name="${item.stock_name}"
-                        data-tags='${JSON.stringify(item.tags)}'
-                    >
-                        更
-                    </button>
-                </div>
-            `;
+                                <div class="flex items-center gap-1">
+                                    <span>${tagShort}</span>
+                                    <button
+                                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
+                                        data-name="${item.stock_name}"
+                                        data-tags='${JSON.stringify(item.tags)}'>更
+                                    </button>
+                                </div>
+                            `;
                         }
-
-                        // stock_name 特殊樣式
-                        if (col.field === 'stock_name') {
-                            return `
-                <span class="${col.class || ''}">
-                    ${value}
-                </span>
-            `;
-                        }
-
-                        // null 避免顯示 undefined
-                        if (value === null || value === undefined) {
-                            return '';
-                        }
-
+                        if (col.field === 'stock_name') return `<span class="${col.class || ''}">${value}</span>`;
+                        if (value === null || value === undefined) return '';
                         return value;
                     });
-
                     table.row.add(row);
                 });
                 table.draw();
