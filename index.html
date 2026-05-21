@@ -10,11 +10,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
     <style>
-        th,
-        td {
-            background-color: #1f2937 !important;
-        }
-
         table.dataTable tbody tr {
             cursor: pointer;
         }
@@ -69,7 +64,6 @@
 
         tr:hover td {
             background-color: #1e293b !important;
-            cursor: pointer;
         }
 
         ::-webkit-scrollbar {
@@ -90,9 +84,15 @@
             background: #475569;
         }
 
-        #tagModal,
-        #infoModal,
-        #chartModal {
+        .modal-panel {
+            width: 100%;
+            max-width: 100%;
+            height: 90vh;
+            overflow-y: auto;
+            border-radius: 12px;
+        }
+
+        .modal-active {
             animation: fadeIn .2s ease-out;
         }
 
@@ -151,15 +151,6 @@
                 display: none !important;
             }
 
-            #infoModal .bg-gray-800,
-            #tagModal .bg-gray-800 {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: 90vh;
-                overflow-y: auto;
-                border-radius: 12px;
-            }
-
             #chartModal {
                 padding: 0 !important;
             }
@@ -216,7 +207,7 @@
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
                 <h1 class="text-3xl font-bold text-blue-400" id="pageTitle"></h1>
-                <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
+                <button onclick="openModal('infoModal')" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -256,22 +247,25 @@
         </div>
     </div>
     <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
-        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
+        <div class="modal-panel bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-blue-300" id="modalStockTitle"></h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                <button onclick="closeModal('tagModal')"
+                    class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
             <div id="modalTagContent" class="p-6 flex flex-wrap gap-2"></div>
-            <div class="p-4 text-right"><button onclick="closeModal()" class="bg-blue-600 px-4 py-2 rounded">關閉</button>
+            <div class="p-4 text-right"><button onclick="closeModal('tagModal')"
+                    class="bg-blue-600 px-4 py-2 rounded">關閉</button>
             </div>
         </div>
     </div>
     <div id="infoModal"
         class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
-        <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full">
+        <div class="modal-panel bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-blue-300">系統說明手冊</h3>
-                <button onclick="closeInfoModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                <button onclick="closeModal('infoModal')"
+                    class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
             <div class="flex border-b border-gray-700 px-4">
                 <button onclick="switchTab('filterRule')" id="tab-filterRule"
@@ -371,7 +365,7 @@
                     </section>
                 </div>
                 <div class="p-4 text-right border-t border-gray-700">
-                    <button onclick="closeInfoModal()"
+                    <button onclick="closeModal('infoModal')"
                         class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded text-white transition-colors">關閉</button>
                 </div>
             </div>
@@ -494,7 +488,6 @@
                     openChart(rowData[0], $(rowData[1]).text());
                 }
             });
-            $('#dateSelect').on('change', function () { if (this.value) loadData(this.value); });
             initSystem();
         });
         function switchTab(tabName) {
@@ -522,13 +515,10 @@
             $('#tagModal').removeClass('hidden').addClass('flex');
         }
         function closeModal(id) {
-            if (id) {
-                $(`#${id}`).addClass('hidden').removeClass('flex modal-active');
-            } else {
-                $('#tagModal').addClass('hidden').removeClass('flex');
-            }
+            $(`#${id}`)
+                .addClass('hidden')
+                .removeClass('flex modal-active');
         }
-        function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
         async function loadData(date) {
             try {
                 const res = await fetch(`./data/${date}_${page_info.dataSource.table}`);
@@ -778,7 +768,11 @@
                 }, 50);
             });
         }
-        function openInfoModal() { $('#infoModal').removeClass('hidden').addClass('flex modal-active'); }
+        function openModal(id) {
+            $(`#${id}`)
+                .removeClass('hidden')
+                .addClass('flex modal-active');
+        }
         window.addEventListener('resize', () => {
             if (chartInstance) {
                 chartInstance.resize();
