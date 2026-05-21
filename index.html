@@ -20,18 +20,10 @@
         }
 
         #mainChart {
-            width: 100%;
-            height: 70vh;
             min-height: 400px;
         }
 
-        #mainChart canvas {
-            touch-action: pan-y;
-        }
-
         body {
-            background-color: #020617;
-            color: #f1f5f9;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
@@ -473,7 +465,7 @@
                 scrollX: true,
                 fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
                 paging: true,
-                pageLength: 100,
+                pageLength: 10,
                 order: [page_info.datatable.order],
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
@@ -587,9 +579,7 @@
                 console.error("找不到該股票的快取資料:", id);
                 return;
             }
-            $('#chartModal')
-                .removeClass('hidden')
-                .addClass('flex modal-active');
+            openModal('chartModal');
             const stockData = cachedChartData.stocks[id];
             const s = stockData.series;
             const dates = s.map(item => item.date);
@@ -783,8 +773,8 @@
         });
         $(window).on('click', function (event) {
             if ($(event.target).is('#chartModal')) closeModal('chartModal');
-            if ($(event.target).is('#infoModal')) closeInfoModal();
-            if ($(event.target).is('#tagModal')) closeModal();
+            if ($(event.target).is('#infoModal')) closeModal('infoModal');
+            if ($(event.target).is('#tagModal')) closeModal('tagModal');
         });
     </script>
 </body>
