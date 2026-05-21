@@ -515,7 +515,7 @@
         "title": "跟著瑤姐走",
         "dataSource": {
             "table": "componentOf00981A.json",
-            "chart": ""
+            "chart": "topPerforming-charts.json"
         },
         "datatable": {
             "order": [
