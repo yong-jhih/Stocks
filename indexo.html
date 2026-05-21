@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>盤後分析</title>
+    <title>盤後分析篩選</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
@@ -182,32 +182,6 @@
             }
         }
     </style>
-    <script>
-        // 優先載入頁面設定
-        const params = new URLSearchParams(location.search);
-        const currentPage = params.get('page') || 'index';
-        let page_info = {};
-        async function loadPageData() {
-            const res = await fetch(`./data/pages.json`);
-            const data = await res.json();
-            if (data.length === 0) alert('沒有符合篩選條件的標的');
-            data.forEach(page => {
-                if (page.page === currentPage) page_info = page;
-            });
-            $('#pageTitle').text(page_info.title);
-            const headHtml = page_info.columns
-                .map(col => `<th>${col.title}</th>`)
-                .join('');
-            $('#tableHeadRow').html(headHtml);
-
-            $('#illustrate_main').text(page_info.illustrate_main);
-            let illustratediv = "";
-            page_info.illustrate.forEach(d => {
-                illustratediv += `<li class="bg-gray-700/50 p-3 rounded"><b class="text-blue-400 block mb-1">${d.condition}</b>${d.content}</li>`
-            });
-            $('#illustratediv').html(illustratediv);
-        }
-    </script>
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
@@ -215,7 +189,8 @@
         <header
             class="mb-8 border-b border-gray-700 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-2">
-                <h1 class="text-3xl font-bold text-blue-400" id="pageTitle"></h1>
+                <h1 class="text-3xl font-bold text-blue-400">盤後分析篩選</h1>
+                <h6>2026-05-18開始...</h6>
                 <button onclick="openInfoModal()" class="text-gray-400 hover:text-blue-400 transition-colors p-1"
                     title="查看篩選與標籤說明">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
@@ -249,7 +224,43 @@
         <div class="shadow-2xl">
             <table id="stockTable" class="display stripe nowrap" style="width:100%">
                 <thead>
-                    <tr id="tableHeadRow"></tr>
+                    <tr>
+                        <th>代號</th>
+                        <th>名稱</th>
+                        <th>族群概念</th>
+                        <th>策略分類</th>
+                        <th>信心度</th>
+                        <th>綜合評分</th>
+                        <th>趨勢分數</th>
+                        <th>動能分數</th>
+                        <th>籌碼分數</th>
+                        <th>結構分數</th>
+                        <th>風險分數</th>
+                        <th>標籤</th>
+                        <th>收盤</th>
+                        <th>成交量</th>
+                        <th>昨量比</th>
+                        <th>5日均量</th>
+                        <th>10日均量</th>
+                        <th>20日均量</th>
+                        <th>10日位階</th>
+                        <th>10日振幅</th>
+                        <th>1日集中度</th>
+                        <th>5日集中度</th>
+                        <th>10日集中度</th>
+                        <th>20日集中度</th>
+                        <th>外資5日</th>
+                        <th>投信5日</th>
+                        <th>外資連買</th>
+                        <th>投信連買</th>
+                        <th>券補力</th>
+                        <th>券砸力</th>
+                        <th>券淨賣還</th>
+                        <th>券淨賣還5日</th>
+                        <th>融資餘額</th>
+                        <th>借券餘額</th>
+                        <th>券賣餘額</th>
+                    </tr>
                 </thead>
                 <tbody class="text-gray-300"></tbody>
             </table>
@@ -282,9 +293,36 @@
             <div class="p-6 overflow-y-auto max-h-[65vh]">
                 <div id="content-filterRule" class="space-y-4 text-sm text-gray-200">
                     <div class="bg-blue-900/30 border-l-4 border-blue-500 p-3 mb-4">
-                        <p class="font-bold text-blue-300" id="illustrate_main"></p>
+                        <p class="font-bold text-blue-300">※ 核心規則：僅上市個股，需同時滿足以下條件。建議短線觀測週期約 2 週。</p>
                     </div>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4" id="illustratediv"></ul>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">1. 基礎量能門檻</b>
+                            20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">2. 攻擊量能確認</b>
+                            今日量 > 5日均量 且 5日均量 > 20日均量（量增趨勢），或 今日量 > 20日均量 1.3 倍(爆量趨勢)。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">3. 極致洗盤確認 (重要)</b>
+                            昨日成交量 < 5日均量，且昨日震幅 < 3.5%。代表發動前籌碼經過極度壓抑與洗盤。</li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">4. 價穩冷靜型態</b>
+                            昨日 K 線實體 < 3% 且收盤高於 20日線。確認股價在生命線之上進行「窄幅整理」，而非破位大跌。</li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">5. 籌碼集中強度</b>
+                            今日法人集中度：若未放量需 > 6%，若放量需 > 8%。代表當日籌碼主要由大戶收購。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">6. 波段位階保護</b>
+                            10日位階處於 20%~90% 之間。避開絕對高檔噴發末端，也避開剛破底的弱勢股。
+                        </li>
+                        <li class="bg-gray-700/50 p-3 rounded">
+                            <b class="text-blue-400 block mb-1">7. 短期籌碼積累</b>
+                            5日累計法人集中度 > 3%。確保法人不是只買一天（隔日沖），而是具備連續佈局。
+                        </li>
+                    </ul>
                 </div>
                 <div id="content-tagManual" class="hidden space-y-6">
                     <section>
@@ -467,8 +505,7 @@
         let table;
         let chartInstance = null;
         let cachedChartData = {};
-        $(document).ready(async function () {
-            await loadPageData();
+        $(document).ready(function () {
             $('#stockTable tbody').on('click', '.tag-btn', function (e) {
                 e.stopPropagation();
                 const name = $(this).data('name');
@@ -480,7 +517,7 @@
                 fixedColumns: window.innerWidth > 768 ? { left: 2 } : false,
                 paging: true,
                 pageLength: 100,
-                order: [page_info.datatable.order],
+                order: [[5, 'desc']],
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
                 columnDefs: [
                     { className: "dt-center", targets: "_all" },
@@ -531,96 +568,51 @@
         function closeInfoModal() { $('#infoModal').addClass('hidden').removeClass('flex'); }
         async function loadData(date) {
             try {
-                const res = await fetch(`./data/${date}_${page_info.dataSource.table}`);
+                const res = await fetch(`./data/${date}_filter.json`);
                 const data = await res.json();
                 table.clear();
                 if (data.length === 0) alert('沒有符合篩選條件的標的');
-                // data.forEach(item => {
-                //     const tagText = item.tags.join(', ');
-                //     const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
-                //     const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600" data-name="${item.stock_name}" data-tags='${JSON.stringify(item.tags)}'>更</button></div>`;
-                //     table.row.add([
-                //         item.stock_id,
-                //         `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
-                //         item.concept,
-                //         item.strategy_type,
-                //         item.confidence,
-                //         item.score,
-                //         item.trend_score,
-                //         item.momentum_score,
-                //         item.chip_score,
-                //         item.structure_score,
-                //         item.risk_score,
-                //         tagBtn,
-                //         item.close,
-                //         item.vol,
-                //         item.vol_ratio,
-                //         item.vma5,
-                //         item.vma10,
-                //         item.vma20,
-                //         item.rank10,
-                //         item.amp10,
-                //         item.con1,
-                //         item.con5,
-                //         item.con10,
-                //         item.con20,
-                //         item.foreign_sum5,
-                //         item.trust_sum5,
-                //         item.foreign_streak_days,
-                //         item.trust_streak_days,
-                //         item.squeeze,
-                //         item.bullet,
-                //         item.net_sbl,
-                //         item.net_sbl_sum5,
-                //         item.margin_balance,
-                //         item.sbl_total,
-                //         item.sbl_sold_balance
-                //     ]);
-                // });
                 data.forEach(item => {
-                    const row = page_info.columns.map(col => {
-                        let value = item[col.field];
-
-                        // tags 特殊處理
-                        if (col.field === 'tags') {
-                            const tagText = item.tags.join(', ');
-                            const tagShort =
-                                tagText.length > 8
-                                    ? tagText.substring(0, 8) + '...'
-                                    : tagText;
-
-                            return `
-                <div class="flex items-center gap-1">
-                    <span>${tagShort}</span>
-                    <button
-                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-                        data-name="${item.stock_name}"
-                        data-tags='${JSON.stringify(item.tags)}'
-                    >
-                        更
-                    </button>
-                </div>
-            `;
-                        }
-
-                        // stock_name 特殊樣式
-                        if (col.field === 'stock_name') {
-                            return `
-                <span class="${col.class || ''}">
-                    ${value}
-                </span>
-            `;
-                        }
-
-                        // null 避免顯示 undefined
-                        if (value === null || value === undefined) {
-                            return '';
-                        }
-
-                        return value;
-                    });
-
-                    table.row.add(row);
+                    const tagText = item.tags.join(', ');
+                    const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
+                    const tagBtn = `<div class="flex items-center gap-1"><span>${tagShort}</span><button class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600" data-name="${item.stock_name}" data-tags='${JSON.stringify(item.tags)}'>更</button></div>`;
+                    table.row.add([
+                        item.stock_id,
+                        `<span class="text-blue-300 font-bold">${item.stock_name}</span>`,
+                        item.concept,
+                        item.strategy_type,
+                        item.confidence,
+                        item.score,
+                        item.trend_score,
+                        item.momentum_score,
+                        item.chip_score,
+                        item.structure_score,
+                        item.risk_score,
+                        tagBtn,
+                        item.close,
+                        item.vol,
+                        item.vol_ratio,
+                        item.vma5,
+                        item.vma10,
+                        item.vma20,
+                        item.rank10,
+                        item.amp10,
+                        item.con1,
+                        item.con5,
+                        item.con10,
+                        item.con20,
+                        item.foreign_sum5,
+                        item.trust_sum5,
+                        item.foreign_streak_days,
+                        item.trust_streak_days,
+                        item.squeeze,
+                        item.bullet,
+                        item.net_sbl,
+                        item.net_sbl_sum5,
+                        item.margin_balance,
+                        item.sbl_total,
+                        item.sbl_sold_balance
+                    ]);
                 });
                 table.draw();
             } catch (e) { alert("讀取失敗"); }
@@ -648,7 +640,7 @@
         }
         async function loadChartData(date) {
             try {
-                const response = await fetch(`./data/${date}_${page_info.dataSource.chart}`);
+                const response = await fetch(`./data/${date}_charts.json`);
                 const data = await response.json();
                 cachedChartData = data;
             } catch (error) {
