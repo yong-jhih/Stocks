@@ -71,10 +71,10 @@ try {
         if ($k == 100) echo ($row[2]);
         if ($row[0] == '' || $row[1] == '') continue;
         $stmt->execute([
-            $row[0],
-            $row[1],
+            $row['stock_id'],
+            $row['stock_name'],
             '',
-            $row[2],
+            $row['industry'],
             ''
         ]);
     }
