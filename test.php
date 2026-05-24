@@ -66,10 +66,7 @@ $stmt = $pdo->prepare($sql);
 $pdo->beginTransaction();
 try {
     foreach ($stocks as $k => $row) {
-        if ($k == 100) echo ($row[0]);
-        if ($k == 100) echo ($row[1]);
-        if ($k == 100) echo ($row[2]);
-        if ($row[0] == '' || $row[1] == '') continue;
+        if ($row['stock_id'] == '' || $row['stock_name'] == '') continue;
         $stmt->execute([
             $row['stock_id'],
             $row['stock_name'],
