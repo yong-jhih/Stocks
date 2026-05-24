@@ -1,8 +1,5 @@
 <?php
-// require_once("init.php");
-
-require_once("function-tools.php");
-require_once("function-getData.php");
+require_once("init.php");
 
 $industry = [
     '01' => '水泥工業',
@@ -49,16 +46,36 @@ curl_close($ch);
 $stocks = [];
 if ($httpCode === 200) {
     $data = json_decode($response, true);
-    foreach ($data as $stock) {
+    foreach ($data as $k => $stock) {
         $stocks[] = [
             'stock_id' => $stock['公司代號'],
             'stock_name' => $stock['公司簡稱'],
-            'industry' => $industry[$stock['產業別']]
+            'industry' => $industry[(string)$stock['產業別']] ?? ''
         ];
     }
-    echo count($stocks);
-    echo json_encode($stocks[100]);
-    // return $stocks;
-} else {
-    // return ['status' => 'error', 'msg' => "API 請求失敗，狀態碼：$httpCode"];
+}
+
+$sql = "INSERT INTO stock_profile 
+            (stock_id, stock_name, industry) 
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            stock_id = VALUES(stock_id),
+            stock_name = VALUES(stock_name),
+            industry = VALUES(industry)";
+$stmt = $pdo->prepare($sql);
+$pdo->beginTransaction();
+try {
+    foreach ($stocks as $row) {
+        $stmt->execute([
+            $row[0],
+            $row[1],
+            (string)($row[3])
+        ]);
+    }
+    $pdo->commit();
+    writeLog($pdo, 'stock_profile', '更新完成,共新增 ' . count($stocks) . ' 筆', 'success');
+} catch (Exception $e) {
+    $pdo->rollBack();
+    echo "寫入失敗：" . $e->getMessage();
+    writeLog($pdo, 'stock_profile', "寫入失敗：" . $e->getMessage(), 'error');
 }
