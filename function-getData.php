@@ -65,6 +65,102 @@ function isHoliday($date) // return bool
     return in_array($date, $holiday);
 }
 
+function getStockProfileWithTWSE($pdo) // return Array
+{
+    $industry = [
+        '01' => '水泥工業',
+        '02' => '食品工業',
+        '03' => '塑膠工業',
+        '04' => '紡織纖維',
+        '05' => '電機機械',
+        '06' => '電器電纜',
+        '08' => '玻璃陶瓷',
+        '09' => '造紙工業',
+        '10' => '鋼鐵工業',
+        '11' => '橡膠工業',
+        '12' => '汽車工業',
+        '14' => '建材營造',
+        '15' => '航運業',
+        '16' => '觀光餐旅',
+        '17' => '金融保險',
+        '18' => '貿易百貨',
+        '19' => '綜合',
+        '20' => '其他',
+        '21' => '化學工業',
+        '22' => '生技醫療業',
+        '23' => '油電燃氣業',
+        '24' => '半導體業',
+        '25' => '電腦及週邊設備業',
+        '26' => '光電業',
+        '27' => '通信網路業',
+        '28' => '電子零組件業',
+        '29' => '電子通路業',
+        '30' => '資訊服務業',
+        '31' => '其他電子業',
+        '35' => '綠能環保',
+        '36' => '數位雲端',
+        '37' => '運動休閒',
+        '38' => '居家生活'
+    ];
+    $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
+    try {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $stocks = [];
+        if ($httpCode === 200) {
+            $data = json_decode($response, true);
+            foreach ($data as $k => $stock) {
+                if ($stock['公司代號']) continue;
+                $stocks[] = [
+                    'stock_id' => $stock['公司代號'] ?? '',
+                    'stock_name' => $stock['公司簡稱'] ?? '',
+                    'industry' => $industry[(string)$stock['產業別']] ?? ''
+                ];
+            }
+        }
+        return $stocks;
+    } catch (Exception $e) {
+        echo "取得 t187ap03_L 失敗：" . $e->getMessage();
+        writeLog($pdo, 'stock_profile', "取得 t187ap03_L 失敗：" . $e->getMessage(), 'error');
+    }
+}
+
+function insertStockProfile($pdo, $stocks)
+{
+    $sql = "INSERT INTO stock_profile 
+            (stock_id, stock_name, market, industry, concepts) 
+            VALUES (?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            stock_name = VALUES(stock_name),
+            market = VALUES(market),
+            industry = VALUES(industry),
+            concepts = VALUES(concepts)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($stocks as $k => $row) {
+            if ($row['stock_id'] == '') continue;
+            $stmt->execute([
+                $row['stock_id'],
+                $row['stock_name'],
+                '',
+                $row['industry'],
+                ''
+            ]);
+        }
+        $pdo->commit();
+        writeLog($pdo, 'stock_profile', '更新完成,共新增 ' . count($stocks) . ' 筆', 'success');
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "寫入失敗：" . $e->getMessage();
+        writeLog($pdo, 'stock_profile', "寫入失敗：" . $e->getMessage(), 'error');
+    }
+}
+
 function getHistory($date, $pdo) // return array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);

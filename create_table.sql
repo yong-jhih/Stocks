@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS stock_profile (
     stock_name VARCHAR(50) NOT NULL COMMENT '股票名稱',
     market VARCHAR(20) DEFAULT '' COMMENT '市場別(上市/上櫃/興櫃)',
     industry VARCHAR(100) DEFAULT '' COMMENT '產業分類',
+    sub_industry VARCHAR(100) DEFAULT '' COMMENT '次產業',
     concepts TEXT COMMENT '概念題材(逗號分隔)',
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
