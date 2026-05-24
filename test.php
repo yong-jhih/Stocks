@@ -48,8 +48,8 @@ if ($httpCode === 200) {
     $data = json_decode($response, true);
     foreach ($data as $k => $stock) {
         $stocks[] = [
-            'stock_id' => $stock['公司代號'],
-            'stock_name' => $stock['公司簡稱'],
+            'stock_id' => $stock['公司代號'] ?? '',
+            'stock_name' => $stock['公司簡稱'] ?? '',
             'industry' => $industry[(string)$stock['產業別']] ?? ''
         ];
     }
@@ -66,6 +66,7 @@ $stmt = $pdo->prepare($sql);
 $pdo->beginTransaction();
 try {
     foreach ($stocks as $row) {
+        if ($row[0] == '' || $row[1] == '') continue;
         $stmt->execute([
             $row[0],
             $row[1],
