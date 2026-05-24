@@ -65,7 +65,8 @@ $sql = "INSERT INTO stock_profile
 $stmt = $pdo->prepare($sql);
 $pdo->beginTransaction();
 try {
-    foreach ($stocks as $row) {
+    foreach ($stocks as $k => $row) {
+        if ($k == 100) echo json_encode($row);
         if ($row[0] == '' || $row[1] == '') continue;
         $stmt->execute([
             $row[0],
