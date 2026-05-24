@@ -59,6 +59,8 @@ $sql = "INSERT INTO stock_profile
             (stock_id, stock_name, market, industry, concepts) 
             VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
+            stock_id = VALUES(stock_id),
+            stock_name = VALUES(stock_name),
             industry = VALUES(industry)";
 $stmt = $pdo->prepare($sql);
 $pdo->beginTransaction();
