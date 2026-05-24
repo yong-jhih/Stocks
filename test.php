@@ -56,21 +56,20 @@ if ($httpCode === 200) {
 }
 
 $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, industry) 
-            VALUES (?, ?, ?)
+            (stock_id, stock_name, market, industry, concepts) 
+            VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
-            stock_id = VALUES(stock_id),
-            stock_name = VALUES(stock_name),
             industry = VALUES(industry)";
 $stmt = $pdo->prepare($sql);
 $pdo->beginTransaction();
 try {
     foreach ($stocks as $row) {
-        if ($row[0] == '' || $row[1] == '') continue;
         $stmt->execute([
             $row[0],
             $row[1],
-            (string)($row[3])
+            '',
+            $row[2],
+            ''
         ]);
     }
     $pdo->commit();
