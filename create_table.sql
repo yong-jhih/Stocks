@@ -83,17 +83,47 @@ CREATE TABLE IF NOT EXISTS 00981A_component (
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 8. 股票基本資料 / 產業概念
+-- 8. 股票基本資料
 CREATE TABLE IF NOT EXISTS stock_profile (
     stock_id VARCHAR(10) NOT NULL COMMENT '股票代號',
     stock_name VARCHAR(50) NOT NULL COMMENT '股票名稱',
-    market VARCHAR(20) DEFAULT '' COMMENT '市場別(上市/上櫃/興櫃)',
-    industry VARCHAR(100) DEFAULT '' COMMENT '產業別',
-    sub_industry VARCHAR(100) DEFAULT '' COMMENT '次產業',
-    concepts TEXT COMMENT '概念題材(逗號分隔)',
+    market VARCHAR(20) DEFAULT '' COMMENT '市場別',
+    industry VARCHAR(100) DEFAULT '' COMMENT '主產業',
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
     PRIMARY KEY (stock_id),
     INDEX idx_industry (industry),
     INDEX idx_market (market)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 9. 次產業
+CREATE TABLE IF NOT EXISTS stock_sub_industry (
+    stock_id VARCHAR(10) NOT NULL COMMENT '股票代號',
+    sub_industry VARCHAR(100) NOT NULL COMMENT '次產業',
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        COMMENT '建立時間',
+    PRIMARY KEY (
+        stock_id,
+        sub_industry),
+    INDEX idx_sub_industry (sub_industry),
+    CONSTRAINT fk_stock_sub_industry_stock
+        FOREIGN KEY (stock_id)
+        REFERENCES stock_profile(stock_id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 10. 概念
+CREATE TABLE IF NOT EXISTS stock_concept (
+    stock_id VARCHAR(10) NOT NULL COMMENT '股票代號',
+    concept VARCHAR(100) NOT NULL COMMENT '概念題材',
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        COMMENT '建立時間',
+    PRIMARY KEY (
+        stock_id,
+        concept),
+    INDEX idx_concept (concept),
+    CONSTRAINT fk_stock_concept_stock
+        FOREIGN KEY (stock_id)
+        REFERENCES stock_profile(stock_id)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
