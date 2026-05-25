@@ -1706,6 +1706,7 @@ function updateSubIndustry($pdo, $stocks)
                 $result[] = $subIndustry;
             }
         }
+        $result = array_values(array_unique($result));
 
         $sqlDelSub = "DELETE FROM stock_sub_industry WHERE stock_id = ?";
         $stmtDelSub = $pdo->prepare($sqlDelSub);
@@ -1715,7 +1716,6 @@ function updateSubIndustry($pdo, $stocks)
             $pdo->commit();
         } catch (Exception $e) {
             $pdo->rollBack();
-            echo "寫入失敗：" . $e->getMessage();
             writeLog($pdo, 'updateSubIndustry', "刪除舊有次產業失敗：" . $e->getMessage(), 'error');
         }
 
@@ -1731,10 +1731,88 @@ function updateSubIndustry($pdo, $stocks)
                 $pdo->commit();
             } catch (Exception $e) {
                 $pdo->rollBack();
-                echo "寫入失敗：" . $e->getMessage();
-                writeLog($pdo, 'updateSubIndustry', "新增次產業失敗：" . $e->getMessage(), 'error');
+                writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . $stock['stock_name'] . "新增次產業" . $sub . "失敗：" . $e->getMessage(), 'error');
             }
         }
         if ($k > 0 && $k % 10 == 0) sleep(2);
+    }
+}
+
+function updateConcept($pdo, $stocks)
+{
+    $stockList = [];
+    foreach ($stocks as $k => $stock) {
+        if ($stock['stock_id'] == '') continue;
+        $stockList[] = $stock['stock_id'];
+    }
+
+    // 取得概念
+    $url = "https://www.moneydj.com/Z/ZG/ZGE/ZGE_E_E.djhtm";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $html = curl_exec($ch);
+    libxml_use_internal_errors(true);
+    $dom = new DOMDocument();
+    $dom->loadHTML($html);
+    $xpath = new DOMXPath($dom);
+    $nodes = $xpath->query('//select[@name="M1"]/option');
+    $result = [];
+    foreach ($nodes as $node) {
+        $value = trim($node->getAttribute('value'));
+        $name = trim($node->textContent);
+        if ($value !== '') {
+            $result[] = [
+                'concept_id' => $value,
+                'concept_name' => $name,
+            ];
+        }
+    }
+
+    foreach ($result as $k => $v) {
+        $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $html = curl_exec($ch);
+        curl_close($ch);
+
+        $c = [];
+        $a = explode("GenLink2stk('AS", $html);
+        foreach ($a as $i => $b) {
+            if ($i == 0) continue;
+            $c[] = substr($b, 0, 4);
+        }
+        $c = array_values(array_unique($c));
+
+        foreach ($c as $stock_id) {
+            if (!in_array($stock_id, $stockList)) continue;
+            $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id = ?";
+            $stmtDelConcept = $pdo->prepare($sqlDelConcept);
+            $pdo->beginTransaction();
+            try {
+                $stmtDelConcept->execute([$stock_id]);
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
+            }
+
+            $sqlInsConcept = "INSERT INTO stock_concept (stock_id, concept) VALUES (?, ?)";
+            $stmtInsConcept = $pdo->prepare($sqlInsConcept);
+            $pdo->beginTransaction();
+            try {
+                $stmtInsConcept->execute([
+                    $stock_id,
+                    $v['concept_name'],
+                ]);
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                writeLog($pdo, 'updateConcept', $stock_id . "新增" . $v['concept_name'] . "概念失敗：" . $e->getMessage(), 'error');
+            }
+        }
+        if ($k > 0 && $k % 5 == 0) sleep(1);
     }
 }

@@ -1,4 +1,5 @@
 <?php
 require_once("init.php");
 
-updateSubIndustry($pdo, getStockProfileWithTWSE($pdo));
+$stocks = getStockProfileWithTWSE($pdo);
+updateConcept($pdo, $stocks);
