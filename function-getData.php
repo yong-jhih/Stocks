@@ -1735,5 +1735,6 @@ function updateSubIndustry($pdo, $stocks)
                 writeLog($pdo, 'updateSubIndustry', "新增次產業失敗：" . $e->getMessage(), 'error');
             }
         }
+        if ($k > 0 && $k % 10 == 0) sleep(2);
     }
 }
