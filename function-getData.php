@@ -1590,12 +1590,9 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
 function updateStockProfile($pdo)
 {
     $stocks = getStockProfileWithTWSE($pdo);
-    echo count($stocks);
-    echo json_encode($stocks[100]);
-    // insertStockProfile($pdo, $stocks);
+    insertStockProfile($pdo, $stocks);
 }
 
-// 標籤更新
 function getStockProfileWithTWSE($pdo) // return Array
 {
     $industry = [
@@ -1640,7 +1637,6 @@ function getStockProfileWithTWSE($pdo) // return Array
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
         $stocks = [];
         if ($httpCode === 200) {
             $data = json_decode($response, true);
@@ -1655,7 +1651,6 @@ function getStockProfileWithTWSE($pdo) // return Array
         }
         return $stocks;
     } catch (Exception $e) {
-        echo "取得 t187ap03_L 失敗：" . $e->getMessage();
         writeLog($pdo, 'stock_profile', "取得 t187ap03_L 失敗：" . $e->getMessage(), 'error');
     }
 }
@@ -1663,13 +1658,11 @@ function getStockProfileWithTWSE($pdo) // return Array
 function insertStockProfile($pdo, $stocks)
 {
     $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, market, industry, concepts) 
-            VALUES (?, ?, ?, ?, ?)
+            (stock_id, stock_name, industry) 
+            VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE 
             stock_name = VALUES(stock_name),
-            market = VALUES(market),
-            industry = VALUES(industry),
-            concepts = VALUES(concepts)";
+            industry = VALUES(industry)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -1678,9 +1671,7 @@ function insertStockProfile($pdo, $stocks)
             $stmt->execute([
                 $row['stock_id'],
                 $row['stock_name'],
-                '',
-                $row['industry'],
-                ''
+                $row['industry']
             ]);
         }
         $pdo->commit();
