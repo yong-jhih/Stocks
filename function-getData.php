@@ -1746,6 +1746,16 @@ function updateConcept($pdo, $stocks)
     foreach ($stocks as $k => $stock) {
         if ($stock['stock_id'] == '') continue;
         $stockList[] = $stock['stock_id'];
+        // $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id = ?";
+        // $stmtDelConcept = $pdo->prepare($sqlDelConcept);
+        // $pdo->beginTransaction();
+        // try {
+        //     $stmtDelConcept->execute([$stock['stock_id']]);
+        //     $pdo->commit();
+        // } catch (Exception $e) {
+        //     $pdo->rollBack();
+        //     writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
+        // }
     }
 
     // 取得概念
@@ -1790,17 +1800,6 @@ function updateConcept($pdo, $stocks)
 
         foreach ($c as $stock_id) {
             if (!in_array($stock_id, $stockList)) continue;
-            $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id = ?";
-            $stmtDelConcept = $pdo->prepare($sqlDelConcept);
-            $pdo->beginTransaction();
-            try {
-                $stmtDelConcept->execute([$stock_id]);
-                $pdo->commit();
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
-            }
-
             $sqlInsConcept = "INSERT INTO stock_concept (stock_id, concept) VALUES (?, ?)";
             $stmtInsConcept = $pdo->prepare($sqlInsConcept);
             $pdo->beginTransaction();
