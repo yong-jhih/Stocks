@@ -91,8 +91,7 @@ CREATE TABLE IF NOT EXISTS stock_profile (
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
     PRIMARY KEY (stock_id),
-    INDEX idx_industry (industry),
-    INDEX idx_market (market)
+    INDEX idx_industry (industry)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 9. 次產業
