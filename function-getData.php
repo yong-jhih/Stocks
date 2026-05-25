@@ -1814,6 +1814,6 @@ function updateConcept($pdo, $stocks)
                 writeLog($pdo, 'updateConcept', $stock_id . "新增" . $v['concept_name'] . "概念失敗：" . $e->getMessage(), 'error');
             }
         }
-        if ($k > 0 && $k % 5 == 0) sleep(1);
+        if ($k > 0 && $k % 10 == 0) sleep(1);
     }
 }
