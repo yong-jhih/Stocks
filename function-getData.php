@@ -1682,3 +1682,58 @@ function insertStockProfile($pdo, $stocks)
         writeLog($pdo, 'stock_profile', "寫入失敗：" . $e->getMessage(), 'error');
     }
 }
+
+function updateSubIndustry($pdo, $stocks)
+{
+    foreach ($stocks as $k => $stock) {
+        if ($stock['stock_id'] == '') continue;
+        $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $html = curl_exec($ch);
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument();
+        $dom->loadHTML($html);
+        $xpath = new DOMXPath($dom);
+        $nodes = $xpath->query('//h4[a[contains(@href,"introduce.php")]]');
+        $result = [];
+        foreach ($nodes as $node) {
+            $text = html_entity_decode($node->textContent);
+            $parts = explode('>', $text);
+            if (count($parts) >= 2) {
+                $subIndustry = trim(end($parts));
+                $result[] = $subIndustry;
+            }
+        }
+
+        $sqlDelSub = "DELETE FROM stock_sub_industry WHERE stock_id = ?";
+        $stmtDelSub = $pdo->prepare($sqlDelSub);
+        $pdo->beginTransaction();
+        try {
+            $stmtDelSub->execute([$stock['stock_id']]);
+            $pdo->commit();
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            echo "寫入失敗：" . $e->getMessage();
+            writeLog($pdo, 'updateSubIndustry', "刪除舊有次產業失敗：" . $e->getMessage(), 'error');
+        }
+
+        foreach ($result as $sub) {
+            $sqlInsSub = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES (?, ?)";
+            $stmtInsSub = $pdo->prepare($sqlInsSub);
+            $pdo->beginTransaction();
+            try {
+                $stmtInsSub->execute([
+                    $stock['stock_id'],
+                    $sub,
+                ]);
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                echo "寫入失敗：" . $e->getMessage();
+                writeLog($pdo, 'updateSubIndustry', "新增次產業失敗：" . $e->getMessage(), 'error');
+            }
+        }
+    }
+}
