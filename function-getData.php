@@ -1760,7 +1760,7 @@ function updateConcept($pdo, $stocks)
     $result = [];
     foreach ($nodes as $node) {
         $value = trim($node->getAttribute('value'));
-        $name = trim($node->textContent);
+        $name = str_replace("概念股", "", trim($node->textContent));
         if ($value !== '') {
             $result[] = [
                 'concept_id' => $value,
