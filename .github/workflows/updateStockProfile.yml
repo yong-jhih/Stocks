@@ -1,0 +1,47 @@
+name: 產業概念更新
+
+on:
+  # schedule:
+  #   - cron: '3,23,43 12-15 * * 1-5'
+  repository_dispatch:
+    types: [updateStockProfile]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TiDB_Host: ${{ secrets.TiDB_Host }}
+  TiDB_User: ${{ secrets.TiDB_User }}
+  TIDB_PASS: ${{ secrets.TIDB_PASS }}
+  TIDB_NAME: ${{ secrets.TIDB_NAME }}
+  FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+  FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
+  GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+  LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+  LINE_TARGET: ${{ secrets.LINE_TARGET }}
+
+jobs:
+  stock_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 檢出程式碼
+      uses: actions/checkout@v4
+      with:
+        # 預設為 1，改為 0 可以取得完整歷史，對於頻繁 push 較穩定
+        fetch-depth: 0
+
+    - name: 設定 PHP 環境
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_mysql
+
+    - name: 執行資料檢查與分析
+      run: php updateStockProfile.php

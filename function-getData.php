@@ -1591,6 +1591,8 @@ function updateStockProfile($pdo)
 {
     $stocks = getStockProfileWithTWSE($pdo);
     insertStockProfile($pdo, $stocks);
+    updateSubIndustry($pdo, $stocks);
+    updateConcept($pdo, $stocks);
 }
 
 function getStockProfileWithTWSE($pdo) // return Array
