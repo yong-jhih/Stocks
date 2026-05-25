@@ -1645,7 +1645,7 @@ function getStockProfileWithTWSE($pdo) // return Array
         if ($httpCode === 200) {
             $data = json_decode($response, true);
             foreach ($data as $k => $stock) {
-                if ($stock['公司代號']) continue;
+                if ($stock['公司代號'] == '') continue;
                 $stocks[] = [
                     'stock_id' => $stock['公司代號'] ?? '',
                     'stock_name' => $stock['公司簡稱'] ?? '',
