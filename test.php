@@ -35,7 +35,7 @@ foreach ($stmtProfile->fetchAll(PDO::FETCH_ASSOC) as $row) {
 }
 
 $sqlSub_industry = "SELECT * FROM stock_sub_industry";
-$stmtSub_industry = $pdo->prepare($sqlProfile);
+$stmtSub_industry = $pdo->prepare($sqlSub_industry);
 $stmtSub_industry->execute();
 foreach ($stmtSub_industry->fetchAll(PDO::FETCH_ASSOC) as $row) {
     $profile[$row['stock_id']]['sub_industry'][] = $row['sub_industry'];
