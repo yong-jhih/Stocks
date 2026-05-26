@@ -1746,16 +1746,16 @@ function updateConcept($pdo, $stocks)
     foreach ($stocks as $k => $stock) {
         if ($stock['stock_id'] == '') continue;
         $stockList[] = $stock['stock_id'];
-        // $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id = ?";
-        // $stmtDelConcept = $pdo->prepare($sqlDelConcept);
-        // $pdo->beginTransaction();
-        // try {
-        //     $stmtDelConcept->execute([$stock['stock_id']]);
-        //     $pdo->commit();
-        // } catch (Exception $e) {
-        //     $pdo->rollBack();
-        //     writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
-        // }
+    }
+    $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN(" . implode(',', $stockList) . ");";
+    $stmtDelConcept = $pdo->prepare($sqlDelConcept);
+    $pdo->beginTransaction();
+    try {
+        $stmtDelConcept->execute();
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
     }
 
     // 取得概念
@@ -1797,10 +1797,11 @@ function updateConcept($pdo, $stocks)
             $c[] = substr($b, 0, 4);
         }
         $c = array_values(array_unique($c));
+        $stockMap = array_flip($stockList);
         $values = [];
         $params = [];
         foreach ($c as $stock_id) {
-            if (!in_array($stock_id, $stockList)) {
+            if (!isset($stockMap[$stock_id])) {
                 continue;
             }
             $values[] = "(?, ?)";
@@ -1809,21 +1810,16 @@ function updateConcept($pdo, $stocks)
         }
         if (!empty($values)) {
             $sql = "
-                INSERT INTO stock_concept (stock_id, concept)
-                VALUES " . implode(',', $values);
+        INSERT IGNORE INTO stock_concept (stock_id, concept)
+        VALUES " . implode(',', $values);
             $stmt = $pdo->prepare($sql);
-            $pdo->beginTransaction();
             try {
+                $pdo->beginTransaction();
                 $stmt->execute($params);
                 $pdo->commit();
             } catch (Exception $e) {
                 $pdo->rollBack();
-                writeLog(
-                    $pdo,
-                    'updateConcept',
-                    $v['concept_name'] . " 概念新增失敗：" . $e->getMessage(),
-                    'error'
-                );
+                writeLog($pdo, 'updateConcept', $v['concept_name'] . " 概念新增失敗：" . $e->getMessage(), 'error');
             }
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
