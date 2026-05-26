@@ -820,11 +820,6 @@ function returnSqlFetch($pdo, $targetDate, $where)
 
 function outputModel($pdo, $sqlFetch, $ai)
 {
-    // $sqlProfile = "SELECT * FROM stock_profile";
-    // $stmtProfile = $pdo->prepare($sqlProfile);
-    // $stmtProfile->execute();
-    // $profile = $stmtProfile->fetchAll(PDO::FETCH_ASSOC);
-
     $dashboardResults = [];
     foreach ($sqlFetch as $s) {
         // =========================

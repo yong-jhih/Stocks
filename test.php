@@ -26,9 +26,26 @@ function getPDOConnection()
 $pdo = getPDOConnection();
 $targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
 
-
+$profile = [];
 $sqlProfile = "SELECT * FROM stock_profile";
 $stmtProfile = $pdo->prepare($sqlProfile);
 $stmtProfile->execute();
-$profile = $stmtProfile->fetchAll(PDO::FETCH_ASSOC);
-echo json_encode($profile);
+foreach ($stmtProfile->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    $profile[$row['stock_id']]['industry'] = $row['industry'];
+}
+
+$sqlSub_industry = "SELECT * FROM stock_sub_industry";
+$stmtSub_industry = $pdo->prepare($sqlProfile);
+$stmtSub_industry->execute();
+foreach ($stmtSub_industry->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    $profile[$row['stock_id']]['sub_industry'][] = $row['sub_industry'];
+}
+
+$sqlConcept = "SELECT * FROM stock_concept";
+$stmtConcept = $pdo->prepare($sqlConcept);
+$stmtConcept->execute();
+foreach ($stmtConcept->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    $profile[$row['stock_id']]['concept'][] = $row['concept'];
+}
+
+echo json_encode($profile['2330'], true);
