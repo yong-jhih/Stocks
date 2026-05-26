@@ -1687,54 +1687,80 @@ function insertStockProfile($pdo, $stocks)
 
 function updateSubIndustry($pdo, $stocks)
 {
+    $allRows = [];
+    $stockIds = [];
     foreach ($stocks as $k => $stock) {
-        if ($stock['stock_id'] == '') continue;
-        $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
+        $stockId = trim($stock['stock_id']);
+        if ($stockId == '') continue;
+        $stockIds[] = $stockId;
+        $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stockId;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         $html = curl_exec($ch);
+        if (curl_errno($ch)) {
+            writeLog($pdo, 'updateSubIndustry', $stockId . ' 抓取頁面失敗：' . curl_error($ch), 'error');
+            curl_close($ch);
+            continue;
+        }
         curl_close($ch);
+        if (trim($html) == '') {
+            writeLog($pdo, 'updateSubIndustry', $stockId . ' 回傳內容為空', 'error');
+            continue;
+        }
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $dom->loadHTML($html);
         $xpath = new DOMXPath($dom);
         $nodes = $xpath->query('//h4[a[contains(@href,"introduce.php")]]');
-        $result = [];
+        $subIndustries = [];
         foreach ($nodes as $node) {
-            $text = html_entity_decode($node->textContent);
+            $text = html_entity_decode(trim($node->textContent));
             $parts = explode('>', $text);
-            if (count($parts) >= 2) {
-                $subIndustry = trim(end($parts));
-                if ($subIndustry !== '') $result[] = $subIndustry;
-            }
+            if (count($parts) < 2) continue;
+            $subIndustry = trim(end($parts));
+            if ($subIndustry == '') continue;
+            $subIndustries[] = $subIndustry;
         }
-        $result = array_values(array_unique($result));
-        try {
-            $pdo->beginTransaction();
-            $sqlDel = "DELETE FROM stock_sub_industry WHERE stock_id = ?";
-            $stmtDel = $pdo->prepare($sqlDel);
-            $stmtDel->execute([$stock['stock_id']]);
-            if (empty($result)) {
-                $pdo->commit();
-                continue;
-            }
-            $values = [];
-            $params = [];
-            foreach ($result as $sub) {
-                $values[] = "(?, ?)";
-                $params[] = $stock['stock_id'];
-                $params[] = $sub;
-            }
-            $sqlIns = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
-            $stmtIns = $pdo->prepare($sqlIns);
-            $stmtIns->execute($params);
-            $pdo->commit();
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . ' ' .     $stock['stock_name'] .     ' 更新次產業失敗：' .     $e->getMessage(), 'error');
+        $subIndustries = array_values(array_unique($subIndustries));
+        foreach ($subIndustries as $subIndustry) {
+            $allRows[] = [
+                'stock_id' => $stockId,
+                'sub_industry' => $subIndustry,
+            ];
         }
         if ($k > 0 && $k % 10 == 0) sleep(2);
+    }
+
+    $stockIds = array_values(array_unique($stockIds));
+    if (empty($stockIds)) return;
+    try {
+        $pdo->beginTransaction();
+        $deletePlaceholders = implode(',', array_fill(0, count($stockIds), '?'));
+        $sqlDelete = "DELETE FROM stock_sub_industry WHERE stock_id IN ($deletePlaceholders)";
+        $stmtDelete = $pdo->prepare($sqlDelete);
+        $stmtDelete->execute($stockIds);
+        if (empty($allRows)) {
+            $pdo->commit();
+            return;
+        }
+
+        $insertValues = [];
+        $insertParams = [];
+        foreach ($allRows as $row) {
+            $insertValues[] = "(?, ?)";
+            $insertParams[] = $row['stock_id'];
+            $insertParams[] = $row['sub_industry'];
+        }
+        $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $insertValues);
+        $stmtInsert = $pdo->prepare($sqlInsert);
+        $stmtInsert->execute($insertParams);
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'updateSubIndustry', '批次更新次產業失敗：' . $e->getMessage(), 'error');
     }
 }
 
