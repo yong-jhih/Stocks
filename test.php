@@ -27,5 +27,8 @@ $pdo = getPDOConnection();
 $targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
 
 
-
-updateSubIndustry($pdo, getStockProfileWithTWSE($pdo));
+$sqlProfile = "SELECT * FROM stock_profile";
+$stmtProfile = $pdo->prepare($sqlProfile);
+$stmtProfile->execute();
+$profile = $stmtProfile->fetchAll(PDO::FETCH_ASSOC);
+echo json_encode($profile);

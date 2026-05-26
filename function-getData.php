@@ -388,7 +388,7 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
         "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
     ]);
-    $dashboardResults = outputModel($stocks, true);
+    $dashboardResults = outputModel($pdo, $stocks, true);
     writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
@@ -398,7 +398,7 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $c
     $stocks = returnSqlFetch($pdo, $targetDate, [
         "stock_id IN(" . implode(",", $code_array) . ")"
     ]);
-    $dashboardResults = outputModel($stocks, false);
+    $dashboardResults = outputModel($pdo, $stocks, false);
     writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
@@ -410,7 +410,7 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
         "ma20 IS NOT NULL",
         "ma60 IS NOT NULL"
     ]);
-    $dashboardResults = outputModel($stocks, false);
+    $dashboardResults = outputModel($pdo, $stocks, false);
     writeLog($pdo, 'topPerformingGenerateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
@@ -818,8 +818,13 @@ function returnSqlFetch($pdo, $targetDate, $where)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function outputModel($sqlFetch, $ai)
+function outputModel($pdo, $sqlFetch, $ai)
 {
+    // $sqlProfile = "SELECT * FROM stock_profile";
+    // $stmtProfile = $pdo->prepare($sqlProfile);
+    // $stmtProfile->execute();
+    // $profile = $stmtProfile->fetchAll(PDO::FETCH_ASSOC);
+
     $dashboardResults = [];
     foreach ($sqlFetch as $s) {
         // =========================
@@ -1253,6 +1258,19 @@ function outputModel($sqlFetch, $ai)
             $triggerReasons[] =
                 '法人持股集中度提升';
         }
+
+        // =========================
+        // industry
+        // =========================
+
+
+        // =========================
+        // sub industry
+        // =========================
+
+
+
+
         // =========================
         // Concept
         // =========================
@@ -1274,39 +1292,30 @@ function outputModel($sqlFetch, $ai)
             'rating' => $rating,
             'strategy_type' => $strategyType,
             'confidence' => $confidence,
-            // Score Breakdown
             'trend_score' => round($trendScore),
             'momentum_score' => round($momentumScore),
             'chip_score' => round($chipScore),
             'structure_score' => round($structureScore),
             'risk_score' => round($riskScore),
-            // Price
             'close' => round($close, 2),
-            // Volume
             'vol' => round($s['trade_volume'] / 1000, 0),
             'vol_ratio' => round($volRatio, 2),
-            // Structure
             'rank10' => round($rank10, 2),
             'amp10' => round($amp10, 2),
-            // MA
             'ma5' => round($ma5, 2),
             'ma10' => round($ma10, 2),
             'ma20' => round($ma20, 2),
             'ma60' => round($ma60, 2),
-            // Volume MA
             'vma5' => round($vma5 / 1000, 0),
             'vma10' => round($s['vma10'] / 1000, 0),
             'vma20' => round($vma20 / 1000, 0),
-            // Bias
             'bia5' => round($bia5, 2),
             'bia10' => round($bia10, 2),
             'bia20' => round($bia20, 2),
-            // Chip Ratios
             'con1' => round($con1, 2),
             'con5' => round($con5, 2),
             'con10' => round($con10, 2),
             'con20' => round($con20, 2),
-            // Institution
             'foreign_buy_sell' => $s['foreign_buy_sell'],
             'trust_buy_sell' => $s['trust_buy_sell'],
             'foreign_sum5' => round($s['foreign_sum5'] / 1000, 0),
@@ -1317,21 +1326,16 @@ function outputModel($sqlFetch, $ai)
             'trust_sum20' => round($s['trust_sum20'] / 1000, 0),
             'foreign_streak_days' => (int)$s['foreign_streak_days'],
             'trust_streak_days' => (int)$s['trust_streak_days'],
-            // Margin
             'margin_balance' => (int)$s['margin_balance'],
             'margin_balance_diff' => (int)$s['margin_balance_diff'],
-            // SBL
             'squeeze' => round($squeeze, 2),
             'bullet' => round($bullet, 2),
             'net_sbl' => round($s['net_sbl'] / 1000, 0),
             'net_sbl_sum5' => round($s['net_sbl_sum5'] / 1000, 0),
             'sbl_total' => round($s['sbl_total'] / 1000, 0),
             'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
-            // Signals
             'signals' => $signals,
-            // Flat Tags
             'tags' => $tags,
-            // Trigger
             'trigger_reasons' => $triggerReasons
         ];
     }
