@@ -1694,6 +1694,7 @@ function updateSubIndustry($pdo, $stocks)
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $html = curl_exec($ch);
+        curl_close($ch);
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $dom->loadHTML($html);
@@ -1705,36 +1706,33 @@ function updateSubIndustry($pdo, $stocks)
             $parts = explode('>', $text);
             if (count($parts) >= 2) {
                 $subIndustry = trim(end($parts));
-                $result[] = $subIndustry;
+                if ($subIndustry !== '') $result[] = $subIndustry;
             }
         }
         $result = array_values(array_unique($result));
-
-        $sqlDelSub = "DELETE FROM stock_sub_industry WHERE stock_id = ?";
-        $stmtDelSub = $pdo->prepare($sqlDelSub);
-        $pdo->beginTransaction();
         try {
-            $stmtDelSub->execute([$stock['stock_id']]);
+            $pdo->beginTransaction();
+            $sqlDel = "DELETE FROM stock_sub_industry WHERE stock_id = ?";
+            $stmtDel = $pdo->prepare($sqlDel);
+            $stmtDel->execute([$stock['stock_id']]);
+            if (empty($result)) {
+                $pdo->commit();
+                continue;
+            }
+            $values = [];
+            $params = [];
+            foreach ($result as $sub) {
+                $values[] = "(?, ?)";
+                $params[] = $stock['stock_id'];
+                $params[] = $sub;
+            }
+            $sqlIns = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
+            $stmtIns = $pdo->prepare($sqlIns);
+            $stmtIns->execute($params);
             $pdo->commit();
         } catch (Exception $e) {
             $pdo->rollBack();
-            writeLog($pdo, 'updateSubIndustry', "刪除舊有次產業失敗：" . $e->getMessage(), 'error');
-        }
-
-        foreach ($result as $sub) {
-            $sqlInsSub = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES (?, ?)";
-            $stmtInsSub = $pdo->prepare($sqlInsSub);
-            $pdo->beginTransaction();
-            try {
-                $stmtInsSub->execute([
-                    $stock['stock_id'],
-                    $sub,
-                ]);
-                $pdo->commit();
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . $stock['stock_name'] . "新增次產業" . $sub . "失敗：" . $e->getMessage(), 'error');
-            }
+            writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . ' ' .     $stock['stock_name'] .     ' 更新次產業失敗：' .     $e->getMessage(), 'error');
         }
         if ($k > 0 && $k % 10 == 0) sleep(2);
     }
@@ -1819,7 +1817,7 @@ function updateConcept($pdo, $stocks)
                 $pdo->commit();
             } catch (Exception $e) {
                 $pdo->rollBack();
-                writeLog($pdo, 'updateConcept', $v['concept_name'] . " 概念新增失敗：" . $e->getMessage(), 'error');
+                writeLog($pdo, 'updateConcept', "stock_id={$stock_id}, concept={$v['concept_name']} 新增失敗：" . $e->getMessage(), 'error');
             }
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
