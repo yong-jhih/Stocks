@@ -1797,21 +1797,33 @@ function updateConcept($pdo, $stocks)
             $c[] = substr($b, 0, 4);
         }
         $c = array_values(array_unique($c));
-
+        $values = [];
+        $params = [];
         foreach ($c as $stock_id) {
-            if (!in_array($stock_id, $stockList)) continue;
-            $sqlInsConcept = "INSERT INTO stock_concept (stock_id, concept) VALUES (?, ?)";
-            $stmtInsConcept = $pdo->prepare($sqlInsConcept);
+            if (!in_array($stock_id, $stockList)) {
+                continue;
+            }
+            $values[] = "(?, ?)";
+            $params[] = $stock_id;
+            $params[] = $v['concept_name'];
+        }
+        if (!empty($values)) {
+            $sql = "
+                INSERT INTO stock_concept (stock_id, concept)
+                VALUES " . implode(',', $values);
+            $stmt = $pdo->prepare($sql);
             $pdo->beginTransaction();
             try {
-                $stmtInsConcept->execute([
-                    $stock_id,
-                    $v['concept_name'],
-                ]);
+                $stmt->execute($params);
                 $pdo->commit();
             } catch (Exception $e) {
                 $pdo->rollBack();
-                writeLog($pdo, 'updateConcept', $stock_id . "新增" . $v['concept_name'] . "概念失敗：" . $e->getMessage(), 'error');
+                writeLog(
+                    $pdo,
+                    'updateConcept',
+                    $v['concept_name'] . " 概念新增失敗：" . $e->getMessage(),
+                    'error'
+                );
             }
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
