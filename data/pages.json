@@ -119,6 +119,14 @@
                 "field": "vma20"
             },
             {
+                "title": "5日乖離率",
+                "field": "bia5"
+            },
+            {
+                "title": "10日乖離率",
+                "field": "bia10"
+            },
+            {
                 "title": "10日位階",
                 "field": "rank10"
             },
@@ -280,6 +288,14 @@
                 "field": "vma20"
             },
             {
+                "title": "5日乖離率",
+                "field": "bia5"
+            },
+            {
+                "title": "10日乖離率",
+                "field": "bia10"
+            },
+            {
                 "title": "10日位階",
                 "field": "rank10"
             },
@@ -439,6 +455,14 @@
             {
                 "title": "20日均量",
                 "field": "vma20"
+            },
+            {
+                "title": "5日乖離率",
+                "field": "bia5"
+            },
+            {
+                "title": "10日乖離率",
+                "field": "bia10"
             },
             {
                 "title": "10日位階",

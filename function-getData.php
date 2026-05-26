@@ -1312,6 +1312,8 @@ function outputModel($pdo, $sqlFetch, $ai)
             'structure_score' => round($structureScore),
             'risk_score' => round($riskScore),
             'close' => round($close, 2),
+            'yesterday_high' => round($yHigh, 2),
+            'yesterday_low' => round($yLow, 2),
             'vol' => round($s['trade_volume'] / 1000, 0),
             'vol_ratio' => round($volRatio, 2),
             'rank10' => round($rank10, 2),
