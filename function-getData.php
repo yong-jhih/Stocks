@@ -1288,7 +1288,7 @@ function outputModel($pdo, $sqlFetch, $ai)
         // =========================
         if ($ai) {
             $prompt = "請幫我分析[" . $s['stock_id'] . $s['stock_name'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
-            $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite-preview');
+            $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite');
         } else {
             $concept = $profile[$s['stock_id']]['concept'] ?? [];
         }
