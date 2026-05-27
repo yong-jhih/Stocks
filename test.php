@@ -30,7 +30,6 @@ require_once("function-getData.php");
 
 
 $gas_url = getenv('GAS_URL_TRIGGERS');
-echo $gas_url;
 $data = [
     'message' => 'PHP 執行步驟已完成！',
     'sender'  => 'PHP Web Server',
