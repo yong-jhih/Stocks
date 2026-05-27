@@ -36,28 +36,20 @@ $data = [
 ];
 $json_data = json_encode($data);
 $ch = curl_init($gas_url);
-
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-// 🛠️ 新增：設定超時時間（秒），防止 cURL 無限期卡住 GitHub Action
-// 因為 GAS 已經執行完了（試算表有新增資料），我們最多等它 15 秒回傳
 curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     'Content-Length: ' . strlen($json_data),
-    'Connection: close' // 🛠️ 新增：明確告知伺服器不要保持連線
+    'Connection: close'
 ]);
-
 $response = curl_exec($ch);
-
 if (curl_errno($ch)) {
-    // 🛠️ 如果是因為超時斷開，但其實 GAS 已經做完了，可以當作成功處理
     if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
         echo 'GAS 執行完成（回應超時，但已成功觸發轉移）';
     } else {
@@ -66,5 +58,4 @@ if (curl_errno($ch)) {
 } else {
     echo 'GAS 回應: ' . $response;
 }
-
 curl_close($ch);
