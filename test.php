@@ -31,8 +31,8 @@ require_once("function-getData.php");
 
 $gas_url = getenv('GAS_URL_TRIGGERS');
 $data = [
-    'message' => 'PHP 執行步驟已完成！',
-    'sender'  => 'PHP Web Server',
+    'message'   => 'PHP 執行步驟已完成！',
+    'sender'    => 'PHP Web Server',
     'timestamp' => date('Y-m-d H:i:s')
 ];
 $json_data = json_encode($data);
@@ -41,14 +41,20 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// ✨ 重點：強制 cURL 使用 HTTP/1.1 協議，避免 Google 302 導向時發生 HTTP/2 PROTOCOL_ERROR
+curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     'Content-Length: ' . strlen($json_data)
 ]);
+
 $response = curl_exec($ch);
+
 if (curl_errno($ch)) {
     echo 'cURL 錯誤: ' . curl_error($ch);
 } else {
     echo 'GAS 回應: ' . $response;
 }
+
 curl_close($ch);
