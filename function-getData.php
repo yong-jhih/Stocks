@@ -417,7 +417,7 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
 
 function returnSqlFetch($pdo, $targetDate, $where)
 {
-    $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 120 days'));
+    $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
     $sql = "
         WITH BaseData AS (
             SELECT

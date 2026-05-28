@@ -201,6 +201,13 @@ function cleanData($days)
     }
 }
 
+function dbClean(PDO $pdo, string $table, string $dateColumn, int $days): void
+{
+    $days = max(0, $days);
+    $sql = "DELETE FROM `$table` WHERE `$dateColumn` < DATE_SUB(CURDATE(), INTERVAL $days DAY)";
+    $pdo->exec($sql);
+}
+
 function renewCharts($pdo, $targetDate, $getCode, $name)
 {
     $stockList = json_decode(file_get_contents("data/" . $targetDate . "_" . $getCode . ".json"), true);
@@ -215,4 +222,37 @@ function renewCharts($pdo, $targetDate, $getCode, $name)
         }
     }
     createJsonFile($pdo, $targetDate, $name, $allData);
+}
+
+function callGAS($pdo, $data = [])
+{
+    $gas_url = getenv('GAS_URL_TRIGGERS');
+    $json_data = json_encode($data);
+    $ch = curl_init($gas_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($json_data),
+        'Connection: close'
+    ]);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+            echo 'GAS 執行完成（回應超時，但已成功觸發轉移）';
+            writeLog($pdo, 'callGAS', "發送請求成功:" . json_encode($data), 'success');
+        } else {
+            echo 'cURL 錯誤: ' . curl_error($ch);
+            writeLog($pdo, 'callGAS', "發送請求失敗 cURL 錯誤:" . curl_error($ch), 'error');
+        }
+    } else {
+        echo 'GAS 回應: ' . $response;
+        writeLog($pdo, 'callGAS', 'GAS回應:' . $response, 'error');
+    }
+    curl_close($ch);
 }

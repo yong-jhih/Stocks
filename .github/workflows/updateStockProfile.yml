@@ -1,4 +1,4 @@
-name: 產業概念更新
+name: updateStockProfile
 
 on:
   # schedule:

@@ -1,4 +1,4 @@
-name: 自選分析
+name: selfSelect
 
 on:
   # schedule:

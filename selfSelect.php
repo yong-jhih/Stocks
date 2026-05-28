@@ -17,6 +17,7 @@ if (
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 500) &&
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
 ) {
+    echo '資料數量正常, 開始進行自選分析';
     $stockJson = getenv('STOCK_DATA');
     $stocks = json_decode($stockJson, true);
     $stockList = [];
