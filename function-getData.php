@@ -545,7 +545,7 @@ function returnSqlFetch($pdo, $targetDate, $where)
         )
         SELECT *
         FROM FeatureData
-        WHERE h.trade_date >= :cutoffDate AND trade_date = :targetDatereplaceHere;";
+        WHERE trade_date >= :cutoffDate AND trade_date = :targetDatereplaceHere;";
     $replaceStr = "";
     foreach ($where as $whereStr) {
         $replaceStr .= " AND " . $whereStr;
