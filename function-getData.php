@@ -417,395 +417,133 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
 
 function returnSqlFetch($pdo, $targetDate, $where)
 {
+    $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 120 days'));
     $sql = "
-    WITH BaseData AS (
-        SELECT
-            h.trade_date,
-            h.stock_id,
-            h.stock_name,
-            h.open_price,
-            h.high_price,
-            h.low_price,
-            h.close_price,
-            h.trade_volume,
-
-            -- 均線
-            AVG(h.close_price) OVER w5  AS ma5,
-            AVG(h.close_price) OVER w10 AS ma10,
-            AVG(h.close_price) OVER w20 AS ma20,
-            AVG(h.close_price) OVER w60 AS ma60,
-
-            -- 均量
-            AVG(h.trade_volume) OVER vw5  AS vma5,
-            AVG(h.trade_volume) OVER vw10 AS vma10,
-            AVG(h.trade_volume) OVER vw20 AS vma20,
-            AVG(h.trade_volume) OVER vw60 AS vma60,
-
-            -- 區間
-            MAX(h.high_price) OVER r10 AS high10,
-            MIN(h.low_price)  OVER r10 AS low10,
-            MAX(h.high_price) OVER r20 AS high20,
-            MIN(h.low_price)  OVER r20 AS low20,
-
-            -- 法人
-            COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
-            COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
-            COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
-
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s5  AS foreign_sum5,
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s10 AS foreign_sum10,
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s20 AS foreign_sum20,
-            SUM(COALESCE(i.foreign_buy_sell,0)) OVER s60 AS foreign_sum60,
-
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts5  AS trust_sum5,
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts10 AS trust_sum10,
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts20 AS trust_sum20,
-            SUM(COALESCE(i.trust_buy_sell,0)) OVER ts60 AS trust_sum60,
-
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is1  AS insti_sum1,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is5  AS insti_sum5,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is10 AS insti_sum10,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is20 AS insti_sum20,
-            SUM(COALESCE(i.total_buy_sell,0)) OVER is60 AS insti_sum60,
-
-            SUM(h.trade_volume) OVER vs1  AS vol_sum1,
-            SUM(h.trade_volume) OVER vs5  AS vol_sum5,
-            SUM(h.trade_volume) OVER vs10 AS vol_sum10,
-            SUM(h.trade_volume) OVER vs20 AS vol_sum20,
-
-            -- 融資
-            COALESCE(m.margin_balance, 0)      AS margin_balance,
-            COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
-
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms5  AS margin_balance_diff_sum5,
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms10 AS margin_balance_diff_sum10,
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms20 AS margin_balance_diff_sum20,
-            SUM(COALESCE(m.margin_balance_diff,0)) OVER ms60 AS margin_balance_diff_sum60,
-
-            -- 借券
-            COALESCE(st.sbl_balance, 0) AS sbl_total,
-            COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
-            (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
-
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns5  AS net_sbl_sum5,
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns10 AS net_sbl_sum10,
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns20 AS net_sbl_sum20,
-            SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER ns60 AS net_sbl_sum60,
-
-            -- 昨日
-            LAG(h.open_price)   OVER lagw AS yesterday_open,
-            LAG(h.high_price)   OVER lagw AS yesterday_high,
-            LAG(h.low_price)    OVER lagw AS yesterday_low,
-            LAG(h.close_price)  OVER lagw AS yesterday_close,
-            LAG(h.trade_volume) OVER lagw AS yesterday_vol,
-
-            LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
-            LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
-
-        FROM stock_history h
-
-        LEFT JOIN stock_insti i
-            ON h.stock_id = i.stock_id
-            AND h.trade_date = i.trade_date
-
-        LEFT JOIN stock_margin m
-            ON h.stock_id = m.stock_id
-            AND h.trade_date = m.trade_date
-
-        LEFT JOIN stock_sbl_total st
-            ON h.stock_id = st.stock_id
-            AND h.trade_date = st.trade_date
-
-        LEFT JOIN stock_sbl_sold ss
-            ON h.stock_id = ss.stock_id
-            AND h.trade_date = ss.trade_date
-
-        WINDOW
-            lagw AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-            ),
-
-            w5  AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-            ),
-
-            w10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
-            ),
-
-            w20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
-            ),
-
-            w60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw5  AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING
-            ),
-
-            vw60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING
-            ),
-
-            r10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            r20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            s5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            s10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            s20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            s60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
-            ),
-
-            ts5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ts10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ts20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ts60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
-            ),
-
-            is1 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
-            ),
-
-            is5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            is10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            is20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            is60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
-            ),
-
-            vs1 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN CURRENT ROW AND CURRENT ROW
-            ),
-
-            vs5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            vs10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            vs20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ms5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ms10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ms20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ms60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
-            ),
-
-            ns5 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 4 PRECEDING AND CURRENT ROW
-            ),
-
-            ns10 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 9 PRECEDING AND CURRENT ROW
-            ),
-
-            ns20 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
-            ),
-
-            ns60 AS (
-                PARTITION BY h.stock_id
-                ORDER BY h.trade_date
-                ROWS BETWEEN 59 PRECEDING AND CURRENT ROW
-            )
-    ),
-    NumberedData AS (
-        SELECT
-            *,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS rn_all,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id, (foreign_buy_sell > 0)
-                ORDER BY trade_date
-            ) AS rn_foreign,
-
-            ROW_NUMBER() OVER(
-                PARTITION BY stock_id, (trust_buy_sell > 0)
-                ORDER BY trade_date
-            ) AS rn_trust
-
-        FROM BaseData
-    ),
-
-    FeatureData AS (
-        SELECT
-            *,
-
-            LAG(ma5) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma5,
-
-            LAG(ma10) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma10,
-
-            LAG(ma20) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma20,
-
-            LAG(ma60) OVER(
-                PARTITION BY stock_id
-                ORDER BY trade_date
-            ) AS prev_ma60,
-
-            CASE
-                WHEN foreign_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER(
-                        PARTITION BY stock_id, (rn_all - rn_foreign)
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS foreign_streak_days,
-
-            CASE
-                WHEN trust_buy_sell > 0 THEN
-                    ROW_NUMBER() OVER(
-                        PARTITION BY stock_id, (rn_all - rn_trust)
-                        ORDER BY trade_date
-                    )
-                ELSE 0
-            END AS trust_streak_days
-
-        FROM NumberedData
-    )
-
-    SELECT *
-    FROM FeatureData
-    WHERE trade_date = :targetDatereplaceHere;";
+        WITH BaseData AS (
+            SELECT
+                h.trade_date,
+                h.stock_id,
+                h.stock_name,
+                h.open_price,
+                h.high_price,
+                h.low_price,
+                h.close_price,
+                h.trade_volume,
+
+                -- 均線
+                AVG(h.close_price) OVER w5  AS ma5,
+                AVG(h.close_price) OVER w10 AS ma10,
+                AVG(h.close_price) OVER w20 AS ma20,
+                AVG(h.close_price) OVER w60 AS ma60,
+
+                -- 均量
+                AVG(h.trade_volume) OVER w5  AS vma5, 
+                AVG(h.trade_volume) OVER w10 AS vma10,
+                AVG(h.trade_volume) OVER w20 AS vma20,
+                AVG(h.trade_volume) OVER w60 AS vma60,
+
+                -- 區間
+                MAX(h.high_price) OVER r10 AS high10,
+                MIN(h.low_price)  OVER r10 AS low10,
+                MAX(h.high_price) OVER r20 AS high20,
+                MIN(h.low_price)  OVER r20 AS low20,
+
+                -- 法人
+                COALESCE(i.foreign_buy_sell, 0) AS foreign_buy_sell,
+                COALESCE(i.trust_buy_sell, 0)   AS trust_buy_sell,
+                COALESCE(i.total_buy_sell, 0)   AS total_buy_sell,
+
+                SUM(COALESCE(i.foreign_buy_sell,0)) OVER s5  AS foreign_sum5,
+                SUM(COALESCE(i.foreign_buy_sell,0)) OVER s10 AS foreign_sum10,
+                SUM(COALESCE(i.foreign_buy_sell,0)) OVER s20 AS foreign_sum20,
+                SUM(COALESCE(i.foreign_buy_sell,0)) OVER s60 AS foreign_sum60,
+
+                SUM(COALESCE(i.trust_buy_sell,0)) OVER s5  AS trust_sum5, 
+                SUM(COALESCE(i.trust_buy_sell,0)) OVER s10 AS trust_sum10,
+                SUM(COALESCE(i.trust_buy_sell,0)) OVER s20 AS trust_sum20,
+                SUM(COALESCE(i.trust_buy_sell,0)) OVER s60 AS trust_sum60,
+
+                COALESCE(i.total_buy_sell, 0) AS insti_sum1,              
+                SUM(COALESCE(i.total_buy_sell,0)) OVER s5  AS insti_sum5, 
+                SUM(COALESCE(i.total_buy_sell,0)) OVER s10 AS insti_sum10,
+                SUM(COALESCE(i.total_buy_sell,0)) OVER s20 AS insti_sum20,
+                SUM(COALESCE(i.total_buy_sell,0)) OVER s60 AS insti_sum60,
+
+                h.trade_volume AS vol_sum1,               
+                SUM(h.trade_volume) OVER s5  AS vol_sum5, 
+                SUM(h.trade_volume) OVER s10 AS vol_sum10,
+                SUM(h.trade_volume) OVER s20 AS vol_sum20,
+
+                -- 融資
+                COALESCE(m.margin_balance, 0)      AS margin_balance,
+                COALESCE(m.margin_balance_diff, 0) AS margin_balance_diff,
+
+                SUM(COALESCE(m.margin_balance_diff,0)) OVER s5  AS margin_balance_diff_sum5,
+                SUM(COALESCE(m.margin_balance_diff,0)) OVER s10 AS margin_balance_diff_sum10,
+                SUM(COALESCE(m.margin_balance_diff,0)) OVER s20 AS margin_balance_diff_sum20,
+                SUM(COALESCE(m.margin_balance_diff,0)) OVER s60 AS margin_balance_diff_sum60,
+
+                -- 借券
+                COALESCE(st.sbl_balance, 0) AS sbl_total,
+                COALESCE(ss.sbl_sold_balance, 0) AS sbl_sold_balance,
+                (COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) AS net_sbl,
+
+                SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER s5  AS net_sbl_sum5,
+                SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER s10 AS net_sbl_sum10,
+                SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER s20 AS net_sbl_sum20,
+                SUM(COALESCE(ss.sbl_sold,0) - COALESCE(ss.sbl_return,0)) OVER s60 AS net_sbl_sum60,
+
+                -- 昨日
+                LAG(h.open_price)   OVER lagw AS yesterday_open,
+                LAG(h.high_price)   OVER lagw AS yesterday_high,
+                LAG(h.low_price)    OVER lagw AS yesterday_low,
+                LAG(h.close_price)  OVER lagw AS yesterday_close,
+                LAG(h.trade_volume) OVER lagw AS yesterday_vol,
+
+                LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
+                LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
+
+            FROM stock_history h
+            LEFT JOIN stock_insti i      ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
+            LEFT JOIN stock_margin m     ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
+            LEFT JOIN stock_sbl_total st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
+            LEFT JOIN stock_sbl_sold ss  ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
+
+            WINDOW
+                lagw AS (PARTITION BY h.stock_id ORDER BY h.trade_date),
+                w5   AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING),
+                w10  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING),
+                w20  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 20 PRECEDING AND 1 PRECEDING),
+                w60  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 60 PRECEDING AND 1 PRECEDING),
+                r10  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW),
+                r20  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+                s5   AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW),
+                s10  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 9 PRECEDING AND CURRENT ROW),
+                s20  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+                s60  AS (PARTITION BY h.stock_id ORDER BY h.trade_date ROWS BETWEEN 59 PRECEDING AND CURRENT ROW)
+        ),
+        NumberedData AS (
+            SELECT
+                *,
+                ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY trade_date) AS rn_all,
+                ROW_NUMBER() OVER(PARTITION BY stock_id, (foreign_buy_sell > 0) ORDER BY trade_date) AS rn_foreign,
+                ROW_NUMBER() OVER(PARTITION BY stock_id, (trust_buy_sell > 0) ORDER BY trade_date) AS rn_trust
+            FROM BaseData
+        ),
+        FeatureData AS (
+            SELECT
+                *,
+                LAG(ma5)  OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma5,
+                LAG(ma10) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma10,
+                LAG(ma20) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma20,
+                LAG(ma60) OVER(PARTITION BY stock_id ORDER BY trade_date) AS prev_ma60,
+                CASE WHEN foreign_buy_sell > 0 THEN ROW_NUMBER() OVER(PARTITION BY stock_id, (rn_all - rn_foreign) ORDER BY trade_date) ELSE 0 END AS foreign_streak_days,
+                CASE WHEN trust_buy_sell > 0   THEN ROW_NUMBER() OVER(PARTITION BY stock_id, (rn_all - rn_trust)   ORDER BY trade_date) ELSE 0 END AS trust_streak_days
+            FROM NumberedData
+        )
+        SELECT *
+        FROM FeatureData
+        WHERE h.trade_date >= :cutoffDate AND trade_date = :targetDatereplaceHere;";
     $replaceStr = "";
     foreach ($where as $whereStr) {
         $replaceStr .= " AND " . $whereStr;
@@ -813,6 +551,7 @@ function returnSqlFetch($pdo, $targetDate, $where)
     $sql = str_replace('replaceHere', $replaceStr, $sql);
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
+        'cutoffDate' => $cutoffDate,
         'targetDate' => $targetDate
     ]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
