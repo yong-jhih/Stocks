@@ -193,7 +193,7 @@ function insertHistory($pdo, $targetDate, $historyData)
             high_price = VALUES(high_price),
             low_price = VALUES(low_price),
             close_price = VALUES(close_price),
-            trade_volume = VALUES(trade_volume)
+            trade_volume = VALUES(trade_volume),
             trade_value = VALUES(trade_value)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
