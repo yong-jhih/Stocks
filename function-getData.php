@@ -185,15 +185,16 @@ function insertHistory($pdo, $targetDate, $historyData)
     }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
-            (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
             stock_name = VALUES(stock_name),
             open_price = VALUES(open_price),
             high_price = VALUES(high_price),
             low_price = VALUES(low_price),
             close_price = VALUES(close_price),
-            trade_volume = VALUES(trade_volume)";
+            trade_volume = VALUES(trade_volume)
+            trade_value = VALUES(trade_value)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
@@ -209,7 +210,8 @@ function insertHistory($pdo, $targetDate, $historyData)
                 (float)$clean($row[6]), // 最高
                 (float)$clean($row[7]), // 最低
                 (float)$clean($row[8]), // 收盤
-                (int)$clean($row[2])    // 成交股數
+                (int)$clean($row[2]),   // 成交股數
+                (int)$clean($row[4])    // 成交金額
             ]);
         }
         $pdo->commit();
