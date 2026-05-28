@@ -240,17 +240,60 @@
         </div>
     </div>
     <div id="tagModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
-        <div class="modal-panel bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-md w-full">
+
+        <div class="modal-panel bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-w-4xl w-full">
+
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-blue-300" id="modalStockTitle"></h3>
-                <button onclick="closeModal('tagModal')"
-                    class="text-gray-400 hover:text-white text-2xl">&times;</button>
+
+                <button onclick="closeModal('tagModal')" class="text-gray-400 hover:text-white text-2xl">
+                    &times;
+                </button>
             </div>
-            <div id="modalTagContent" class="p-6 flex flex-wrap gap-2"></div>
-            <div class="p-4 text-right"><button onclick="closeModal('tagModal')"
-                    class="bg-blue-600 px-4 py-2 rounded">關閉</button>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-700 px-4">
+
+                <button id="tag-tab-feature" onclick="switchTagTab('feature')"
+                    class="px-4 py-2 text-sm font-medium tab-active">
+                    特性
+                </button>
+
+                <button id="tag-tab-industry" onclick="switchTagTab('industry')"
+                    class="px-4 py-2 text-sm font-medium text-gray-400">
+                    產業
+                </button>
+
+                <button id="tag-tab-concept" onclick="switchTagTab('concept')"
+                    class="px-4 py-2 text-sm font-medium text-gray-400">
+                    概念
+                </button>
+
             </div>
+
+            <div class="p-6 overflow-y-auto max-h-[65vh]">
+
+                <!-- 特性 -->
+                <div id="tag-content-feature"></div>
+
+                <!-- 產業 -->
+                <div id="tag-content-industry" class="hidden"></div>
+
+                <!-- 概念 -->
+                <div id="tag-content-concept" class="hidden"></div>
+
+            </div>
+
+            <div class="p-4 text-right border-t border-gray-700">
+
+                <button onclick="closeModal('tagModal')" class="bg-blue-600 px-4 py-2 rounded">
+                    關閉
+                </button>
+
+            </div>
+
         </div>
+
     </div>
     <div id="infoModal"
         class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4">
@@ -452,6 +495,22 @@
             if (TAG_STYLES.bearish.includes(tag)) return `bg-red-900/40 text-red-300 border border-red-700`;
             return `bg-slate-700 text-slate-200 border border-slate-500`; // 未分類
         }
+        function switchTagTab(tab) {
+
+            $('#tag-tab-feature,#tag-tab-industry,#tag-tab-concept')
+                .removeClass('tab-active')
+                .addClass('text-gray-400');
+
+            $('#tag-content-feature,#tag-content-industry,#tag-content-concept')
+                .addClass('hidden');
+
+            $(`#tag-tab-${tab}`)
+                .addClass('tab-active')
+                .removeClass('text-gray-400');
+
+            $(`#tag-content-${tab}`)
+                .removeClass('hidden');
+        }
         let table;
         let chartInstance = null;
         let cachedChartData = {};
@@ -460,8 +519,19 @@
             $('#stockTable tbody').on('click', '.tag-btn', function (e) {
                 e.stopPropagation();
                 const name = $(this).data('name');
+
                 const tags = $(this).data('tags');
-                showTags(name, tags);
+
+                const industry = $(this).data('industry');
+
+                const concept = $(this).data('concept');
+
+                showTags(
+                    name,
+                    tags,
+                    industry,
+                    concept
+                );
             });
             table = $('#stockTable').DataTable({
                 scrollX: true,
@@ -492,23 +562,146 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(name, tags) {
+        function showTags(
+            name,
+            tags,
+            industryData,
+            conceptText
+        ) {
+
             $('#modalStockTitle').text(name);
-            $('#modalTagContent').html(
-                tags
-                    .map(t => t.trim())
-                    .map(t => `
-                <div class="w-full bg-slate-800/60 border border-slate-700 rounded-lg p-3">
-                    <div class="${getTagClass(t)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">
-                        ${t}
-                    </div>
-                    <div class="text-sm text-slate-300 leading-relaxed">
-                        ${TAG_DESCRIPTIONS[t] || '尚無說明'}
-                    </div>
+
+            //------------------------------------
+            // 特性
+            //------------------------------------
+
+            $('#tag-content-feature').html(
+
+                tags.map(tag => `
+
+            <div class="mb-3 bg-slate-800/60 border border-slate-700 rounded-lg p-3">
+
+                <div class="${getTagClass(tag)}
+                    inline-block text-xs px-2 py-1 rounded font-bold mb-2">
+
+                    ${tag}
+
                 </div>
-            `).join('')
+
+                <div class="text-sm text-slate-300">
+
+                    ${TAG_DESCRIPTIONS[tag] || '尚無說明'}
+
+                </div>
+
+            </div>
+
+        `).join('')
+
             );
-            $('#tagModal').removeClass('hidden').addClass('flex');
+
+            //------------------------------------
+            // 產業
+            //------------------------------------
+
+            let industryHtml = '';
+
+            if (industryData?.industry) {
+
+                industryHtml += `
+            <div class="mb-4">
+
+                <div class="text-blue-300 font-bold mb-2">
+                    主產業
+                </div>
+
+                <span
+                    class="inline-block px-3 py-2 rounded
+                    bg-blue-900/40 border border-blue-700">
+
+                    ${industryData.industry}
+
+                </span>
+
+            </div>
+        `;
+            }
+
+            if (
+                industryData?.subIndustry &&
+                industryData.subIndustry.length
+            ) {
+
+                industryHtml += `
+            <div>
+
+                <div class="text-blue-300 font-bold mb-2">
+                    次產業
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+
+                    ${industryData.subIndustry.map(s => `
+
+                        <span
+                            class="px-3 py-2 rounded
+                            bg-sky-900/30 border border-sky-700">
+
+                            ${String(s).trim()}
+
+                        </span>
+
+                    `).join('')}
+
+                </div>
+
+            </div>
+        `;
+            }
+
+            $('#tag-content-industry').html(industryHtml);
+
+            //------------------------------------
+            // 概念
+            //------------------------------------
+
+            let concepts = [];
+
+            if (conceptText) {
+
+                concepts = conceptText
+                    .split(',')
+                    .map(v => v.trim())
+                    .filter(Boolean);
+            }
+
+            $('#tag-content-concept').html(
+
+                `<div class="flex flex-wrap gap-2">
+
+            ${concepts.map(c => `
+
+                <span
+                    class="px-3 py-2 rounded
+                    bg-purple-900/40
+                    border border-purple-700
+                    text-purple-200">
+
+                    ${c}
+
+                </span>
+
+            `).join('')}
+
+        </div>`
+
+            );
+
+            switchTagTab('feature');
+
+            $('#tagModal')
+                .removeClass('hidden')
+                .addClass('flex');
         }
         function closeModal(id) {
             $(`#${id}`)
@@ -533,7 +726,12 @@
                                     <button
                                         class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
                                         data-name="${item.stock_name}"
-                                        data-tags='${JSON.stringify(item.tags)}'>更
+                                        data-tags='${JSON.stringify(item.tags || [])}'
+                                        data-industry='${JSON.stringify({
+                                industry: item.industry || '',
+                                subIndustry: item.subIndustry || []
+                            })}'
+                                        data-concept='${item.concept || ""}'>更
                                     </button>
                                 </div>
                             `;
