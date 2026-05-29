@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS stock_history (
     low_price DECIMAL(10, 2) DEFAULT 0.00 COMMENT '最低價',
     close_price DECIMAL(10, 2) DEFAULT 0.00 COMMENT '收盤價',
     trade_volume BIGINT DEFAULT 0 COMMENT '成交股數',
+    trade_value BIGINT DEFAULT 0 COMMENT '成交金額',
     PRIMARY KEY (trade_date, stock_id),
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
