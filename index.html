@@ -667,7 +667,11 @@
 
             let concepts = [];
 
-            if (conceptText) {
+            if (Array.isArray(conceptText)) {
+
+                concepts = conceptText;
+
+            } else if (typeof conceptText === 'string') {
 
                 concepts = conceptText
                     .split(',')
@@ -720,21 +724,37 @@
                         if (col.field === 'tags') {
                             const tagText = item.tags.join(', ');
                             const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
+                            const searchText = [
+                                ...(item.tags || []),
+                                item.industry || '',
+                                ...(item.subIndustry || []),
+                                ...(item.concept || [])
+                            ].join(' ');
+
                             return `
-                                <div class="flex items-center gap-1">
-                                    <span>${tagShort}</span>
-                                    <button
-                                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-                                        data-name="${item.stock_name}"
-                                        data-tags='${JSON.stringify(item.tags || [])}'
-                                        data-industry='${JSON.stringify({
+<div class="flex items-center gap-1">
+
+    <span>${tagShort}</span>
+
+    <!-- 只給搜尋用 -->
+    <span style="display:none">
+        ${searchText}
+    </span>
+
+    <button
+        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
+        data-name="${item.stock_name}"
+        data-tags='${JSON.stringify(item.tags || [])}'
+        data-industry='${JSON.stringify({
                                 industry: item.industry || '',
                                 subIndustry: item.subIndustry || []
                             })}'
-                                        data-concept='${item.concept || ""}'>更
-                                    </button>
-                                </div>
-                            `;
+        data-concept='${JSON.stringify(item.concept || [])}'>
+        更
+    </button>
+
+</div>
+`;
                         }
                         if (col.field === 'stock_name') return `<span class="${col.class || ''}">${value}</span>`;
                         if (value === null || value === undefined) return '';
