@@ -1,0 +1,186 @@
+[
+    {
+        "stock_id": "4306",
+        "stock_name": "炎洲",
+        "industry": "塑膠工業",
+        "subIndustry": [
+            " 塑膠製品"
+        ],
+        "concept": [
+            "台商越南",
+            "台積電",
+            "大陸收成股",
+            "情人節",
+            "電子商務(電商)"
+        ],
+        "score": 74,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 33,
+        "momentum_score": 20,
+        "chip_score": 16,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 14.05,
+        "yesterday_high": 13.85,
+        "yesterday_low": 13.65,
+        "vol": 2295,
+        "vol_ratio": 2.11,
+        "rank10": 90,
+        "amp10": 7.6,
+        "ma5": 13.88,
+        "ma10": 13.77,
+        "ma20": 13.47,
+        "ma60": 13.49,
+        "vma5": 1855,
+        "vma10": 1843,
+        "vma20": 1425,
+        "bia5": 1.22,
+        "bia10": 2.03,
+        "bia20": 4.34,
+        "con1": 58.47,
+        "con5": 13.96,
+        "con10": 33.41,
+        "con20": 21.93,
+        "foreign_buy_sell": 1351000,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2470,
+        "foreign_sum10": 7621,
+        "foreign_sum20": 7762,
+        "trust_sum5": 8,
+        "trust_sum10": 8,
+        "trust_sum20": 8,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 4144,
+        "margin_balance_diff": -24,
+        "squeeze": 4.92,
+        "bullet": 0.31,
+        "net_sbl": -206,
+        "net_sbl_sum5": -212,
+        "sbl_total": 7447,
+        "sbl_sold_balance": 7009,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上季線": 8
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上季線",
+            "爆量突破",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 2.11 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    },
+    {
+        "stock_id": "2609",
+        "stock_name": "陽明",
+        "industry": "航運業",
+        "subIndustry": [
+            " 貨櫃航運"
+        ],
+        "concept": [
+            "ESG",
+            "傳產原物料股",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股",
+            "資產股",
+            "都市更新"
+        ],
+        "score": 70,
+        "rating": "A",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.67,
+        "trend_score": 33,
+        "momentum_score": 0,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 52.7,
+        "yesterday_high": 53.5,
+        "yesterday_low": 52,
+        "vol": 29777,
+        "vol_ratio": 1.84,
+        "rank10": 81.68,
+        "amp10": 13.83,
+        "ma5": 52.34,
+        "ma10": 50.92,
+        "ma20": 50.42,
+        "ma60": 52.43,
+        "vma5": 27658,
+        "vma10": 23436,
+        "vma20": 19973,
+        "bia5": 0.69,
+        "bia10": 3.5,
+        "bia20": 4.53,
+        "con1": 24.82,
+        "con5": 23.51,
+        "con10": 26.43,
+        "con20": 9.54,
+        "foreign_buy_sell": 7588362,
+        "trust_buy_sell": -337924,
+        "foreign_sum5": 29872,
+        "foreign_sum10": 63779,
+        "foreign_sum20": 40195,
+        "trust_sum5": -1838,
+        "trust_sum10": -1919,
+        "trust_sum20": -2179,
+        "foreign_streak_days": 7,
+        "trust_streak_days": 0,
+        "margin_balance": 32835,
+        "margin_balance_diff": -504,
+        "squeeze": 10.89,
+        "bullet": 0.77,
+        "net_sbl": -1873,
+        "net_sbl_sum5": -5305,
+        "sbl_total": 233003,
+        "sbl_sold_balance": 217550,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上季線": 8
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 7 日",
+            "成交量放大 1.84 倍"
+        ]
+    }
+]
