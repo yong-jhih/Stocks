@@ -1462,7 +1462,7 @@ function insertStockProfile($pdo, $stocks)
             ]);
         }
         $pdo->commit();
-        writeLog($pdo, 'stock_profile', '更新完成,共新增 ' . count($stocks) . ' 筆', 'success');
+        writeLog($pdo, 'stock_profile', '產業別更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
@@ -1485,7 +1485,7 @@ function updateSubIndustry($pdo, $stocks)
         $stmtDelete->execute($stockList);
 
         // 後新增
-        $stockSub = [];
+        $totalInsertCount = 0;
         foreach ($stocks as $k => $stock) {
             $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
             $ch = curl_init();
@@ -1520,7 +1520,6 @@ function updateSubIndustry($pdo, $stocks)
             }
             $subIndustries = array_values(array_unique($subIndustries));
             if ($k > 0 && $k % 10 == 0) sleep(2);
-
             $values = [];
             $params = [];
             foreach ($subIndustries as $subIndustry) {
@@ -1532,7 +1531,9 @@ function updateSubIndustry($pdo, $stocks)
             $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
             $stmtInsert = $pdo->prepare($sqlInsert);
             $stmtInsert->execute($params);
+            $totalInsertCount += $stmtInsert->rowCount();
         }
+        writeLog($pdo, 'updateSubIndustry', '次產業更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
     } catch (Exception $e) {
         writeLog($pdo, 'updateSubIndustry', "更新失敗：" . $e->getMessage(), 'error');
     }
@@ -1579,6 +1580,7 @@ function updateConcept($pdo, $stocks)
         }
     }
 
+    $totalInsertCount = 0;
     foreach ($result as $k => $v) {
         $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
         $ch = curl_init();
@@ -1614,6 +1616,7 @@ function updateConcept($pdo, $stocks)
             try {
                 $pdo->beginTransaction();
                 $stmt->execute($params);
+                $totalInsertCount += $stmt->rowCount();
                 $pdo->commit();
             } catch (Exception $e) {
                 $pdo->rollBack();
@@ -1622,4 +1625,5 @@ function updateConcept($pdo, $stocks)
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
     }
+    writeLog($pdo, 'updateConcept', '概念股更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
 }
