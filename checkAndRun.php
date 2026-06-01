@@ -34,6 +34,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
 
     callGAS($pdo, [
+        'date' => $targetDate,
         'action' => 'triggersSelfSelect'
     ]);
 } else { // 已公布 資料量不足 則更新資料
