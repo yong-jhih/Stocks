@@ -1,5 +1,5 @@
 <?php
-function getLatestTradingDateWithTWSE($pdo) // return string "YYYY-MM-DD"
+function getLatestTradingDateWithTWSE(PDO $pdo): ?string
 {
     $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
     $data = fetchUrl($url);
@@ -27,10 +27,13 @@ function getLatestTradingDateWithTWSE($pdo) // return string "YYYY-MM-DD"
     }
 }
 
-function getLatestTradingDateWithFugle($pdo, $symbol = '2330') // return string "YYYY-MM-DD"
+function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?string
 {
     $apiToken = getenv('FUGLE_TOKEN');
-    if (!$apiToken) return ['status' => 'error', 'msg' => '找不到 Fugle Token 環境變數'];
+    if (!$apiToken) {
+        writeLog($pdo, 'getLatestTradingDateWithFugle', "找不到 Fugle Token", 'error');
+        return null;
+    }
     $url = "https://api.fugle.tw/marketdata/v1.0/stock/historical/stats/$symbol";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -44,17 +47,19 @@ function getLatestTradingDateWithFugle($pdo, $symbol = '2330') // return string 
     curl_close($ch);
     if ($httpCode === 200) {
         $data = json_decode($response, true);
-        if (isset($data['date'])) {
+        if (isset($data['date']) && $data['date'] != '') {
             return $data['date'];
         } else {
-            return ['status' => 'error', 'msg' => '回傳格式異常'];
+            writeLog($pdo, 'getLatestTradingDateWithFugle', "回傳格式異常", 'error');
+            return null;
         }
     } else {
-        return ['status' => 'error', 'msg' => "API 請求失敗，狀態碼：$httpCode"];
+        writeLog($pdo, 'getLatestTradingDateWithFugle', "API 請求失敗，狀態碼：$httpCode", 'error');
+        return null;
     }
 }
 
-function isHoliday($date) // return bool
+function isHoliday(string $date): bool
 {
     $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
     $data = fetchUrl($url);
@@ -65,7 +70,7 @@ function isHoliday($date) // return bool
     return in_array($date, $holiday);
 }
 
-function getHistory($date, $pdo) // return array
+function getHistory(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -82,13 +87,13 @@ function getHistory($date, $pdo) // return array
             }
         }
         writeLog($pdo, $date . ' 上市個股日成交', "查詢不到每日收盤行情表", 'error');
-        return ["status" => "error", "msg" => "查詢不到每日收盤行情表"];
+        return null;
     }
-    writeLog($pdo, $date . ' 上市個股日成交', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-    return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+    writeLog($pdo, $date . ' 上市個股日成交', '證交所回傳錯誤訊息：' . ($data['stat'] ?? '未知錯誤'), 'error');
+    return null;
 }
 
-function getInsti($date, $pdo) // return array
+function getInsti(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -103,13 +108,13 @@ function getInsti($date, $pdo) // return array
             return $stocks;
         }
         writeLog($pdo, $date . ' 三大法人買賣超日報', "資料格式錯誤", 'error');
-        return ["status" => "error", "msg" => "資料格式錯誤"];
+        return null;
     }
     writeLog($pdo, $date . ' 三大法人買賣超日報', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-    return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+    return null;
 }
 
-function getMargin($date, $pdo) // return array
+function getMargin(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -126,13 +131,13 @@ function getMargin($date, $pdo) // return array
             }
         }
         writeLog($pdo, $date . ' 融資融券彙總', "查詢不到融資融券彙總表", 'error');
-        return ["status" => "error", "msg" => "查詢不到融資融券彙總表"];
+        return null;
     } else {
         writeLog($pdo, $date . ' 融資融券彙總', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-        return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        return null;
     }
 }
-function getSBLTotal($date, $pdo) // return array
+function getSBLTotal(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -147,14 +152,14 @@ function getSBLTotal($date, $pdo) // return array
             return $stocks;
         } else {
             writeLog($pdo, $date . ' 證金營業處所借券餘額合計表', "資料格式錯誤", 'error');
-            return ["status" => "error", "msg" => "資料格式錯誤"];
+            return null;
         }
     } else {
         writeLog($pdo, $date . ' 證金營業處所借券餘額合計表', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-        return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        return null;
     }
 }
-function getSBLSold($date, $pdo) // return array
+function getSBLSold(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     $data = fetchUrl($url);
@@ -169,20 +174,16 @@ function getSBLSold($date, $pdo) // return array
             return $stocks;
         } else {
             writeLog($pdo, $date . ' 信用額度總量管制餘額', "資料格式錯誤", 'error');
-            return ["status" => "error", "msg" => "資料格式錯誤"];
+            return null;
         }
     } else {
         writeLog($pdo, $date . ' 信用額度總量管制餘額', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-        return ["status" => "error", "msg" => "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤')];
+        return null;
     }
 }
 
-function insertHistory($pdo, $targetDate, $historyData)
+function insertHistory(PDO $pdo, string $targetDate, array $historyData)
 {
-    if (!is_array($historyData) || isset($historyData['status'])) {
-        writeLog($pdo, $targetDate . ' 上市個股日成交', "資料格式有誤或無資料", 'error');
-        return;
-    }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
             (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
@@ -216,21 +217,16 @@ function insertHistory($pdo, $targetDate, $historyData)
         }
         $pdo->commit();
         $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertHistory', $targetDate . '上市個股日成交更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "寫入失敗：" . $e->getMessage();
-        writeLog($pdo, '上市個股日成交', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
-function insertInsti($pdo, $targetDate, $instiData)
+function insertInsti(PDO $pdo, string $targetDate, array $instiData)
 {
-    if (!is_array($instiData) || isset($instiData['status'])) {
-        writeLog($pdo, $targetDate . ' 三大法人買賣超', "資料格式有誤或無資料", 'error');
-        return;
-    }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_insti 
             (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
@@ -258,21 +254,16 @@ function insertInsti($pdo, $targetDate, $instiData)
         }
         $pdo->commit();
         $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertInsti', $targetDate . '三大法人買賣超更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "寫入失敗：" . $e->getMessage();
-        writeLog($pdo, '三大法人買賣超', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertInsti', $targetDate . '三大法人買賣超寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
-function insertMargin($pdo, $targetDate, $marginData)
+function insertMargin(PDO $pdo, string $targetDate, array $marginData)
 {
-    if (!is_array($marginData) || isset($marginData['status'])) {
-        writeLog($pdo, $targetDate . ' 融資融券彙總', "資料格式有誤或無資料", 'error');
-        return;
-    }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_margin 
             (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
@@ -300,21 +291,16 @@ function insertMargin($pdo, $targetDate, $marginData)
         }
         $pdo->commit();
         $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertMargin', $targetDate . '融資融券彙總更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "寫入失敗：" . $e->getMessage();
-        writeLog($pdo, '融資融券彙總', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertMargin', $targetDate . '融資融券彙總寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
-function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
+function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData)
 {
-    if (!is_array($SBLTotalData) || isset($SBLTotalData['status'])) {
-        writeLog($pdo, $targetDate . ' 借券餘額', "資料格式有誤或無資料", 'error');
-        return;
-    }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_total (trade_date, stock_id, sbl_balance) 
             VALUES (?, ?, ?)
@@ -331,17 +317,12 @@ function insertSBLTotal($pdo, $targetDate, $SBLTotalData)
         writeLog($pdo, 'insertSBLTotal', $targetDate . '借券餘額更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "失敗：" . $e->getMessage();
-        writeLog($pdo, '借券餘額', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . '借券餘額寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
-function insertSBLSold($pdo, $targetDate, $SBLSoldData)
+function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData)
 {
-    if (!is_array($SBLSoldData) || isset($SBLSoldData['status'])) {
-        writeLog($pdo, $targetDate . ' 借券賣出餘額', "資料格式有誤或無資料", 'error');
-        return;
-    }
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_sold 
             (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
@@ -367,12 +348,11 @@ function insertSBLSold($pdo, $targetDate, $SBLSoldData)
         }
         $pdo->commit();
         $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
+        $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertSBLSold', $targetDate . '借券賣出餘額更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "失敗：" . $e->getMessage();
-        writeLog($pdo, '借券賣出餘額', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLSold', $targetDate . '借券賣出餘額寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -401,7 +381,7 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $c
         "stock_id IN(" . implode(",", $code_array) . ")"
     ]);
     $dashboardResults = outputModel($pdo, $stocks, false);
-    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
@@ -413,11 +393,11 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
         "ma60 IS NOT NULL"
     ]);
     $dashboardResults = outputModel($pdo, $stocks, false);
-    writeLog($pdo, 'topPerformingGenerateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    writeLog($pdo, 'topPerformingGenerateDailyDashboard', "{$targetDate} 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
-function returnSqlFetch($pdo, $targetDate, $where)
+function returnSqlFetch(PDO $pdo, string $targetDate, array $where)
 {
     $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
     $sql = "

@@ -15,9 +15,9 @@ function convertTaiwanDateToWestern($dateStr)
     return null;
 }
 
-function fetchUrl($url) // return array
+function fetchUrl(string $url): array
 {
-    sleep(3);
+    sleep(2);
     $options = [
         "http" => [
             "method" => "GET",
