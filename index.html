@@ -246,8 +246,6 @@
                 <button onclick="closeModal('tagModal')"
                     class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-
-            <!-- Tabs -->
             <div class="flex border-b border-gray-700 px-4">
                 <button id="tag-tab-feature" onclick="switchTagTab('feature')"
                     class="px-4 py-2 text-sm font-medium tab-active">特性
@@ -283,9 +281,7 @@
                 <button onclick="switchTab('tagManual')" id="tab-tagManual"
                     class="px-4 py-2 text-sm font-medium text-gray-400">標籤定義</button>
                 <button onclick="switchTab('comboManual')" id="tab-comboManual"
-                    class="px-4 py-2 text-sm font-medium text-gray-400">
-                    組合技
-                </button>
+                    class="px-4 py-2 text-sm font-medium text-gray-400">組合技</button>
             </div>
             <div class="p-6 overflow-y-auto max-h-[65vh]">
                 <div id="content-filterRule" class="space-y-4 text-sm text-gray-200">
@@ -396,9 +392,7 @@
                                 <span class="text-green-300">爆量突破</span> +
                                 <span class="text-green-300">外資連買</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                趨勢、動能與籌碼三者同步轉強，最容易形成波段主升段。
-                            </div>
+                            <div class="text-sm text-gray-300">趨勢、動能與籌碼三者同步轉強，最容易形成波段主升段。</div>
                         </div>
                     </section>
                     <section>
@@ -409,9 +403,7 @@
                                 <span class="text-green-300">爆量突破</span> +
                                 <span class="text-green-300">價量齊揚</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                低位階突然爆量發動，短期爆發力最強，但波動也最大。
-                            </div>
+                            <div class="text-sm text-gray-300">低位階突然爆量發動，短期爆發力最強，但波動也最大。</div>
                         </div>
                     </section>
                     <section>
@@ -422,9 +414,7 @@
                                 <span class="text-green-300">投信連買</span> +
                                 <span class="text-green-300">土洋合力</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                外資與投信同步進場，常見於波段股發動前。
-                            </div>
+                            <div class="text-sm text-gray-300">外資與投信同步進場，常見於波段股發動前。</div>
                         </div>
                     </section>
                     <section>
@@ -435,9 +425,7 @@
                                 <span class="text-green-300">量縮抗跌</span> +
                                 <span class="text-green-300">法人集中</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                主力收集籌碼階段，尚未大量噴出，但風險相對低。
-                            </div>
+                            <div class="text-sm text-gray-300">主力收集籌碼階段，尚未大量噴出，但風險相對低。</div>
                         </div>
                     </section>
                     <section>
@@ -448,9 +436,7 @@
                                 <span class="text-green-300">均線上彎</span> +
                                 <span class="text-green-300">量縮抗跌</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                空頭結構開始翻多，適合提早布局。
-                            </div>
+                            <div class="text-sm text-gray-300">空頭結構開始翻多，適合提早布局。</div>
                         </div>
                     </section>
                     <section>
@@ -460,9 +446,7 @@
                                 <span class="text-green-300">融資減肥</span> +
                                 <span class="text-green-300">外資連買</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                散戶下車、法人接手，後續續攻機率提高。
-                            </div>
+                            <div class="text-sm text-gray-300">散戶下車、法人接手，後續續攻機率提高。</div>
                         </div>
                     </section>
                     <section>
@@ -472,9 +456,7 @@
                                 <span class="text-red-300">爆量滯漲</span> +
                                 <span class="text-red-300">高檔出貨</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                主力可能開始派發籌碼，風險大幅升高。
-                            </div>
+                            <div class="text-sm text-gray-300">主力可能開始派發籌碼，風險大幅升高。</div>
                         </div>
                     </section>
                     <section>
@@ -484,9 +466,7 @@
                                 <span class="text-red-300">極度過熱</span> +
                                 <span class="text-red-300">乖離過大</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                最容易出現急拉急殺，追價風險極高。
-                            </div>
+                            <div class="text-sm text-gray-300">最容易出現急拉急殺，追價風險極高。</div>
                         </div>
                     </section>
                     <section>
@@ -496,9 +476,7 @@
                                 <span class="text-red-300">跌破月線</span> +
                                 <span class="text-red-300">法人倒貨</span>
                             </div>
-                            <div class="text-sm text-gray-300">
-                                趨勢與籌碼同步惡化，應降低持股水位。
-                            </div>
+                            <div class="text-sm text-gray-300">趨勢與籌碼同步惡化，應降低持股水位。</div>
                         </div>
                     </section>
                 </div>
@@ -597,11 +575,61 @@
                 '法人倒貨'
             ]
         };
+        const COMBO_RULES = [
+            {
+                name: '🚀主升段啟動',
+                tags: ['多頭排列', '爆量突破', '外資連買'],
+                color: 'pink'
+            },
+            {
+                name: '🔥妖股起漲型',
+                tags: ['低檔區', '爆量突破', '價量齊揚'],
+                color: 'red'
+            },
+            {
+                name: '🏦法人鎖碼',
+                tags: ['外資連買', '投信連買', '土洋合力'],
+                color: 'cyan'
+            },
+            {
+                name: '⚡發動前夕',
+                tags: ['整理末端', '量縮抗跌', '法人集中'],
+                color: 'yellow'
+            },
+            {
+                name: '📈波段轉強',
+                tags: ['首次站上月線', '均線上彎', '量縮抗跌'],
+                color: 'blue'
+            },
+            {
+                name: '🧹洗盤完成',
+                tags: ['融資減肥', '外資連買'],
+                color: 'green'
+            },
+            {
+                name: '⚠️出貨警訊',
+                tags: ['爆量滯漲', '高檔出貨'],
+                color: 'orange'
+            },
+            {
+                name: '🌋主升段末端',
+                tags: ['極度過熱', '乖離過大'],
+                color: 'red'
+            },
+            {
+                name: '📉趨勢反轉',
+                tags: ['跌破月線', '法人倒貨'],
+                color: 'gray'
+            }
+        ];
         function getTagClass(tag) {
             if (TAG_STYLES.bullish.includes(tag)) return `bg-green-900/40 text-green-300 border border-green-700`;
             if (TAG_STYLES.warning.includes(tag)) return `bg-yellow-900/40 text-yellow-300 border border-yellow-700`;
             if (TAG_STYLES.bearish.includes(tag)) return `bg-red-900/40 text-red-300 border border-red-700`;
             return `bg-slate-700 text-slate-200 border border-slate-500`; // 未分類
+        }
+        function getMatchedCombos(tags) {
+            return COMBO_RULES.filter(combo => combo.tags.every(tag => tags.includes(tag)));
         }
         function switchTagTab(tab) {
             $('#tag-tab-feature,#tag-tab-industry,#tag-tab-concept')
@@ -672,11 +700,25 @@
             conceptText
         ) {
             $('#modalStockTitle').text(name);
-
+            const matchedCombos = getMatchedCombos(tags);
+            let comboHtml = '';
+            if (matchedCombos.length) {
+                comboHtml = `
+                    <div class="mb-6">
+                        <div class="text-pink-300 font-bold mb-2">已發動組合技</div>
+                        <div class="flex flex-wrap gap-2">
+                            ${matchedCombos.map(c => `
+                                <div class="combo-badge px-4 py-2 rounded-lg bg-pink-900/50 border border-pink-500 text-pink-200 font-bold">${c.name}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
             //------------------------------------
             // 特性
             //------------------------------------
             $('#tag-content-feature').html(
+                comboHtml +
                 tags.map(tag => `
                     <div class="mb-3 bg-slate-800/60 border border-slate-700 rounded-lg p-3">
                         <div class="${getTagClass(tag)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">${tag}</div>
