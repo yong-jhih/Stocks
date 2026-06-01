@@ -580,7 +580,6 @@ function outputModel($pdo, $sqlFetch, $ai)
     foreach ($stmtConcept->fetchAll(PDO::FETCH_ASSOC) as $row) {
         $profile[$row['stock_id']]['concept'][] = $row['concept'];
     }
-    // echo json_encode($profile['2330'], true);
 
     $dashboardResults = [];
     foreach ($sqlFetch as $s) {
@@ -659,12 +658,37 @@ function outputModel($pdo, $sqlFetch, $ai)
             '均線上彎',
             10
         );
-        $addSignal(
-            'trend',
-            $close > $ma60,
-            '站上季線',
-            8
-        );
+        if ($close > $ma20 && $yClose <= $prevMa20) {
+            $addSignal(
+                'trend',
+                true,
+                '首次站上月線',
+                12
+            );
+        } else if ($close > $ma20) {
+            $addSignal(
+                'trend',
+                true,
+                '站上月線',
+                4
+            );
+        }
+
+        if ($close > $ma60 && $yClose <= $prevMa60) {
+            $addSignal(
+                'trend',
+                true,
+                '首次站上季線',
+                15
+            );
+        } else if ($close > $ma60) {
+            $addSignal(
+                'trend',
+                true,
+                '站上季線',
+                6
+            );
+        }
 
         // =========================
         // Momentum
@@ -1492,7 +1516,7 @@ function updateSubIndustry($pdo, $stocks)
                 if (count($parts) < 2) continue;
                 $subIndustry = trim(end($parts));
                 if ($subIndustry == '') continue;
-                $subIndustries[] = $subIndustry;
+                $subIndustries[] = trim($subIndustry);
             }
             $subIndustries = array_values(array_unique($subIndustries));
             if ($k > 0 && $k % 10 == 0) sleep(2);
