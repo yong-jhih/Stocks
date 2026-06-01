@@ -282,6 +282,10 @@
                     class="px-4 py-2 text-sm font-medium tab-active">篩選條件</button>
                 <button onclick="switchTab('tagManual')" id="tab-tagManual"
                     class="px-4 py-2 text-sm font-medium text-gray-400">標籤定義</button>
+                <button onclick="switchTab('comboManual')" id="tab-comboManual"
+                    class="px-4 py-2 text-sm font-medium text-gray-400">
+                    組合技
+                </button>
             </div>
             <div class="p-6 overflow-y-auto max-h-[65vh]">
                 <div id="content-filterRule" class="space-y-4 text-sm text-gray-200">
@@ -379,6 +383,121 @@
                             </div>
                             <div class="bg-gray-700/30 p-2 border border-yellow-900/50 rounded">
                                 <b>法人倒貨：</b>法人連續賣超，籌碼轉弱。
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div id="content-comboManual" class="hidden space-y-6">
+                    <section>
+                        <h4 class="text-red-400 font-bold mb-3">🚀 主升段啟動</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-red-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">多頭排列</span> +
+                                <span class="text-green-300">爆量突破</span> +
+                                <span class="text-green-300">外資連買</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                趨勢、動能與籌碼三者同步轉強，最容易形成波段主升段。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-pink-400 font-bold mb-3">🔥 妖股起漲型</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-pink-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">低檔區</span> +
+                                <span class="text-green-300">爆量突破</span> +
+                                <span class="text-green-300">價量齊揚</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                低位階突然爆量發動，短期爆發力最強，但波動也最大。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-cyan-400 font-bold mb-3">🏦 法人鎖碼</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-cyan-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">外資連買</span> +
+                                <span class="text-green-300">投信連買</span> +
+                                <span class="text-green-300">土洋合力</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                外資與投信同步進場，常見於波段股發動前。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-yellow-400 font-bold mb-3">⚡ 發動前夕</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-yellow-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">整理末端</span> +
+                                <span class="text-green-300">量縮抗跌</span> +
+                                <span class="text-green-300">法人集中</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                主力收集籌碼階段，尚未大量噴出，但風險相對低。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-blue-400 font-bold mb-3">📈 波段轉強</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-blue-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">首次站上月線</span> +
+                                <span class="text-green-300">均線上彎</span> +
+                                <span class="text-green-300">量縮抗跌</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                空頭結構開始翻多，適合提早布局。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-emerald-400 font-bold mb-3">🧹 洗盤完成</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-emerald-900/50">
+                            <div class="mb-2">
+                                <span class="text-green-300">融資減肥</span> +
+                                <span class="text-green-300">外資連買</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                散戶下車、法人接手，後續續攻機率提高。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-orange-400 font-bold mb-3">⚠️ 出貨警訊</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-orange-900/50">
+                            <div class="mb-2">
+                                <span class="text-red-300">爆量滯漲</span> +
+                                <span class="text-red-300">高檔出貨</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                主力可能開始派發籌碼，風險大幅升高。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-red-500 font-bold mb-3">🌋 主升段末端</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-red-800">
+                            <div class="mb-2">
+                                <span class="text-red-300">極度過熱</span> +
+                                <span class="text-red-300">乖離過大</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                最容易出現急拉急殺，追價風險極高。
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-gray-300 font-bold mb-3">📉 趨勢反轉</h4>
+                        <div class="bg-gray-700/30 p-3 rounded border border-gray-600">
+                            <div class="mb-2">
+                                <span class="text-red-300">跌破月線</span> +
+                                <span class="text-red-300">法人倒貨</span>
+                            </div>
+                            <div class="text-sm text-gray-300">
+                                趨勢與籌碼同步惡化，應降低持股水位。
                             </div>
                         </div>
                     </section>
