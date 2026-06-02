@@ -1300,10 +1300,15 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
 // 產業概念
 function updateStockProfile(PDO $pdo): void
 {
+    $start_time = microtime(true);
+    writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
     $stocks = getStockProfileWithTWSE($pdo);
     updateIndustry($pdo, $stocks);
     updateSubIndustry($pdo, $stocks);
     updateConcept($pdo, $stocks);
+    $end_time = microtime(true);
+    $execution_time = round($end_time - $start_time, 2);
+    writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
 }
 
 function getStockProfileWithTWSE(PDO $pdo): array
