@@ -128,11 +128,58 @@ function writeLog(PDO $pdo, string $type, string $content, string $result): void
     updateSystemLog($pdo);
 }
 
+function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
+{
+    $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 800";
+    $stmt = $pdo->query($sql);
+    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!is_dir($folder)) {
+        if (!mkdir($folder, 0755, true)) return false;
+    }
+    $filePath = $folder . DIRECTORY_SEPARATOR . 'systemLog.json';
+    $jsonString = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    return file_put_contents($filePath, $jsonString) !== false;
+}
+
 function checkIfDataPublished(PDO $pdo, string $date, string $table, int $count = 0): bool
 {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM `{$table}` WHERE trade_date = ?");
     $stmt->execute([$date]);
     return (int)$stmt->fetchColumn() > $count;
+}
+
+function lineNotification(PDO $pdo, string $target, string $message = 'testLine'): void
+{
+    $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
+    $url = 'https://api.line.me/v2/bot/message/push';
+    $messageText = "系統通知：\n" . $message;
+    $payload = [
+        'to' => $target,
+        'messages' => [
+            [
+                'type' => 'text',
+                'text' => $messageText
+            ]
+        ]
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $channelAccessToken
+    ]);
+    $result = curl_exec($ch);
+    $errno = curl_errno($ch);
+    $error_msg = curl_error($ch);
+    curl_close($ch);
+    if ($errno) {
+        writeLog($pdo, 'lineNotification', $error_msg, 'error');
+        echo "cURL Error: " . $error_msg;
+    }
 }
 
 function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model = 'gemini-2.5-flash'): string
@@ -171,6 +218,39 @@ function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model =
     }
 }
 
+function callGAS(PDO $pdo, $data = []): void
+{
+    $gas_url = getenv('GAS_URL_TRIGGERS');
+    $json_data = json_encode($data);
+    $ch = curl_init($gas_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($json_data),
+        'Connection: close'
+    ]);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+            echo 'GAS 執行完成（回應超時，但已成功觸發轉移）';
+            writeLog($pdo, 'callGAS', "發送請求成功:" . json_encode($data), 'success');
+        } else {
+            echo 'cURL 錯誤: ' . curl_error($ch);
+            writeLog($pdo, 'callGAS', "發送請求失敗 cURL 錯誤:" . curl_error($ch), 'error');
+        }
+    } else {
+        echo 'GAS 回應: ' . $response;
+        // writeLog($pdo, 'callGAS', 'GAS回應:' . $response, 'error');
+    }
+    curl_close($ch);
+}
+
 function updateDateList(string $date, string $folder = 'data')
 {
     $listPath = $folder . DIRECTORY_SEPARATOR . 'dateList.json';
@@ -185,19 +265,6 @@ function updateDateList(string $date, string $folder = 'data')
     rsort($dateList);
     $jsonString = json_encode($dateList, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     return file_put_contents($listPath, $jsonString) !== false;
-}
-
-function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
-{
-    $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 800";
-    $stmt = $pdo->query($sql);
-    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if (!is_dir($folder)) {
-        if (!mkdir($folder, 0755, true)) return false;
-    }
-    $filePath = $folder . DIRECTORY_SEPARATOR . 'systemLog.json';
-    $jsonString = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    return file_put_contents($filePath, $jsonString) !== false;
 }
 
 function createJsonFile(PDO $pdo, string $date, string $name, array $data, string $folder = 'data'): ?string
@@ -219,40 +286,6 @@ function createJsonFile(PDO $pdo, string $date, string $name, array $data, strin
     } else {
         writeLog($pdo, 'createJsonFile', "無法更新檔案: $fullPath", 'error');
         return null;
-    }
-}
-
-function lineNotification(PDO $pdo, string $target, string $message = 'testLine'): void
-{
-    $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-    $url = 'https://api.line.me/v2/bot/message/push';
-    $messageText = "系統通知：\n" . $message;
-    $payload = [
-        'to' => $target,
-        'messages' => [
-            [
-                'type' => 'text',
-                'text' => $messageText
-            ]
-        ]
-    ];
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $channelAccessToken
-    ]);
-    $result = curl_exec($ch);
-    $errno = curl_errno($ch);
-    $error_msg = curl_error($ch);
-    curl_close($ch);
-    if ($errno) {
-        writeLog($pdo, 'lineNotification', $error_msg, 'error');
-        echo "cURL Error: " . $error_msg;
     }
 }
 
@@ -297,8 +330,14 @@ function cleanData(int $days): void
 function dbClean(PDO $pdo, string $table, string $dateColumn, int $days): void
 {
     $days = max(0, $days);
-    $sql = "DELETE FROM `$table` WHERE `$dateColumn` < DATE_SUB(CURDATE(), INTERVAL $days DAY)";
-    $pdo->exec($sql);
+    $sql = "DELETE FROM `$table` WHERE `$dateColumn` < DATE_SUB(CURDATE(), INTERVAL :days DAY)";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':days' => $days]);
+        writeLog($pdo, 'dbClean', $table . " 資料清理成功: 共刪除 " . $stmt->rowCount() . " 筆", 'success');
+    } catch (PDOException $e) {
+        writeLog($pdo, 'dbClean', "資料清理失敗: " . $e->getMessage(), 'error');
+    }
 }
 
 function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name): void
@@ -315,37 +354,4 @@ function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name
         }
     }
     createJsonFile($pdo, $targetDate, $name, $allData);
-}
-
-function callGAS(PDO $pdo, $data = []): void
-{
-    $gas_url = getenv('GAS_URL_TRIGGERS');
-    $json_data = json_encode($data);
-    $ch = curl_init($gas_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($json_data),
-        'Connection: close'
-    ]);
-    $response = curl_exec($ch);
-    if (curl_errno($ch)) {
-        if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
-            echo 'GAS 執行完成（回應超時，但已成功觸發轉移）';
-            writeLog($pdo, 'callGAS', "發送請求成功:" . json_encode($data), 'success');
-        } else {
-            echo 'cURL 錯誤: ' . curl_error($ch);
-            writeLog($pdo, 'callGAS', "發送請求失敗 cURL 錯誤:" . curl_error($ch), 'error');
-        }
-    } else {
-        echo 'GAS 回應: ' . $response;
-        // writeLog($pdo, 'callGAS', 'GAS回應:' . $response, 'error');
-    }
-    curl_close($ch);
 }
