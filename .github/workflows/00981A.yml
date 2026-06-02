@@ -1,8 +1,6 @@
 name: 00981A
 
 on:
-  # schedule:
-  #   - cron: '13 12 * * 1-5'
   repository_dispatch:
     types: [00981A]
   workflow_dispatch:
