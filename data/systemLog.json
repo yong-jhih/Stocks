@@ -1,5 +1,68 @@
 [
     {
+        "id": 3570009,
+        "log_time": "2026-06-02 21:07:01",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-02 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 3570008,
+        "log_time": "2026-06-02 21:07:00",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-02更新資料結束,共耗時 813.76 秒",
+        "result": "end"
+    },
+    {
+        "id": 3570007,
+        "log_time": "2026-06-02 21:07:00",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-02 借券賣出餘額 更新完成,共新增 1052 筆,耗時 157.52 秒",
+        "result": "success"
+    },
+    {
+        "id": 3570006,
+        "log_time": "2026-06-02 21:04:18",
+        "log_type": "insertSBLTotal",
+        "content": "2026-06-02 借券餘額 更新完成,共新增 992 筆,耗時 148.81 秒",
+        "result": "success"
+    },
+    {
+        "id": 3570005,
+        "log_time": "2026-06-02 21:01:44",
+        "log_type": "insertMargin",
+        "content": "2026-06-02 融資融券彙總 更新完成,共新增 1049 筆,耗時 157.15 秒",
+        "result": "success"
+    },
+    {
+        "id": 3570004,
+        "log_time": "2026-06-02 20:59:02",
+        "log_type": "insertInsti",
+        "content": "2026-06-02 三大法人買賣超 更新完成,共新增 1073 筆,耗時 160.96 秒",
+        "result": "success"
+    },
+    {
+        "id": 3570003,
+        "log_time": "2026-06-02 20:56:14",
+        "log_type": "insertHistory",
+        "content": "2026-06-02 上市個股日成交 更新完成,共新增 1082 筆,耗時 162.57 秒",
+        "result": "success"
+    },
+    {
+        "id": 3570002,
+        "log_time": "2026-06-02 20:53:27",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-02 開始更新資料",
+        "result": "start"
+    },
+    {
+        "id": 3570001,
+        "log_time": "2026-06-02 20:53:26",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-02 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
+    },
+    {
         "id": 3540001,
         "log_time": "2026-06-02 20:09:27",
         "log_type": "update00981A",
