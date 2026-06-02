@@ -1,5 +1,12 @@
 [
     {
+        "id": 3510001,
+        "log_time": "2026-06-02 17:19:14",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
         "id": 3480004,
         "log_time": "2026-06-01 21:27:05",
         "log_type": "selfSelectGenerateDailyDashboard",
