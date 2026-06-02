@@ -1,79 +1,9 @@
 <?php
-function getLatestTradingDateWithTWSE(PDO $pdo): ?string
-{
-    $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
-    $data = fetchUrl($url);
-    if (isset($data['stat']) && $data['stat'] === 'OK') {
-        $rawDate = end($data['data'])[0];
-        $cleanDate = str_replace('/', '', $rawDate);
-        $convertedDate = convertTaiwanDateToWestern($pdo, $cleanDate);
-        if (!$convertedDate) {
-            writeLog($pdo, 'getLatestTradingDateWithTWSE', "日期格式轉換失敗", 'error');
-            return null;
-        }
-        $latestDate = new DateTime($convertedDate);
-        $today = new DateTime();
-        $interval = $today->diff($latestDate);
-        $daysDiff = $interval->days;
-        $threshold = 10;
-        if ($daysDiff > $threshold) {
-            writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)", 'error');
-            return null;
-        }
-        return $convertedDate;
-    } else {
-        writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
-        return null;
-    }
-}
-
-function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?string
-{
-    $apiToken = getenv('FUGLE_TOKEN');
-    if (!$apiToken) {
-        writeLog($pdo, 'getLatestTradingDateWithFugle', "找不到 Fugle Token", 'error');
-        return null;
-    }
-    $url = "https://api.fugle.tw/marketdata/v1.0/stock/historical/stats/$symbol";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "X-API-KEY: $apiToken",
-        "Accept: application/json"
-    ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    if ($httpCode === 200) {
-        $data = json_decode($response, true);
-        if (isset($data['date']) && $data['date'] != '') {
-            return $data['date'];
-        } else {
-            writeLog($pdo, 'getLatestTradingDateWithFugle', "回傳格式異常", 'error');
-            return null;
-        }
-    } else {
-        writeLog($pdo, 'getLatestTradingDateWithFugle', "API 請求失敗，狀態碼：$httpCode", 'error');
-        return null;
-    }
-}
-
-function isHoliday(PDO $pdo, string $date): bool
-{
-    $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
-    $data = fetchUrl($url);
-    $holiday = [];
-    foreach ($data as $k => $v) {
-        $holiday[] = convertTaiwanDateToWestern($pdo, $v['Date']);
-    }
-    return in_array($date, $holiday);
-}
 
 function getHistory(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($url);
+    $data = fetchUrl($pdo, $url);
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
         foreach ($data['tables'] as $v) {
             if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
@@ -96,7 +26,7 @@ function getHistory(string $date, PDO $pdo): ?array
 function getInsti(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($url);
+    $data = fetchUrl($pdo, $url);
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "三大法人買賣超日報")) {
             $stocks = [];
@@ -117,7 +47,7 @@ function getInsti(string $date, PDO $pdo): ?array
 function getMargin(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($url);
+    $data = fetchUrl($pdo, $url);
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
         foreach ($data['tables'] as $v) {
             if (str_contains($v['title'], "融資融券彙總") && is_array($v['data'])) {
@@ -140,7 +70,7 @@ function getMargin(string $date, PDO $pdo): ?array
 function getSBLTotal(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($url);
+    $data = fetchUrl($pdo, $url);
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
             $stocks = [];
@@ -162,7 +92,7 @@ function getSBLTotal(string $date, PDO $pdo): ?array
 function getSBLSold(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($url);
+    $data = fetchUrl($pdo, $url);
     if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
         if (str_contains($data['title'], "信用額度總量管制餘額")) {
             $stocks = [];
@@ -182,7 +112,7 @@ function getSBLSold(string $date, PDO $pdo): ?array
     }
 }
 
-function insertHistory(PDO $pdo, string $targetDate, array $historyData)
+function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
@@ -225,7 +155,7 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData)
     }
 }
 
-function insertInsti(PDO $pdo, string $targetDate, array $instiData)
+function insertInsti(PDO $pdo, string $targetDate, array $instiData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_insti 
@@ -262,7 +192,7 @@ function insertInsti(PDO $pdo, string $targetDate, array $instiData)
     }
 }
 
-function insertMargin(PDO $pdo, string $targetDate, array $marginData)
+function insertMargin(PDO $pdo, string $targetDate, array $marginData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_margin 
@@ -299,7 +229,7 @@ function insertMargin(PDO $pdo, string $targetDate, array $marginData)
     }
 }
 
-function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData)
+function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_total (trade_date, stock_id, sbl_balance) 
@@ -321,7 +251,7 @@ function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData)
     }
 }
 
-function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData)
+function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_sold 
@@ -371,14 +301,23 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
     ]);
     $dashboardResults = outputModel($pdo, $stocks);
+    if (count($dashboardResults) == 0) {
+        writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 篩選分析完成，共 0 檔", 'success');
+        return [];
+    }
     writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 篩選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
 function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $code_array = []): array
 {
+    if (empty($code_array)) return [];
+    $safeCodes = array_map(function ($code) use ($pdo) {
+        return $pdo->quote($code);
+    }, $code_array);
+    $inClause = implode(",", $safeCodes);
     $stocks = returnSqlFetch($pdo, $targetDate, [
-        "stock_id IN(" . implode(",", $code_array) . ")"
+        "stock_id IN({$inClause})"
     ]);
     $dashboardResults = outputModel($pdo, $stocks);
     writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
@@ -1194,23 +1133,23 @@ function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): ?array
             foreach ($details as $detail) {
                 $itemDate = substr($detail['EditTime'], 0, 10);
                 if ($itemDate !== $targetDate) {
-                    writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A資料未完全更新", 'error');
+                    writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A 資料未完全更新", 'error');
                     return null;
                 }
                 $totalAmount += (int)$detail['Amount'];
             }
             if (isset($value) && $value !== $totalAmount) {
-                writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A總市值不符", 'error');
+                writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A 總市值不符", 'error');
                 return null;
             }
             return $details;
         }
     }
-    writeLog($pdo, 'getComponentOf00981A_FromLocal', "查詢不到00981A成分股資料", 'error');
+    writeLog($pdo, 'getComponentOf00981A_FromLocal', "查詢不到 00981A 成分股資料", 'error');
     return null;
 }
 
-function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data)
+function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): void
 {
     try {
         $sql = "INSERT INTO 00981A_component 
@@ -1341,15 +1280,15 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
     }
 }
 
-function updateStockProfile($pdo)
+function updateStockProfile(PDO $pdo): void
 {
     $stocks = getStockProfileWithTWSE($pdo);
-    insertStockProfile($pdo, $stocks);
+    updateIndustry($pdo, $stocks);
     updateSubIndustry($pdo, $stocks);
     updateConcept($pdo, $stocks);
 }
 
-function getStockProfileWithTWSE($pdo) // return Array
+function getStockProfileWithTWSE(PDO $pdo): array
 {
     $industry = [
         '01' => '水泥工業',
@@ -1408,10 +1347,11 @@ function getStockProfileWithTWSE($pdo) // return Array
         return $stocks;
     } catch (Exception $e) {
         writeLog($pdo, 'stock_profile', "取得 t187ap03_L 失敗：" . $e->getMessage(), 'error');
+        return [];
     }
 }
 
-function insertStockProfile($pdo, $stocks)
+function updateIndustry(PDO $pdo, array $stocks): void
 {
     $sql = "INSERT INTO stock_profile 
             (stock_id, stock_name, industry) 
@@ -1431,15 +1371,15 @@ function insertStockProfile($pdo, $stocks)
             ]);
         }
         $pdo->commit();
-        writeLog($pdo, 'stock_profile', '產業別更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
+        writeLog($pdo, 'stock_profile', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "寫入失敗：" . $e->getMessage();
-        writeLog($pdo, 'stock_profile', "寫入失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'stock_profile', "產業別 寫入失敗：" . $e->getMessage(), 'error');
     }
 }
 
-function updateSubIndustry($pdo, $stocks)
+function updateSubIndustry(PDO $pdo, array $stocks): void
 {
     $stockList = [];
     foreach ($stocks as $k => $stock) {
@@ -1502,13 +1442,13 @@ function updateSubIndustry($pdo, $stocks)
             $stmtInsert->execute($params);
             $totalInsertCount += $stmtInsert->rowCount();
         }
-        writeLog($pdo, 'updateSubIndustry', '次產業更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
+        writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
     } catch (Exception $e) {
-        writeLog($pdo, 'updateSubIndustry', "更新失敗：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'updateSubIndustry', "次產業 更新失敗：" . $e->getMessage(), 'error');
     }
 }
 
-function updateConcept($pdo, $stocks)
+function updateConcept(PDO $pdo, array $stocks): void
 {
     $stockList = [];
     foreach ($stocks as $k => $stock) {
@@ -1594,5 +1534,5 @@ function updateConcept($pdo, $stocks)
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
     }
-    writeLog($pdo, 'updateConcept', '概念股更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
+    writeLog($pdo, 'updateConcept', '概念股 更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
 }

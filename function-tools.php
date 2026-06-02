@@ -1,5 +1,76 @@
 <?php
 
+function getLatestTradingDateWithTWSE(PDO $pdo): ?string
+{
+    $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
+    $data = fetchUrl($pdo, $url);
+    if (isset($data['stat']) && $data['stat'] === 'OK') {
+        $rawDate = end($data['data'])[0];
+        $cleanDate = str_replace('/', '', $rawDate);
+        $convertedDate = convertTaiwanDateToWestern($pdo, $cleanDate);
+        if (!$convertedDate) {
+            writeLog($pdo, 'getLatestTradingDateWithTWSE', "日期格式轉換失敗", 'error');
+            return null;
+        }
+        $latestDate = new DateTime($convertedDate);
+        $today = new DateTime();
+        $interval = $today->diff($latestDate);
+        $daysDiff = $interval->days;
+        $threshold = 10;
+        if ($daysDiff > $threshold) {
+            writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)", 'error');
+            return null;
+        }
+        return $convertedDate;
+    } else {
+        writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+        return null;
+    }
+}
+
+function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?string
+{
+    $apiToken = getenv('FUGLE_TOKEN');
+    if (!$apiToken) {
+        writeLog($pdo, 'getLatestTradingDateWithFugle', "找不到 Fugle Token", 'error');
+        return null;
+    }
+    $url = "https://api.fugle.tw/marketdata/v1.0/stock/historical/stats/$symbol";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "X-API-KEY: $apiToken",
+        "Accept: application/json"
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($httpCode === 200) {
+        $data = json_decode($response, true);
+        if (isset($data['date']) && $data['date'] != '') {
+            return $data['date'];
+        } else {
+            writeLog($pdo, 'getLatestTradingDateWithFugle', "回傳格式異常", 'error');
+            return null;
+        }
+    } else {
+        writeLog($pdo, 'getLatestTradingDateWithFugle', "API 請求失敗，狀態碼：$httpCode", 'error');
+        return null;
+    }
+}
+
+function isHoliday(PDO $pdo, string $date): bool
+{
+    $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
+    $data = fetchUrl($pdo, $url);
+    $holiday = [];
+    foreach ($data as $k => $v) {
+        $holiday[] = convertTaiwanDateToWestern($pdo, $v['Date']);
+    }
+    return in_array($date, $holiday);
+}
+
 function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
 {
     if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {
@@ -16,7 +87,7 @@ function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
     return null;
 }
 
-function fetchUrl(string $url): array
+function fetchUrl(PDO $pdo, string $url): array
 {
     sleep(2);
     $options = [
@@ -28,10 +99,16 @@ function fetchUrl(string $url): array
     try {
         $response = file_get_contents($url, false, stream_context_create($options));
         if ($response === FALSE) {
+            writeLog($pdo, 'fetchUrl', "錯誤：無法取得資料。請檢查網路連線或 API 網址。", 'error');
             return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
         }
-        return json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
+        $result = json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
+        if ($result['status'] === 'error') {
+            writeLog($pdo, 'fetchUrl', "JSON 解析失敗", 'error');
+        }
+        return $result;
     } catch (Exception $e) {
+        writeLog($pdo, 'fetchUrl', "錯誤：" . $e->getMessage(), 'error');
         return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
     }
 }
@@ -46,6 +123,7 @@ function writeLog(PDO $pdo, string $type, string $content, string $result)
         $stmt->execute([$currentTime, $type, $content, $result]);
     } catch (Exception $e) {
         echo "Critical Error: Unable to write to system_logs. " . $e->getMessage();
+        writeLog($pdo, 'writeLog', "Critical Error: Unable to write to system_logs. " . $e->getMessage(), 'error');
     }
 }
 
