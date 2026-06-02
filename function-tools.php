@@ -1,6 +1,6 @@
 <?php
 
-function convertTaiwanDateToWestern($dateStr)
+function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
 {
     if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {
         $taiwanYear = (int)$matches[1];
@@ -12,6 +12,7 @@ function convertTaiwanDateToWestern($dateStr)
             return $result;
         }
     }
+    writeLog($pdo, 'convertTaiwanDateToWestern', '民國年格式 轉換 西元年格式 失敗', 'error');
     return null;
 }
 
@@ -35,7 +36,7 @@ function fetchUrl(string $url): array
     }
 }
 
-function writeLog($pdo, $type, $content, $result)
+function writeLog(PDO $pdo, string $type, string $content, string $result)
 {
     $sql = "INSERT INTO system_logs (log_time, log_type, content, result) 
             VALUES (?, ?, ?, ?)";
@@ -48,14 +49,14 @@ function writeLog($pdo, $type, $content, $result)
     }
 }
 
-function checkIfDataPublished($pdo, $date, $table, $count = 0)
+function checkIfDataPublished(PDO $pdo, string $date, string $table, int $count = 0): bool
 {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM `{$table}` WHERE trade_date = ?");
     $stmt->execute([$date]);
     return (int)$stmt->fetchColumn() > $count;
 }
 
-function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
+function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model = 'gemini-2.5-flash'): string
 {
     if (!isset($apikey)) return 'api key 不存在';
     $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/" . $model . ":generateContent?key=" . $apikey;
@@ -91,7 +92,7 @@ function callGeminiAI($apikey, $prompt = 'say hi', $model = 'gemini-2.5-flash')
     }
 }
 
-function updateDateList($date, $folder = 'data')
+function updateDateList(string $date, string $folder = 'data')
 {
     $listPath = $folder . DIRECTORY_SEPARATOR . 'dateList.json';
     $dateList = [];
@@ -107,7 +108,7 @@ function updateDateList($date, $folder = 'data')
     return file_put_contents($listPath, $jsonString) !== false;
 }
 
-function createJsonFile($pdo, $date, $name, $data, $folder = 'data')
+function createJsonFile(PDO $pdo, string $date, string $name, array $data, string $folder = 'data'): ?string
 {
     $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
     $safeDate = preg_replace('/[^0-9\-]/', '', $date);
@@ -116,7 +117,7 @@ function createJsonFile($pdo, $date, $name, $data, $folder = 'data')
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
             writeLog($pdo, 'createJsonFile', "無法建立目錄: $folder", 'error');
-            return false;
+            return null;
         }
     }
     $jsonString = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
@@ -124,11 +125,12 @@ function createJsonFile($pdo, $date, $name, $data, $folder = 'data')
         updateDateList($safeDate, $folder);
         return $fullPath;
     } else {
-        return false;
+        writeLog($pdo, 'createJsonFile', "無法更新檔案: $fullPath", 'error');
+        return null;
     }
 }
 
-function lineNotification($pdo, $target, $message = 'testLine')
+function lineNotification(PDO $pdo, string $target, string $message = 'testLine')
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
     $url = 'https://api.line.me/v2/bot/message/push';
@@ -162,7 +164,7 @@ function lineNotification($pdo, $target, $message = 'testLine')
     }
 }
 
-function cleanData($days)
+function cleanData(int $days)
 {
     $jsonPath = "data/dateList.json";
     if (file_exists($jsonPath)) {
@@ -180,8 +182,7 @@ function cleanData($days)
             echo "❌ 寫入 JSON 失敗，請檢查權限。<br>";
             return;
         }
-
-        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json", "*_charts.json", "*_self-charts.json"];
+        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json", "*_charts.json", "*_self-charts.json", "*_topPerforming.json", "*_topPerforming-charts.json"];
         foreach ($targetFiles as $pattern) {
             $allFiles = glob("data/" . $pattern);
             if ($allFiles) {
@@ -208,7 +209,7 @@ function dbClean(PDO $pdo, string $table, string $dateColumn, int $days): void
     $pdo->exec($sql);
 }
 
-function renewCharts($pdo, $targetDate, $getCode, $name)
+function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name): void
 {
     $stockList = json_decode(file_get_contents("data/" . $targetDate . "_" . $getCode . ".json"), true);
     $allData = [
@@ -224,7 +225,7 @@ function renewCharts($pdo, $targetDate, $getCode, $name)
     createJsonFile($pdo, $targetDate, $name, $allData);
 }
 
-function callGAS($pdo, $data = [])
+function callGAS(PDO $pdo, $data = []): void
 {
     $gas_url = getenv('GAS_URL_TRIGGERS');
     $json_data = json_encode($data);

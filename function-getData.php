@@ -6,7 +6,7 @@ function getLatestTradingDateWithTWSE(PDO $pdo): ?string
     if (isset($data['stat']) && $data['stat'] === 'OK') {
         $rawDate = end($data['data'])[0];
         $cleanDate = str_replace('/', '', $rawDate);
-        $convertedDate = convertTaiwanDateToWestern($cleanDate);
+        $convertedDate = convertTaiwanDateToWestern($pdo, $cleanDate);
         if (!$convertedDate) {
             writeLog($pdo, 'getLatestTradingDateWithTWSE', "日期格式轉換失敗", 'error');
             return null;
@@ -59,13 +59,13 @@ function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?stri
     }
 }
 
-function isHoliday(string $date): bool
+function isHoliday(PDO $pdo, string $date): bool
 {
     $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
     $data = fetchUrl($url);
     $holiday = [];
     foreach ($data as $k => $v) {
-        $holiday[] = convertTaiwanDateToWestern($v['Date']);
+        $holiday[] = convertTaiwanDateToWestern($pdo, $v['Date']);
     }
     return in_array($date, $holiday);
 }
@@ -255,10 +255,10 @@ function insertInsti(PDO $pdo, string $targetDate, array $instiData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertInsti', $targetDate . '三大法人買賣超更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertInsti', $targetDate . '三大法人買賣超寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -292,10 +292,10 @@ function insertMargin(PDO $pdo, string $targetDate, array $marginData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertMargin', $targetDate . '融資融券彙總更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertMargin', $targetDate . '融資融券彙總寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -314,10 +314,10 @@ function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertSBLTotal', $targetDate . '借券餘額更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLTotal', $targetDate . '借券餘額寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -349,10 +349,10 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData)
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertSBLSold', $targetDate . '借券賣出餘額更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLSold', $targetDate . '借券賣出餘額寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -370,8 +370,8 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
         "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
         "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
     ]);
-    $dashboardResults = outputModel($pdo, $stocks, true);
-    writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 分析完成，共篩選出 " . count($dashboardResults) . " 檔", 'success');
+    $dashboardResults = outputModel($pdo, $stocks);
+    writeLog($pdo, 'generateDailyDashboard', "{$targetDate} 篩選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
@@ -380,7 +380,7 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $c
     $stocks = returnSqlFetch($pdo, $targetDate, [
         "stock_id IN(" . implode(",", $code_array) . ")"
     ]);
-    $dashboardResults = outputModel($pdo, $stocks, false);
+    $dashboardResults = outputModel($pdo, $stocks);
     writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
@@ -392,12 +392,12 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
         "ma20 IS NOT NULL",
         "ma60 IS NOT NULL"
     ]);
-    $dashboardResults = outputModel($pdo, $stocks, false);
+    $dashboardResults = outputModel($pdo, $stocks);
     writeLog($pdo, 'topPerformingGenerateDailyDashboard', "{$targetDate} 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
-function returnSqlFetch(PDO $pdo, string $targetDate, array $where)
+function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
 {
     $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
     $sql = "
@@ -539,7 +539,7 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $where)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function outputModel($pdo, $sqlFetch, $ai)
+function outputModel(PDO $pdo, array $sqlFetch): array
 {
     $profile = [];
     $sqlProfile = "SELECT * FROM stock_profile";
@@ -1021,22 +1021,11 @@ function outputModel($pdo, $sqlFetch, $ai)
         }
 
         // =========================
-        // industry
+        // 產業概念
         // =========================
         $industry = $profile[$s['stock_id']]['industry'] ?? '';
-        // =========================
-        // sub industry
-        // =========================
         $subIndustry = $profile[$s['stock_id']]['sub_industry'] ?? [];
-        // =========================
-        // Concept
-        // =========================
-        // if ($ai) {
-        //     $prompt = "請幫我分析[" . $s['stock_id'] . $s['stock_name'] . "]的產業別(使用證交所產業別分類)及佔營業收入20%以上相關的概念股標籤，請依格式回答不要多餘的內容及符號，格式嚴格限定:'XXX業-標籤1,標籤2,標籤3,...'。請搜尋最新的公開資訊觀測站或法人券商研究報告，以確保營收佔比數據的準確性。";
-        //     $concept = callGeminiAI(getenv('GEMINI_TOKEN'), $prompt, 'gemini-3.1-flash-lite');
-        // } else {
         $concept = $profile[$s['stock_id']]['concept'] ?? [];
-        // }
 
         // =========================
         // 輸出
@@ -1111,7 +1100,7 @@ function outputModel($pdo, $sqlFetch, $ai)
     return $dashboardResults;
 }
 
-function getStockAnalysisChart($pdo, $stockId, $targetDate, $displayDays = 20)
+function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, int $displayDays = 20): array
 {
     $fetchLimit = $displayDays + 10;
     $sql = "
@@ -1187,45 +1176,42 @@ function getStockAnalysisChart($pdo, $stockId, $targetDate, $displayDays = 20)
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
-function getComponentOf00981A_FromLocal()
+function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): ?array
 {
     $jsonFile = 'stock_data.json';
     if (file_exists($jsonFile)) {
         $jsonStr = file_get_contents($jsonFile);
         $data = json_decode($jsonStr, true);
         if ($data) {
+            $details = null;
             foreach ($data as $item) {
                 if ($item['AssetName'] === '股票') {
                     $details = $item['Details'];
                     $value = (int)$item['Value'];
                 }
             }
-
-            $todayStr = date('Y-m-d');
-            $isAllUpdated = true;
             $totalAmount = 0;
             foreach ($details as $detail) {
                 $itemDate = substr($detail['EditTime'], 0, 10);
-                if ($itemDate !== $todayStr) {
-                    $isAllUpdated = false;
-                    break;
+                if ($itemDate !== $targetDate) {
+                    writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A資料未完全更新", 'error');
+                    return null;
                 }
                 $totalAmount += (int)$detail['Amount'];
             }
-            if (isset($value) && $value !== $totalAmount) return null;
-            if (!$isAllUpdated) return null;
+            if (isset($value) && $value !== $totalAmount) {
+                writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A總市值不符", 'error');
+                return null;
+            }
             return $details;
         }
-        return null;
     }
+    writeLog($pdo, 'getComponentOf00981A_FromLocal', "查詢不到00981A成分股資料", 'error');
+    return null;
 }
 
-function insertComponentOf00981A($pdo, $targetDate, $Data)
+function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data)
 {
-    if (!is_array($Data) || empty($Data)) {
-        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "資料格式有誤或無資料", 'error');
-        exit(1);
-    }
     try {
         $sql = "INSERT INTO 00981A_component 
                 (trade_date, stock_id, stock_name, amount, weight) 
@@ -1236,7 +1222,7 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
                 weight = VALUES(weight)";
         $stmt = $pdo->prepare($sql);
         $pdo->beginTransaction();
-        foreach ($Data as $row) {
+        foreach ($data as $row) {
             $stmt->execute([
                 $targetDate,
                 $row['DetailCode'],
@@ -1248,12 +1234,12 @@ function insertComponentOf00981A($pdo, $targetDate, $Data)
         $pdo->commit();
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, $targetDate . ' 00981A成分股抓取', "抓取失敗: " . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertComponentOf00981A', $targetDate . " 00981A 成分股資料新增失敗: " . $e->getMessage(), 'error');
         exit(1);
     }
 }
 
-function analyzeMultiPeriodChanges($pdo, $targetDate)
+function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
 {
     try {
         $intervals = [1, 5, 10, 20];
@@ -1302,7 +1288,10 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
         $stmt->bindValue(':d20', $compareDates[20]);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (!$rows) return [];
+        if (!$rows) {
+            writeLog($pdo, 'analyzeMultiPeriodChanges', '查詢不到 00981A 成分股歷史資料', 'error');
+            return null;
+        }
         $finalData = [];
         $new = [];
         $eliminate = [];
@@ -1341,7 +1330,7 @@ function analyzeMultiPeriodChanges($pdo, $targetDate)
                 'diff20'     => (int)$item['diff20']
             ];
         }
-        $notificationStr = "00981A成分股今日變動,請稍候佈署(資料累積中,先看短期就好) - https://yong-jhih.github.io/Stocks/?page=00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        $notificationStr = "00981A成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page=00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
         if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
         if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
         lineNotification($pdo, getenv('LINE_TARGET'), $notificationStr);

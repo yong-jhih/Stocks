@@ -18,10 +18,11 @@ function getPDOConnection()
     try {
         return new PDO($dsn, $db_user, $db_pass, $options);
     } catch (PDOException $e) {
-        error_log("Database Connection Failed: " . $e->getMessage());
-        die("系統執行失敗，請檢查資料庫連線。");
+        echo "Database Connection Failed: " . $e->getMessage();
+        exit(1);
     }
 }
 
 $pdo = getPDOConnection();
 $targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
+if (!$targetDate) exit(1);
