@@ -1,0 +1,95 @@
+[
+    {
+        "stock_id": "1709",
+        "stock_name": "和益",
+        "industry": "化學工業",
+        "subIndustry": [
+            " 界面活性劑"
+        ],
+        "concept": [
+            "台商越南",
+            "大陸收成股",
+            "防疫"
+        ],
+        "score": 87,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 19.75,
+        "yesterday_high": 19.7,
+        "yesterday_low": 19.15,
+        "vol": 1622,
+        "vol_ratio": 1.58,
+        "rank10": 87.18,
+        "amp10": 10.8,
+        "ma5": 19.39,
+        "ma10": 18.93,
+        "ma20": 18.66,
+        "ma60": 18.37,
+        "vma5": 1242,
+        "vma10": 988,
+        "vma20": 816,
+        "bia5": 1.86,
+        "bia10": 4.33,
+        "bia20": 5.83,
+        "con1": 18.31,
+        "con5": 32.1,
+        "con10": 27.69,
+        "con20": 21.5,
+        "foreign_buy_sell": 303085,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2190,
+        "foreign_sum10": 3080,
+        "foreign_sum20": 3772,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 1851,
+        "margin_balance_diff": 104,
+        "squeeze": 1.93,
+        "bullet": 0.89,
+        "net_sbl": 4,
+        "net_sbl_sum5": 11,
+        "sbl_total": 2306,
+        "sbl_sold_balance": 1577,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 1.58 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    }
+]
