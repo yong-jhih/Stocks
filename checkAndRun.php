@@ -21,7 +21,9 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 500) &&
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
 ) {
-    echo '資料數量正常, 開始進行分析及排行';
+    $start_time = microtime(true);
+    writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
+
     $results = generateDailyDashboard($pdo, $targetDate);
     createJsonFile($pdo, $targetDate, 'filter', $results);
     renewCharts($pdo, $targetDate, 'filter', 'charts');
@@ -37,8 +39,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         'date' => $targetDate,
         'action' => 'triggersSelfSelect'
     ]);
+
+    $end_time = microtime(true);
+    $execution_time = round($end_time - $start_time, 2);
+    writeLog($pdo, 'generateDailyDashboard', $targetDate . '盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
 } else { // 已公布 資料量不足 則更新資料
-    echo '偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新';
-    require 'updateAll.php';
-    echo '資料庫更新完畢, 等待下階段進入分析';
+    writeLog($pdo, 'updateAllHistory', $targetDate . ' 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新', 'waitting');
+    updateAllHistory($pdo, $targetDate);
+    writeLog($pdo, 'updateAllHistory', $targetDate . ' 資料庫更新完畢, 等待下階段進入分析', 'waitting');
 }

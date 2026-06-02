@@ -1,5 +1,20 @@
 <?php
 
+// 歷史資料更新
+function updateAllHistory(PDO $pdo, string $targetDate): void
+{
+    $start_time = microtime(true);
+    writeLog($pdo, 'updateAllHistory', '取得交易日期 ' . $targetDate . ' 開始更新資料', 'start');
+    insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
+    insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
+    insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
+    insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
+    insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
+    $end_time = microtime(true);
+    $execution_time = round($end_time - $start_time, 2);
+    writeLog($pdo, 'updateAllHistory', $targetDate . '更新資料結束,共耗時 ' . $execution_time . ' 秒', 'end');
+}
+
 function getHistory(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
@@ -286,6 +301,7 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
     }
 }
 
+// 分析篩選
 function generateDailyDashboard(PDO $pdo, string $targetDate): array
 {
     $stocks = returnSqlFetch($pdo, $targetDate, [
@@ -1115,6 +1131,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
+// 00981A
 function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): ?array
 {
     $jsonFile = 'stock_data.json';
@@ -1280,6 +1297,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
     }
 }
 
+// 產業概念
 function updateStockProfile(PDO $pdo): void
 {
     $stocks = getStockProfileWithTWSE($pdo);
