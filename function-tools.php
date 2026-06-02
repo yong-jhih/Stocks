@@ -113,7 +113,7 @@ function fetchUrl(PDO $pdo, string $url): array
     }
 }
 
-function writeLog(PDO $pdo, string $type, string $content, string $result)
+function writeLog(PDO $pdo, string $type, string $content, string $result): void
 {
     $sql = "INSERT INTO system_logs (log_time, log_type, content, result) 
             VALUES (?, ?, ?, ?)";
@@ -125,6 +125,7 @@ function writeLog(PDO $pdo, string $type, string $content, string $result)
         echo "Critical Error: Unable to write to system_logs. " . $e->getMessage();
         writeLog($pdo, 'writeLog', "Critical Error: Unable to write to system_logs. " . $e->getMessage(), 'error');
     }
+    updateSystemLog($pdo);
 }
 
 function checkIfDataPublished(PDO $pdo, string $date, string $table, int $count = 0): bool
@@ -188,16 +189,12 @@ function updateDateList(string $date, string $folder = 'data')
 
 function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
 {
-    $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 100";
+    $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 800";
     $stmt = $pdo->query($sql);
     $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     if (!is_dir($folder)) {
-        if (!mkdir($folder, 0755, true)) {
-            return false;
-        }
+        if (!mkdir($folder, 0755, true)) return false;
     }
-
     $filePath = $folder . DIRECTORY_SEPARATOR . 'systemLog.json';
     $jsonString = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     return file_put_contents($filePath, $jsonString) !== false;
@@ -225,7 +222,7 @@ function createJsonFile(PDO $pdo, string $date, string $name, array $data, strin
     }
 }
 
-function lineNotification(PDO $pdo, string $target, string $message = 'testLine')
+function lineNotification(PDO $pdo, string $target, string $message = 'testLine'): void
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
     $url = 'https://api.line.me/v2/bot/message/push';
@@ -259,7 +256,7 @@ function lineNotification(PDO $pdo, string $target, string $message = 'testLine'
     }
 }
 
-function cleanData(int $days)
+function cleanData(int $days): void
 {
     $jsonPath = "data/dateList.json";
     if (file_exists($jsonPath)) {

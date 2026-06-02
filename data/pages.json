@@ -2,6 +2,9 @@
     {
         "page": "index",
         "title": "盤後分析篩選",
+        "enableChart": true,
+        "enableTag": true,
+        "useDate": true,
         "dataSource": {
             "table": "filter.json",
             "chart": "charts.json"
@@ -195,6 +198,9 @@
     {
         "page": "self",
         "title": "自選分析",
+        "enableChart": true,
+        "enableTag": true,
+        "useDate": true,
         "dataSource": {
             "table": "self-select.json",
             "chart": "self-charts.json"
@@ -364,6 +370,9 @@
     {
         "page": "topPerforming",
         "title": "市場評分排行",
+        "enableChart": true,
+        "enableTag": true,
+        "useDate": true,
         "dataSource": {
             "table": "topPerforming.json",
             "chart": "topPerforming-charts.json"
@@ -533,6 +542,9 @@
     {
         "page": "00981A_component",
         "title": "跟著瑤姐走",
+        "enableChart": true,
+        "enableTag": false,
+        "useDate": true,
         "dataSource": {
             "table": "componentOf00981A.json",
             "chart": "topPerforming-charts.json"
@@ -588,25 +600,25 @@
     },
     {
         "page": "systemLog",
-        "title": "更新紀錄",
+        "title": "執行/更新紀錄",
+        "pageType": "log",
+        "enableChart": false,
+        "enableTag": false,
+        "useDate": false,
         "dataSource": {
             "table": "systemLog.json",
             "chart": ""
         },
         "datatable": {
             "order": [
-                1,
+                0,
                 "desc"
             ],
             "fixedColumns": 0
         },
-        "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間8~9點爬取統一證券官網公告之成分股內容",
+        "illustrate_main": "※ 核心規則：執行/更新記錄",
         "illustrate": [],
         "columns": [
-            {
-                "title": "流水號",
-                "field": "id"
-            },
             {
                 "title": "時間",
                 "field": "log_time"

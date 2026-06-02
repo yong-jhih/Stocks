@@ -190,6 +190,7 @@
                 illustratediv += `<li class="bg-gray-700/50 p-3 rounded"><b class="text-blue-400 block mb-1">${d.condition}</b>${d.content}</li>`
             });
             $('#illustratediv').html(illustratediv);
+            if (page_info.useDate === false) $('#dateSelect').parent().hide();
         }
     </script>
 </head>
@@ -209,7 +210,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3" id="dateSelectDiv">
                 <label for="dateSelect">選擇日期：</label>
                 <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
                     <option value="">載入中...</option>
@@ -225,9 +226,9 @@
                 <a href="?page=00981A_component"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📈
                     跟著瑤姐走</a>
-                <a href="https://www.twse.com.tw" target="_blank"
-                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🔗
-                    證交所官網</a>
+                <a href="?page=systemLog"
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📈
+                    執行/更新紀錄</a>
             </div>
         </header>
         <div class="shadow-2xl">
@@ -664,6 +665,17 @@
                     concept
                 );
             });
+            let columnDefs = [
+                { className: "dt-center", targets: "_all" },
+                { width: "80px", targets: [0, 1] }
+            ];
+
+            if (page_info.pageType !== 'log') {
+                columnDefs.push({
+                    type: 'num',
+                    targets: 5
+                });
+            }
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: { left: 2 },
@@ -673,11 +685,7 @@
                 pageLength: 20,
                 order: [page_info.datatable.order],
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
-                columnDefs: [
-                    { className: "dt-center", targets: "_all" },
-                    { width: "80px", targets: [0, 1] },
-                    { type: 'num', targets: 5 }
-                ]
+                columnDefs: columnDefs
             });
             table.on('click', 'tbody tr', function (e) {
                 const rowData = table.row(this).data();
@@ -787,7 +795,14 @@
         }
         async function loadData(date) {
             try {
-                const res = await fetch(`./data/${date}_${page_info.dataSource.table}`);
+                let filePath;
+                if (page_info.useDate === false) {
+                    filePath = `./data/${page_info.dataSource.table}`;
+                } else {
+                    filePath = `./data/${date}_${page_info.dataSource.table}`;
+                }
+                console.log(filePath);
+                const res = await fetch(filePath);
                 const data = await res.json();
                 table.clear();
                 if (data.length === 0) alert('沒有符合篩選條件的標的');
@@ -838,7 +853,9 @@
                         const selectedDate = $(this).val();
                         if (selectedDate) {
                             loadData(selectedDate);
-                            loadChartData(selectedDate);
+                            if (page_info.enableChart) {
+                                loadChartData(selectedDate);
+                            }
                         }
                     });
                     $sel.val(dates[0]).trigger('change');
