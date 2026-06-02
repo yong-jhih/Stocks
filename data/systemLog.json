@@ -1,5 +1,12 @@
 [
     {
+        "id": 3540001,
+        "log_time": "2026-06-02 20:09:27",
+        "log_type": "update00981A",
+        "content": "2026-06-02 更新完成,共耗時 9.6 秒",
+        "result": "success"
+    },
+    {
         "id": 3510001,
         "log_time": "2026-06-02 17:19:14",
         "log_type": "dbClean",
