@@ -188,7 +188,6 @@ function updateDateList(string $date, string $folder = 'data')
 
 function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
 {
-    // 1. 執行 SELECT 查詢
     $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 100";
     $stmt = $pdo->query($sql);
     $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
