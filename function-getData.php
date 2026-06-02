@@ -163,10 +163,10 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -200,10 +200,10 @@ function insertInsti(PDO $pdo, string $targetDate, array $instiData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -237,10 +237,10 @@ function insertMargin(PDO $pdo, string $targetDate, array $marginData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -259,10 +259,10 @@ function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -294,10 +294,10 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
@@ -1460,7 +1460,7 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             $stmtInsert->execute($params);
             $totalInsertCount += $stmtInsert->rowCount();
         }
-        writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
+        writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
     } catch (Exception $e) {
         writeLog($pdo, 'updateSubIndustry', "次產業 更新失敗：" . $e->getMessage(), 'error');
     }
@@ -1552,5 +1552,5 @@ function updateConcept(PDO $pdo, array $stocks): void
         }
         if ($k > 0 && $k % 10 == 0) sleep(1);
     }
-    writeLog($pdo, 'updateConcept', '概念股 更新完成,共新增 ' . $totalInsertCount . ' 筆', 'success');
+    writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
 }

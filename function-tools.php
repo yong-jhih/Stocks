@@ -186,6 +186,24 @@ function updateDateList(string $date, string $folder = 'data')
     return file_put_contents($listPath, $jsonString) !== false;
 }
 
+function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
+{
+    // 1. 執行 SELECT 查詢
+    $sql = "SELECT * FROM system_logs WHERE log_time < DATE_SUB(NOW(), INTERVAL 5 DAY) ORDER BY log_time DESC LIMIT 100";
+    $stmt = $pdo->query($sql);
+    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!is_dir($folder)) {
+        if (!mkdir($folder, 0755, true)) {
+            return false;
+        }
+    }
+
+    $filePath = $folder . DIRECTORY_SEPARATOR . 'systemLog.json';
+    $jsonString = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    return file_put_contents($filePath, $jsonString) !== false;
+}
+
 function createJsonFile(PDO $pdo, string $date, string $name, array $data, string $folder = 'data'): ?string
 {
     $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
@@ -331,7 +349,7 @@ function callGAS(PDO $pdo, $data = []): void
         }
     } else {
         echo 'GAS 回應: ' . $response;
-        writeLog($pdo, 'callGAS', 'GAS回應:' . $response, 'error');
+        // writeLog($pdo, 'callGAS', 'GAS回應:' . $response, 'error');
     }
     curl_close($ch);
 }
