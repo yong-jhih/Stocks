@@ -585,5 +585,44 @@
                 "field": "diff20"
             }
         ]
+    },
+    {
+        "page": "systemLog",
+        "title": "更新紀錄",
+        "dataSource": {
+            "table": "systemLog.json",
+            "chart": ""
+        },
+        "datatable": {
+            "order": [
+                1,
+                "desc"
+            ],
+            "fixedColumns": 0
+        },
+        "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間8~9點爬取統一證券官網公告之成分股內容",
+        "illustrate": [],
+        "columns": [
+            {
+                "title": "流水號",
+                "field": "id"
+            },
+            {
+                "title": "時間",
+                "field": "log_time"
+            },
+            {
+                "title": "函式",
+                "field": "log_type"
+            },
+            {
+                "title": "內容",
+                "field": "content"
+            },
+            {
+                "title": "結果",
+                "field": "result"
+            }
+        ]
     }
 ]
