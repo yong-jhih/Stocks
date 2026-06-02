@@ -1,5 +1,12 @@
 [
     {
+        "id": 3660001,
+        "log_time": "2026-06-02 21:53:22",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3077 天)",
+        "result": "error"
+    },
+    {
         "id": 3630005,
         "log_time": "2026-06-02 21:45:45",
         "log_type": "selfSelectGenerateDailyDashboard",
