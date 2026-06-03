@@ -1,5 +1,33 @@
 [
     {
+        "id": 3720003,
+        "log_time": "2026-06-03 20:10:24",
+        "log_type": "update00981A",
+        "content": "2026-06-03 更新完成,共耗時 6.9 秒",
+        "result": "success"
+    },
+    {
+        "id": 3720002,
+        "log_time": "2026-06-03 20:10:14",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3720001,
+        "log_time": "2026-06-03 20:10:14",
+        "log_type": "fetchUrl",
+        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
+        "result": "error"
+    },
+    {
+        "id": 3690001,
+        "log_time": "2026-06-02 23:24:25",
+        "log_type": "fetchUrl",
+        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
+        "result": "error"
+    },
+    {
         "id": 3660001,
         "log_time": "2026-06-02 21:53:22",
         "log_type": "getLatestTradingDateWithTWSE",
