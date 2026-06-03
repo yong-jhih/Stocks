@@ -45,6 +45,23 @@
                 5,
                 "desc"
             ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
             "fixedColumns": 2
         },
         "columns": [
@@ -209,6 +226,23 @@
             "order": [
                 5,
                 "desc"
+            ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
             ],
             "fixedColumns": 2
         },
@@ -382,6 +416,23 @@
                 5,
                 "desc"
             ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
             "fixedColumns": 2
         },
         "illustrate_main": "※ 核心規則：僅上市個股，評分僅使用 技術面 籌碼面 結構面，未考量題材面及基本面。",
@@ -554,6 +605,23 @@
                 3,
                 "desc"
             ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
             "fixedColumns": 2
         },
         "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間8~9點爬取統一證券官網公告之成分股內容",
@@ -613,6 +681,19 @@
             "order": [
                 0,
                 "desc"
+            ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                }
             ],
             "fixedColumns": 0
         },

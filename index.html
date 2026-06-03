@@ -665,17 +665,17 @@
                     concept
                 );
             });
-            let columnDefs = [
-                { className: "dt-center", targets: "_all" },
-                { width: "80px", targets: [0, 1] }
-            ];
+            // let columnDefs = [
+            //     { className: "dt-center", targets: "_all" },
+            //     { width: "80px", targets: [0, 1] }
+            // ];
 
-            if (page_info.pageType !== 'log') {
-                columnDefs.push({
-                    type: 'num',
-                    targets: 5
-                });
-            }
+            // if (page_info.pageType !== 'log') {
+            //     columnDefs.push({
+            //         type: 'num',
+            //         targets: 5
+            //     });
+            // }
             table = $('#stockTable').DataTable({
                 scrollX: true,
                 fixedColumns: { left: page_info.datatable.fixedColumns },
@@ -685,7 +685,7 @@
                 pageLength: 20,
                 order: [page_info.datatable.order],
                 language: { url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json" },
-                columnDefs: columnDefs
+                columnDefs: page_info.datatable.columnDefs
             });
             table.on('click', 'tbody tr', function (e) {
                 const rowData = table.row(this).data();

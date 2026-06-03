@@ -25,4 +25,7 @@ function getPDOConnection()
 
 $pdo = getPDOConnection();
 $targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
-if (!$targetDate) exit(1);
+if (!$targetDate) {
+    writeLog($pdo, 'init', "TWSE & Fugle 皆取得交易日期失敗, 退出程序", 'error');
+    exit(1);
+}
