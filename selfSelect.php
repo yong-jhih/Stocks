@@ -34,5 +34,6 @@ if (
     ]);
     updateSystemLog($pdo);
 } else {
-    exit(0);
+    echo '資料數量不足, 請檢查資料更新狀態';
+    exit(1);
 }
