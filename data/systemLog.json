@@ -1,5 +1,40 @@
 [
     {
+        "id": 3810020,
+        "log_time": "2026-06-03 22:20:06",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-03\",\"action\":\"upload\"}",
+        "result": "success"
+    },
+    {
+        "id": 3810019,
+        "log_time": "2026-06-03 22:19:47",
+        "log_type": "selfSelectGenerateDailyDashboard",
+        "content": "2026-06-03 自選分析完成，共 13 檔",
+        "result": "success"
+    },
+    {
+        "id": 3810018,
+        "log_time": "2026-06-03 22:17:59",
+        "log_type": "fetchUrl",
+        "content": "JSON 解析失敗",
+        "result": "error"
+    },
+    {
+        "id": 3810017,
+        "log_time": "2026-06-03 22:17:55",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3810016,
+        "log_time": "2026-06-03 22:17:55",
+        "log_type": "fetchUrl",
+        "content": "JSON 解析失敗",
+        "result": "error"
+    },
+    {
         "id": 3810015,
         "log_time": "2026-06-03 22:16:35",
         "log_type": "generateDailyDashboard",
