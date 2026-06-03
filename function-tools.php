@@ -125,7 +125,6 @@ function writeLog(PDO $pdo, string $type, string $content, string $result): void
         echo "Critical Error: Unable to write to system_logs. " . $e->getMessage();
         writeLog($pdo, 'writeLog', "Critical Error: Unable to write to system_logs. " . $e->getMessage(), 'error');
     }
-    updateSystemLog($pdo);
 }
 
 function updateSystemLog(PDO $pdo, string $folder = 'data'): bool

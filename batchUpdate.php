@@ -14,3 +14,4 @@ foreach ($date_array as $date) {
 $end_time = microtime(true);
 $execution_time = round($end_time - $start_time, 2);
 writeLog($pdo, 'batchUpdate', '批次更新結束,共耗時 ' . $execution_time . ' 秒', 'end');
+updateSystemLog($pdo);

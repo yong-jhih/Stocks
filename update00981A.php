@@ -14,3 +14,4 @@ createJsonFile($pdo, $targetDate, 'componentOf00981A', $analysis, $folder = 'dat
 $end_time = microtime(true);
 $execution_time = round($end_time - $start_time, 2);
 writeLog($pdo, 'update00981A', $targetDate . ' 更新完成,共耗時 ' . $execution_time . ' 秒', 'success');
+updateSystemLog($pdo);

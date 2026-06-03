@@ -27,6 +27,7 @@ if (
     $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $stockList);
     createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
     renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
+    updateSystemLog($pdo);
 } else {
     exit(0);
 }
