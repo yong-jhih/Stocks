@@ -1,5 +1,68 @@
 [
     {
+        "id": 3870009,
+        "log_time": "2026-06-04 21:29:52",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-04 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 3870008,
+        "log_time": "2026-06-04 21:29:52",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-04 更新資料結束,共耗時 723.31 秒",
+        "result": "end"
+    },
+    {
+        "id": 3870007,
+        "log_time": "2026-06-04 21:29:52",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-04 借券賣出餘額 更新完成,共新增 1052 筆,耗時 140.78 秒",
+        "result": "success"
+    },
+    {
+        "id": 3870006,
+        "log_time": "2026-06-04 21:27:27",
+        "log_type": "insertSBLTotal",
+        "content": "2026-06-04 借券餘額 更新完成,共新增 991 筆,耗時 132.53 秒",
+        "result": "success"
+    },
+    {
+        "id": 3870005,
+        "log_time": "2026-06-04 21:25:10",
+        "log_type": "insertMargin",
+        "content": "2026-06-04 融資融券彙總 更新完成,共新增 1049 筆,耗時 140.3 秒",
+        "result": "success"
+    },
+    {
+        "id": 3870004,
+        "log_time": "2026-06-04 21:22:46",
+        "log_type": "insertInsti",
+        "content": "2026-06-04 三大法人買賣超 更新完成,共新增 1069 筆,耗時 143 秒",
+        "result": "success"
+    },
+    {
+        "id": 3870003,
+        "log_time": "2026-06-04 21:20:17",
+        "log_type": "insertHistory",
+        "content": "2026-06-04 上市個股日成交 更新完成,共新增 1082 筆,耗時 144.78 秒",
+        "result": "success"
+    },
+    {
+        "id": 3870002,
+        "log_time": "2026-06-04 21:17:49",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-04 開始更新資料",
+        "result": "start"
+    },
+    {
+        "id": 3870001,
+        "log_time": "2026-06-04 21:17:49",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-04 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
+    },
+    {
         "id": 3840002,
         "log_time": "2026-06-04 20:09:25",
         "log_type": "update00981A",
@@ -35,13 +98,6 @@
         "result": "error"
     },
     {
-        "id": 3810017,
-        "log_time": "2026-06-03 22:17:55",
-        "log_type": "getLatestTradingDateWithTWSE",
-        "content": "證交所回傳錯誤訊息：未知錯誤",
-        "result": "error"
-    },
-    {
         "id": 3810016,
         "log_time": "2026-06-03 22:17:55",
         "log_type": "fetchUrl",
@@ -49,11 +105,11 @@
         "result": "error"
     },
     {
-        "id": 3810015,
-        "log_time": "2026-06-03 22:16:35",
-        "log_type": "generateDailyDashboard",
-        "content": "2026-06-03盤後篩選及評分排行已完成,共耗時 127.42 秒",
-        "result": "end"
+        "id": 3810017,
+        "log_time": "2026-06-03 22:17:55",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
     },
     {
         "id": 3810014,
@@ -61,6 +117,13 @@
         "log_type": "callGAS",
         "content": "發送請求成功:{\"date\":\"2026-06-03\",\"action\":\"triggersSelfSelect\"}",
         "result": "success"
+    },
+    {
+        "id": 3810015,
+        "log_time": "2026-06-03 22:16:35",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-03盤後篩選及評分排行已完成,共耗時 127.42 秒",
+        "result": "end"
     },
     {
         "id": 3810013,
@@ -182,13 +245,6 @@
         "result": "waitting"
     },
     {
-        "id": 3780004,
-        "log_time": "2026-06-03 21:24:31",
-        "log_type": "2026-06-03 信用額度總量管制餘額",
-        "content": "證交所回傳錯誤訊息：未知錯誤",
-        "result": "error"
-    },
-    {
         "id": 3780003,
         "log_time": "2026-06-03 21:24:31",
         "log_type": "fetchUrl",
@@ -196,9 +252,9 @@
         "result": "error"
     },
     {
-        "id": 3780002,
-        "log_time": "2026-06-03 21:23:23",
-        "log_type": "getLatestTradingDateWithTWSE",
+        "id": 3780004,
+        "log_time": "2026-06-03 21:24:31",
+        "log_type": "2026-06-03 信用額度總量管制餘額",
         "content": "證交所回傳錯誤訊息：未知錯誤",
         "result": "error"
     },
@@ -207,6 +263,13 @@
         "log_time": "2026-06-03 21:23:23",
         "log_type": "fetchUrl",
         "content": "JSON 解析失敗",
+        "result": "error"
+    },
+    {
+        "id": 3780002,
+        "log_time": "2026-06-03 21:23:23",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
         "result": "error"
     },
     {
