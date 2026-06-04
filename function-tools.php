@@ -99,7 +99,6 @@ function fetchUrl(PDO $pdo, string $url): array
     try {
         $response = file_get_contents($url, false, stream_context_create($options));
         if ($response === FALSE) {
-            writeLog($pdo, 'fetchUrl', "錯誤：無法取得資料。請檢查網路連線或 API 網址。", 'error');
             return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
         }
         $result = json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
@@ -108,7 +107,6 @@ function fetchUrl(PDO $pdo, string $url): array
         }
         return $result;
     } catch (Exception $e) {
-        writeLog($pdo, 'fetchUrl', "錯誤：" . $e->getMessage(), 'error');
         return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
     }
 }
