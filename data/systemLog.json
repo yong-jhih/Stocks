@@ -1,5 +1,19 @@
 [
     {
+        "id": 3900008,
+        "log_time": "2026-06-04 21:42:19",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-04\",\"action\":\"upload\"}",
+        "result": "success"
+    },
+    {
+        "id": 3900007,
+        "log_time": "2026-06-04 21:42:02",
+        "log_type": "selfSelectGenerateDailyDashboard",
+        "content": "2026-06-04 自選分析完成，共 7 檔",
+        "result": "success"
+    },
+    {
         "id": 3900006,
         "log_time": "2026-06-04 21:39:53",
         "log_type": "generateDailyDashboard",
@@ -42,18 +56,18 @@
         "result": "start"
     },
     {
-        "id": 3870008,
-        "log_time": "2026-06-04 21:29:52",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-04 更新資料結束,共耗時 723.31 秒",
-        "result": "end"
-    },
-    {
         "id": 3870009,
         "log_time": "2026-06-04 21:29:52",
         "log_type": "updateAllHistory",
         "content": "2026-06-04 資料庫更新完畢, 等待下階段進入分析",
         "result": "waitting"
+    },
+    {
+        "id": 3870008,
+        "log_time": "2026-06-04 21:29:52",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-04 更新資料結束,共耗時 723.31 秒",
+        "result": "end"
     },
     {
         "id": 3870007,
@@ -189,11 +203,11 @@
         "result": "start"
     },
     {
-        "id": 3810008,
+        "id": 3810010,
         "log_time": "2026-06-03 22:12:51",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-03 借券賣出餘額 更新完成,共新增 1052 筆,耗時 163.93 秒",
-        "result": "success"
+        "log_type": "updateAllHistory",
+        "content": "2026-06-03 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
     },
     {
         "id": 3810009,
@@ -203,11 +217,11 @@
         "result": "end"
     },
     {
-        "id": 3810010,
+        "id": 3810008,
         "log_time": "2026-06-03 22:12:51",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-03 資料庫更新完畢, 等待下階段進入分析",
-        "result": "waitting"
+        "log_type": "insertSBLSold",
+        "content": "2026-06-03 借券賣出餘額 更新完成,共新增 1052 筆,耗時 163.93 秒",
+        "result": "success"
     },
     {
         "id": 3810007,
@@ -287,17 +301,17 @@
         "result": "start"
     },
     {
-        "id": 3780003,
-        "log_time": "2026-06-03 21:24:31",
-        "log_type": "fetchUrl",
-        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
-        "result": "error"
-    },
-    {
         "id": 3780004,
         "log_time": "2026-06-03 21:24:31",
         "log_type": "2026-06-03 信用額度總量管制餘額",
         "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3780003,
+        "log_time": "2026-06-03 21:24:31",
+        "log_type": "fetchUrl",
+        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
         "result": "error"
     },
     {
@@ -329,17 +343,17 @@
         "result": "success"
     },
     {
-        "id": 3720001,
-        "log_time": "2026-06-03 20:10:14",
-        "log_type": "fetchUrl",
-        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
-        "result": "error"
-    },
-    {
         "id": 3720002,
         "log_time": "2026-06-03 20:10:14",
         "log_type": "getLatestTradingDateWithTWSE",
         "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3720001,
+        "log_time": "2026-06-03 20:10:14",
+        "log_type": "fetchUrl",
+        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
         "result": "error"
     },
     {
@@ -406,18 +420,18 @@
         "result": "waitting"
     },
     {
-        "id": 3570008,
-        "log_time": "2026-06-02 21:07:00",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-02更新資料結束,共耗時 813.76 秒",
-        "result": "end"
-    },
-    {
         "id": 3570007,
         "log_time": "2026-06-02 21:07:00",
         "log_type": "insertSBLSold",
         "content": "2026-06-02 借券賣出餘額 更新完成,共新增 1052 筆,耗時 157.52 秒",
         "result": "success"
+    },
+    {
+        "id": 3570008,
+        "log_time": "2026-06-02 21:07:00",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-02更新資料結束,共耗時 813.76 秒",
+        "result": "end"
     },
     {
         "id": 3570006,
