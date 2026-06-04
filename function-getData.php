@@ -1129,7 +1129,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 00981A
-function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): ?array
+function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): array
 {
     $jsonFile = 'stock_data.json';
     if (file_exists($jsonFile)) {
@@ -1147,20 +1147,17 @@ function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): ?array
             foreach ($details as $detail) {
                 $itemDate = substr($detail['EditTime'], 0, 10);
                 if ($itemDate !== $targetDate) {
-                    writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A 資料未完全更新", 'error');
-                    return null;
+                    throw new RuntimeException('00981A 資料未完全更新');
                 }
                 $totalAmount += (int)$detail['Amount'];
             }
             if (isset($value) && $value !== $totalAmount) {
-                writeLog($pdo, 'getComponentOf00981A_FromLocal', "00981A 總市值不符", 'error');
-                return null;
+                throw new RuntimeException('00981A 總市值不符');
             }
             return $details;
         }
     }
-    writeLog($pdo, 'getComponentOf00981A_FromLocal', "查詢不到 00981A 成分股資料", 'error');
-    return null;
+    throw new RuntimeException('查詢不到 00981A 成分股資料');
 }
 
 function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): void
@@ -1187,12 +1184,11 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
         $pdo->commit();
     } catch (Exception $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertComponentOf00981A', $targetDate . " 00981A 成分股資料新增失敗: " . $e->getMessage(), 'error');
-        exit(1);
+        throw new RuntimeException($targetDate . " 00981A 成分股資料新增失敗: " . $e->getMessage());
     }
 }
 
-function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
+function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
 {
     try {
         $intervals = [1, 5, 10, 20];
@@ -1241,10 +1237,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
         $stmt->bindValue(':d20', $compareDates[20]);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (!$rows) {
-            writeLog($pdo, 'analyzeMultiPeriodChanges', '查詢不到 00981A 成分股歷史資料', 'error');
-            return null;
-        }
+        if (!$rows) throw new RuntimeException('查詢不到 00981A 成分股歷史資料');
         $finalData = [];
         $new = [];
         $eliminate = [];
@@ -1289,8 +1282,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): ?array
         lineNotification($pdo, getenv('LINE_TARGET'), $notificationStr);
         return $finalData;
     } catch (PDOException $e) {
-        writeLog($pdo, 'analyzeMultiPeriodChanges', "Database Error: " . $e->getMessage(), 'error');
-        return null;
+        throw new RuntimeException("Database Error: " . $e->getMessage());
     }
 }
 
