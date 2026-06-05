@@ -1,5 +1,40 @@
 [
     {
+        "id": 3990005,
+        "log_time": "2026-06-05 21:09:16",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-05盤後篩選及評分排行已完成,共耗時 124.94 秒",
+        "result": "end"
+    },
+    {
+        "id": 3990004,
+        "log_time": "2026-06-05 21:09:16",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-05\",\"action\":\"triggersSelfSelect\"}",
+        "result": "success"
+    },
+    {
+        "id": 3990003,
+        "log_time": "2026-06-05 21:07:19",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "2026-06-05 排行分析完成，共 628 檔",
+        "result": "success"
+    },
+    {
+        "id": 3990002,
+        "log_time": "2026-06-05 21:07:14",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-05 篩選分析完成，共 4 檔",
+        "result": "success"
+    },
+    {
+        "id": 3990001,
+        "log_time": "2026-06-05 21:07:11",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-05 資料數量正常, 開始進行分析及排行",
+        "result": "start"
+    },
+    {
         "id": 3960009,
         "log_time": "2026-06-05 20:50:49",
         "log_type": "updateAllHistory",
@@ -133,11 +168,11 @@
         "result": "start"
     },
     {
-        "id": 3870007,
+        "id": 3870009,
         "log_time": "2026-06-04 21:29:52",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-04 借券賣出餘額 更新完成,共新增 1052 筆,耗時 140.78 秒",
-        "result": "success"
+        "log_type": "updateAllHistory",
+        "content": "2026-06-04 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
     },
     {
         "id": 3870008,
@@ -147,11 +182,11 @@
         "result": "end"
     },
     {
-        "id": 3870009,
+        "id": 3870007,
         "log_time": "2026-06-04 21:29:52",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-04 資料庫更新完畢, 等待下階段進入分析",
-        "result": "waitting"
+        "log_type": "insertSBLSold",
+        "content": "2026-06-04 借券賣出餘額 更新完成,共新增 1052 筆,耗時 140.78 秒",
+        "result": "success"
     },
     {
         "id": 3870006,
@@ -231,17 +266,17 @@
         "result": "error"
     },
     {
-        "id": 3810017,
-        "log_time": "2026-06-03 22:17:55",
-        "log_type": "getLatestTradingDateWithTWSE",
-        "content": "證交所回傳錯誤訊息：未知錯誤",
-        "result": "error"
-    },
-    {
         "id": 3810016,
         "log_time": "2026-06-03 22:17:55",
         "log_type": "fetchUrl",
         "content": "JSON 解析失敗",
+        "result": "error"
+    },
+    {
+        "id": 3810017,
+        "log_time": "2026-06-03 22:17:55",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
         "result": "error"
     },
     {
@@ -364,13 +399,6 @@
         "result": "error"
     },
     {
-        "id": 3780006,
-        "log_time": "2026-06-03 21:24:32",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 2026-06-03 開始更新資料",
-        "result": "start"
-    },
-    {
         "id": 3780005,
         "log_time": "2026-06-03 21:24:32",
         "log_type": "updateAllHistory",
@@ -378,11 +406,11 @@
         "result": "waitting"
     },
     {
-        "id": 3780003,
-        "log_time": "2026-06-03 21:24:31",
-        "log_type": "fetchUrl",
-        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
-        "result": "error"
+        "id": 3780006,
+        "log_time": "2026-06-03 21:24:32",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-03 開始更新資料",
+        "result": "start"
     },
     {
         "id": 3780004,
@@ -392,10 +420,10 @@
         "result": "error"
     },
     {
-        "id": 3780001,
-        "log_time": "2026-06-03 21:23:23",
+        "id": 3780003,
+        "log_time": "2026-06-03 21:24:31",
         "log_type": "fetchUrl",
-        "content": "JSON 解析失敗",
+        "content": "錯誤：無法取得資料。請檢查網路連線或 API 網址。",
         "result": "error"
     },
     {
@@ -403,6 +431,13 @@
         "log_time": "2026-06-03 21:23:23",
         "log_type": "getLatestTradingDateWithTWSE",
         "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3780001,
+        "log_time": "2026-06-03 21:23:23",
+        "log_type": "fetchUrl",
+        "content": "JSON 解析失敗",
         "result": "error"
     },
     {
@@ -588,18 +623,18 @@
         "result": "success"
     },
     {
-        "id": 3450007,
-        "log_time": "2026-06-01 21:07:12",
-        "log_type": "updateAll",
-        "content": "2026-06-01更新資料結束,共耗時 821.79 秒",
-        "result": "end"
-    },
-    {
         "id": 3450006,
         "log_time": "2026-06-01 21:07:12",
         "log_type": "insertSBLSold",
         "content": "2026-06-01借券賣出餘額更新完成,共新增 1051 筆,耗時 159.49 秒",
         "result": "success"
+    },
+    {
+        "id": 3450007,
+        "log_time": "2026-06-01 21:07:12",
+        "log_type": "updateAll",
+        "content": "2026-06-01更新資料結束,共耗時 821.79 秒",
+        "result": "end"
     },
     {
         "id": 3450005,

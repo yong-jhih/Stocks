@@ -1,0 +1,373 @@
+[
+    {
+        "stock_id": "2615",
+        "stock_name": "萬海",
+        "industry": "航運業",
+        "subIndustry": [
+            " 貨櫃航運"
+        ],
+        "concept": [
+            "CSR(企業社會責任)",
+            "ESG",
+            "傳產原物料股",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股"
+        ],
+        "score": 82,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 21,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 86.1,
+        "yesterday_high": 84.7,
+        "yesterday_low": 82.6,
+        "vol": 26268,
+        "vol_ratio": 2.81,
+        "rank10": 85.92,
+        "amp10": 8.87,
+        "ma5": 83.64,
+        "ma10": 82.98,
+        "ma20": 80.23,
+        "ma60": 77.05,
+        "vma5": 11772,
+        "vma10": 12843,
+        "vma20": 12547,
+        "bia5": 2.94,
+        "bia10": 3.76,
+        "bia20": 7.32,
+        "con1": 38.15,
+        "con5": 17.59,
+        "con10": 16.78,
+        "con20": 18.14,
+        "foreign_buy_sell": 9605790,
+        "trust_buy_sell": -17994,
+        "foreign_sum5": 12550,
+        "foreign_sum10": 20196,
+        "foreign_sum20": 39412,
+        "trust_sum5": -83,
+        "trust_sum10": 461,
+        "trust_sum20": 7364,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 20648,
+        "margin_balance_diff": -925,
+        "squeeze": 3.9,
+        "bullet": 1.63,
+        "net_sbl": 309,
+        "net_sbl_sum5": -4786,
+        "sbl_total": 69390,
+        "sbl_sold_balance": 48980,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "成交量放大 2.81 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    },
+    {
+        "stock_id": "1533",
+        "stock_name": "車王電",
+        "industry": "汽車工業",
+        "subIndustry": [
+            " 其他",
+            " 大功率鋰電池芯\/模組、電池管理系統、動力馬達等零組件",
+            " 手工具機",
+            " 車用機械傳動設備及零配件",
+            " 電控元件"
+        ],
+        "concept": [
+            "台幣貶值受惠",
+            "大陸收成股",
+            "氫能",
+            "自動駕駛車",
+            "車用電子",
+            "電動車",
+            "駕駛輔助系統(ADAS)"
+        ],
+        "score": 79,
+        "rating": "A",
+        "strategy_type": "短線轉強",
+        "confidence": 0.67,
+        "trend_score": 10,
+        "momentum_score": 35,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 39.9,
+        "yesterday_high": 38.9,
+        "yesterday_low": 38.05,
+        "vol": 1040,
+        "vol_ratio": 4.5,
+        "rank10": 53.66,
+        "amp10": 10.88,
+        "ma5": 38.69,
+        "ma10": 38.91,
+        "ma20": 37.02,
+        "ma60": 33.09,
+        "vma5": 578,
+        "vma10": 724,
+        "vma20": 769,
+        "bia5": 3.13,
+        "bia10": 2.56,
+        "bia20": 7.77,
+        "con1": 27.33,
+        "con5": 18.09,
+        "con10": 1.75,
+        "con20": 4.93,
+        "foreign_buy_sell": 292375,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 512,
+        "foreign_sum10": 127,
+        "foreign_sum20": 749,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 762,
+        "margin_balance_diff": 6,
+        "squeeze": 0.62,
+        "bullet": 0.02,
+        "net_sbl": -14,
+        "net_sbl_sum5": -1,
+        "sbl_total": 494,
+        "sbl_sold_balance": 479,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "法人集中",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 4.5 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "3022",
+        "stock_name": "威強電",
+        "industry": "電腦及週邊設備業",
+        "subIndustry": [
+            " 主機板",
+            " 其他電腦及週邊設備",
+            " 其他電腦及週邊設備之零組件",
+            " 工業電腦"
+        ],
+        "concept": [
+            "一帶一路",
+            "博弈",
+            "機器人",
+            "英特爾伺服器"
+        ],
+        "score": 75,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 15,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 77.4,
+        "yesterday_high": 76.9,
+        "yesterday_low": 75.6,
+        "vol": 1447,
+        "vol_ratio": 1.9,
+        "rank10": 81.25,
+        "amp10": 8.86,
+        "ma5": 76.3,
+        "ma10": 74.86,
+        "ma20": 71.87,
+        "ma60": 67.54,
+        "vma5": 1250,
+        "vma10": 1206,
+        "vma20": 1109,
+        "bia5": 1.44,
+        "bia10": 3.39,
+        "bia20": 7.69,
+        "con1": 16.59,
+        "con5": 18.62,
+        "con10": 18.14,
+        "con20": 7.6,
+        "foreign_buy_sell": 293020,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1576,
+        "foreign_sum10": 2622,
+        "foreign_sum20": 2109,
+        "trust_sum5": -234,
+        "trust_sum10": -246,
+        "trust_sum20": -260,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 5197,
+        "margin_balance_diff": 9,
+        "squeeze": 3.37,
+        "bullet": 0.64,
+        "net_sbl": -51,
+        "net_sbl_sum5": -987,
+        "sbl_total": 4450,
+        "sbl_sold_balance": 3737,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中"
+        ],
+        "trigger_reasons": [
+            "成交量放大 1.9 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "2537",
+        "stock_name": "聯上發",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 建設業"
+        ],
+        "concept": [
+            "都市更新"
+        ],
+        "score": 56,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.67,
+        "trend_score": 19,
+        "momentum_score": 0,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": -18,
+        "close": 10.15,
+        "yesterday_high": 10.15,
+        "yesterday_low": 9.99,
+        "vol": 1780,
+        "vol_ratio": 1.47,
+        "rank10": 79.38,
+        "amp10": 10.34,
+        "ma5": 9.92,
+        "ma10": 9.71,
+        "ma20": 9.82,
+        "ma60": 10.12,
+        "vma5": 1214,
+        "vma10": 1327,
+        "vma20": 1186,
+        "bia5": 2.36,
+        "bia10": 4.49,
+        "bia20": 3.4,
+        "con1": 16.83,
+        "con5": 22.57,
+        "con10": 15.95,
+        "con20": -2.03,
+        "foreign_buy_sell": 327653,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1659,
+        "foreign_sum10": 2111,
+        "foreign_sum20": -431,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 3482,
+        "margin_balance_diff": -48,
+        "squeeze": 4.38,
+        "bullet": 0.54,
+        "net_sbl": 63,
+        "net_sbl_sum5": -2,
+        "sbl_total": 5834,
+        "sbl_sold_balance": 5199,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "首次站上季線": 15
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": {
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "首次站上季線",
+            "法人集中",
+            "外資連買",
+            "融資減肥",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日"
+        ]
+    }
+]
