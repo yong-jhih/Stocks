@@ -1,5 +1,19 @@
 [
     {
+        "id": 3930002,
+        "log_time": "2026-06-05 20:09:27",
+        "log_type": "update00981A",
+        "content": "2026-06-05 更新完成,共耗時 6.97 秒",
+        "result": "end"
+    },
+    {
+        "id": 3930001,
+        "log_time": "2026-06-05 20:09:20",
+        "log_type": "update00981A",
+        "content": "2026-06-05 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
         "id": 3900008,
         "log_time": "2026-06-04 21:42:19",
         "log_type": "callGAS",
@@ -105,18 +119,18 @@
         "result": "success"
     },
     {
-        "id": 3870002,
-        "log_time": "2026-06-04 21:17:49",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 2026-06-04 開始更新資料",
-        "result": "start"
-    },
-    {
         "id": 3870001,
         "log_time": "2026-06-04 21:17:49",
         "log_type": "updateAllHistory",
         "content": "2026-06-04 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
         "result": "waitting"
+    },
+    {
+        "id": 3870002,
+        "log_time": "2026-06-04 21:17:49",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-04 開始更新資料",
+        "result": "start"
     },
     {
         "id": 3840002,
