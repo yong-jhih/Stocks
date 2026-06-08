@@ -1,5 +1,68 @@
 [
     {
+        "id": 4050009,
+        "log_time": "2026-06-08 20:48:55",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-08 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 4050008,
+        "log_time": "2026-06-08 20:48:55",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-08 更新資料結束,共耗時 710.95 秒",
+        "result": "end"
+    },
+    {
+        "id": 4050007,
+        "log_time": "2026-06-08 20:48:55",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-08 借券賣出餘額 更新完成,共新增 1052 筆,耗時 137.6 秒",
+        "result": "success"
+    },
+    {
+        "id": 4050006,
+        "log_time": "2026-06-08 20:46:33",
+        "log_type": "insertSBLTotal",
+        "content": "2026-06-08 借券餘額 更新完成,共新增 992 筆,耗時 129.82 秒",
+        "result": "success"
+    },
+    {
+        "id": 4050005,
+        "log_time": "2026-06-08 20:44:18",
+        "log_type": "insertMargin",
+        "content": "2026-06-08 融資融券彙總 更新完成,共新增 1049 筆,耗時 137.35 秒",
+        "result": "success"
+    },
+    {
+        "id": 4050004,
+        "log_time": "2026-06-08 20:41:56",
+        "log_type": "insertInsti",
+        "content": "2026-06-08 三大法人買賣超 更新完成,共新增 1076 筆,耗時 141.01 秒",
+        "result": "success"
+    },
+    {
+        "id": 4050003,
+        "log_time": "2026-06-08 20:39:30",
+        "log_type": "insertHistory",
+        "content": "2026-06-08 上市個股日成交 更新完成,共新增 1082 筆,耗時 141.97 秒",
+        "result": "success"
+    },
+    {
+        "id": 4050002,
+        "log_time": "2026-06-08 20:37:04",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-08 開始更新資料",
+        "result": "start"
+    },
+    {
+        "id": 4050001,
+        "log_time": "2026-06-08 20:37:04",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-08 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
+    },
+    {
         "id": 4020002,
         "log_time": "2026-06-08 20:09:40",
         "log_type": "update00981A",
@@ -154,18 +217,18 @@
         "result": "success"
     },
     {
-        "id": 3900005,
-        "log_time": "2026-06-04 21:39:53",
-        "log_type": "callGAS",
-        "content": "發送請求成功:{\"date\":\"2026-06-04\",\"action\":\"triggersSelfSelect\"}",
-        "result": "success"
-    },
-    {
         "id": 3900006,
         "log_time": "2026-06-04 21:39:53",
         "log_type": "generateDailyDashboard",
         "content": "2026-06-04盤後篩選及評分排行已完成,共耗時 126.08 秒",
         "result": "end"
+    },
+    {
+        "id": 3900005,
+        "log_time": "2026-06-04 21:39:53",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-04\",\"action\":\"triggersSelfSelect\"}",
+        "result": "success"
     },
     {
         "id": 3900004,
@@ -343,6 +406,13 @@
         "result": "start"
     },
     {
+        "id": 3810010,
+        "log_time": "2026-06-03 22:12:51",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-03 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
         "id": 3810009,
         "log_time": "2026-06-03 22:12:51",
         "log_type": "updateAllHistory",
@@ -355,13 +425,6 @@
         "log_type": "insertSBLSold",
         "content": "2026-06-03 借券賣出餘額 更新完成,共新增 1052 筆,耗時 163.93 秒",
         "result": "success"
-    },
-    {
-        "id": 3810010,
-        "log_time": "2026-06-03 22:12:51",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-03 資料庫更新完畢, 等待下階段進入分析",
-        "result": "waitting"
     },
     {
         "id": 3810007,
@@ -455,17 +518,17 @@
         "result": "error"
     },
     {
-        "id": 3780001,
-        "log_time": "2026-06-03 21:23:23",
-        "log_type": "fetchUrl",
-        "content": "JSON 解析失敗",
-        "result": "error"
-    },
-    {
         "id": 3780002,
         "log_time": "2026-06-03 21:23:23",
         "log_type": "getLatestTradingDateWithTWSE",
         "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 3780001,
+        "log_time": "2026-06-03 21:23:23",
+        "log_type": "fetchUrl",
+        "content": "JSON 解析失敗",
         "result": "error"
     },
     {
@@ -560,18 +623,18 @@
         "result": "waitting"
     },
     {
-        "id": 3570007,
-        "log_time": "2026-06-02 21:07:00",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-02 借券賣出餘額 更新完成,共新增 1052 筆,耗時 157.52 秒",
-        "result": "success"
-    },
-    {
         "id": 3570008,
         "log_time": "2026-06-02 21:07:00",
         "log_type": "updateAllHistory",
         "content": "2026-06-02更新資料結束,共耗時 813.76 秒",
         "result": "end"
+    },
+    {
+        "id": 3570007,
+        "log_time": "2026-06-02 21:07:00",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-02 借券賣出餘額 更新完成,共新增 1052 筆,耗時 157.52 秒",
+        "result": "success"
     },
     {
         "id": 3570006,
@@ -651,18 +714,18 @@
         "result": "success"
     },
     {
-        "id": 3450006,
-        "log_time": "2026-06-01 21:07:12",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-01借券賣出餘額更新完成,共新增 1051 筆,耗時 159.49 秒",
-        "result": "success"
-    },
-    {
         "id": 3450007,
         "log_time": "2026-06-01 21:07:12",
         "log_type": "updateAll",
         "content": "2026-06-01更新資料結束,共耗時 821.79 秒",
         "result": "end"
+    },
+    {
+        "id": 3450006,
+        "log_time": "2026-06-01 21:07:12",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-01借券賣出餘額更新完成,共新增 1051 筆,耗時 159.49 秒",
+        "result": "success"
     },
     {
         "id": 3450005,
