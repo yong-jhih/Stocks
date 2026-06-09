@@ -1,10 +1,11 @@
 <?php
 require_once("init.php");
 
-if (isHoliday($pdo, $targetDate)) {
+if (!isTradingDay($pdo, $targetDate) && isHoliday($pdo, $targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
+
 if (file_exists("data/" . $targetDate . "_self-select.json")) {
     echo '分析資料已存在';
     exit(0);

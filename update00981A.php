@@ -1,13 +1,13 @@
 <?php
 require_once("init.php");
 
-if (isHoliday($pdo, $targetDate)) {
+if (!isTradingDay($pdo, $targetDate) && isHoliday($pdo, $targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
 
 $start_time = microtime(true);
-writeLog($pdo, 'update00981A', $targetDate . ' 開始更新 00981A 成分股資料', 'start');
+writeLog($pdo, 'update00981A', '取得交易日期 ' . $targetDate . ' 開始更新 00981A 成分股資料', 'start');
 try {
     $results = getComponentOf00981A_FromLocal($pdo, $targetDate);
     insertComponentOf00981A($pdo, $targetDate, $results);

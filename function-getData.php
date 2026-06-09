@@ -4,7 +4,7 @@
 function updateAllHistory(PDO $pdo, string $targetDate): void
 {
     $start_time = microtime(true);
-    writeLog($pdo, 'updateAllHistory', '取得交易日期 ' . $targetDate . ' 開始更新資料', 'start');
+    writeLog($pdo, 'updateAllHistory', '取得交易日期 ' . $targetDate . ' 開始更新盤後資料', 'start');
     insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
     insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
     insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
