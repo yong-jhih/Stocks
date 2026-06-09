@@ -54,6 +54,7 @@ jobs:
       run: php selfSelect.php
 
     - name: 提交並推送 JSON 檔案
+      if: always()
       run: |
         # 設定 Git 使用者資訊（GitHub Action 虛擬身份）
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
