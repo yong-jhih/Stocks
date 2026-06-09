@@ -1,5 +1,68 @@
 [
     {
+        "id": 4140009,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-09 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 4140008,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-09 更新資料結束,共耗時 726.48 秒",
+        "result": "end"
+    },
+    {
+        "id": 4140007,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-09 借券賣出餘額 更新完成,共新增 1052 筆,耗時 141.17 秒",
+        "result": "success"
+    },
+    {
+        "id": 4140006,
+        "log_time": "2026-06-09 20:46:50",
+        "log_type": "insertSBLTotal",
+        "content": "2026-06-09 借券餘額 更新完成,共新增 991 筆,耗時 133.01 秒",
+        "result": "success"
+    },
+    {
+        "id": 4140005,
+        "log_time": "2026-06-09 20:44:33",
+        "log_type": "insertMargin",
+        "content": "2026-06-09 融資融券彙總 更新完成,共新增 1049 筆,耗時 140.93 秒",
+        "result": "success"
+    },
+    {
+        "id": 4140004,
+        "log_time": "2026-06-09 20:42:08",
+        "log_type": "insertInsti",
+        "content": "2026-06-09 三大法人買賣超 更新完成,共新增 1073 筆,耗時 144.27 秒",
+        "result": "success"
+    },
+    {
+        "id": 4140003,
+        "log_time": "2026-06-09 20:39:38",
+        "log_type": "insertHistory",
+        "content": "2026-06-09 上市個股日成交 更新完成,共新增 1082 筆,耗時 145.35 秒",
+        "result": "success"
+    },
+    {
+        "id": 4140002,
+        "log_time": "2026-06-09 20:37:09",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-09 開始更新盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 4140001,
+        "log_time": "2026-06-09 20:37:09",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-09 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
+    },
+    {
         "id": 4110002,
         "log_time": "2026-06-09 20:09:55",
         "log_type": "update00981A",
