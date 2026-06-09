@@ -43,7 +43,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
 
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
-    writeLog($pdo, 'generateDailyDashboard', $targetDate . '盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
+    writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
     updateSystemLog($pdo);
 } else { // 已公布 資料量不足 則更新資料
     writeLog($pdo, 'updateAllHistory', $targetDate . ' 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新', 'waitting');

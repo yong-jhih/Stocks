@@ -333,7 +333,7 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $c
         "stock_id IN({$inClause})"
     ]);
     $dashboardResults = outputModel($pdo, $stocks);
-    writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    // writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
