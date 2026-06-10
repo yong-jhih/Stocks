@@ -1,5 +1,12 @@
 [
     {
+        "id": 4350006,
+        "log_time": "2026-06-10 21:50:39",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-10\",\"action\":\"upload\"}",
+        "result": "success"
+    },
+    {
         "id": 4350005,
         "log_time": "2026-06-10 21:46:55",
         "log_type": "generateDailyDashboard",
@@ -49,6 +56,13 @@
         "result": "start"
     },
     {
+        "id": 4260007,
+        "log_time": "2026-06-10 20:50:44",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-10 借券賣出餘額 更新完成,共新增 1052 筆,耗時 158.63 秒",
+        "result": "success"
+    },
+    {
         "id": 4260009,
         "log_time": "2026-06-10 20:50:44",
         "log_type": "updateAllHistory",
@@ -61,13 +75,6 @@
         "log_type": "updateAllHistory",
         "content": "2026-06-10 更新資料結束,共耗時 816.86 秒",
         "result": "end"
-    },
-    {
-        "id": 4260007,
-        "log_time": "2026-06-10 20:50:44",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-10 借券賣出餘額 更新完成,共新增 1052 筆,耗時 158.63 秒",
-        "result": "success"
     },
     {
         "id": 4260006,
@@ -98,18 +105,18 @@
         "result": "success"
     },
     {
-        "id": 4260002,
-        "log_time": "2026-06-10 20:37:07",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 2026-06-10 開始更新盤後資料",
-        "result": "start"
-    },
-    {
         "id": 4260001,
         "log_time": "2026-06-10 20:37:07",
         "log_type": "updateAllHistory",
         "content": "2026-06-10 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
         "result": "waitting"
+    },
+    {
+        "id": 4260002,
+        "log_time": "2026-06-10 20:37:07",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-10 開始更新盤後資料",
+        "result": "start"
     },
     {
         "id": 4230002,
@@ -182,18 +189,18 @@
         "result": "end"
     },
     {
-        "id": 4140007,
-        "log_time": "2026-06-09 20:49:15",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-09 借券賣出餘額 更新完成,共新增 1052 筆,耗時 141.17 秒",
-        "result": "success"
-    },
-    {
         "id": 4140009,
         "log_time": "2026-06-09 20:49:15",
         "log_type": "updateAllHistory",
         "content": "2026-06-09 資料庫更新完畢, 等待下階段進入分析",
         "result": "waitting"
+    },
+    {
+        "id": 4140007,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-09 借券賣出餘額 更新完成,共新增 1052 筆,耗時 141.17 秒",
+        "result": "success"
     },
     {
         "id": 4140006,
