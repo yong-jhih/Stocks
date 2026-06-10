@@ -1,5 +1,54 @@
 [
     {
+        "id": 4350005,
+        "log_time": "2026-06-10 21:46:55",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-10 盤後篩選及評分排行已完成,共耗時 98.19 秒",
+        "result": "end"
+    },
+    {
+        "id": 4350004,
+        "log_time": "2026-06-10 21:46:55",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-10\",\"action\":\"triggersSelfSelect\"}",
+        "result": "success"
+    },
+    {
+        "id": 4350003,
+        "log_time": "2026-06-10 21:45:25",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "2026-06-10 排行分析完成，共 631 檔",
+        "result": "success"
+    },
+    {
+        "id": 4350002,
+        "log_time": "2026-06-10 21:45:20",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-10 篩選分析完成，共 11 檔",
+        "result": "success"
+    },
+    {
+        "id": 4350001,
+        "log_time": "2026-06-10 21:45:17",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-10 資料數量正常, 開始進行分析及排行",
+        "result": "start"
+    },
+    {
+        "id": 4320001,
+        "log_time": "2026-06-10 21:37:11",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-10 資料數量正常, 開始進行分析及排行",
+        "result": "start"
+    },
+    {
+        "id": 4290001,
+        "log_time": "2026-06-10 21:07:04",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-10 資料數量正常, 開始進行分析及排行",
+        "result": "start"
+    },
+    {
         "id": 4260009,
         "log_time": "2026-06-10 20:50:44",
         "log_type": "updateAllHistory",
@@ -126,13 +175,6 @@
         "result": "start"
     },
     {
-        "id": 4140009,
-        "log_time": "2026-06-09 20:49:15",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-09 資料庫更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
         "id": 4140008,
         "log_time": "2026-06-09 20:49:15",
         "log_type": "updateAllHistory",
@@ -145,6 +187,13 @@
         "log_type": "insertSBLSold",
         "content": "2026-06-09 借券賣出餘額 更新完成,共新增 1052 筆,耗時 141.17 秒",
         "result": "success"
+    },
+    {
+        "id": 4140009,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-09 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
     },
     {
         "id": 4140006,
@@ -217,18 +266,18 @@
         "result": "success"
     },
     {
-        "id": 4080005,
-        "log_time": "2026-06-08 21:09:01",
-        "log_type": "generateDailyDashboard",
-        "content": "2026-06-08盤後篩選及評分排行已完成,共耗時 111.53 秒",
-        "result": "end"
-    },
-    {
         "id": 4080004,
         "log_time": "2026-06-08 21:09:01",
         "log_type": "callGAS",
         "content": "發送請求成功:{\"date\":\"2026-06-08\",\"action\":\"triggersSelfSelect\"}",
         "result": "success"
+    },
+    {
+        "id": 4080005,
+        "log_time": "2026-06-08 21:09:01",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-08盤後篩選及評分排行已完成,共耗時 111.53 秒",
+        "result": "end"
     },
     {
         "id": 4080003,
@@ -252,18 +301,18 @@
         "result": "start"
     },
     {
-        "id": 4050009,
-        "log_time": "2026-06-08 20:48:55",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-08 資料庫更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
         "id": 4050008,
         "log_time": "2026-06-08 20:48:55",
         "log_type": "updateAllHistory",
         "content": "2026-06-08 更新資料結束,共耗時 710.95 秒",
         "result": "end"
+    },
+    {
+        "id": 4050009,
+        "log_time": "2026-06-08 20:48:55",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-08 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
     },
     {
         "id": 4050007,
