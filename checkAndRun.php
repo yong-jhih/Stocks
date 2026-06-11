@@ -39,13 +39,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
             'action' => 'triggersSelfSelect'
         ]);
 
-        cleanData(20);
-        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
-
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
+        cleanData(20);
         updateSystemLog($pdo);
+        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，1分鐘後重試', 'retry');
@@ -53,11 +52,13 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
                 'date' => $targetDate,
                 'action' => 'retryCheckAndRun'
             ]);
+            updateSystemLog($pdo);
+            exit(0);
         } else {
             writeLog($pdo, 'generateDailyDashboard', $e->getMessage(), 'error');
+            updateSystemLog($pdo);
+            exit(1);
         }
-        updateSystemLog($pdo);
-        exit(1);
     }
 } else { // 已公布 資料量不足 則更新資料
     writeLog($pdo, 'updateAllHistory', $targetDate . ' 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新', 'waitting');
