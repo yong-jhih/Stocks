@@ -1,5 +1,33 @@
 [
     {
+        "id": 4470004,
+        "log_time": "2026-06-11 21:07:31",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-11\",\"action\":\"retryCheckAndRun\"}",
+        "result": "success"
+    },
+    {
+        "id": 4470003,
+        "log_time": "2026-06-11 21:07:15",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，2分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 4470002,
+        "log_time": "2026-06-11 21:07:12",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-11 篩選分析完成，共 2 檔",
+        "result": "success"
+    },
+    {
+        "id": 4470001,
+        "log_time": "2026-06-11 21:07:07",
+        "log_type": "generateDailyDashboard",
+        "content": "2026-06-11 資料數量正常, 開始進行分析及排行",
+        "result": "start"
+    },
+    {
         "id": 4440009,
         "log_time": "2026-06-11 20:50:54",
         "log_type": "updateAllHistory",

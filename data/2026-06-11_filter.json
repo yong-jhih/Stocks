@@ -1,0 +1,183 @@
+[
+    {
+        "stock_id": "2915",
+        "stock_name": "潤泰全",
+        "industry": "貿易百貨",
+        "subIndustry": [
+            " 貿易商、代理商、經銷商",
+            " 零售通路"
+        ],
+        "concept": [
+            "會員經濟",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股",
+            "資產股",
+            "都市更新"
+        ],
+        "score": 72,
+        "rating": "A",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.67,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 49.15,
+        "yesterday_high": 49.8,
+        "yesterday_low": 48.15,
+        "vol": 5054,
+        "vol_ratio": 1.73,
+        "rank10": 88.98,
+        "amp10": 13.44,
+        "ma5": 48.71,
+        "ma10": 47.05,
+        "ma20": 45.37,
+        "ma60": 45.82,
+        "vma5": 3407,
+        "vma10": 3539,
+        "vma20": 3363,
+        "bia5": 0.9,
+        "bia10": 4.47,
+        "bia20": 8.34,
+        "con1": 32.44,
+        "con5": 21.71,
+        "con10": 8.26,
+        "con20": 0.31,
+        "foreign_buy_sell": 1593482,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 3549,
+        "foreign_sum10": 3158,
+        "foreign_sum20": 1001,
+        "trust_sum5": -25,
+        "trust_sum10": -290,
+        "trust_sum20": -894,
+        "foreign_streak_days": 5,
+        "trust_streak_days": 0,
+        "margin_balance": 9710,
+        "margin_balance_diff": -1824,
+        "squeeze": 12.83,
+        "bullet": 2.33,
+        "net_sbl": 118,
+        "net_sbl_sum5": 116,
+        "sbl_total": 50995,
+        "sbl_sold_balance": 43149,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 5 日",
+            "成交量放大 1.73 倍"
+        ]
+    },
+    {
+        "stock_id": "2103",
+        "stock_name": "台橡",
+        "industry": "橡膠工業",
+        "subIndustry": [
+            " 橡膠製品"
+        ],
+        "concept": [
+            "傳產原物料股",
+            "大陸收成股"
+        ],
+        "score": 64,
+        "rating": "B",
+        "strategy_type": "觀察",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 35,
+        "chip_score": 0,
+        "structure_score": 0,
+        "risk_score": -18,
+        "close": 22.15,
+        "yesterday_high": 21.45,
+        "yesterday_low": 20.95,
+        "vol": 7503,
+        "vol_ratio": 2.29,
+        "rank10": 85.71,
+        "amp10": 20.42,
+        "ma5": 21.44,
+        "ma10": 20.66,
+        "ma20": 20.41,
+        "ma60": 20.27,
+        "vma5": 6331,
+        "vma10": 5831,
+        "vma20": 5458,
+        "bia5": 3.31,
+        "bia10": 7.21,
+        "bia20": 8.54,
+        "con1": 12.24,
+        "con5": 6.44,
+        "con10": 20.79,
+        "con20": 6.41,
+        "foreign_buy_sell": 713592,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2227,
+        "foreign_sum10": 12724,
+        "foreign_sum20": 6986,
+        "trust_sum5": 0,
+        "trust_sum10": -2,
+        "trust_sum20": -4,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 12512,
+        "margin_balance_diff": 498,
+        "squeeze": 1.61,
+        "bullet": 0.91,
+        "net_sbl": 70,
+        "net_sbl_sum5": -1217,
+        "sbl_total": 13719,
+        "sbl_sold_balance": 8765,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": [],
+            "risk": {
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "成交量放大 2.29 倍",
+            "突破前高"
+        ]
+    }
+]
