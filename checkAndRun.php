@@ -23,7 +23,10 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
 ) {
     $start_time = microtime(true);
-    writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
+    $log = testRetry($pdo);
+    if ($log['log_type'] !== 'generateDailyDashboard' || $log['result'] !== 'start') {
+        writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
+    }
 
     try {
         $results = generateDailyDashboard($pdo, $targetDate);

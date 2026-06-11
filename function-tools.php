@@ -139,7 +139,7 @@ function writeLog(PDO $pdo, string $type, string $content, string $result): void
 
 function updateSystemLog(PDO $pdo, string $folder = 'data'): bool
 {
-    $sql = "SELECT * FROM system_logs ORDER BY log_time DESC LIMIT 800";
+    $sql = "SELECT * FROM system_logs ORDER BY id DESC LIMIT 800";
     $stmt = $pdo->query($sql);
     $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (!is_dir($folder)) {
@@ -363,4 +363,10 @@ function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name
         }
     }
     createJsonFile($pdo, $targetDate, $name, $allData);
+}
+
+function testRetry(PDO $pdo): array
+{
+    $sql = "SELECT * FROM system_logs ORDER BY id DESC LIMIT 1";
+    return (array) $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 }
