@@ -3,7 +3,11 @@
 date_default_timezone_set('Asia/Taipei');
 set_time_limit(0);
 
-require_once("config.php");
+$db_ip   = getenv('TiDB_Host');
+$db_user = getenv('TiDB_User');
+$db_pass = getenv('TIDB_PASS');
+$db_name = getenv('TIDB_NAME');
+
 require_once("function-tools.php");
 require_once("function-getData.php");
 function getPDOConnection()
@@ -26,7 +30,7 @@ function getPDOConnection()
 $pdo = getPDOConnection();
 $targetDate = getLatestTradingDateWithTWSE($pdo) ?? getLatestTradingDateWithFugle($pdo);
 if (!$targetDate) {
-    writeLog($pdo, 'init', "TWSE & Fugle 皆取得交易日期失敗, 退出程序", 'error');
+    writeLog($pdo, 'init', "TWSE & Fugle 皆取得最新交易日期失敗, 退出程序", 'error');
     updateSystemLog($pdo);
     exit(1);
 }

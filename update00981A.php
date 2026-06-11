@@ -15,7 +15,7 @@ try {
     createJsonFile($pdo, $targetDate, 'componentOf00981A', $analysis, 'data');
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
-    writeLog($pdo, 'update00981A', $targetDate . ' 更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+    writeLog($pdo, 'update00981A', $targetDate . ' 00981A 成分股資料 更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
     updateSystemLog($pdo);
 } catch (Throwable $e) {
     writeLog($pdo, 'update00981A', $e->getMessage(), 'error');

@@ -25,26 +25,40 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     $start_time = microtime(true);
     writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
 
-    $results = generateDailyDashboard($pdo, $targetDate);
-    createJsonFile($pdo, $targetDate, 'filter', $results);
-    renewCharts($pdo, $targetDate, 'filter', 'charts');
+    try {
+        $results = generateDailyDashboard($pdo, $targetDate);
+        createJsonFile($pdo, $targetDate, 'filter', $results);
+        renewCharts($pdo, $targetDate, 'filter', 'charts');
 
-    $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
-    createJsonFile($pdo, $targetDate, 'topPerforming', $resultsTop);
-    renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
+        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
+        createJsonFile($pdo, $targetDate, 'topPerforming', $resultsTop);
+        renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
-    cleanData(20);
-    lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+        callGAS($pdo, [
+            'date' => $targetDate,
+            'action' => 'triggersSelfSelect'
+        ]);
 
-    callGAS($pdo, [
-        'date' => $targetDate,
-        'action' => 'triggersSelfSelect'
-    ]);
+        cleanData(20);
+        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
 
-    $end_time = microtime(true);
-    $execution_time = round($end_time - $start_time, 2);
-    writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
-    updateSystemLog($pdo);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
+        updateSystemLog($pdo);
+    } catch (Throwable $e) {
+        if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
+            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，1分鐘後重試', 'retry');
+            callGAS($pdo, [
+                'date' => $targetDate,
+                'action' => 'retryCheckAndRun'
+            ]);
+        } else {
+            writeLog($pdo, 'generateDailyDashboard', $e->getMessage(), 'error');
+        }
+        updateSystemLog($pdo);
+        exit(1);
+    }
 } else { // 已公布 資料量不足 則更新資料
     writeLog($pdo, 'updateAllHistory', $targetDate . ' 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新', 'waitting');
     updateAllHistory($pdo, $targetDate);
