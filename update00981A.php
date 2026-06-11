@@ -1,7 +1,7 @@
 <?php
 require_once("init.php");
 
-if (!isTradingDay($pdo, $targetDate) && isHoliday($pdo, $targetDate)) {
+if (!isTradingDay($pdo, $targetDate) || isHoliday($pdo, $targetDate)) {
     echo '非交易日跳過';
     exit(0);
 }
