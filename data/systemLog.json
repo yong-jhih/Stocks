@@ -1,5 +1,26 @@
 [
     {
+        "id": 4410002,
+        "log_time": "2026-06-11 20:09:28",
+        "log_type": "update00981A",
+        "content": "2026-06-11 00981A 成分股資料 更新完成,共耗時 9.91 秒",
+        "result": "end"
+    },
+    {
+        "id": 4410001,
+        "log_time": "2026-06-11 20:09:18",
+        "log_type": "update00981A",
+        "content": "取得交易日期 2026-06-11 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 4380001,
+        "log_time": "2026-06-10 22:06:59",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：很抱歉，沒有符合條件的資料!",
+        "result": "error"
+    },
+    {
         "id": 4350006,
         "log_time": "2026-06-10 21:50:39",
         "log_type": "callGAS",
@@ -56,13 +77,6 @@
         "result": "start"
     },
     {
-        "id": 4260007,
-        "log_time": "2026-06-10 20:50:44",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-10 借券賣出餘額 更新完成,共新增 1052 筆,耗時 158.63 秒",
-        "result": "success"
-    },
-    {
         "id": 4260009,
         "log_time": "2026-06-10 20:50:44",
         "log_type": "updateAllHistory",
@@ -75,6 +89,13 @@
         "log_type": "updateAllHistory",
         "content": "2026-06-10 更新資料結束,共耗時 816.86 秒",
         "result": "end"
+    },
+    {
+        "id": 4260007,
+        "log_time": "2026-06-10 20:50:44",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-10 借券賣出餘額 更新完成,共新增 1052 筆,耗時 158.63 秒",
+        "result": "success"
     },
     {
         "id": 4260006,
@@ -105,18 +126,18 @@
         "result": "success"
     },
     {
-        "id": 4260001,
-        "log_time": "2026-06-10 20:37:07",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-10 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
-        "result": "waitting"
-    },
-    {
         "id": 4260002,
         "log_time": "2026-06-10 20:37:07",
         "log_type": "updateAllHistory",
         "content": "取得交易日期 2026-06-10 開始更新盤後資料",
         "result": "start"
+    },
+    {
+        "id": 4260001,
+        "log_time": "2026-06-10 20:37:07",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-10 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
     },
     {
         "id": 4230002,
@@ -182,18 +203,18 @@
         "result": "start"
     },
     {
-        "id": 4140008,
-        "log_time": "2026-06-09 20:49:15",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-09 更新資料結束,共耗時 726.48 秒",
-        "result": "end"
-    },
-    {
         "id": 4140009,
         "log_time": "2026-06-09 20:49:15",
         "log_type": "updateAllHistory",
         "content": "2026-06-09 資料庫更新完畢, 等待下階段進入分析",
         "result": "waitting"
+    },
+    {
+        "id": 4140008,
+        "log_time": "2026-06-09 20:49:15",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-09 更新資料結束,共耗時 726.48 秒",
+        "result": "end"
     },
     {
         "id": 4140007,
@@ -273,18 +294,18 @@
         "result": "success"
     },
     {
-        "id": 4080004,
-        "log_time": "2026-06-08 21:09:01",
-        "log_type": "callGAS",
-        "content": "發送請求成功:{\"date\":\"2026-06-08\",\"action\":\"triggersSelfSelect\"}",
-        "result": "success"
-    },
-    {
         "id": 4080005,
         "log_time": "2026-06-08 21:09:01",
         "log_type": "generateDailyDashboard",
         "content": "2026-06-08盤後篩選及評分排行已完成,共耗時 111.53 秒",
         "result": "end"
+    },
+    {
+        "id": 4080004,
+        "log_time": "2026-06-08 21:09:01",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-08\",\"action\":\"triggersSelfSelect\"}",
+        "result": "success"
     },
     {
         "id": 4080003,
@@ -308,18 +329,18 @@
         "result": "start"
     },
     {
-        "id": 4050008,
-        "log_time": "2026-06-08 20:48:55",
-        "log_type": "updateAllHistory",
-        "content": "2026-06-08 更新資料結束,共耗時 710.95 秒",
-        "result": "end"
-    },
-    {
         "id": 4050009,
         "log_time": "2026-06-08 20:48:55",
         "log_type": "updateAllHistory",
         "content": "2026-06-08 資料庫更新完畢, 等待下階段進入分析",
         "result": "waitting"
+    },
+    {
+        "id": 4050008,
+        "log_time": "2026-06-08 20:48:55",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-08 更新資料結束,共耗時 710.95 秒",
+        "result": "end"
     },
     {
         "id": 4050007,
