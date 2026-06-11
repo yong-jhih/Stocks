@@ -26,16 +26,13 @@ env:
   GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
 
 jobs:
-  stock_job:
+  build:
     runs-on: ubuntu-latest
-
     steps:
     - name: 檢出程式碼
       uses: actions/checkout@v4
       with:
-        # 預設為 1，改為 0 可以取得完整歷史，對於頻繁 push 較穩定
         fetch-depth: 0
-
     - name: 設定 PHP 環境
       uses: shivammathur/setup-php@v2
       with:
