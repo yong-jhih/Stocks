@@ -1,5 +1,12 @@
 [
     {
+        "id": 4500012,
+        "log_time": "2026-06-11 21:46:21",
+        "log_type": "callGAS",
+        "content": "發送請求成功:{\"date\":\"2026-06-11\",\"action\":\"upload\"}",
+        "result": "success"
+    },
+    {
         "id": 4500011,
         "log_time": "2026-06-11 21:42:23",
         "log_type": "generateDailyDashboard",
