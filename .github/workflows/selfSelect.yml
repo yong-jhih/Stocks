@@ -1,8 +1,6 @@
 name: selfSelect
 
 on:
-  # schedule:
-  #   - cron: '3,23,43 12-15 * * 1-5'
   repository_dispatch:
     types: [selfSelect]
   workflow_dispatch:
