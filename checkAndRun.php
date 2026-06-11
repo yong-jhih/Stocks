@@ -8,7 +8,7 @@ if (!isTradingDay($pdo, $targetDate) || isHoliday($pdo, $targetDate)) {
 
 if (file_exists("data/" . $targetDate . "_filter.json")) {
     echo '分析資料已存在';
-   // exit(0);
+    exit(0);
 }
 
 $SBLSoldData = getSBLSold($targetDate, $pdo);
