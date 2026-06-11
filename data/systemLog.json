@@ -1,5 +1,68 @@
 [
     {
+        "id": 4440009,
+        "log_time": "2026-06-11 20:50:54",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-11 資料庫更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 4440008,
+        "log_time": "2026-06-11 20:50:54",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-11 更新資料結束,共耗時 829.31 秒",
+        "result": "end"
+    },
+    {
+        "id": 4440007,
+        "log_time": "2026-06-11 20:50:54",
+        "log_type": "insertSBLSold",
+        "content": "2026-06-11 借券賣出餘額 更新完成,共新增 1052 筆,耗時 161.15 秒",
+        "result": "success"
+    },
+    {
+        "id": 4440006,
+        "log_time": "2026-06-11 20:48:08",
+        "log_type": "insertSBLTotal",
+        "content": "2026-06-11 借券餘額 更新完成,共新增 991 筆,耗時 151.89 秒",
+        "result": "success"
+    },
+    {
+        "id": 4440005,
+        "log_time": "2026-06-11 20:45:31",
+        "log_type": "insertMargin",
+        "content": "2026-06-11 融資融券彙總 更新完成,共新增 1049 筆,耗時 160.74 秒",
+        "result": "success"
+    },
+    {
+        "id": 4440004,
+        "log_time": "2026-06-11 20:42:46",
+        "log_type": "insertInsti",
+        "content": "2026-06-11 三大法人買賣超 更新完成,共新增 1074 筆,耗時 164.6 秒",
+        "result": "success"
+    },
+    {
+        "id": 4440003,
+        "log_time": "2026-06-11 20:39:54",
+        "log_type": "insertHistory",
+        "content": "2026-06-11 上市個股日成交 更新完成,共新增 1082 筆,耗時 165.88 秒",
+        "result": "success"
+    },
+    {
+        "id": 4440002,
+        "log_time": "2026-06-11 20:37:04",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 2026-06-11 開始更新盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 4440001,
+        "log_time": "2026-06-11 20:37:04",
+        "log_type": "updateAllHistory",
+        "content": "2026-06-11 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新",
+        "result": "waitting"
+    },
+    {
         "id": 4410002,
         "log_time": "2026-06-11 20:09:28",
         "log_type": "update00981A",
