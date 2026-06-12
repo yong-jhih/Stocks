@@ -1,5 +1,4 @@
 # Stocks
-<hr>
 
 ## Github Action
 1. 後端資料處理
