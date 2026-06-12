@@ -1,11 +1,6 @@
 <?php
 require_once("init.php");
 
-if (!isTradingDay($pdo, $targetDate) || isHoliday($pdo, $targetDate)) {
-    echo '非交易日跳過';
-    exit(0);
-}
-
 $start_time = microtime(true);
 writeLog($pdo, 'update00981A', '取得交易日期 ' . $targetDate . ' 開始更新 00981A 成分股資料', 'start');
 try {

@@ -60,29 +60,6 @@ function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?stri
     }
 }
 
-function isHoliday(PDO $pdo, string $date): bool
-{
-    $url = "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule";
-    $data = fetchUrl($pdo, $url);
-    $holiday = [];
-    if (isset($data['status']) && $data['status'] !== 'error') {
-        foreach ($data as $k => $v) {
-            $holiday[] = convertTaiwanDateToWestern($pdo, $v['Date']);
-        }
-    }
-    return in_array($date, $holiday);
-}
-
-function isTradingDay(PDO $pdo, string $date): bool
-{
-    $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === '很抱歉，沒有符合條件的資料!') {
-        return false;
-    }
-    return true;
-}
-
 function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
 {
     if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {

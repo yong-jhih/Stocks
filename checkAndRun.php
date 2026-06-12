@@ -1,12 +1,12 @@
 <?php
 require_once("init.php");
 
-if (!isTradingDay($pdo, $targetDate) || isHoliday($pdo, $targetDate)) {
-    echo '非交易日跳過';
-    exit(0);
-}
-
-if (file_exists("data/" . $targetDate . "_filter.json")) {
+if (
+    file_exists("data/" . $targetDate . "_filter.json") &&
+    file_exists("data/" . $targetDate . "_charts.json") &&
+    file_exists("data/" . $targetDate . "_topPerforming.json") &&
+    file_exists("data/" . $targetDate . "_topPerforming-charts.json")
+) {
     echo '分析資料已存在';
     exit(0);
 }
@@ -53,7 +53,9 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，2分鐘後重試', 'retry');
             callGAS($pdo, [
                 'date' => $targetDate,
-                'action' => 'retryCheckAndRun'
+                'action' => 'retry',
+                'target' => 'CheckAndRun',
+                'after' => 120
             ]);
             updateSystemLog($pdo);
             exit(0);
