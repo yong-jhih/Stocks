@@ -225,10 +225,10 @@ function callGAS(PDO $pdo, $data = []): void
     if (curl_errno($ch)) {
         if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
             echo 'GAS 執行完成（回應超時，但已成功觸發轉移）';
-            writeLog($pdo, 'callGAS', "發送請求成功:" . json_encode($data), 'success');
+            // writeLog($pdo, 'callGAS', "發送請求成功:" . json_encode($data), 'success');
         } else {
             echo 'cURL 錯誤: ' . curl_error($ch);
-            writeLog($pdo, 'callGAS', "發送請求失敗 cURL 錯誤:" . curl_error($ch), 'error');
+            // writeLog($pdo, 'callGAS', "發送請求失敗 cURL 錯誤:" . curl_error($ch), 'error');
         }
     } else {
         echo 'GAS 回應: ' . $response;
