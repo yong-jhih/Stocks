@@ -24,7 +24,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
 ) {
     $start_time = microtime(true);
     $log = testRetry($pdo);
-    if ($log['log_type'] !== 'generateDailyDashboard' || $log['result'] !== 'start') {
+    if (!($log['log_type'] === 'generateDailyDashboard' && ($log['result'] === 'start' || $log['result'] === 'retry'))) {
         writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
     }
 
