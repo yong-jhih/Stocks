@@ -9,6 +9,17 @@ if (
     exit(0);
 }
 
+$stockJson = getenv('STOCK_DATA');
+$stocks = json_decode($stockJson, true);
+$stockList = [];
+foreach ($stocks as $stock) {
+    $stockList[] = $stock['code'];
+}
+if (count($stockList) == 0) {
+    echo '自選清單為空, 退出分析';
+    exit(0);
+}
+
 if (
     checkIfDataPublished($pdo, $targetDate, 'stock_history', 500) &&
     checkIfDataPublished($pdo, $targetDate, 'stock_insti', 500) &&
@@ -17,21 +28,32 @@ if (
     checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
 ) {
     echo '資料數量正常, 開始進行自選分析';
-    $stockJson = getenv('STOCK_DATA');
-    $stocks = json_decode($stockJson, true);
-    $stockList = [];
-    foreach ($stocks as $stock) {
-        $stockList[] = $stock['code'];
+    try {
+        $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $stockList);
+        createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
+        renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
+        callGAS($pdo, [
+            'date' => $targetDate,
+            'action' => 'upload'
+        ]);
+        updateSystemLog($pdo);
+    } catch (Throwable $e) {
+        if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
+            writeLog($pdo, 'selfSelectGenerateDailyDashboard', 'TiDB記憶體不足，2分鐘後重試', 'retry');
+            callGAS($pdo, [
+                'date' => $targetDate,
+                'action' => 'retry',
+                'target' => 'SelfSelect',
+                'after' => 120
+            ]);
+            updateSystemLog($pdo);
+            exit(0);
+        } else {
+            writeLog($pdo, 'selfSelectGenerateDailyDashboard', $e->getMessage(), 'error');
+            updateSystemLog($pdo);
+            exit(1);
+        }
     }
-    $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $stockList);
-    createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
-    renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
-
-    callGAS($pdo, [
-        'date' => $targetDate,
-        'action' => 'upload'
-    ]);
-    updateSystemLog($pdo);
 } else {
     echo '資料數量不足, 請檢查資料更新狀態';
     exit(1);
