@@ -1,5 +1,89 @@
 [
     {
+        "id": 4560010,
+        "log_time": "2026-06-12 09:44:22",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560009,
+        "log_time": "2026-06-12 09:44:22",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560008,
+        "log_time": "2026-06-12 09:44:21",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560007,
+        "log_time": "2026-06-12 09:44:21",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560006,
+        "log_time": "2026-06-12 09:44:21",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560005,
+        "log_time": "2026-06-12 09:44:20",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560004,
+        "log_time": "2026-06-12 09:44:20",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560003,
+        "log_time": "2026-06-12 09:44:20",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 1867.99 秒",
+        "result": "end"
+    },
+    {
+        "id": 4560002,
+        "log_time": "2026-06-12 09:44:20",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4764 筆",
+        "result": "success"
+    },
+    {
+        "id": 4560001,
+        "log_time": "2026-06-12 09:40:03",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 3030 筆",
+        "result": "success"
+    },
+    {
+        "id": 4530002,
+        "log_time": "2026-06-12 09:16:12",
+        "log_type": "stock_profile",
+        "content": "產業別 更新完成,共更新 1090 筆",
+        "result": "success"
+    },
+    {
+        "id": 4530001,
+        "log_time": "2026-06-12 09:13:12",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 4500012,
         "log_time": "2026-06-11 21:46:21",
         "log_type": "callGAS",
