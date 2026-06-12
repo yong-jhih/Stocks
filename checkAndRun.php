@@ -66,8 +66,8 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         }
     }
 } else { // 已公布 資料量不足 則更新資料
-    writeLog($pdo, 'updateAllHistory', $targetDate . ' 偵測 TWT93U 信用額度總量管制餘額 已公布, 準備進行更新', 'waitting');
+    writeLog($pdo, 'updateAllHistory', '偵測 [' . $targetDate . '] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料', 'waitting');
     updateAllHistory($pdo, $targetDate);
-    writeLog($pdo, 'updateAllHistory', $targetDate . ' 資料庫更新完畢, 等待下階段進入分析', 'waitting');
+    writeLog($pdo, 'updateAllHistory', '歷史資料更新完畢, 等待下階段進入分析', 'waitting');
     updateSystemLog($pdo);
 }
