@@ -1,9 +1,11 @@
 # Stocks
 <hr>
+
 ## Github Action
 1. 後端資料處理
 2. 資料庫CRUD
 3. 輸出JSON檔案供前端讀取
+4. 爬蟲
 
 ## Github Pages
 1. 讀取JSON資料產生靜態網頁
