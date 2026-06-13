@@ -1,11 +1,115 @@
 [
     {
+        "id": 4680015,
+        "log_time": "2026-06-14 02:30:31",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680014,
+        "log_time": "2026-06-14 02:30:30",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680013,
+        "log_time": "2026-06-14 02:30:30",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680012,
+        "log_time": "2026-06-14 02:30:30",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680011,
+        "log_time": "2026-06-14 02:30:29",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680010,
+        "log_time": "2026-06-14 02:30:29",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680009,
+        "log_time": "2026-06-14 02:30:29",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680008,
+        "log_time": "2026-06-14 02:30:28",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 182.05 秒",
+        "result": "end"
+    },
+    {
+        "id": 4680007,
+        "log_time": "2026-06-14 02:30:28",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680006,
+        "log_time": "2026-06-14 02:27:29",
+        "log_type": "updateConcept",
+        "content": "刪除舊有概念失敗：SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 1 column 45 near \");\" ",
+        "result": "error"
+    },
+    {
+        "id": 4680005,
+        "log_time": "2026-06-14 02:27:28",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新失敗：SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 1 column 51 near \")\" ",
+        "result": "error"
+    },
+    {
+        "id": 4680004,
+        "log_time": "2026-06-14 02:27:28",
+        "log_type": "stock_profile",
+        "content": "產業別 更新完成,共更新 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4680003,
+        "log_time": "2026-06-14 02:27:26",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 4680002,
+        "log_time": "2026-06-14 02:27:26",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
+        "id": 4680001,
+        "log_time": "2026-06-14 02:27:26",
+        "log_type": "fetchUrl",
+        "content": "JSON 解析失敗",
+        "result": "error"
+    },
+    {
         "id": 4650004,
         "log_time": "2026-06-12 21:09:11",
         "log_type": "generateDailyDashboard",
         "content": "2026-06-12 盤後篩選及評分排行已完成,共耗時 134.65 秒",
         "result": "end"
-        
     },
     {
         "id": 4650003,
