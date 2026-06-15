@@ -11,7 +11,6 @@ if (
     exit(0);
 }
 
-
 $SBLSoldData = getSBLSold($targetDate, $pdo);
 if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未公布
     echo 'TWT93U 信用額度總量管制餘額 資料未到齊, 等待下次觸發';
@@ -51,12 +50,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
-            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，2分鐘後重試', 'retry');
+            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，3分鐘後重試', 'retry');
             callGAS($pdo, [
                 'date' => $targetDate,
                 'action' => 'retry',
                 'target' => 'CheckAndRun',
-                'after' => 120
+                'after' => 180
             ]);
             updateSystemLog($pdo);
             exit(0);
