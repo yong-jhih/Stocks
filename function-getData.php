@@ -1299,7 +1299,7 @@ function updateStockProfile(PDO $pdo): void
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
     } catch (Throwable $e) {
-        writeLog($pdo, 'updateStockProfile', "排程執行失敗，原因：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'updateStockProfile', "產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
         throw $e;
     }
 }
@@ -1351,12 +1351,12 @@ function getStockProfileWithTWSE(PDO $pdo): array
     $curlError = curl_error($ch);
     curl_close($ch);
     if ($response === false || $httpCode !== 200) {
-        throw new RuntimeException("網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
+        throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
     }
     $data = json_decode($response, true);
     if (!is_array($data)) {
         $preview = mb_substr(trim($response), 0, 100);
-        throw new RuntimeException("格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+        throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
     }
     $stocks = [];
     foreach ($data as $stock) {
@@ -1390,10 +1390,10 @@ function updateIndustry(PDO $pdo, array $stocks): void
             ]);
         }
         $pdo->commit();
-        writeLog($pdo, 'stock_profile', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
-    } catch (Exception $e) {
+        writeLog($pdo, 'updateIndustry', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
+    } catch (Throwable $e) {
         $pdo->rollBack();
-        throw new RuntimeException("產業別 寫入失敗：" . $e->getMessage(), 0, $e);
+        throw new RuntimeException("[updateIndustry] " . $e->getMessage(), 0, $e);
     }
 }
 
@@ -1423,11 +1423,11 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             $curlError = curl_error($ch);
             curl_close($ch);
             if ($html === false) {
-                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 網頁抓取失敗：" . $curlError, 'error');
+                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 網頁抓取失敗：" . $curlError, 'warning');
                 continue;
             }
             if (trim($html) == '') {
-                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 回傳內容為空字串", 'error');
+                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 回傳內容為空字串", 'warning');
                 continue;
             }
             libxml_use_internal_errors(true);
@@ -1461,10 +1461,9 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
         }
         $pdo->commit();
         writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'updateSubIndustry', "次產業 更新失敗：" . $e->getMessage(), 'error');
-        throw new RuntimeException("【更新次產業】失敗：" . $e->getMessage(), 0, $e);
+        throw new RuntimeException("[updateSubIndustry] " . $e->getMessage(), 0, $e);
     }
 }
 
@@ -1490,7 +1489,7 @@ function updateConcept(PDO $pdo, array $stocks): void
         curl_close($ch);
 
         if ($html === false) {
-            throw new RuntimeException("【概念股】無法取得 MoneyDJ 分類主頁面");
+            throw new RuntimeException("無法取得 MoneyDJ 分類主頁面");
         }
 
         libxml_use_internal_errors(true);
@@ -1524,7 +1523,7 @@ function updateConcept(PDO $pdo, array $stocks): void
             curl_close($ch);
 
             if ($html === false) {
-                throw new RuntimeException("【概念股】無法取得分類成分股，分類：{$v['concept_name']}");
+                throw new RuntimeException("無法取得分類成分股，分類：{$v['concept_name']}");
             }
 
             $c = [];
@@ -1556,8 +1555,8 @@ function updateConcept(PDO $pdo, array $stocks): void
         }
         $pdo->commit();
         writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
-        throw new RuntimeException("【更新概念股】失敗：" . $e->getMessage(), 0, $e);
+        throw new RuntimeException("[updateConcept] " . $e->getMessage(), 0, $e);
     }
 }
