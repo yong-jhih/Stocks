@@ -167,12 +167,13 @@
         }
     </style>
     <script>
+        const timestamp = new Date().getTime();
         // 優先載入頁面設定
         const params = new URLSearchParams(location.search);
         const currentPage = params.get('page') || 'index';
         let page_info = {};
         async function loadPageData() {
-            const res = await fetch(`./data/pages.json`);
+            const res = await fetch(`./data/pages.json?t=${timestamp}`);
             const data = await res.json();
             if (data.length === 0) alert('沒有符合篩選條件的標的');
             data.forEach(page => {
@@ -786,9 +787,9 @@
             try {
                 let filePath;
                 if (page_info.useDate === false) {
-                    filePath = `./data/${page_info.dataSource.table}`;
+                    filePath = `./data/${page_info.dataSource.table}?t=${timestamp}`;
                 } else {
-                    filePath = `./data/${date}_${page_info.dataSource.table}`;
+                    filePath = `./data/${date}_${page_info.dataSource.table}?t=${timestamp}`;
                 }
                 console.log(filePath);
                 const res = await fetch(filePath);
@@ -832,7 +833,7 @@
         }
         async function initSystem() {
             try {
-                const res = await fetch('./data/dateList.json');
+                const res = await fetch(`./data/dateList.json?t=${timestamp}`);
                 const dates = await res.json();
                 const $sel = $('#dateSelect');
                 $sel.empty();
@@ -855,7 +856,7 @@
         }
         async function loadChartData(date) {
             try {
-                const response = await fetch(`./data/${date}_${page_info.dataSource.chart}`);
+                const response = await fetch(`./data/${date}_${page_info.dataSource.chart}?t=${timestamp}`);
                 const data = await response.json();
                 cachedChartData = data;
             } catch (error) {
