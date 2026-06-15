@@ -1290,13 +1290,18 @@ function updateStockProfile(PDO $pdo): void
 {
     $start_time = microtime(true);
     writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
-    $stocks = getStockProfileWithTWSE($pdo);
-    updateIndustry($pdo, $stocks);
-    updateSubIndustry($pdo, $stocks);
-    updateConcept($pdo, $stocks);
-    $end_time = microtime(true);
-    $execution_time = round($end_time - $start_time, 2);
-    writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+    try {
+        $stocks = getStockProfileWithTWSE($pdo);
+        updateIndustry($pdo, $stocks);
+        updateSubIndustry($pdo, $stocks);
+        updateConcept($pdo, $stocks);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+    } catch (Throwable $e) {
+        writeLog($pdo, 'updateStockProfile', "排程執行失敗，原因：" . $e->getMessage(), 'error');
+        throw $e;
+    }
 }
 
 function getStockProfileWithTWSE(PDO $pdo): array
@@ -1337,40 +1342,32 @@ function getStockProfileWithTWSE(PDO $pdo): array
         '38' => '居家生活'
     ];
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-    try {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
-        curl_close($ch);
-        $data = json_decode($response, true);
-
-        if ($response === false || $httpCode !== 200) {
-            throw new RuntimeException("網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
-        }
-
-        $data = json_decode($response, true);
-        if (!is_array($data)) {
-            $preview = mb_substr(trim($response), 0, 100);
-            throw new RuntimeException("格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
-        }
-
-        $stocks = [];
-        foreach ($data as $stock) {
-            if (empty($stock['公司代號'])) continue;
-            $stocks[] = [
-                'stock_id'   => $stock['公司代號'],
-                'stock_name' => $stock['公司簡稱'] ?? '',
-                'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
-            ];
-        }
-        return $stocks;
-    } catch (Throwable $e) {
-        writeLog($pdo, 'getStockProfileWithTWSE', "取得 t187ap03_L 失敗：" . $e->getMessage(), 'error');
-        throw $e;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+    if ($response === false || $httpCode !== 200) {
+        throw new RuntimeException("網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
     }
+    $data = json_decode($response, true);
+    if (!is_array($data)) {
+        $preview = mb_substr(trim($response), 0, 100);
+        throw new RuntimeException("格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+    }
+    $stocks = [];
+    foreach ($data as $stock) {
+        if (empty($stock['公司代號'])) continue;
+        $stocks[] = [
+            'stock_id'   => $stock['公司代號'],
+            'stock_name' => $stock['公司簡稱'] ?? '',
+            'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
+        ];
+    }
+    return $stocks;
 }
 
 function updateIndustry(PDO $pdo, array $stocks): void
@@ -1396,18 +1393,16 @@ function updateIndustry(PDO $pdo, array $stocks): void
         writeLog($pdo, 'stock_profile', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
     } catch (Exception $e) {
         $pdo->rollBack();
-        echo "寫入失敗：" . $e->getMessage();
-        writeLog($pdo, 'stock_profile', "產業別 寫入失敗：" . $e->getMessage(), 'error');
+        throw new RuntimeException("產業別 寫入失敗：" . $e->getMessage(), 0, $e);
     }
 }
 
 function updateSubIndustry(PDO $pdo, array $stocks): void
 {
-    $stockList = [];
-    foreach ($stocks as $k => $stock) {
-        $stockList[] = $stock['stock_id'];
-    }
+    $stockList = array_column($stocks, 'stock_id');
+    if (empty($stockList)) return;
 
+    $pdo->beginTransaction();
     try {
         // 先刪
         $placeholders = implode(',', array_fill(0, count($stockList), '?'));
@@ -1423,16 +1418,16 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
             $html = curl_exec($ch);
-            if (curl_errno($ch)) {
-                writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . ' 抓取頁面失敗：' . curl_error($ch), 'error');
-                curl_close($ch);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+            if ($html === false) {
+                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 網頁抓取失敗：" . $curlError, 'error');
                 continue;
             }
-            curl_close($ch);
             if (trim($html) == '') {
-                writeLog($pdo, 'updateSubIndustry', $stock['stock_id'] . ' 回傳內容為空', 'error');
+                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 回傳內容為空字串", 'error');
                 continue;
             }
             libxml_use_internal_errors(true);
@@ -1464,97 +1459,105 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             $stmtInsert->execute($params);
             $totalInsertCount += $stmtInsert->rowCount();
         }
+        $pdo->commit();
         writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
     } catch (Exception $e) {
+        $pdo->rollBack();
         writeLog($pdo, 'updateSubIndustry', "次產業 更新失敗：" . $e->getMessage(), 'error');
+        throw new RuntimeException("【更新次產業】失敗：" . $e->getMessage(), 0, $e);
     }
 }
 
 function updateConcept(PDO $pdo, array $stocks): void
 {
-    $stockList = [];
-    foreach ($stocks as $k => $stock) {
-        if ($stock['stock_id'] == '') continue;
-        $stockList[] = $stock['stock_id'];
-    }
-    $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN(" . implode(',', $stockList) . ");";
-    $stmtDelConcept = $pdo->prepare($sqlDelConcept);
+    $stockList = array_filter(array_column($stocks, 'stock_id'));
+    if (empty($stockList)) return;
+
     $pdo->beginTransaction();
     try {
+        // 先刪除舊資料
+        $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN (" . implode(',', $stockList) . ")";
+        $stmtDelConcept = $pdo->prepare($sqlDelConcept);
         $stmtDelConcept->execute();
-        $pdo->commit();
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        writeLog($pdo, 'updateConcept', "刪除舊有概念失敗：" . $e->getMessage(), 'error');
-    }
 
-    // 取得概念
-    $url = "https://www.moneydj.com/Z/ZG/ZGE/ZGE_E_E.djhtm";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $html = curl_exec($ch);
-    libxml_use_internal_errors(true);
-    $dom = new DOMDocument();
-    $dom->loadHTML($html);
-    $xpath = new DOMXPath($dom);
-    $nodes = $xpath->query('//select[@name="M1"]/option');
-    $result = [];
-    foreach ($nodes as $node) {
-        $value = trim($node->getAttribute('value'));
-        $name = str_replace("概念股", "", trim($node->textContent));
-        if ($value !== '') {
-            $result[] = [
-                'concept_id' => $value,
-                'concept_name' => $name,
-            ];
-        }
-    }
-
-    $totalInsertCount = 0;
-    foreach ($result as $k => $v) {
-        $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
+        // 取得概念
+        $url = "https://www.moneydj.com/Z/ZG/ZGE/ZGE_E_E.djhtm";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         $html = curl_exec($ch);
         curl_close($ch);
 
-        $c = [];
-        $a = explode("GenLink2stk('AS", $html);
-        foreach ($a as $i => $b) {
-            if ($i == 0) continue;
-            $c[] = substr($b, 0, 4);
+        if ($html === false) {
+            throw new RuntimeException("【概念股】無法取得 MoneyDJ 分類主頁面");
         }
-        $c = array_values(array_unique($c));
-        $stockMap = array_flip($stockList);
-        $values = [];
-        $params = [];
-        foreach ($c as $stock_id) {
-            if (!isset($stockMap[$stock_id])) {
-                continue;
+
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument();
+        $dom->loadHTML($html);
+        $xpath = new DOMXPath($dom);
+        $nodes = $xpath->query('//select[@name="M1"]/option');
+
+        $result = [];
+        foreach ($nodes as $node) {
+            $value = trim($node->getAttribute('value'));
+            $name = str_replace("概念股", "", trim($node->textContent));
+            if ($value !== '') {
+                $result[] = [
+                    'concept_id' => $value,
+                    'concept_name' => $name,
+                ];
             }
-            $values[] = "(?, ?)";
-            $params[] = $stock_id;
-            $params[] = $v['concept_name'];
         }
-        if (!empty($values)) {
-            $sql = "
-        INSERT IGNORE INTO stock_concept (stock_id, concept)
-        VALUES " . implode(',', $values);
-            $stmt = $pdo->prepare($sql);
-            try {
-                $pdo->beginTransaction();
+
+        $totalInsertCount = 0;
+        $stockMap = array_flip($stockList);
+        foreach ($result as $k => $v) {
+            $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            $html = curl_exec($ch);
+            curl_close($ch);
+
+            if ($html === false) {
+                throw new RuntimeException("【概念股】無法取得分類成分股，分類：{$v['concept_name']}");
+            }
+
+            $c = [];
+            $a = explode("GenLink2stk('AS", $html);
+            foreach ($a as $i => $b) {
+                if ($i == 0) continue;
+                $c[] = substr($b, 0, 4);
+            }
+            $c = array_values(array_unique($c));
+
+            $values = [];
+            $params = [];
+            foreach ($c as $stock_id) {
+                if (!isset($stockMap[$stock_id])) continue;
+
+                $values[] = "(?, ?)";
+                $params[] = $stock_id;
+                $params[] = $v['concept_name'];
+            }
+
+            if (!empty($values)) {
+                $sql = "INSERT IGNORE INTO stock_concept (stock_id, concept) VALUES " . implode(',', $values);
+                $stmt = $pdo->prepare($sql);
                 $stmt->execute($params);
                 $totalInsertCount += $stmt->rowCount();
-                $pdo->commit();
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                writeLog($pdo, 'updateConcept', "stock_id={$stock_id}, concept={$v['concept_name']} 新增失敗：" . $e->getMessage(), 'error');
             }
+
+            if ($k > 0 && $k % 10 == 0) sleep(1);
         }
-        if ($k > 0 && $k % 10 == 0) sleep(1);
+        $pdo->commit();
+        writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        throw new RuntimeException("【更新概念股】失敗：" . $e->getMessage(), 0, $e);
     }
-    writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
 }
