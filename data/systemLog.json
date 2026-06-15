@@ -1,5 +1,124 @@
 [
     {
+        "id": 4740012,
+        "log_time": "2026-06-15 12:02:23",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740011,
+        "log_time": "2026-06-15 12:02:23",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740010,
+        "log_time": "2026-06-15 12:02:23",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740009,
+        "log_time": "2026-06-15 12:02:23",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740008,
+        "log_time": "2026-06-15 12:02:22",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740007,
+        "log_time": "2026-06-15 12:02:22",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740006,
+        "log_time": "2026-06-15 12:02:22",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740005,
+        "log_time": "2026-06-15 12:02:22",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 1273.57 秒",
+        "result": "end"
+    },
+    {
+        "id": 4740004,
+        "log_time": "2026-06-15 12:02:22",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4765 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740003,
+        "log_time": "2026-06-15 11:59:58",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 3030 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740002,
+        "log_time": "2026-06-15 11:43:13",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 1090 筆",
+        "result": "success"
+    },
+    {
+        "id": 4740001,
+        "log_time": "2026-06-15 11:41:08",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 4710005,
+        "log_time": "2026-06-15 11:00:56",
+        "log_type": "stock_profile",
+        "content": "產業別 更新完成,共更新 1090 筆",
+        "result": "success"
+    },
+    {
+        "id": 4710004,
+        "log_time": "2026-06-15 10:58:01",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 4710003,
+        "log_time": "2026-06-15 10:58:00",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：很抱歉，沒有符合條件的資料!",
+        "result": "error"
+    },
+    {
+        "id": 4710002,
+        "log_time": "2026-06-15 10:54:01",
+        "log_type": "updateStockProfile",
+        "content": "排程執行失敗，原因：網路連線失敗。HTTP 狀態碼: 0, cURL 錯誤: Connection timed out after 15002 milliseconds",
+        "result": "error"
+    },
+    {
+        "id": 4710001,
+        "log_time": "2026-06-15 10:53:46",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 4680015,
         "log_time": "2026-06-14 02:30:31",
         "log_type": "dbClean",
