@@ -91,9 +91,6 @@ function fetchUrl(PDO $pdo, string $url): array
             return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
         }
         $result = json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
-        if (isset($result['status']) && $result['status'] === 'error') {
-            writeLog($pdo, 'fetchUrl', "JSON 解析失敗", 'error');
-        }
         return $result;
     } catch (Exception $e) {
         return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
