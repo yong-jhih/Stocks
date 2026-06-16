@@ -648,6 +648,19 @@
             $(`#tag-content-${tab}`)
                 .removeClass('hidden');
         }
+        function formatValue(value, format) {
+            if (value === null || value === undefined) return '';
+            switch (format) {
+                case 'percent':
+                    return `${value}%`;
+                case 'ratio':
+                    return `${value}倍`;
+                case 'number':
+                    return Number(value).toLocaleString();
+                default:
+                    return value;
+            }
+        }
         let table;
         let chartInstance = null;
         let cachedChartData = {};

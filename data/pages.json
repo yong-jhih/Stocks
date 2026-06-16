@@ -67,148 +67,184 @@
         "columns": [
             {
                 "title": "代號",
-                "field": "stock_id"
+                "field": "stock_id",
+                "format": "number"
             },
             {
+                "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "class": "text-blue-300 font-bold"
+                "format": "number"
             },
             {
                 "title": "策略分類",
-                "field": "strategy_type"
+                "field": "strategy_type",
+                "format": "number"
             },
             {
                 "title": "標籤",
-                "field": "tags"
+                "field": "tags",
+                "format": "number"
             },
             {
                 "title": "信心度",
-                "field": "confidence"
+                "field": "confidence",
+                "format": "number"
             },
             {
                 "title": "綜合評分",
-                "field": "score"
+                "field": "score",
+                "format": "number"
             },
             {
                 "title": "趨勢分數",
-                "field": "trend_score"
+                "field": "trend_score",
+                "format": "number"
             },
             {
                 "title": "動能分數",
-                "field": "momentum_score"
+                "field": "momentum_score",
+                "format": "number"
             },
             {
                 "title": "籌碼分數",
-                "field": "chip_score"
+                "field": "chip_score",
+                "format": "number"
             },
             {
                 "title": "結構分數",
-                "field": "structure_score"
+                "field": "structure_score",
+                "format": "number"
             },
             {
                 "title": "風險分數",
-                "field": "risk_score"
+                "field": "risk_score",
+                "format": "number"
             },
             {
                 "title": "收盤",
-                "field": "close"
+                "field": "close",
+                "format": "number"
             },
             {
                 "title": "成交量",
-                "field": "vol"
+                "field": "vol",
+                "format": "number"
             },
             {
                 "title": "昨量比",
-                "field": "vol_ratio"
+                "field": "vol_ratio",
+                "format": "number"
             },
             {
                 "title": "5日均量",
-                "field": "vma5"
+                "field": "vma5",
+                "format": "number"
             },
             {
                 "title": "10日均量",
-                "field": "vma10"
+                "field": "vma10",
+                "format": "number"
             },
             {
                 "title": "20日均量",
-                "field": "vma20"
+                "field": "vma20",
+                "format": "number"
             },
             {
                 "title": "5日乖離率",
-                "field": "bia5"
+                "field": "bia5",
+                "format": "number"
             },
             {
                 "title": "10日乖離率",
-                "field": "bia10"
+                "field": "bia10",
+                "format": "number"
             },
             {
                 "title": "10日位階",
-                "field": "rank10"
+                "field": "rank10",
+                "format": "number"
             },
             {
                 "title": "10日振幅",
-                "field": "amp10"
+                "field": "amp10",
+                "format": "number"
             },
             {
                 "title": "1日集中度",
-                "field": "con1"
+                "field": "con1",
+                "format": "number"
             },
             {
                 "title": "5日集中度",
-                "field": "con5"
+                "field": "con5",
+                "format": "number"
             },
             {
                 "title": "10日集中度",
-                "field": "con10"
+                "field": "con10",
+                "format": "number"
             },
             {
                 "title": "20日集中度",
-                "field": "con20"
+                "field": "con20",
+                "format": "number"
             },
             {
                 "title": "外資5日",
-                "field": "foreign_sum5"
+                "field": "foreign_sum5",
+                "format": "number"
             },
             {
                 "title": "投信5日",
-                "field": "trust_sum5"
+                "field": "trust_sum5",
+                "format": "number"
             },
             {
                 "title": "外資連買",
-                "field": "foreign_streak_days"
+                "field": "foreign_streak_days",
+                "format": "number"
             },
             {
                 "title": "投信連買",
-                "field": "trust_streak_days"
+                "field": "trust_streak_days",
+                "format": "number"
             },
             {
                 "title": "券補力",
-                "field": "squeeze"
+                "field": "squeeze",
+                "format": "number"
             },
             {
                 "title": "券砸力",
-                "field": "bullet"
+                "field": "bullet",
+                "format": "number"
             },
             {
                 "title": "券淨賣還",
-                "field": "net_sbl"
+                "field": "net_sbl",
+                "format": "number"
             },
             {
                 "title": "券淨賣還5日",
-                "field": "net_sbl_sum5"
+                "field": "net_sbl_sum5",
+                "format": "number"
             },
             {
                 "title": "融資餘額",
-                "field": "margin_balance"
+                "field": "margin_balance",
+                "format": "number"
             },
             {
                 "title": "借券餘額",
-                "field": "sbl_total"
+                "field": "sbl_total",
+                "format": "number"
             },
             {
                 "title": "券賣餘額",
-                "field": "sbl_sold_balance"
+                "field": "sbl_sold_balance",
+                "format": "number"
             }
         ]
     },
@@ -256,148 +292,184 @@
         "columns": [
             {
                 "title": "代號",
-                "field": "stock_id"
+                "field": "stock_id",
+                "format": "number"
             },
             {
+                "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "class": "text-blue-300 font-bold"
+                "format": "number"
             },
             {
                 "title": "策略分類",
-                "field": "strategy_type"
+                "field": "strategy_type",
+                "format": "number"
             },
             {
                 "title": "標籤",
-                "field": "tags"
+                "field": "tags",
+                "format": "number"
             },
             {
                 "title": "信心度",
-                "field": "confidence"
+                "field": "confidence",
+                "format": "number"
             },
             {
                 "title": "綜合評分",
-                "field": "score"
+                "field": "score",
+                "format": "number"
             },
             {
                 "title": "趨勢分數",
-                "field": "trend_score"
+                "field": "trend_score",
+                "format": "number"
             },
             {
                 "title": "動能分數",
-                "field": "momentum_score"
+                "field": "momentum_score",
+                "format": "number"
             },
             {
                 "title": "籌碼分數",
-                "field": "chip_score"
+                "field": "chip_score",
+                "format": "number"
             },
             {
                 "title": "結構分數",
-                "field": "structure_score"
+                "field": "structure_score",
+                "format": "number"
             },
             {
                 "title": "風險分數",
-                "field": "risk_score"
+                "field": "risk_score",
+                "format": "number"
             },
             {
                 "title": "收盤",
-                "field": "close"
+                "field": "close",
+                "format": "number"
             },
             {
                 "title": "成交量",
-                "field": "vol"
+                "field": "vol",
+                "format": "number"
             },
             {
                 "title": "昨量比",
-                "field": "vol_ratio"
+                "field": "vol_ratio",
+                "format": "number"
             },
             {
                 "title": "5日均量",
-                "field": "vma5"
+                "field": "vma5",
+                "format": "number"
             },
             {
                 "title": "10日均量",
-                "field": "vma10"
+                "field": "vma10",
+                "format": "number"
             },
             {
                 "title": "20日均量",
-                "field": "vma20"
+                "field": "vma20",
+                "format": "number"
             },
             {
                 "title": "5日乖離率",
-                "field": "bia5"
+                "field": "bia5",
+                "format": "number"
             },
             {
                 "title": "10日乖離率",
-                "field": "bia10"
+                "field": "bia10",
+                "format": "number"
             },
             {
                 "title": "10日位階",
-                "field": "rank10"
+                "field": "rank10",
+                "format": "number"
             },
             {
                 "title": "10日振幅",
-                "field": "amp10"
+                "field": "amp10",
+                "format": "number"
             },
             {
                 "title": "1日集中度",
-                "field": "con1"
+                "field": "con1",
+                "format": "number"
             },
             {
                 "title": "5日集中度",
-                "field": "con5"
+                "field": "con5",
+                "format": "number"
             },
             {
                 "title": "10日集中度",
-                "field": "con10"
+                "field": "con10",
+                "format": "number"
             },
             {
                 "title": "20日集中度",
-                "field": "con20"
+                "field": "con20",
+                "format": "number"
             },
             {
                 "title": "外資5日",
-                "field": "foreign_sum5"
+                "field": "foreign_sum5",
+                "format": "number"
             },
             {
                 "title": "投信5日",
-                "field": "trust_sum5"
+                "field": "trust_sum5",
+                "format": "number"
             },
             {
                 "title": "外資連買",
-                "field": "foreign_streak_days"
+                "field": "foreign_streak_days",
+                "format": "number"
             },
             {
                 "title": "投信連買",
-                "field": "trust_streak_days"
+                "field": "trust_streak_days",
+                "format": "number"
             },
             {
                 "title": "券補力",
-                "field": "squeeze"
+                "field": "squeeze",
+                "format": "number"
             },
             {
                 "title": "券砸力",
-                "field": "bullet"
+                "field": "bullet",
+                "format": "number"
             },
             {
                 "title": "券淨賣還",
-                "field": "net_sbl"
+                "field": "net_sbl",
+                "format": "number"
             },
             {
                 "title": "券淨賣還5日",
-                "field": "net_sbl_sum5"
+                "field": "net_sbl_sum5",
+                "format": "number"
             },
             {
                 "title": "融資餘額",
-                "field": "margin_balance"
+                "field": "margin_balance",
+                "format": "number"
             },
             {
                 "title": "借券餘額",
-                "field": "sbl_total"
+                "field": "sbl_total",
+                "format": "number"
             },
             {
                 "title": "券賣餘額",
-                "field": "sbl_sold_balance"
+                "field": "sbl_sold_balance",
+                "format": "number"
             }
         ]
     },
@@ -445,148 +517,184 @@
         "columns": [
             {
                 "title": "代號",
-                "field": "stock_id"
+                "field": "stock_id",
+                "format": "number"
             },
             {
+                "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "class": "text-blue-300 font-bold"
+                "format": "number"
             },
             {
                 "title": "策略分類",
-                "field": "strategy_type"
+                "field": "strategy_type",
+                "format": "number"
             },
             {
                 "title": "標籤",
-                "field": "tags"
+                "field": "tags",
+                "format": "number"
             },
             {
                 "title": "信心度",
-                "field": "confidence"
+                "field": "confidence",
+                "format": "number"
             },
             {
                 "title": "綜合評分",
-                "field": "score"
+                "field": "score",
+                "format": "number"
             },
             {
                 "title": "趨勢分數",
-                "field": "trend_score"
+                "field": "trend_score",
+                "format": "number"
             },
             {
                 "title": "動能分數",
-                "field": "momentum_score"
+                "field": "momentum_score",
+                "format": "number"
             },
             {
                 "title": "籌碼分數",
-                "field": "chip_score"
+                "field": "chip_score",
+                "format": "number"
             },
             {
                 "title": "結構分數",
-                "field": "structure_score"
+                "field": "structure_score",
+                "format": "number"
             },
             {
                 "title": "風險分數",
-                "field": "risk_score"
+                "field": "risk_score",
+                "format": "number"
             },
             {
                 "title": "收盤",
-                "field": "close"
+                "field": "close",
+                "format": "number"
             },
             {
                 "title": "成交量",
-                "field": "vol"
+                "field": "vol",
+                "format": "number"
             },
             {
                 "title": "昨量比",
-                "field": "vol_ratio"
+                "field": "vol_ratio",
+                "format": "number"
             },
             {
                 "title": "5日均量",
-                "field": "vma5"
+                "field": "vma5",
+                "format": "number"
             },
             {
                 "title": "10日均量",
-                "field": "vma10"
+                "field": "vma10",
+                "format": "number"
             },
             {
                 "title": "20日均量",
-                "field": "vma20"
+                "field": "vma20",
+                "format": "number"
             },
             {
                 "title": "5日乖離率",
-                "field": "bia5"
+                "field": "bia5",
+                "format": "number"
             },
             {
                 "title": "10日乖離率",
-                "field": "bia10"
+                "field": "bia10",
+                "format": "number"
             },
             {
                 "title": "10日位階",
-                "field": "rank10"
+                "field": "rank10",
+                "format": "number"
             },
             {
                 "title": "10日振幅",
-                "field": "amp10"
+                "field": "amp10",
+                "format": "number"
             },
             {
                 "title": "1日集中度",
-                "field": "con1"
+                "field": "con1",
+                "format": "number"
             },
             {
                 "title": "5日集中度",
-                "field": "con5"
+                "field": "con5",
+                "format": "number"
             },
             {
                 "title": "10日集中度",
-                "field": "con10"
+                "field": "con10",
+                "format": "number"
             },
             {
                 "title": "20日集中度",
-                "field": "con20"
+                "field": "con20",
+                "format": "number"
             },
             {
                 "title": "外資5日",
-                "field": "foreign_sum5"
+                "field": "foreign_sum5",
+                "format": "number"
             },
             {
                 "title": "投信5日",
-                "field": "trust_sum5"
+                "field": "trust_sum5",
+                "format": "number"
             },
             {
                 "title": "外資連買",
-                "field": "foreign_streak_days"
+                "field": "foreign_streak_days",
+                "format": "number"
             },
             {
                 "title": "投信連買",
-                "field": "trust_streak_days"
+                "field": "trust_streak_days",
+                "format": "number"
             },
             {
                 "title": "券補力",
-                "field": "squeeze"
+                "field": "squeeze",
+                "format": "number"
             },
             {
                 "title": "券砸力",
-                "field": "bullet"
+                "field": "bullet",
+                "format": "number"
             },
             {
                 "title": "券淨賣還",
-                "field": "net_sbl"
+                "field": "net_sbl",
+                "format": "number"
             },
             {
                 "title": "券淨賣還5日",
-                "field": "net_sbl_sum5"
+                "field": "net_sbl_sum5",
+                "format": "number"
             },
             {
                 "title": "融資餘額",
-                "field": "margin_balance"
+                "field": "margin_balance",
+                "format": "number"
             },
             {
                 "title": "借券餘額",
-                "field": "sbl_total"
+                "field": "sbl_total",
+                "format": "number"
             },
             {
                 "title": "券賣餘額",
-                "field": "sbl_sold_balance"
+                "field": "sbl_sold_balance",
+                "format": "number"
             }
         ]
     },
@@ -629,40 +737,49 @@
         "columns": [
             {
                 "title": "代號",
-                "field": "stock_id"
+                "field": "stock_id",
+                "format": "number"
             },
             {
+                "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "class": "text-blue-300 font-bold"
+                "format": "number"
             },
             {
                 "title": "持股數",
-                "field": "amount"
+                "field": "amount",
+                "format": "number"
             },
             {
                 "title": "權重",
-                "field": "weight"
+                "field": "weight",
+                "format": "number"
             },
             {
                 "title": "備註",
-                "field": "note"
+                "field": "note",
+                "format": "number"
             },
             {
                 "title": "1日持股差異",
-                "field": "diff1"
+                "field": "diff1",
+                "format": "number"
             },
             {
                 "title": "5日持股差異",
-                "field": "diff5"
+                "field": "diff5",
+                "format": "number"
             },
             {
                 "title": "10日持股差異",
-                "field": "diff10"
+                "field": "diff10",
+                "format": "number"
             },
             {
                 "title": "20日持股差異",
-                "field": "diff20"
+                "field": "diff20",
+                "format": "number"
             }
         ]
     },
@@ -702,19 +819,23 @@
         "columns": [
             {
                 "title": "時間",
-                "field": "log_time"
+                "field": "log_time",
+                "format": "number"
             },
             {
                 "title": "函式",
-                "field": "log_type"
+                "field": "log_type",
+                "format": "number"
             },
             {
                 "title": "內容",
-                "field": "content"
+                "field": "content",
+                "format": "number"
             },
             {
                 "title": "結果",
-                "field": "result"
+                "field": "result",
+                "format": "number"
             }
         ]
     }
