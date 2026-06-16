@@ -45,7 +45,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
-        cleanData(20);
         updateSystemLog($pdo);
         lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {

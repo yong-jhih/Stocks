@@ -36,6 +36,7 @@ if (
             'date' => $targetDate,
             'action' => 'upload'
         ]);
+        cleanData(20);
         updateSystemLog($pdo);
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
