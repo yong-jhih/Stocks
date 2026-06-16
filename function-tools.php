@@ -78,7 +78,7 @@ function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
 
 function fetchUrl(PDO $pdo, string $url): array
 {
-    sleep(2);
+    sleep(3);
     $options = [
         "http" => [
             "method" => "GET",
@@ -87,9 +87,7 @@ function fetchUrl(PDO $pdo, string $url): array
     ];
     try {
         $response = file_get_contents($url, false, stream_context_create($options));
-        if ($response === FALSE) {
-            return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
-        }
+        if ($response === FALSE) return ["status" => "error", "msg" => "錯誤：無法取得資料。請檢查網路連線或 API 網址。"];
         $result = json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
         return $result;
     } catch (Exception $e) {

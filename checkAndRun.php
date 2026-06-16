@@ -25,7 +25,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     $start_time = microtime(true);
     $log = testRetry($pdo);
     if (!($log['log_type'] === 'generateDailyDashboard' && ($log['result'] === 'start' || $log['result'] === 'retry'))) {
-        writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 資料數量正常, 開始進行分析及排行', 'start');
+        writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 資料數量正常, 開始進行盤後篩選及評分排行", 'start');
     }
 
     try {
@@ -44,10 +44,10 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
 
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'generateDailyDashboard', $targetDate . ' 盤後篩選及評分排行已完成,共耗時 ' . $execution_time . ' 秒', 'end');
+        writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
         cleanData(20);
         updateSystemLog($pdo);
-        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成,請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，3分鐘後重試', 'retry');
@@ -66,7 +66,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         }
     }
 } else { // 已公布 資料量不足 則更新資料
-    writeLog($pdo, 'updateAllHistory', '偵測 [' . $targetDate . '] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料', 'waitting');
+    writeLog($pdo, 'updateAllHistory', "偵測 [{$targetDate}] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料", 'waitting');
     updateAllHistory($pdo, $targetDate);
     writeLog($pdo, 'updateAllHistory', '歷史資料更新完畢, 等待下階段進入分析', 'waitting');
     updateSystemLog($pdo);
