@@ -1,5 +1,26 @@
 [
     {
+        "id": 4920021,
+        "log_time": "2026-06-16 21:49:10",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，3分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 4920020,
+        "log_time": "2026-06-16 21:49:06",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-16] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 4920019,
+        "log_time": "2026-06-16 21:49:06",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗",
+        "result": "error"
+    },
+    {
         "id": 4920018,
         "log_time": "2026-06-16 21:45:11",
         "log_type": "generateDailyDashboard",
