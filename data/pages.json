@@ -68,23 +68,23 @@
             {
                 "title": "代號",
                 "field": "stock_id",
-                "format": "number"
+                "format": ""
             },
             {
                 "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "策略分類",
                 "field": "strategy_type",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "標籤",
                 "field": "tags",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "信心度",
@@ -134,7 +134,7 @@
             {
                 "title": "昨量比",
                 "field": "vol_ratio",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "5日均量",
@@ -154,42 +154,42 @@
             {
                 "title": "5日乖離率",
                 "field": "bia5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日乖離率",
                 "field": "bia10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日位階",
                 "field": "rank10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日振幅",
                 "field": "amp10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "1日集中度",
                 "field": "con1",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "5日集中度",
                 "field": "con5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日集中度",
                 "field": "con10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "20日集中度",
                 "field": "con20",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "外資5日",
@@ -214,12 +214,12 @@
             {
                 "title": "券補力",
                 "field": "squeeze",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券砸力",
                 "field": "bullet",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券淨賣還",
@@ -293,23 +293,23 @@
             {
                 "title": "代號",
                 "field": "stock_id",
-                "format": "number"
+                "format": ""
             },
             {
                 "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "策略分類",
                 "field": "strategy_type",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "標籤",
                 "field": "tags",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "信心度",
@@ -359,7 +359,7 @@
             {
                 "title": "昨量比",
                 "field": "vol_ratio",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "5日均量",
@@ -379,42 +379,42 @@
             {
                 "title": "5日乖離率",
                 "field": "bia5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日乖離率",
                 "field": "bia10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日位階",
                 "field": "rank10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日振幅",
                 "field": "amp10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "1日集中度",
                 "field": "con1",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "5日集中度",
                 "field": "con5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日集中度",
                 "field": "con10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "20日集中度",
                 "field": "con20",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "外資5日",
@@ -439,12 +439,12 @@
             {
                 "title": "券補力",
                 "field": "squeeze",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券砸力",
                 "field": "bullet",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券淨賣還",
@@ -518,23 +518,23 @@
             {
                 "title": "代號",
                 "field": "stock_id",
-                "format": "number"
+                "format": ""
             },
             {
                 "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "策略分類",
                 "field": "strategy_type",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "標籤",
                 "field": "tags",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "信心度",
@@ -584,7 +584,7 @@
             {
                 "title": "昨量比",
                 "field": "vol_ratio",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "5日均量",
@@ -604,42 +604,42 @@
             {
                 "title": "5日乖離率",
                 "field": "bia5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日乖離率",
                 "field": "bia10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日位階",
                 "field": "rank10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日振幅",
                 "field": "amp10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "1日集中度",
                 "field": "con1",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "5日集中度",
                 "field": "con5",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "10日集中度",
                 "field": "con10",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "20日集中度",
                 "field": "con20",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "外資5日",
@@ -664,12 +664,12 @@
             {
                 "title": "券補力",
                 "field": "squeeze",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券砸力",
                 "field": "bullet",
-                "format": "number"
+                "format": "ratio"
             },
             {
                 "title": "券淨賣還",
@@ -738,13 +738,13 @@
             {
                 "title": "代號",
                 "field": "stock_id",
-                "format": "number"
+                "format": ""
             },
             {
                 "class": "text-blue-300 font-bold",
                 "title": "名稱",
                 "field": "stock_name",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "持股數",
@@ -754,12 +754,12 @@
             {
                 "title": "權重",
                 "field": "weight",
-                "format": "number"
+                "format": "percent"
             },
             {
                 "title": "備註",
                 "field": "note",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "1日持股差異",
@@ -820,22 +820,22 @@
             {
                 "title": "時間",
                 "field": "log_time",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "函式",
                 "field": "log_type",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "內容",
                 "field": "content",
-                "format": "number"
+                "format": ""
             },
             {
                 "title": "結果",
                 "field": "result",
-                "format": "number"
+                "format": ""
             }
         ]
     }

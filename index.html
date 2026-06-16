@@ -837,7 +837,8 @@
                         }
                         if (col.field === 'stock_name') return `<span class="${col.class || ''}">${value}</span>`;
                         if (value === null || value === undefined) return '';
-                        return value;
+                        // return value;
+                        return formatValue(value, col.format);
                     });
                     table.row.add(row);
                 });
