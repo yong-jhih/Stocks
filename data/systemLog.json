@@ -1,5 +1,19 @@
 [
     {
+        "id": 5010019,
+        "log_time": "2026-06-17 22:06:59",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，3分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 5010018,
+        "log_time": "2026-06-17 22:06:55",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-17] 篩選分析完成，共 8 檔",
+        "result": "success"
+    },
+    {
         "id": 5010017,
         "log_time": "2026-06-17 22:03:07",
         "log_type": "generateDailyDashboard",
