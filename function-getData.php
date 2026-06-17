@@ -1266,7 +1266,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
                 'note'       => $note,
                 'amount'     => $currAmount,
                 'weight'     => (float)$item['weight'],
-                'diff1'      => $diff1,
+                'diff1'      => (int)$diff1,
                 'diff5'      => (int)$item['diff5'],
                 'diff10'     => (int)$item['diff10'],
                 'diff20'     => (int)$item['diff20']
