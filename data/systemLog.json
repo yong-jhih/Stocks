@@ -1,5 +1,12 @@
 [
     {
+        "id": 5010008,
+        "log_time": "2026-06-17 21:32:35",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，3分鐘後重試",
+        "result": "retry"
+    },
+    {
         "id": 5010007,
         "log_time": "2026-06-17 21:28:52",
         "log_type": "generateDailyDashboard",
