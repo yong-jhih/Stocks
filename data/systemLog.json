@@ -1,5 +1,33 @@
 [
     {
+        "id": 5010031,
+        "log_time": "2026-06-17 22:43:13",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-17] 盤後篩選及評分排行已完成, 共耗時 99.07 秒",
+        "result": "end"
+    },
+    {
+        "id": 5010030,
+        "log_time": "2026-06-17 22:41:42",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-06-17] 排行分析完成，共 630 檔",
+        "result": "success"
+    },
+    {
+        "id": 5010029,
+        "log_time": "2026-06-17 22:41:38",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-17] 篩選分析完成，共 8 檔",
+        "result": "success"
+    },
+    {
+        "id": 5010028,
+        "log_time": "2026-06-17 22:37:17",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，3分鐘後重試",
+        "result": "retry"
+    },
+    {
         "id": 5010027,
         "log_time": "2026-06-17 22:36:27",
         "log_type": "generateDailyDashboard",
