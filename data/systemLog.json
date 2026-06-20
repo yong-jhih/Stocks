@@ -1,5 +1,89 @@
 [
     {
+        "id": 5160012,
+        "log_time": "2026-06-21 02:46:37",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160011,
+        "log_time": "2026-06-21 02:46:37",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160010,
+        "log_time": "2026-06-21 02:46:36",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160009,
+        "log_time": "2026-06-21 02:46:36",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160008,
+        "log_time": "2026-06-21 02:46:36",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160007,
+        "log_time": "2026-06-21 02:46:36",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160006,
+        "log_time": "2026-06-21 02:46:35",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160005,
+        "log_time": "2026-06-21 02:46:35",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 1149.26 秒",
+        "result": "end"
+    },
+    {
+        "id": 5160004,
+        "log_time": "2026-06-21 02:46:35",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4765 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160003,
+        "log_time": "2026-06-21 02:44:21",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 3030 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160002,
+        "log_time": "2026-06-21 02:29:44",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 1090 筆",
+        "result": "success"
+    },
+    {
+        "id": 5160001,
+        "log_time": "2026-06-21 02:27:26",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 5130002,
         "log_time": "2026-06-19 20:09:19",
         "log_type": "update00981A",
