@@ -1,0 +1,1030 @@
+{
+    "date": "2026-06-22",
+    "stocks": {
+        "5434": {
+            "stockId": "5434",
+            "series": [
+                {
+                    "date": "05\/25",
+                    "price": 485,
+                    "bar_inst": 134,
+                    "bar_margin": 0,
+                    "bar_sbl": -19,
+                    "line_inst5": 883,
+                    "line_margin5": 0,
+                    "line_sbl5": -5
+                },
+                {
+                    "date": "05\/26",
+                    "price": 481,
+                    "bar_inst": -63,
+                    "bar_margin": -0,
+                    "bar_sbl": 62,
+                    "line_inst5": 768,
+                    "line_margin5": -0,
+                    "line_sbl5": 153
+                },
+                {
+                    "date": "05\/27",
+                    "price": 473.5,
+                    "bar_inst": -340,
+                    "bar_margin": 0,
+                    "bar_sbl": -66,
+                    "line_inst5": 270,
+                    "line_margin5": -0,
+                    "line_sbl5": 77
+                },
+                {
+                    "date": "05\/28",
+                    "price": 450.5,
+                    "bar_inst": -212,
+                    "bar_margin": 0,
+                    "bar_sbl": -41,
+                    "line_inst5": -54,
+                    "line_margin5": -0,
+                    "line_sbl5": 15
+                },
+                {
+                    "date": "05\/29",
+                    "price": 453,
+                    "bar_inst": -169,
+                    "bar_margin": 0,
+                    "bar_sbl": 11,
+                    "line_inst5": -650,
+                    "line_margin5": -0,
+                    "line_sbl5": -53
+                },
+                {
+                    "date": "06\/01",
+                    "price": 453,
+                    "bar_inst": -135,
+                    "bar_margin": 0,
+                    "bar_sbl": -3,
+                    "line_inst5": -919,
+                    "line_margin5": -0,
+                    "line_sbl5": -37
+                },
+                {
+                    "date": "06\/02",
+                    "price": 466,
+                    "bar_inst": -10,
+                    "bar_margin": 0,
+                    "bar_sbl": 67,
+                    "line_inst5": -866,
+                    "line_margin5": 0,
+                    "line_sbl5": -32
+                },
+                {
+                    "date": "06\/03",
+                    "price": 473,
+                    "bar_inst": 15,
+                    "bar_margin": -0,
+                    "bar_sbl": -13,
+                    "line_inst5": -511,
+                    "line_margin5": -0,
+                    "line_sbl5": 21
+                },
+                {
+                    "date": "06\/04",
+                    "price": 464.5,
+                    "bar_inst": -35,
+                    "bar_margin": -0,
+                    "bar_sbl": 35,
+                    "line_inst5": -334,
+                    "line_margin5": -0,
+                    "line_sbl5": 97
+                },
+                {
+                    "date": "06\/05",
+                    "price": 458.5,
+                    "bar_inst": -62,
+                    "bar_margin": 0,
+                    "bar_sbl": 114,
+                    "line_inst5": -227,
+                    "line_margin5": -0,
+                    "line_sbl5": 200
+                },
+                {
+                    "date": "06\/08",
+                    "price": 437.5,
+                    "bar_inst": 20,
+                    "bar_margin": -0,
+                    "bar_sbl": 193,
+                    "line_inst5": -72,
+                    "line_margin5": -0,
+                    "line_sbl5": 396
+                },
+                {
+                    "date": "06\/09",
+                    "price": 456,
+                    "bar_inst": 199,
+                    "bar_margin": -0,
+                    "bar_sbl": 18,
+                    "line_inst5": 136,
+                    "line_margin5": -0,
+                    "line_sbl5": 347
+                },
+                {
+                    "date": "06\/10",
+                    "price": 449.5,
+                    "bar_inst": 333,
+                    "bar_margin": -0,
+                    "bar_sbl": 96,
+                    "line_inst5": 454,
+                    "line_margin5": -0,
+                    "line_sbl5": 456
+                },
+                {
+                    "date": "06\/11",
+                    "price": 453,
+                    "bar_inst": 198,
+                    "bar_margin": -0,
+                    "bar_sbl": 107,
+                    "line_inst5": 688,
+                    "line_margin5": -0,
+                    "line_sbl5": 528
+                },
+                {
+                    "date": "06\/12",
+                    "price": 466,
+                    "bar_inst": 353,
+                    "bar_margin": -0,
+                    "bar_sbl": 57,
+                    "line_inst5": 1103,
+                    "line_margin5": -0,
+                    "line_sbl5": 471
+                },
+                {
+                    "date": "06\/15",
+                    "price": 468,
+                    "bar_inst": 280,
+                    "bar_margin": 0,
+                    "bar_sbl": 4,
+                    "line_inst5": 1363,
+                    "line_margin5": -0,
+                    "line_sbl5": 282
+                },
+                {
+                    "date": "06\/16",
+                    "price": 470.5,
+                    "bar_inst": 197,
+                    "bar_margin": -0,
+                    "bar_sbl": -34,
+                    "line_inst5": 1362,
+                    "line_margin5": -0,
+                    "line_sbl5": 230
+                },
+                {
+                    "date": "06\/17",
+                    "price": 478,
+                    "bar_inst": 225,
+                    "bar_margin": 0,
+                    "bar_sbl": 26,
+                    "line_inst5": 1254,
+                    "line_margin5": -0,
+                    "line_sbl5": 160
+                },
+                {
+                    "date": "06\/18",
+                    "price": 475.5,
+                    "bar_inst": 135,
+                    "bar_margin": -0,
+                    "bar_sbl": 55,
+                    "line_inst5": 1191,
+                    "line_margin5": -0,
+                    "line_sbl5": 108
+                },
+                {
+                    "date": "06\/22",
+                    "price": 506,
+                    "bar_inst": 435,
+                    "bar_margin": 0,
+                    "bar_sbl": -39,
+                    "line_inst5": 1272,
+                    "line_margin5": 0,
+                    "line_sbl5": 12
+                }
+            ]
+        },
+        "2030": {
+            "stockId": "2030",
+            "series": [
+                {
+                    "date": "05\/25",
+                    "price": 18.5,
+                    "bar_inst": 9,
+                    "bar_margin": 0,
+                    "bar_sbl": 23,
+                    "line_inst5": 630,
+                    "line_margin5": 0,
+                    "line_sbl5": -95
+                },
+                {
+                    "date": "05\/26",
+                    "price": 17.95,
+                    "bar_inst": -310,
+                    "bar_margin": -0,
+                    "bar_sbl": -15,
+                    "line_inst5": 112,
+                    "line_margin5": 0,
+                    "line_sbl5": -44
+                },
+                {
+                    "date": "05\/27",
+                    "price": 18,
+                    "bar_inst": 245,
+                    "bar_margin": -0,
+                    "bar_sbl": -167,
+                    "line_inst5": 424,
+                    "line_margin5": -0,
+                    "line_sbl5": -211
+                },
+                {
+                    "date": "05\/28",
+                    "price": 17.75,
+                    "bar_inst": 124,
+                    "bar_margin": -0,
+                    "bar_sbl": 29,
+                    "line_inst5": 301,
+                    "line_margin5": -0,
+                    "line_sbl5": -125
+                },
+                {
+                    "date": "05\/29",
+                    "price": 17.95,
+                    "bar_inst": 16,
+                    "bar_margin": -0,
+                    "bar_sbl": -183,
+                    "line_inst5": 84,
+                    "line_margin5": 0,
+                    "line_sbl5": -313
+                },
+                {
+                    "date": "06\/01",
+                    "price": 18.3,
+                    "bar_inst": 657,
+                    "bar_margin": -0,
+                    "bar_sbl": -6,
+                    "line_inst5": 732,
+                    "line_margin5": -0,
+                    "line_sbl5": -342
+                },
+                {
+                    "date": "06\/02",
+                    "price": 18.25,
+                    "bar_inst": -250,
+                    "bar_margin": -0,
+                    "bar_sbl": -124,
+                    "line_inst5": 793,
+                    "line_margin5": -0,
+                    "line_sbl5": -451
+                },
+                {
+                    "date": "06\/03",
+                    "price": 18.85,
+                    "bar_inst": 924,
+                    "bar_margin": 0,
+                    "bar_sbl": -394,
+                    "line_inst5": 1472,
+                    "line_margin5": 0,
+                    "line_sbl5": -678
+                },
+                {
+                    "date": "06\/04",
+                    "price": 18.65,
+                    "bar_inst": -171,
+                    "bar_margin": -0,
+                    "bar_sbl": -4,
+                    "line_inst5": 1177,
+                    "line_margin5": 0,
+                    "line_sbl5": -711
+                },
+                {
+                    "date": "06\/05",
+                    "price": 18.5,
+                    "bar_inst": 198,
+                    "bar_margin": 0,
+                    "bar_sbl": 0,
+                    "line_inst5": 1359,
+                    "line_margin5": 0,
+                    "line_sbl5": -528
+                },
+                {
+                    "date": "06\/08",
+                    "price": 18.8,
+                    "bar_inst": 593,
+                    "bar_margin": -0,
+                    "bar_sbl": 11,
+                    "line_inst5": 1295,
+                    "line_margin5": 0,
+                    "line_sbl5": -511
+                },
+                {
+                    "date": "06\/09",
+                    "price": 19.2,
+                    "bar_inst": -91,
+                    "bar_margin": -0,
+                    "bar_sbl": -147,
+                    "line_inst5": 1453,
+                    "line_margin5": 0,
+                    "line_sbl5": -534
+                },
+                {
+                    "date": "06\/10",
+                    "price": 18.65,
+                    "bar_inst": 124,
+                    "bar_margin": 0,
+                    "bar_sbl": -1,
+                    "line_inst5": 653,
+                    "line_margin5": -0,
+                    "line_sbl5": -141
+                },
+                {
+                    "date": "06\/11",
+                    "price": 18.15,
+                    "bar_inst": -434,
+                    "bar_margin": 0,
+                    "bar_sbl": -122,
+                    "line_inst5": 390,
+                    "line_margin5": 0,
+                    "line_sbl5": -259
+                },
+                {
+                    "date": "06\/12",
+                    "price": 18.45,
+                    "bar_inst": 868,
+                    "bar_margin": -0,
+                    "bar_sbl": -539,
+                    "line_inst5": 1060,
+                    "line_margin5": 0,
+                    "line_sbl5": -798
+                },
+                {
+                    "date": "06\/15",
+                    "price": 18.65,
+                    "bar_inst": 364,
+                    "bar_margin": 0,
+                    "bar_sbl": -9,
+                    "line_inst5": 831,
+                    "line_margin5": 0,
+                    "line_sbl5": -818
+                },
+                {
+                    "date": "06\/16",
+                    "price": 18.55,
+                    "bar_inst": 163,
+                    "bar_margin": 0,
+                    "bar_sbl": -2,
+                    "line_inst5": 1085,
+                    "line_margin5": 1,
+                    "line_sbl5": -673
+                },
+                {
+                    "date": "06\/17",
+                    "price": 18.45,
+                    "bar_inst": 268,
+                    "bar_margin": -0,
+                    "bar_sbl": 8,
+                    "line_inst5": 1229,
+                    "line_margin5": 1,
+                    "line_sbl5": -664
+                },
+                {
+                    "date": "06\/18",
+                    "price": 18.55,
+                    "bar_inst": 515,
+                    "bar_margin": 0,
+                    "bar_sbl": -3,
+                    "line_inst5": 2178,
+                    "line_margin5": 0,
+                    "line_sbl5": -545
+                },
+                {
+                    "date": "06\/22",
+                    "price": 19.6,
+                    "bar_inst": 2238,
+                    "bar_margin": 0,
+                    "bar_sbl": -11,
+                    "line_inst5": 3548,
+                    "line_margin5": 0,
+                    "line_sbl5": -17
+                }
+            ]
+        },
+        "6944": {
+            "stockId": "6944",
+            "series": [
+                {
+                    "date": "05\/25",
+                    "price": 931,
+                    "bar_inst": 231,
+                    "bar_margin": 0,
+                    "bar_sbl": -6,
+                    "line_inst5": 157,
+                    "line_margin5": 0,
+                    "line_sbl5": 37
+                },
+                {
+                    "date": "05\/26",
+                    "price": 951,
+                    "bar_inst": 158,
+                    "bar_margin": 0,
+                    "bar_sbl": 64,
+                    "line_inst5": 518,
+                    "line_margin5": 0,
+                    "line_sbl5": 55
+                },
+                {
+                    "date": "05\/27",
+                    "price": 936,
+                    "bar_inst": -9,
+                    "bar_margin": -0,
+                    "bar_sbl": 34,
+                    "line_inst5": 699,
+                    "line_margin5": -0,
+                    "line_sbl5": 89
+                },
+                {
+                    "date": "05\/28",
+                    "price": 924,
+                    "bar_inst": 21,
+                    "bar_margin": -0,
+                    "bar_sbl": 67,
+                    "line_inst5": 467,
+                    "line_margin5": -0,
+                    "line_sbl5": 156
+                },
+                {
+                    "date": "05\/29",
+                    "price": 946,
+                    "bar_inst": 319,
+                    "bar_margin": -0,
+                    "bar_sbl": 53,
+                    "line_inst5": 721,
+                    "line_margin5": -0,
+                    "line_sbl5": 212
+                },
+                {
+                    "date": "06\/01",
+                    "price": 932,
+                    "bar_inst": -150,
+                    "bar_margin": 0,
+                    "bar_sbl": -7,
+                    "line_inst5": 340,
+                    "line_margin5": -0,
+                    "line_sbl5": 211
+                },
+                {
+                    "date": "06\/02",
+                    "price": 900,
+                    "bar_inst": -267,
+                    "bar_margin": 0,
+                    "bar_sbl": 56,
+                    "line_inst5": -86,
+                    "line_margin5": -0,
+                    "line_sbl5": 203
+                },
+                {
+                    "date": "06\/03",
+                    "price": 914,
+                    "bar_inst": 155,
+                    "bar_margin": -0,
+                    "bar_sbl": -59,
+                    "line_inst5": 78,
+                    "line_margin5": -0,
+                    "line_sbl5": 110
+                },
+                {
+                    "date": "06\/04",
+                    "price": 934,
+                    "bar_inst": 539,
+                    "bar_margin": -0,
+                    "bar_sbl": -14,
+                    "line_inst5": 596,
+                    "line_margin5": -0,
+                    "line_sbl5": 29
+                },
+                {
+                    "date": "06\/05",
+                    "price": 939,
+                    "bar_inst": 178,
+                    "bar_margin": -0,
+                    "bar_sbl": -3,
+                    "line_inst5": 455,
+                    "line_margin5": -0,
+                    "line_sbl5": -27
+                },
+                {
+                    "date": "06\/08",
+                    "price": 911,
+                    "bar_inst": -39,
+                    "bar_margin": -0,
+                    "bar_sbl": 0,
+                    "line_inst5": 566,
+                    "line_margin5": -0,
+                    "line_sbl5": -20
+                },
+                {
+                    "date": "06\/09",
+                    "price": 927,
+                    "bar_inst": 75,
+                    "bar_margin": -0,
+                    "bar_sbl": 12,
+                    "line_inst5": 908,
+                    "line_margin5": -0,
+                    "line_sbl5": -64
+                },
+                {
+                    "date": "06\/10",
+                    "price": 908,
+                    "bar_inst": 149,
+                    "bar_margin": -0,
+                    "bar_sbl": 2,
+                    "line_inst5": 902,
+                    "line_margin5": -0,
+                    "line_sbl5": -3
+                },
+                {
+                    "date": "06\/11",
+                    "price": 937,
+                    "bar_inst": 249,
+                    "bar_margin": -0,
+                    "bar_sbl": 40,
+                    "line_inst5": 612,
+                    "line_margin5": -0,
+                    "line_sbl5": 51
+                },
+                {
+                    "date": "06\/12",
+                    "price": 991,
+                    "bar_inst": 957,
+                    "bar_margin": 0,
+                    "bar_sbl": 0,
+                    "line_inst5": 1391,
+                    "line_margin5": -0,
+                    "line_sbl5": 54
+                },
+                {
+                    "date": "06\/15",
+                    "price": 1005,
+                    "bar_inst": 215,
+                    "bar_margin": -0,
+                    "bar_sbl": -23,
+                    "line_inst5": 1644,
+                    "line_margin5": -0,
+                    "line_sbl5": 31
+                },
+                {
+                    "date": "06\/16",
+                    "price": 998,
+                    "bar_inst": 173,
+                    "bar_margin": -0,
+                    "bar_sbl": 4,
+                    "line_inst5": 1743,
+                    "line_margin5": -0,
+                    "line_sbl5": 23
+                },
+                {
+                    "date": "06\/17",
+                    "price": 1025,
+                    "bar_inst": -28,
+                    "bar_margin": 0,
+                    "bar_sbl": 10,
+                    "line_inst5": 1565,
+                    "line_margin5": -0,
+                    "line_sbl5": 31
+                },
+                {
+                    "date": "06\/18",
+                    "price": 1045,
+                    "bar_inst": 174,
+                    "bar_margin": -0,
+                    "bar_sbl": 0,
+                    "line_inst5": 1491,
+                    "line_margin5": -0,
+                    "line_sbl5": -9
+                },
+                {
+                    "date": "06\/22",
+                    "price": 1070,
+                    "bar_inst": 205,
+                    "bar_margin": 0,
+                    "bar_sbl": 12,
+                    "line_inst5": 739,
+                    "line_margin5": -0,
+                    "line_sbl5": 3
+                }
+            ]
+        },
+        "2457": {
+            "stockId": "2457",
+            "series": [
+                {
+                    "date": "05\/25",
+                    "price": 26.85,
+                    "bar_inst": 442,
+                    "bar_margin": 0,
+                    "bar_sbl": -1304,
+                    "line_inst5": 4841,
+                    "line_margin5": -0,
+                    "line_sbl5": -1248
+                },
+                {
+                    "date": "05\/26",
+                    "price": 25.95,
+                    "bar_inst": 292,
+                    "bar_margin": 0,
+                    "bar_sbl": -1303,
+                    "line_inst5": 5140,
+                    "line_margin5": -0,
+                    "line_sbl5": -2672
+                },
+                {
+                    "date": "05\/27",
+                    "price": 25.2,
+                    "bar_inst": -223,
+                    "bar_margin": -0,
+                    "bar_sbl": -191,
+                    "line_inst5": 4408,
+                    "line_margin5": -0,
+                    "line_sbl5": -2874
+                },
+                {
+                    "date": "05\/28",
+                    "price": 25.15,
+                    "bar_inst": 41,
+                    "bar_margin": 0,
+                    "bar_sbl": -86,
+                    "line_inst5": 2827,
+                    "line_margin5": 0,
+                    "line_sbl5": -2969
+                },
+                {
+                    "date": "05\/29",
+                    "price": 26,
+                    "bar_inst": 1299,
+                    "bar_margin": -0,
+                    "bar_sbl": 126,
+                    "line_inst5": 1851,
+                    "line_margin5": 0,
+                    "line_sbl5": -2758
+                },
+                {
+                    "date": "06\/01",
+                    "price": 26.85,
+                    "bar_inst": 32,
+                    "bar_margin": 0,
+                    "bar_sbl": -20,
+                    "line_inst5": 1440,
+                    "line_margin5": -0,
+                    "line_sbl5": -1474
+                },
+                {
+                    "date": "06\/02",
+                    "price": 26.5,
+                    "bar_inst": 135,
+                    "bar_margin": 0,
+                    "bar_sbl": -67,
+                    "line_inst5": 1283,
+                    "line_margin5": 0,
+                    "line_sbl5": -238
+                },
+                {
+                    "date": "06\/03",
+                    "price": 29.15,
+                    "bar_inst": 1811,
+                    "bar_margin": 0,
+                    "bar_sbl": -871,
+                    "line_inst5": 3317,
+                    "line_margin5": 0,
+                    "line_sbl5": -918
+                },
+                {
+                    "date": "06\/04",
+                    "price": 32.05,
+                    "bar_inst": 52,
+                    "bar_margin": -0,
+                    "bar_sbl": 63,
+                    "line_inst5": 3328,
+                    "line_margin5": -0,
+                    "line_sbl5": -769
+                },
+                {
+                    "date": "06\/05",
+                    "price": 30.15,
+                    "bar_inst": -2645,
+                    "bar_margin": 0,
+                    "bar_sbl": 804,
+                    "line_inst5": -616,
+                    "line_margin5": 0,
+                    "line_sbl5": -91
+                },
+                {
+                    "date": "06\/08",
+                    "price": 28.25,
+                    "bar_inst": 35,
+                    "bar_margin": -1,
+                    "bar_sbl": 663,
+                    "line_inst5": -612,
+                    "line_margin5": -0,
+                    "line_sbl5": 592
+                },
+                {
+                    "date": "06\/09",
+                    "price": 31.05,
+                    "bar_inst": -1712,
+                    "bar_margin": 1,
+                    "bar_sbl": 1323,
+                    "line_inst5": -2459,
+                    "line_margin5": 0,
+                    "line_sbl5": 1982
+                },
+                {
+                    "date": "06\/10",
+                    "price": 29.5,
+                    "bar_inst": 620,
+                    "bar_margin": 1,
+                    "bar_sbl": 1350,
+                    "line_inst5": -3650,
+                    "line_margin5": 1,
+                    "line_sbl5": 4203
+                },
+                {
+                    "date": "06\/11",
+                    "price": 28.8,
+                    "bar_inst": -1602,
+                    "bar_margin": 0,
+                    "bar_sbl": 784,
+                    "line_inst5": -5304,
+                    "line_margin5": 1,
+                    "line_sbl5": 4924
+                },
+                {
+                    "date": "06\/12",
+                    "price": 30.1,
+                    "bar_inst": 1411,
+                    "bar_margin": -0,
+                    "bar_sbl": -408,
+                    "line_inst5": -1247,
+                    "line_margin5": 1,
+                    "line_sbl5": 3712
+                },
+                {
+                    "date": "06\/15",
+                    "price": 29.65,
+                    "bar_inst": -1136,
+                    "bar_margin": 1,
+                    "bar_sbl": -117,
+                    "line_inst5": -2419,
+                    "line_margin5": 2,
+                    "line_sbl5": 2932
+                },
+                {
+                    "date": "06\/16",
+                    "price": 29,
+                    "bar_inst": 245,
+                    "bar_margin": -0,
+                    "bar_sbl": -115,
+                    "line_inst5": -462,
+                    "line_margin5": 1,
+                    "line_sbl5": 1494
+                },
+                {
+                    "date": "06\/17",
+                    "price": 29,
+                    "bar_inst": -318,
+                    "bar_margin": -0,
+                    "bar_sbl": -141,
+                    "line_inst5": -1400,
+                    "line_margin5": 0,
+                    "line_sbl5": 3
+                },
+                {
+                    "date": "06\/18",
+                    "price": 28.8,
+                    "bar_inst": -358,
+                    "bar_margin": 0,
+                    "bar_sbl": 438,
+                    "line_inst5": -156,
+                    "line_margin5": 0,
+                    "line_sbl5": -343
+                },
+                {
+                    "date": "06\/22",
+                    "price": 31.5,
+                    "bar_inst": 5762,
+                    "bar_margin": 0,
+                    "bar_sbl": -1209,
+                    "line_inst5": 4195,
+                    "line_margin5": 1,
+                    "line_sbl5": -1144
+                }
+            ]
+        },
+        "9914": {
+            "stockId": "9914",
+            "series": [
+                {
+                    "date": "05\/25",
+                    "price": 68.2,
+                    "bar_inst": 247,
+                    "bar_margin": 0,
+                    "bar_sbl": 12,
+                    "line_inst5": -803,
+                    "line_margin5": -0,
+                    "line_sbl5": -1966
+                },
+                {
+                    "date": "05\/26",
+                    "price": 67.3,
+                    "bar_inst": -542,
+                    "bar_margin": 0,
+                    "bar_sbl": 15,
+                    "line_inst5": -1568,
+                    "line_margin5": 0,
+                    "line_sbl5": -1558
+                },
+                {
+                    "date": "05\/27",
+                    "price": 64.9,
+                    "bar_inst": -418,
+                    "bar_margin": 0,
+                    "bar_sbl": 124,
+                    "line_inst5": -1795,
+                    "line_margin5": 0,
+                    "line_sbl5": -1306
+                },
+                {
+                    "date": "05\/28",
+                    "price": 66,
+                    "bar_inst": 32,
+                    "bar_margin": 0,
+                    "bar_sbl": 86,
+                    "line_inst5": -2555,
+                    "line_margin5": 0,
+                    "line_sbl5": 290
+                },
+                {
+                    "date": "05\/29",
+                    "price": 66.7,
+                    "bar_inst": 6,
+                    "bar_margin": 0,
+                    "bar_sbl": 112,
+                    "line_inst5": -675,
+                    "line_margin5": 0,
+                    "line_sbl5": 349
+                },
+                {
+                    "date": "06\/01",
+                    "price": 68,
+                    "bar_inst": 203,
+                    "bar_margin": 0,
+                    "bar_sbl": -402,
+                    "line_inst5": -718,
+                    "line_margin5": 0,
+                    "line_sbl5": -65
+                },
+                {
+                    "date": "06\/02",
+                    "price": 68.9,
+                    "bar_inst": 336,
+                    "bar_margin": -0,
+                    "bar_sbl": -103,
+                    "line_inst5": 159,
+                    "line_margin5": 0,
+                    "line_sbl5": -183
+                },
+                {
+                    "date": "06\/03",
+                    "price": 69.3,
+                    "bar_inst": 26,
+                    "bar_margin": 0,
+                    "bar_sbl": -71,
+                    "line_inst5": 603,
+                    "line_margin5": 0,
+                    "line_sbl5": -378
+                },
+                {
+                    "date": "06\/04",
+                    "price": 68.6,
+                    "bar_inst": 47,
+                    "bar_margin": -0,
+                    "bar_sbl": 0,
+                    "line_inst5": 617,
+                    "line_margin5": -0,
+                    "line_sbl5": -464
+                },
+                {
+                    "date": "06\/05",
+                    "price": 69.1,
+                    "bar_inst": 273,
+                    "bar_margin": -0,
+                    "bar_sbl": -332,
+                    "line_inst5": 884,
+                    "line_margin5": -0,
+                    "line_sbl5": -908
+                },
+                {
+                    "date": "06\/08",
+                    "price": 68,
+                    "bar_inst": 209,
+                    "bar_margin": -0,
+                    "bar_sbl": 5,
+                    "line_inst5": 890,
+                    "line_margin5": -0,
+                    "line_sbl5": -501
+                },
+                {
+                    "date": "06\/09",
+                    "price": 68.6,
+                    "bar_inst": -47,
+                    "bar_margin": -0,
+                    "bar_sbl": 60,
+                    "line_inst5": 508,
+                    "line_margin5": -0,
+                    "line_sbl5": -338
+                },
+                {
+                    "date": "06\/10",
+                    "price": 69,
+                    "bar_inst": 385,
+                    "bar_margin": -0,
+                    "bar_sbl": -98,
+                    "line_inst5": 867,
+                    "line_margin5": -0,
+                    "line_sbl5": -365
+                },
+                {
+                    "date": "06\/11",
+                    "price": 73.7,
+                    "bar_inst": -181,
+                    "bar_margin": 0,
+                    "bar_sbl": 86,
+                    "line_inst5": 639,
+                    "line_margin5": -0,
+                    "line_sbl5": -279
+                },
+                {
+                    "date": "06\/12",
+                    "price": 73.4,
+                    "bar_inst": 292,
+                    "bar_margin": -0,
+                    "bar_sbl": -145,
+                    "line_inst5": 658,
+                    "line_margin5": -0,
+                    "line_sbl5": -92
+                },
+                {
+                    "date": "06\/15",
+                    "price": 73.7,
+                    "bar_inst": 110,
+                    "bar_margin": -0,
+                    "bar_sbl": -271,
+                    "line_inst5": 559,
+                    "line_margin5": 0,
+                    "line_sbl5": -368
+                },
+                {
+                    "date": "06\/16",
+                    "price": 74.1,
+                    "bar_inst": 153,
+                    "bar_margin": 0,
+                    "bar_sbl": 14,
+                    "line_inst5": 759,
+                    "line_margin5": 0,
+                    "line_sbl5": -414
+                },
+                {
+                    "date": "06\/17",
+                    "price": 73,
+                    "bar_inst": 220,
+                    "bar_margin": 0,
+                    "bar_sbl": 55,
+                    "line_inst5": 594,
+                    "line_margin5": 0,
+                    "line_sbl5": -261
+                },
+                {
+                    "date": "06\/18",
+                    "price": 72.1,
+                    "bar_inst": -189,
+                    "bar_margin": 0,
+                    "bar_sbl": -184,
+                    "line_inst5": 586,
+                    "line_margin5": 0,
+                    "line_sbl5": -531
+                },
+                {
+                    "date": "06\/22",
+                    "price": 73.4,
+                    "bar_inst": 446,
+                    "bar_margin": 0,
+                    "bar_sbl": -529,
+                    "line_inst5": 741,
+                    "line_margin5": 0,
+                    "line_sbl5": -915
+                }
+            ]
+        }
+    }
+}
