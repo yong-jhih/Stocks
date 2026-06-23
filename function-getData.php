@@ -33,7 +33,7 @@ function getHistory(string $date, PDO $pdo): ?array
                 }
             }
         }
-        writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+        writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
     }
     writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
     return null;
@@ -55,7 +55,7 @@ function getInsti(string $date, PDO $pdo): ?array
                 return $stocks;
             }
         }
-        writeLog($pdo, 'getInsti', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+        writeLog($pdo, 'getInsti', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
     }
     writeLog($pdo, 'getInsti', '執行 3 次失敗,退出', 'error');
     return null;
@@ -79,7 +79,7 @@ function getMargin(string $date, PDO $pdo): ?array
                 }
             }
         }
-        writeLog($pdo, 'getMargin', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+        writeLog($pdo, 'getMargin', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
     }
     writeLog($pdo, 'getMargin', '執行 3 次失敗,退出', 'error');
     return null;
@@ -100,7 +100,7 @@ function getSBLTotal(string $date, PDO $pdo): ?array
                 return $stocks;
             }
         }
-        writeLog($pdo, 'getSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+        writeLog($pdo, 'getSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
     }
     writeLog($pdo, 'getSBLTotal', '執行 3 次失敗,退出', 'error');
     return null;
@@ -121,7 +121,7 @@ function getSBLSold(string $date, PDO $pdo): ?array
                 return $stocks;
             }
         }
-        writeLog($pdo, 'getSBLSold', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+        writeLog($pdo, 'getSBLSold', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
     }
     writeLog($pdo, 'getSBLSold', '執行 3 次失敗,退出', 'error');
     return null;
