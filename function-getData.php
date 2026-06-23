@@ -1417,7 +1417,7 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
             $html = curl_exec($ch);
             $curlError = curl_error($ch);
             curl_close($ch);
@@ -1483,7 +1483,7 @@ function updateConcept(PDO $pdo, array $stocks): void
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         $html = curl_exec($ch);
         curl_close($ch);
 
@@ -1517,7 +1517,7 @@ function updateConcept(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
             $html = curl_exec($ch);
             curl_close($ch);
 
