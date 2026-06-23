@@ -88,10 +88,11 @@ CREATE TABLE IF NOT EXISTS 00981A_component (
 CREATE TABLE IF NOT EXISTS stock_profile (
     stock_id VARCHAR(10) NOT NULL COMMENT '股票代號',
     stock_name VARCHAR(50) NOT NULL COMMENT '股票名稱',
+    stock_unified_business_number VARCHAR(50) NOT NULL DEFAULT '' COMMENT '營利事業統一編號',
     industry VARCHAR(100) DEFAULT '' COMMENT '主產業',
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    PRIMARY KEY (stock_id),
+    PRIMARY KEY (stock_id, stock_unified_business_number),
     INDEX idx_industry (industry)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

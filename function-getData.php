@@ -1290,7 +1290,7 @@ function updateStockProfile(PDO $pdo): void
     $start_time = microtime(true);
     writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
     try {
-        $stocks = getStockProfileWithTWSE($pdo);
+        $stocks = array_merge(getStockProfileWithTWSE($pdo), getStockProfileWithTPExO($pdo));
         updateIndustry($pdo, $stocks);
         updateSubIndustry($pdo, $stocks);
         updateConcept($pdo, $stocks);
@@ -1305,41 +1305,7 @@ function updateStockProfile(PDO $pdo): void
 
 function getStockProfileWithTWSE(PDO $pdo): array
 {
-    $industry = [
-        '01' => '水泥工業',
-        '02' => '食品工業',
-        '03' => '塑膠工業',
-        '04' => '紡織纖維',
-        '05' => '電機機械',
-        '06' => '電器電纜',
-        '08' => '玻璃陶瓷',
-        '09' => '造紙工業',
-        '10' => '鋼鐵工業',
-        '11' => '橡膠工業',
-        '12' => '汽車工業',
-        '14' => '建材營造',
-        '15' => '航運業',
-        '16' => '觀光餐旅',
-        '17' => '金融保險',
-        '18' => '貿易百貨',
-        '19' => '綜合',
-        '20' => '其他',
-        '21' => '化學工業',
-        '22' => '生技醫療業',
-        '23' => '油電燃氣業',
-        '24' => '半導體業',
-        '25' => '電腦及週邊設備業',
-        '26' => '光電業',
-        '27' => '通信網路業',
-        '28' => '電子零組件業',
-        '29' => '電子通路業',
-        '30' => '資訊服務業',
-        '31' => '其他電子業',
-        '35' => '綠能環保',
-        '36' => '數位雲端',
-        '37' => '運動休閒',
-        '38' => '居家生活'
-    ];
+    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -1363,7 +1329,40 @@ function getStockProfileWithTWSE(PDO $pdo): array
         $stocks[] = [
             'stock_id'   => $stock['公司代號'],
             'stock_name' => $stock['公司簡稱'] ?? '',
+            'stock_unified_business_number' => $stock['營利事業統一編號'] ?? '',
             'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
+        ];
+    }
+    return $stocks;
+}
+
+function getStockProfileWithTPExO(PDO $pdo): array
+{
+    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+    if ($response === false || $httpCode !== 200) {
+        throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
+    }
+    $data = json_decode($response, true);
+    if (!is_array($data)) {
+        $preview = mb_substr(trim($response), 0, 100);
+        throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+    }
+    $stocks = [];
+    foreach ($data as $stock) {
+        $stocks[] = [
+            'stock_id'   => $stock['SecuritiesCompanyCode'],
+            'stock_name' => $stock['CompanyAbbreviation'] ?? '',
+            'stock_unified_business_number' => $stock['UnifiedBusinessNo.'] ?? '',
+            'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
         ];
     }
     return $stocks;
@@ -1372,10 +1371,11 @@ function getStockProfileWithTWSE(PDO $pdo): array
 function updateIndustry(PDO $pdo, array $stocks): void
 {
     $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, industry) 
-            VALUES (?, ?, ?)
+            (stock_id, stock_name, stock_unified_business_number, industry) 
+            VALUES (?, ?, ?,?)
             ON DUPLICATE KEY UPDATE 
             stock_name = VALUES(stock_name),
+            stock_unified_business_number = VALUES(stock_unified_business_number),
             industry = VALUES(industry)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
