@@ -1325,7 +1325,7 @@ function getStockProfileWithTWSE(PDO $pdo): array
     }
     $data = json_decode($response, true);
     if (!is_array($data)) {
-        $preview = mb_substr(trim($response), 0, 100);
+        $preview = mb_substr(trim($response), 0, 300);
         throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
     }
     $stocks = [];
@@ -1395,6 +1395,7 @@ function updateIndustry(PDO $pdo, array $stocks): void
             $stmt->execute([
                 $row['stock_id'],
                 $row['stock_name'],
+                $row['stock_unified_business_number'],
                 $row['industry']
             ]);
         }
