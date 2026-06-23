@@ -1290,7 +1290,7 @@ function updateStockProfile(PDO $pdo): void
     $start_time = microtime(true);
     writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
     try {
-        $stocks = array_merge(getStockProfileWithTWSE($pdo), getStockProfileWithTPExO($pdo));
+        $stocks = getStockProfileWithTWSE($pdo);
         updateIndustry($pdo, $stocks);
         updateSubIndustry($pdo, $stocks);
         updateConcept($pdo, $stocks);
