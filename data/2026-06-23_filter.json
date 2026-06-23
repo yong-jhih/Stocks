@@ -1,0 +1,301 @@
+[
+    {
+        "stock_id": "1303",
+        "stock_name": "南亞",
+        "industry": "塑膠工業",
+        "subIndustry": [
+            " 人造纖維",
+            " 人造纖維產品(例如尼龍纖維、聚酯纖維、嫘縈纖維等)",
+            " 染整",
+            " 機械設備之沖壓零組件",
+            " 玻璃纖維\/玻纖布",
+            " 環氧樹脂",
+            " 石化上游原料及相關鑽探設備",
+            " 石化原料(例如純對苯二甲酸、乙二醇、己內醯胺、丙烯腈等)",
+            " 酚醛樹脂",
+            " 銅箔",
+            " 銅箔基板",
+            " 電控元件"
+        ],
+        "concept": [
+            "CPTPP",
+            "ESG",
+            "S＆P亞洲50指數台灣成分股",
+            "一帶一路",
+            "世足",
+            "傳產內需股",
+            "傳產原物料股",
+            "台商越南",
+            "臺灣50指數成分股",
+            "臺灣發達指數成分股",
+            "臺灣高股息指數成分股"
+        ],
+        "score": 59,
+        "rating": "B",
+        "strategy_type": "高風險",
+        "confidence": 0.75,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 18,
+        "structure_score": 0,
+        "risk_score": -43,
+        "close": 154.5,
+        "yesterday_high": 152.5,
+        "yesterday_low": 152.5,
+        "vol": 222204,
+        "vol_ratio": 3.91,
+        "rank10": 85.4,
+        "amp10": 77.23,
+        "ma5": 130,
+        "ma10": 114.49,
+        "ma20": 107.77,
+        "ma60": 92.64,
+        "vma5": 95346,
+        "vma10": 75520,
+        "vma20": 85250,
+        "bia5": 18.85,
+        "bia10": 34.95,
+        "bia20": 43.36,
+        "con1": 10.34,
+        "con5": 9.32,
+        "con10": 8.7,
+        "con20": 12.96,
+        "foreign_buy_sell": -16414621,
+        "trust_buy_sell": 40655919,
+        "foreign_sum5": 13521,
+        "foreign_sum10": 33021,
+        "foreign_sum20": 183211,
+        "trust_sum5": 44261,
+        "trust_sum10": 48692,
+        "trust_sum20": 64117,
+        "foreign_streak_days": 0,
+        "trust_streak_days": 3,
+        "margin_balance": 29227,
+        "margin_balance_diff": -7654,
+        "squeeze": 0.05,
+        "bullet": 2.29,
+        "net_sbl": -487,
+        "net_sbl_sum5": 966,
+        "sbl_total": 199552,
+        "sbl_sold_balance": 4547,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "投信連買": 12,
+                "融資減肥": 6
+            },
+            "risk": {
+                "短線過熱": -18,
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "投信連買",
+            "融資減肥",
+            "短線過熱",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "成交量放大 3.91 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    },
+    {
+        "stock_id": "4934",
+        "stock_name": "太極",
+        "industry": "光電業",
+        "subIndustry": [
+            " 太陽能電池",
+            " 太陽能電池模組"
+        ],
+        "concept": [
+            "儲能",
+            "儲能系統",
+            "台商印度",
+            "大陸收成股",
+            "太陽能",
+            "第三代半導體"
+        ],
+        "score": 44,
+        "rating": "C",
+        "strategy_type": "短線轉強",
+        "confidence": 0.3,
+        "trend_score": 10,
+        "momentum_score": 35,
+        "chip_score": 0,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 17.95,
+        "yesterday_high": 17.55,
+        "yesterday_low": 17.1,
+        "vol": 3326,
+        "vol_ratio": 2.44,
+        "rank10": 72.97,
+        "amp10": 24.26,
+        "ma5": 17.43,
+        "ma10": 16.94,
+        "ma20": 17.1,
+        "ma60": 16.9,
+        "vma5": 1724,
+        "vma10": 2039,
+        "vma20": 1847,
+        "bia5": 2.98,
+        "bia10": 5.99,
+        "bia20": 4.99,
+        "con1": 10.08,
+        "con5": 3.03,
+        "con10": 16.99,
+        "con20": 7.98,
+        "foreign_buy_sell": 335305,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 255,
+        "foreign_sum10": 3802,
+        "foreign_sum20": 3140,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 0,
+        "margin_balance_diff": 0,
+        "squeeze": 0,
+        "bullet": 0,
+        "net_sbl": 0,
+        "net_sbl_sum5": 0,
+        "sbl_total": 0,
+        "sbl_sold_balance": 0,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": [],
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "成交量放大 2.44 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "2316",
+        "stock_name": "楠梓電",
+        "industry": "電子零組件業",
+        "subIndustry": [
+            " 基板組裝加工及相關製造",
+            " 硬板、軟板、IC載板製造"
+        ],
+        "concept": [
+            "5G",
+            "CoWoS",
+            "HDI板",
+            "新基建"
+        ],
+        "score": 40,
+        "rating": "C",
+        "strategy_type": "高風險",
+        "confidence": 0.5,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 15,
+        "structure_score": 0,
+        "risk_score": -42,
+        "close": 217.5,
+        "yesterday_high": 226,
+        "yesterday_low": 226,
+        "vol": 19258,
+        "vol_ratio": 8.76,
+        "rank10": 68.53,
+        "amp10": 65.67,
+        "ma5": 192,
+        "ma10": 176.15,
+        "ma20": 171.35,
+        "ma60": 133.53,
+        "vma5": 6874,
+        "vma10": 6045,
+        "vma20": 6638,
+        "bia5": 13.28,
+        "bia10": 23.47,
+        "bia20": 26.93,
+        "con1": 20.63,
+        "con5": 13.98,
+        "con10": 11.68,
+        "con20": 5.41,
+        "foreign_buy_sell": 4239594,
+        "trust_buy_sell": 173000,
+        "foreign_sum5": 6499,
+        "foreign_sum10": 8376,
+        "foreign_sum20": 7977,
+        "trust_sum5": 173,
+        "trust_sum10": 173,
+        "trust_sum20": 61,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 1,
+        "margin_balance": 4118,
+        "margin_balance_diff": -1023,
+        "squeeze": 0.61,
+        "bullet": 0.47,
+        "net_sbl": 11,
+        "net_sbl_sum5": -1719,
+        "sbl_total": 7176,
+        "sbl_sold_balance": 4072,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "土洋合力": 15
+            },
+            "risk": {
+                "乖離過大": -12,
+                "爆量滯漲": -30
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "土洋合力",
+            "乖離過大",
+            "爆量滯漲"
+        ],
+        "trigger_reasons": [
+            "成交量放大 8.76 倍"
+        ]
+    }
+]
