@@ -18,56 +18,102 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
 function getHistory(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
-        foreach ($data['tables'] as $v) {
-            if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
-                $stocks = [];
-                foreach ($v['data'] as $v1) {
-                    if (preg_match('/^[1-9]\d{3}$/', trim($v1[0]))) {
-                        $stocks[] = $v1;
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
+            foreach ($data['tables'] as $v) {
+                if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
+                    $stocks = [];
+                    foreach ($v['data'] as $v1) {
+                        if (preg_match('/^[1-9]\d{3}$/', trim($v1[0]))) {
+                            $stocks[] = $v1;
+                        }
                     }
+                    return $stocks;
                 }
-                return $stocks;
             }
         }
-        writeLog($pdo, 'getHistory', "查詢不到每日收盤行情表", 'error');
-        return null;
+        writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
     }
-    writeLog($pdo, 'getHistory', '證交所回傳錯誤訊息：' . ($data['msg'] ?? '未知錯誤'), 'error');
+    writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
     return null;
 }
 
 function getInsti(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
-        if (str_contains($data['title'], "三大法人買賣超日報")) {
-            $stocks = [];
-            foreach ($data['data'] as $v) {
-                if (preg_match('/^[1-9]\d{3}$/', $v[0])) {
-                    $stocks[] = $v;
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
+            if (str_contains($data['title'], "三大法人買賣超日報")) {
+                $stocks = [];
+                foreach ($data['data'] as $v) {
+                    if (preg_match('/^[1-9]\d{3}$/', $v[0])) {
+                        $stocks[] = $v;
+                    }
                 }
+                return $stocks;
             }
-            return $stocks;
         }
-        writeLog($pdo, 'getInsti', "資料格式錯誤", 'error');
-        return null;
+        writeLog($pdo, 'getInsti', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
     }
-    writeLog($pdo, 'getInsti', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤'), 'error');
+    writeLog($pdo, 'getInsti', '執行 3 次失敗,退出', 'error');
     return null;
 }
 
 function getMargin(string $date, PDO $pdo): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
-        foreach ($data['tables'] as $v) {
-            if (str_contains($v['title'], "融資融券彙總") && is_array($v['data'])) {
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables']) && is_array($data['tables'])) {
+            foreach ($data['tables'] as $v) {
+                if (str_contains($v['title'], "融資融券彙總") && is_array($v['data'])) {
+                    $stocks = [];
+                    foreach ($v['data'] as $row) {
+                        if (preg_match('/^[1-9]\d{3}$/', $row[0])) {
+                            $stocks[] = $row;
+                        }
+                    }
+                    return $stocks;
+                }
+            }
+        }
+        writeLog($pdo, 'getMargin', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+    }
+    writeLog($pdo, 'getMargin', '執行 3 次失敗,退出', 'error');
+    return null;
+}
+function getSBLTotal(string $date, PDO $pdo): ?array
+{
+    $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && is_array($data['data'])) {
+            if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
                 $stocks = [];
-                foreach ($v['data'] as $row) {
+                foreach ($data['data'] as $row) {
+                    if (preg_match('/^[1-9]\d{3}$/', $row[0]) && $row[8] == '集中市場') {
+                        $stocks[] = $row;
+                    }
+                }
+                return $stocks;
+            }
+        }
+        writeLog($pdo, 'getSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
+    }
+    writeLog($pdo, 'getSBLTotal', '執行 3 次失敗,退出', 'error');
+    return null;
+}
+function getSBLSold(string $date, PDO $pdo): ?array
+{
+    $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && is_array($data['data'])) {
+            if (str_contains($data['title'], "信用額度總量管制餘額")) {
+                $stocks = [];
+                foreach ($data['data'] as $row) {
                     if (preg_match('/^[1-9]\d{3}$/', $row[0])) {
                         $stocks[] = $row;
                     }
@@ -75,52 +121,9 @@ function getMargin(string $date, PDO $pdo): ?array
                 return $stocks;
             }
         }
-        writeLog($pdo, 'getMargin', "查詢不到融資融券彙總表", 'error');
-        return null;
+        writeLog($pdo, 'getSBLSold', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'error');
     }
-    writeLog($pdo, 'getMargin', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤'), 'error');
-    return null;
-}
-function getSBLTotal(string $date, PDO $pdo): ?array
-{
-    $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
-        if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
-            $stocks = [];
-            foreach ($data['data'] as $row) {
-                if (preg_match('/^[1-9]\d{3}$/', $row[0]) && $row[8] == '集中市場') {
-                    $stocks[] = $row;
-                }
-            }
-            return $stocks;
-        } else {
-            writeLog($pdo, 'getSBLTotal', "資料格式錯誤", 'error');
-            return null;
-        }
-    }
-    writeLog($pdo, 'getSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤'), 'error');
-    return null;
-}
-function getSBLSold(string $date, PDO $pdo): ?array
-{
-    $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
-    $data = fetchUrl($pdo, $url);
-    if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
-        if (str_contains($data['title'], "信用額度總量管制餘額")) {
-            $stocks = [];
-            foreach ($data['data'] as $row) {
-                if (preg_match('/^[1-9]\d{3}$/', $row[0])) {
-                    $stocks[] = $row;
-                }
-            }
-            return $stocks;
-        } else {
-            writeLog($pdo, 'getSBLSold', "資料格式錯誤", 'error');
-            return null;
-        }
-    }
-    writeLog($pdo, 'getSBLSold', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤'), 'error');
+    writeLog($pdo, 'getSBLSold', '執行 3 次失敗,退出', 'error');
     return null;
 }
 
