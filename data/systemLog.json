@@ -1,5 +1,26 @@
 [
     {
+        "id": 5700003,
+        "log_time": "2026-06-24 23:37:48",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 5700002,
+        "log_time": "2026-06-24 23:37:45",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-24] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 5700001,
+        "log_time": "2026-06-24 23:37:38",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：很抱歉，沒有符合條件的資料!",
+        "result": "error"
+    },
+    {
         "id": 5670007,
         "log_time": "2026-06-24 23:31:49",
         "log_type": "generateDailyDashboard",
