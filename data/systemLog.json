@@ -103,33 +103,5 @@
         "log_type": "update00981A",
         "content": "取得交易日期 [2026-06-23], 開始更新 00981A 成分股資料",
         "result": "start"
-    },
-    {
-        "id": 5430001,
-        "log_time": "2026-06-23 20:09:13",
-        "log_type": "getLatestTradingDateWithTWSE",
-        "content": "證交所資料異常：回傳日期 (2018-07-31) 與今日差距過大 (2884 天)",
-        "result": "error"
-    },
-    {
-        "id": 5400002,
-        "log_time": "2026-06-23 16:46:38",
-        "log_type": "updateStockProfile",
-        "content": "產業別及次產業概念更新失敗，原因：[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: <html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text\/html; charset=utf-8\">\n<\/head>\n<body> \n因為安全性考量，您所執行的頁面無法呈現。<BR>\nFOR SECURITY REASONS, THIS PAGE CAN NOT BE ACCESSED.<BR>\n<BR>\n您可以<A HREF=\"javascript:history.back()\">回上一頁<\/A>繼續其他動作，或撥打以下電話通報問題：(02)8101-5840, (02)8101-5834。<BR>\nYOU COULD GO <A",
-        "result": "error"
-    },
-    {
-        "id": 5400001,
-        "log_time": "2026-06-23 16:46:37",
-        "log_type": "updateStockProfile",
-        "content": "開始更新產業別及次產業概念",
-        "result": "start"
-    },
-    {
-        "id": 5370009,
-        "log_time": "2026-06-23 16:32:44",
-        "log_type": "updateStockProfile",
-        "content": "產業別及次產業概念更新失敗，原因：[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: 200, cURL 錯誤: transfer closed with 513995 bytes remaining to read",
-        "result": "error"
     }
 ]
