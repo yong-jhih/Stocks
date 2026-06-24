@@ -1,0 +1,191 @@
+[
+    {
+        "stock_id": "1560",
+        "stock_name": "中砂",
+        "industry": "電機機械",
+        "subIndustry": [
+            " 五金元件及零配件"
+        ],
+        "concept": [
+            "CoWoS",
+            "台積電",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股"
+        ],
+        "score": 97,
+        "rating": "S",
+        "strategy_type": "短線轉強",
+        "confidence": 0.67,
+        "trend_score": 10,
+        "momentum_score": 35,
+        "chip_score": 40,
+        "structure_score": 0,
+        "risk_score": -18,
+        "close": 749,
+        "yesterday_high": 722,
+        "yesterday_low": 698,
+        "vol": 3155,
+        "vol_ratio": 3.01,
+        "rank10": 88.46,
+        "amp10": 30.95,
+        "ma5": 696.8,
+        "ma10": 674.1,
+        "ma20": 692.45,
+        "ma60": 592.85,
+        "vma5": 1258,
+        "vma10": 1464,
+        "vma20": 1622,
+        "bia5": 7.49,
+        "bia10": 11.11,
+        "bia20": 8.17,
+        "con1": 38.72,
+        "con5": 25.97,
+        "con10": 15.2,
+        "con20": 7.02,
+        "foreign_buy_sell": 1189129,
+        "trust_buy_sell": 45000,
+        "foreign_sum5": 1871,
+        "foreign_sum10": 1632,
+        "foreign_sum20": 1671,
+        "trust_sum5": 147,
+        "trust_sum10": 847,
+        "trust_sum20": 825,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 4,
+        "margin_balance": 1502,
+        "margin_balance_diff": -132,
+        "squeeze": 0.63,
+        "bullet": 5.07,
+        "net_sbl": -60,
+        "net_sbl_sum5": -152,
+        "sbl_total": 9239,
+        "sbl_sold_balance": 1018,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "投信連買": 12,
+                "土洋合力": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "法人集中",
+            "外資連買",
+            "投信連買",
+            "土洋合力",
+            "融資減肥",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "成交量放大 3.01 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "3016",
+        "stock_name": "嘉晶",
+        "industry": "半導體業",
+        "subIndustry": [
+            " 晶圓製造"
+        ],
+        "concept": [
+            "太陽能",
+            "第三代半導體",
+            "電動車"
+        ],
+        "score": 42,
+        "rating": "C",
+        "strategy_type": "觀察",
+        "confidence": 0.3,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": -20,
+        "close": 137.5,
+        "yesterday_high": 152.5,
+        "yesterday_low": 149,
+        "vol": 18860,
+        "vol_ratio": 2.28,
+        "rank10": 71.66,
+        "amp10": 55.65,
+        "ma5": 132,
+        "ma10": 121.8,
+        "ma20": 121.25,
+        "ma60": 95.93,
+        "vma5": 14471,
+        "vma10": 10310,
+        "vma20": 11356,
+        "bia5": 4.17,
+        "bia10": 12.89,
+        "bia20": 13.4,
+        "con1": 13.05,
+        "con5": 6.54,
+        "con10": 1.48,
+        "con20": -1.44,
+        "foreign_buy_sell": 2652939,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 3987,
+        "foreign_sum10": 1589,
+        "foreign_sum20": -2648,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 0,
+        "margin_balance": 8034,
+        "margin_balance_diff": -5,
+        "squeeze": 0.13,
+        "bullet": 0.25,
+        "net_sbl": 103,
+        "net_sbl_sum5": -178,
+        "sbl_total": 4281,
+        "sbl_sold_balance": 1490,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": {
+                "假突破": -20
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "外資連買",
+            "假突破"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "成交量放大 2.28 倍"
+        ]
+    }
+]
