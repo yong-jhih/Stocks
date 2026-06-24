@@ -49,12 +49,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
-            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，3分鐘後重試', 'retry');
+            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，4分鐘後重試', 'retry');
             callGAS($pdo, [
                 'date' => $targetDate,
                 'action' => 'retry',
                 'target' => 'CheckAndRun',
-                'after' => 180
+                'after' => 240
             ]);
             updateSystemLog($pdo);
             exit(0);
