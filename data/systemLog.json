@@ -1,5 +1,19 @@
 [
     {
+        "id": 5520002,
+        "log_time": "2026-06-24 20:09:22",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 7.07 秒",
+        "result": "end"
+    },
+    {
+        "id": 5520001,
+        "log_time": "2026-06-24 20:09:15",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-06-24], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
         "id": 5490004,
         "log_time": "2026-06-23 21:15:28",
         "log_type": "generateDailyDashboard",
