@@ -1,7 +1,7 @@
 <?php
 require_once("init.php");
 
-// updateStockProfile($pdo);
+updateStockProfile($pdo);
 dbClean($pdo, 'stock_history', 'trade_date', 100);
 dbClean($pdo, 'stock_insti', 'trade_date', 100);
 dbClean($pdo, 'stock_margin', 'trade_date', 100);
