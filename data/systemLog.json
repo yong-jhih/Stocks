@@ -1,5 +1,54 @@
 [
     {
+        "id": 5730010,
+        "log_time": "2026-06-24 23:49:29",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730009,
+        "log_time": "2026-06-24 23:49:29",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730008,
+        "log_time": "2026-06-24 23:49:28",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 9365 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730007,
+        "log_time": "2026-06-24 23:49:28",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 8810 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730006,
+        "log_time": "2026-06-24 23:49:28",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 9324 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730005,
+        "log_time": "2026-06-24 23:49:27",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 9553 筆",
+        "result": "success"
+    },
+    {
+        "id": 5730004,
+        "log_time": "2026-06-24 23:49:27",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 9648 筆",
+        "result": "success"
+    },
+    {
         "id": 5730003,
         "log_time": "2026-06-24 23:43:57",
         "log_type": "generateDailyDashboard",
