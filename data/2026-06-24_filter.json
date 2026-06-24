@@ -50,7 +50,7 @@
         "trust_sum5": 147,
         "trust_sum10": 847,
         "trust_sum20": 825,
-        "foreign_streak_days": 6,
+        "foreign_streak_days": 5,
         "trust_streak_days": 4,
         "margin_balance": 1502,
         "margin_balance_diff": -132,
@@ -94,7 +94,7 @@
             "月線轉弱"
         ],
         "trigger_reasons": [
-            "外資連買 6 日",
+            "外資連買 5 日",
             "成交量放大 3.01 倍",
             "突破前高"
         ]
@@ -149,7 +149,7 @@
         "trust_sum5": 0,
         "trust_sum10": 0,
         "trust_sum20": 0,
-        "foreign_streak_days": 6,
+        "foreign_streak_days": 8,
         "trust_streak_days": 0,
         "margin_balance": 8034,
         "margin_balance_diff": -5,
@@ -184,7 +184,7 @@
             "假突破"
         ],
         "trigger_reasons": [
-            "外資連買 6 日",
+            "外資連買 8 日",
             "成交量放大 2.28 倍"
         ]
     }
