@@ -1326,11 +1326,11 @@ function getStockProfileTPEx(PDO $pdo): array
         $data = fetchUrl($pdo, $url);
         if (isset($data['status']) && $data['status'] === 'error') {
             $errorMsg = $data['msg'] ?? '未知錯誤';
-            writeLog($pdo, 'getStockProfileOTC', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            writeLog($pdo, 'getStockProfileTPEx', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
             continue;
         }
         if (!is_array($data) || empty($data)) {
-            writeLog($pdo, 'getStockProfileOTC', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            writeLog($pdo, 'getStockProfileTPEx', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
             continue;
         }
         foreach ($data as $v) {
@@ -1345,7 +1345,7 @@ function getStockProfileTPEx(PDO $pdo): array
         }
         return $stocksOTC;
     }
-    writeLog($pdo, 'getStockProfileOTC', "執行 3 次失敗,退出", 'error');
+    writeLog($pdo, 'getStockProfileTPEx', "執行 3 次失敗,退出", 'error');
     exit(1);
 }
 
@@ -1435,80 +1435,6 @@ function updateStockProfile(PDO $pdo): void
         throw $e;
     }
 }
-
-// function getStockProfileWithTWSE(PDO $pdo): array
-// {
-//     $industry = json_decode(file_get_contents('data/industry_code.json'), true);
-//     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-//     $ch = curl_init();
-//     curl_setopt($ch, CURLOPT_URL, $url);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-//     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//         'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-//         'Accept: application/json'
-//     ]);
-//     $response = curl_exec($ch);
-//     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//     $curlError = curl_error($ch);
-//     curl_close($ch);
-//     if ($response === false || $httpCode !== 200) {
-//         throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
-//     }
-//     $data = json_decode($response, true);
-//     if (!is_array($data)) {
-//         $preview = mb_substr(trim($response), 0, 300);
-//         throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
-//     }
-//     $stocks = [];
-//     foreach ($data as $stock) {
-//         if (empty($stock['公司代號'])) continue;
-//         $stocks[] = [
-//             'stock_id'   => $stock['公司代號'],
-//             'stock_name' => $stock['公司簡稱'] ?? '',
-//             'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
-//         ];
-//     }
-//     return $stocks;
-// }
-
-// function getStockProfileWithTPExO(PDO $pdo): array
-// {
-//     $industry = json_decode(file_get_contents('data/industry_code.json'), true);
-//     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
-//     $ch = curl_init();
-//     curl_setopt($ch, CURLOPT_URL, $url);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-//     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//         'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-//         'Accept: application/json'
-//     ]);
-//     $response = curl_exec($ch);
-//     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//     $curlError = curl_error($ch);
-//     curl_close($ch);
-//     if ($response === false || $httpCode !== 200) {
-//         throw new RuntimeException("[getStockProfileWithTPExO] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
-//     }
-//     $data = json_decode($response, true);
-//     if (!is_array($data)) {
-//         $preview = mb_substr(trim($response), 0, 100);
-//         throw new RuntimeException("[getStockProfileWithTPExO] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
-//     }
-//     $stocks = [];
-//     foreach ($data as $stock) {
-//         $stocks[] = [
-//             'stock_id'   => $stock['SecuritiesCompanyCode'],
-//             'stock_name' => $stock['CompanyAbbreviation'] ?? '',
-//             'stock_unified_business_number' => $stock['UnifiedBusinessNo.'] ?? '',
-//             'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
-//         ];
-//     }
-//     return $stocks;
-// }
 
 function updateIndustry(PDO $pdo, array $stocks): void
 {
@@ -1609,6 +1535,115 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
     }
 }
 
+function updateSubIndustryTest(PDO $pdo, array $stocks): void
+{
+    $stockList = array_column($stocks, 'stock_id');
+    if (empty($stockList)) return;
+
+    // 1. 先刪除舊資料（這部分可以保持一次性處理，效率較高）
+    try {
+        $placeholders = implode(',', array_fill(0, count($stockList), '?'));
+        $sqlDelete = "DELETE FROM stock_sub_industry WHERE stock_id IN ($placeholders)";
+        $stmtDelete = $pdo->prepare($sqlDelete);
+        $stmtDelete->execute($stockList);
+    } catch (Throwable $e) {
+        throw new RuntimeException("[updateSubIndustry Delete Error] " . $e->getMessage(), 0, $e);
+    }
+
+    // 2. 設定併發數量 (例如每次同時抓 15 檔，避免被對方網站封鎖)
+    $concurrency = 15;
+    $stockChunks = array_chunk($stocks, $concurrency, true);
+    $totalInsertCount = 0;
+
+    foreach ($stockChunks as $chunk) {
+        $mh = curl_multi_init();
+        $handlers = [];
+
+        // 建立批次中的 cURL 句柄
+        foreach ($chunk as $stockId => $stock) {
+            $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 併發時超時可以縮短一點
+
+            curl_multi_add_handle($mh, $ch);
+            $handlers[$stock['stock_id']] = $ch;
+        }
+
+        // 執行併發請求
+        $running = null;
+        do {
+            curl_multi_exec($mh, $running);
+            curl_multi_select($mh); // 避免 CPU 空轉 100%
+        } while ($running > 0);
+
+        // 3. 解析與寫入資料 (每一批完成就寫入，並用小交易包起來)
+        $pdo->beginTransaction();
+        try {
+            foreach ($handlers as $stockId => $ch) {
+                $html = curl_multi_getcontent($ch);
+                $curlError = curl_error($ch);
+
+                // 移除控制代碼
+                curl_multi_remove_handle($mh, $ch);
+                curl_close($ch);
+
+                if ($html === false || trim($html) == '') {
+                    writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stockId} 抓取失敗或為空：{$curlError}", 'warning');
+                    continue;
+                }
+
+                // 解析 HTML
+                libxml_use_internal_errors(true);
+                $dom = new DOMDocument();
+                @$dom->loadHTML($html); // 加 @ 隱藏 HTML5 標籤不規範的警告
+                $xpath = new DOMXPath($dom);
+                $nodes = $xpath->query('//h4[a[contains(@href,"introduce.php")]]');
+
+                $subIndustries = [];
+                foreach ($nodes as $node) {
+                    $text = html_entity_decode(trim($node->textContent));
+                    $parts = explode('>', $text);
+                    if (count($parts) < 2) continue;
+                    $subIndustry = trim(end($parts));
+                    if ($subIndustry != '') {
+                        $subIndustries[] = $subIndustry;
+                    }
+                }
+                $subIndustries = array_values(array_unique($subIndustries));
+
+                // 準備寫入該檔股票的次產業
+                if (!empty($subIndustries)) {
+                    $values = [];
+                    $params = [];
+                    foreach ($subIndustries as $subIndustry) {
+                        $values[] = "(?, ?)";
+                        $params[] = $stockId;
+                        $params[] = $subIndustry;
+                    }
+                    $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
+                    $stmtInsert = $pdo->prepare($sqlInsert);
+                    $stmtInsert->execute($params);
+                    $totalInsertCount += $stmtInsert->rowCount();
+                }
+            }
+            $pdo->commit(); // 這一批成功就提交
+        } catch (Throwable $e) {
+            $pdo->rollBack();
+            // 某一組批次失敗，記錄後繼續跑下一組，避免全盤皆輸
+            writeLog($pdo, 'updateSubIndustry', "批次寫入失敗: " . $e->getMessage(), 'error');
+        }
+
+        curl_multi_close($mh);
+
+        // 稍微休息一下，保護對方伺服器，也避免自己 IP 被鎖
+        usleep(500000); // 0.5 秒
+    }
+
+    writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
+}
 function updateConcept(PDO $pdo, array $stocks): void
 {
     $stockList = array_filter(array_column($stocks, 'stock_id'));
