@@ -13,7 +13,16 @@ for ($i = 0; $i < 3; $i++) {
                     $stocks[$v1[0]] = ['stock_id' => $v1[0], 'stock_name' => $v1[1]];
                 }
                 if (count($stocks) > 1000) {
-                    createJsonFile($pdo, '', 'stockList', $stocks);
+                    createJsonFile($pdo, $targetDate, 'stockList', $stocks);
+                    if (file_exists("data/{$targetDate}_stockList.json")) {
+                        if (rename("data/{$targetDate}_stockList.json", "stockList.json")) {
+                            echo "檔案名稱已成功修改為：原檔名已成功更名為： stockList.json";
+                        } else {
+                            echo "檔案更名失敗。";
+                        }
+                    } else {
+                        echo "找不到原始檔案。";
+                    }
                     exit;
                 }
             }
@@ -22,3 +31,6 @@ for ($i = 0; $i < 3; $i++) {
     writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
 }
 writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
+
+$a = json_decode(file_get_contents("data/_stockList.json"), true);
+echo "--------------------\n" . $a['0050']['stock_id'] . ":" . $a['0050']['stock_name'] . "\n--------------------\n";
