@@ -1,0 +1,112 @@
+[
+    {
+        "stock_id": "5434",
+        "stock_name": "崇越",
+        "industry": "",
+        "subIndustry": [
+            " 化學品",
+            " 太陽能發電設備\/系統及系統工程",
+            " 太陽能電池模組",
+            " 封裝\/模組",
+            " 材料",
+            " 生產製程、檢測設備及原物料",
+            " 生產製程及檢測設備",
+            " 貿易商、代理商、經銷商",
+            " 電感器",
+            " 電阻器材料(氧化鋁陶瓷基板、導電漿墨)"
+        ],
+        "concept": [
+            "CSR(企業社會責任)",
+            "ESG",
+            "Micro LED",
+            "儲能",
+            "台商墨西哥",
+            "台積電",
+            "大陸收成股",
+            "水資源",
+            "臺灣中型100指數成分股",
+            "臺灣資訊科技指數成分股"
+        ],
+        "score": 93,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 35,
+        "chip_score": 16,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 505,
+        "yesterday_high": 492.5,
+        "yesterday_low": 478.5,
+        "vol": 1462,
+        "vol_ratio": 1.92,
+        "rank10": 79.66,
+        "amp10": 20.37,
+        "ma5": 488,
+        "ma10": 474.7,
+        "ma20": 466.63,
+        "ma60": 418.13,
+        "vma5": 1120,
+        "vma10": 1068,
+        "vma20": 1015,
+        "bia5": 3.48,
+        "bia10": 6.38,
+        "bia20": 8.22,
+        "con1": 21.74,
+        "con5": 13.74,
+        "con10": 18.99,
+        "con20": 9.92,
+        "foreign_buy_sell": 473125,
+        "trust_buy_sell": -148652,
+        "foreign_sum5": 1305,
+        "foreign_sum10": 3039,
+        "foreign_sum20": 3050,
+        "trust_sum5": -439,
+        "trust_sum10": -918,
+        "trust_sum20": -944,
+        "foreign_streak_days": 13,
+        "trust_streak_days": 0,
+        "margin_balance": 516,
+        "margin_balance_diff": -28,
+        "squeeze": 2.91,
+        "bullet": 4.64,
+        "net_sbl": 82,
+        "net_sbl_sum5": 183,
+        "sbl_total": 7656,
+        "sbl_sold_balance": 2949,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 13 日",
+            "成交量放大 1.92 倍",
+            "突破前高"
+        ]
+    }
+]

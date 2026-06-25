@@ -1,5 +1,26 @@
 [
     {
+        "id": 5970003,
+        "log_time": "2026-06-25 21:13:39",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 5970002,
+        "log_time": "2026-06-25 21:13:36",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-25] 篩選分析完成，共 1 檔",
+        "result": "success"
+    },
+    {
+        "id": 5970001,
+        "log_time": "2026-06-25 21:13:32",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-06-25] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 5940009,
         "log_time": "2026-06-25 20:55:21",
         "log_type": "updateAllHistory",
