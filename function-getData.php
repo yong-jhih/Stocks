@@ -1359,12 +1359,12 @@ function getStockProfileWithTPExO(PDO $pdo): array
     $curlError = curl_error($ch);
     curl_close($ch);
     if ($response === false || $httpCode !== 200) {
-        throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
+        throw new RuntimeException("[getStockProfileWithTPExO] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
     }
     $data = json_decode($response, true);
     if (!is_array($data)) {
         $preview = mb_substr(trim($response), 0, 100);
-        throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+        throw new RuntimeException("[getStockProfileWithTPExO] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
     }
     $stocks = [];
     foreach ($data as $stock) {
