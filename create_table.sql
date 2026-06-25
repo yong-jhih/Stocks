@@ -71,17 +71,6 @@ CREATE TABLE IF NOT EXISTS system_logs (
     INDEX idx_type (log_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 7. 00981A 成分股
--- CREATE TABLE IF NOT EXISTS 00981A_component (
---     trade_date DATE NOT NULL COMMENT '日期',
---     stock_id VARCHAR(6) NOT NULL COMMENT '代碼',
---     stock_name VARCHAR(20) COMMENT '股名',
---     amount BIGINT DEFAULT 0 COMMENT '股數',
---     weight DECIMAL(10, 2) COMMENT '權重',
---     PRIMARY KEY (trade_date, stock_id),
---     INDEX idx_stock (stock_id)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- 7. etf 成分股
 CREATE TABLE IF NOT EXISTS etf_component (
     trade_date DATE NOT NULL COMMENT '日期',

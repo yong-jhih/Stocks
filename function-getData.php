@@ -1163,9 +1163,9 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
 {
     try {
         $sql = "INSERT INTO 00981A_component 
-                (trade_date, stock_id, stock_name, amount, weight) 
+                (trade_date, stock_id, stock_name, amount, weight)
                 VALUES (?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE 
+                ON DUPLICATE KEY UPDATE
                 stock_name = VALUES(stock_name),
                 amount = VALUES(amount),
                 weight = VALUES(weight)";
@@ -1334,7 +1334,6 @@ function getStockProfileWithTWSE(PDO $pdo): array
         $stocks[] = [
             'stock_id'   => $stock['公司代號'],
             'stock_name' => $stock['公司簡稱'] ?? '',
-            'stock_unified_business_number' => $stock['營利事業統一編號'] ?? '',
             'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
         ];
     }

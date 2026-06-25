@@ -58,3 +58,11 @@ for ($i = 0; $i < 3; $i++) {
     writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
 }
 writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
+
+
+
+
+
+// https://openapi.twse.com.tw/v1/opendata/t187ap47_L 基金基本資料
+// https://openapi.twse.com.tw/v1/opendata/t187ap03_L 上市公司基本資料
+// https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O 上櫃公司基本資料
