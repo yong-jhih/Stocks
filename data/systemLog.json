@@ -1,5 +1,117 @@
 [
     {
+        "id": 5850012,
+        "log_time": "2026-06-25 14:03:55",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850011,
+        "log_time": "2026-06-25 14:03:54",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850010,
+        "log_time": "2026-06-25 14:03:54",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1043 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850009,
+        "log_time": "2026-06-25 14:03:54",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 979 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850008,
+        "log_time": "2026-06-25 14:03:53",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1037 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850007,
+        "log_time": "2026-06-25 14:03:53",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1067 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850006,
+        "log_time": "2026-06-25 14:03:53",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1072 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850005,
+        "log_time": "2026-06-25 14:03:52",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 1579.28 秒",
+        "result": "end"
+    },
+    {
+        "id": 5850004,
+        "log_time": "2026-06-25 14:03:52",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4759 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850003,
+        "log_time": "2026-06-25 14:00:52",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 3023 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850002,
+        "log_time": "2026-06-25 13:40:48",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 1089 筆",
+        "result": "success"
+    },
+    {
+        "id": 5850001,
+        "log_time": "2026-06-25 13:37:33",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 5820002,
+        "log_time": "2026-06-25 13:25:46",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新失敗，原因：[updateIndustry] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock_unified_business_number' in 'field list'",
+        "result": "error"
+    },
+    {
+        "id": 5820001,
+        "log_time": "2026-06-25 13:25:33",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 5790002,
+        "log_time": "2026-06-25 09:58:45",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 1089 筆",
+        "result": "success"
+    },
+    {
+        "id": 5790001,
+        "log_time": "2026-06-25 09:55:13",
+        "log_type": "updateStockProfile",
+        "content": "開始更新產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 5760007,
         "log_time": "2026-06-25 00:11:43",
         "log_type": "dbClean",
