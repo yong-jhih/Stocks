@@ -1401,7 +1401,8 @@ function getStockProfileETF(PDO $pdo): array
                 $stocksETF[$v['基金代號']] = [
                     'stock_id' => $v['基金代號'],
                     'stock_name' => $v['基金簡稱'],
-                    'stock_type' => 'ETF'
+                    'stock_type' => 'ETF',
+                    'industry'   => ''
                 ];
             }
         }
@@ -1413,15 +1414,17 @@ function getStockProfileETF(PDO $pdo): array
 function updateStockProfile(PDO $pdo): void
 {
     $start_time = microtime(true);
-    writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
+    writeLog($pdo, 'updateStockProfile', '開始更新基本資料及產業別及次產業概念', 'start');
     try {
-        // $stocksTSE = getStockProfileTSE($pdo);
-        // $stocksTPEx = getStockProfileTPEx($pdo);
-        // $stocksESM = getStockProfileESM($pdo);
-        // $stocksETF = getStockProfileETF($pdo);
+        $stocksTSE = getStockProfileTSE($pdo);
+        $stocksTPEx = getStockProfileTPEx($pdo);
+        $stocksESM = getStockProfileESM($pdo);
+        $stocksETF = getStockProfileETF($pdo);
 
-        $stocks = getStockProfileWithTWSE($pdo);
-        updateIndustry($pdo, $stocks);
+        $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
+        $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
+
+        updateIndustry($pdo, $stocksMix);
         updateSubIndustry($pdo, $stocks);
         updateConcept($pdo, $stocks);
         $end_time = microtime(true);
@@ -1433,87 +1436,88 @@ function updateStockProfile(PDO $pdo): void
     }
 }
 
-function getStockProfileWithTWSE(PDO $pdo): array
-{
-    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
-    $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept: application/json'
-    ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlError = curl_error($ch);
-    curl_close($ch);
-    if ($response === false || $httpCode !== 200) {
-        throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
-    }
-    $data = json_decode($response, true);
-    if (!is_array($data)) {
-        $preview = mb_substr(trim($response), 0, 300);
-        throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
-    }
-    $stocks = [];
-    foreach ($data as $stock) {
-        if (empty($stock['公司代號'])) continue;
-        $stocks[] = [
-            'stock_id'   => $stock['公司代號'],
-            'stock_name' => $stock['公司簡稱'] ?? '',
-            'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
-        ];
-    }
-    return $stocks;
-}
+// function getStockProfileWithTWSE(PDO $pdo): array
+// {
+//     $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+//     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
+//     $ch = curl_init();
+//     curl_setopt($ch, CURLOPT_URL, $url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+//     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//         'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+//         'Accept: application/json'
+//     ]);
+//     $response = curl_exec($ch);
+//     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//     $curlError = curl_error($ch);
+//     curl_close($ch);
+//     if ($response === false || $httpCode !== 200) {
+//         throw new RuntimeException("[getStockProfileWithTWSE] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
+//     }
+//     $data = json_decode($response, true);
+//     if (!is_array($data)) {
+//         $preview = mb_substr(trim($response), 0, 300);
+//         throw new RuntimeException("[getStockProfileWithTWSE] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+//     }
+//     $stocks = [];
+//     foreach ($data as $stock) {
+//         if (empty($stock['公司代號'])) continue;
+//         $stocks[] = [
+//             'stock_id'   => $stock['公司代號'],
+//             'stock_name' => $stock['公司簡稱'] ?? '',
+//             'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
+//         ];
+//     }
+//     return $stocks;
+// }
 
-function getStockProfileWithTPExO(PDO $pdo): array
-{
-    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
-    $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept: application/json'
-    ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlError = curl_error($ch);
-    curl_close($ch);
-    if ($response === false || $httpCode !== 200) {
-        throw new RuntimeException("[getStockProfileWithTPExO] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
-    }
-    $data = json_decode($response, true);
-    if (!is_array($data)) {
-        $preview = mb_substr(trim($response), 0, 100);
-        throw new RuntimeException("[getStockProfileWithTPExO] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
-    }
-    $stocks = [];
-    foreach ($data as $stock) {
-        $stocks[] = [
-            'stock_id'   => $stock['SecuritiesCompanyCode'],
-            'stock_name' => $stock['CompanyAbbreviation'] ?? '',
-            'stock_unified_business_number' => $stock['UnifiedBusinessNo.'] ?? '',
-            'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
-        ];
-    }
-    return $stocks;
-}
+// function getStockProfileWithTPExO(PDO $pdo): array
+// {
+//     $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+//     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
+//     $ch = curl_init();
+//     curl_setopt($ch, CURLOPT_URL, $url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+//     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//         'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+//         'Accept: application/json'
+//     ]);
+//     $response = curl_exec($ch);
+//     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//     $curlError = curl_error($ch);
+//     curl_close($ch);
+//     if ($response === false || $httpCode !== 200) {
+//         throw new RuntimeException("[getStockProfileWithTPExO] 網路連線失敗。HTTP 狀態碼: {$httpCode}, cURL 錯誤: {$curlError}");
+//     }
+//     $data = json_decode($response, true);
+//     if (!is_array($data)) {
+//         $preview = mb_substr(trim($response), 0, 100);
+//         throw new RuntimeException("[getStockProfileWithTPExO] 格式解析失敗，TWSE 回應內容非合法陣列。內容預覽: {$preview}");
+//     }
+//     $stocks = [];
+//     foreach ($data as $stock) {
+//         $stocks[] = [
+//             'stock_id'   => $stock['SecuritiesCompanyCode'],
+//             'stock_name' => $stock['CompanyAbbreviation'] ?? '',
+//             'stock_unified_business_number' => $stock['UnifiedBusinessNo.'] ?? '',
+//             'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
+//         ];
+//     }
+//     return $stocks;
+// }
 
 function updateIndustry(PDO $pdo, array $stocks): void
 {
     $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, industry) 
-            VALUES (?, ?, ?)
+            (stock_id, stock_name, stock_type, industry) 
+            VALUES (?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
             stock_name = VALUES(stock_name),
+            stock_type = VALUES(stock_type),
             industry = VALUES(industry)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
@@ -1523,6 +1527,7 @@ function updateIndustry(PDO $pdo, array $stocks): void
             $stmt->execute([
                 $row['stock_id'],
                 $row['stock_name'],
+                $row['stock_type'],
                 $row['industry']
             ]);
         }
