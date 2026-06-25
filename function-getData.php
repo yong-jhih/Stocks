@@ -1285,6 +1285,125 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
 }
 
 // 產業概念
+function getStockProfileTSE(PDO $pdo): array
+{
+    $stocksTSE = [];
+    $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
+    for ($i = 1; $i <= 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['status']) && $data['status'] === 'error') {
+            $errorMsg = $data['msg'] ?? '未知錯誤';
+            writeLog($pdo, 'getStockProfileTSE', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (!is_array($data) || empty($data)) {
+            writeLog($pdo, 'getStockProfileTSE', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        foreach ($data as $v) {
+            if (isset($v['公司代號'], $v['公司簡稱'])) {
+                $stocksTSE[$v['公司代號']] = [
+                    'stock_id' => $v['公司代號'],
+                    'stock_name' => $v['公司簡稱'],
+                    'stock_type' => 'TSE'
+                ];
+            }
+        }
+        return $stocksTSE;
+    }
+    writeLog($pdo, 'getStockProfileTSE', "執行 3 次失敗,退出", 'error');
+    exit(1);
+}
+
+function getStockProfileTPEx(PDO $pdo): array
+{
+    $stocksOTC = [];
+    $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
+    for ($i = 1; $i <= 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['status']) && $data['status'] === 'error') {
+            $errorMsg = $data['msg'] ?? '未知錯誤';
+            writeLog($pdo, 'getStockProfileOTC', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (!is_array($data) || empty($data)) {
+            writeLog($pdo, 'getStockProfileOTC', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        foreach ($data as $v) {
+            if (isset($v['SecuritiesCompanyCode'], $v['CompanyAbbreviation'])) {
+                $stocksOTC[$v['SecuritiesCompanyCode']] = [
+                    'stock_id' => $v['SecuritiesCompanyCode'],
+                    'stock_name' => $v['CompanyAbbreviation'],
+                    'stock_type' => 'TPEx'
+                ];
+            }
+        }
+        return $stocksOTC;
+    }
+    writeLog($pdo, 'getStockProfileOTC', "執行 3 次失敗,退出", 'error');
+    exit(1);
+}
+
+function getStockProfileESM(PDO $pdo): array
+{
+    $stocksESM = [];
+    $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_R";
+    for ($i = 1; $i <= 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['status']) && $data['status'] === 'error') {
+            $errorMsg = $data['msg'] ?? '未知錯誤';
+            writeLog($pdo, 'getStockProfileESM', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (!is_array($data) || empty($data)) {
+            writeLog($pdo, 'getStockProfileESM', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        foreach ($data as $v) {
+            if (isset($v['SecuritiesCompanyCode'], $v['CompanyAbbreviation'])) {
+                $stocksESM[$v['SecuritiesCompanyCode']] = [
+                    'stock_id' => $v['SecuritiesCompanyCode'],
+                    'stock_name' => $v['CompanyAbbreviation'],
+                    'stock_type' => 'ESM'
+                ];
+            }
+        }
+        return $stocksESM;
+    }
+    writeLog($pdo, 'getStockProfileESM', "執行 3 次失敗,退出", 'error');
+    exit(1);
+}
+
+function getStockProfileETF(PDO $pdo): array
+{
+    $stocksETF = [];
+    $url = "https://openapi.twse.com.tw/v1/opendata/t187ap47_L";
+    for ($i = 1; $i <= 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['status']) && $data['status'] === 'error') {
+            $errorMsg = $data['msg'] ?? '未知錯誤';
+            writeLog($pdo, 'getStockProfileETF', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (!is_array($data) || empty($data)) {
+            writeLog($pdo, 'getStockProfileETF', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        foreach ($data as $v) {
+            if (isset($v['基金代號'], $v['基金簡稱'])) {
+                $stocksETF[$v['基金代號']] = [
+                    'stock_id' => $v['基金代號'],
+                    'stock_name' => $v['基金簡稱'],
+                    'stock_type' => 'ETF'
+                ];
+            }
+        }
+        return $stocksETF;
+    }
+    writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
+    exit(1);
+}
 function updateStockProfile(PDO $pdo): void
 {
     $start_time = microtime(true);

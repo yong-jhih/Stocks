@@ -5,7 +5,6 @@ USE somethin_tools;
 CREATE TABLE IF NOT EXISTS stock_history (
     trade_date DATE NOT NULL COMMENT '日期',
     stock_id VARCHAR(6) NOT NULL COMMENT '代碼',
-    stock_name VARCHAR(20) COMMENT '股名',
     open_price DECIMAL(10, 2) DEFAULT 0.00 COMMENT '開盤價',
     high_price DECIMAL(10, 2) DEFAULT 0.00 COMMENT '最高價',
     low_price DECIMAL(10, 2) DEFAULT 0.00 COMMENT '最低價',
@@ -64,9 +63,9 @@ CREATE TABLE IF NOT EXISTS stock_sbl_sold (
 CREATE TABLE IF NOT EXISTS system_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     log_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '記錄時間',
-    log_type VARCHAR(50) NOT NULL COMMENT '日誌類型 (如: Fetch, DB_Insert, Error)',
+    log_type VARCHAR(50) NOT NULL COMMENT '日誌種類',
     content TEXT COMMENT '詳細內容',
-    result VARCHAR(10) NOT NULL COMMENT '結果 (Success, Fail, Warning)',
+    result VARCHAR(10) NOT NULL COMMENT '結果',
     INDEX idx_time (log_time),
     INDEX idx_type (log_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -75,9 +74,7 @@ CREATE TABLE IF NOT EXISTS system_logs (
 CREATE TABLE IF NOT EXISTS etf_component (
     trade_date DATE NOT NULL COMMENT '日期',
     etf_id VARCHAR(6) NOT NULL COMMENT 'ETF代碼',
-    etf_name VARCHAR(20) COMMENT 'ETF名',
     stock_id VARCHAR(6) NOT NULL COMMENT '代碼',
-    stock_name VARCHAR(20) COMMENT '股名',
     amount BIGINT DEFAULT 0 COMMENT '股數',
     weight DECIMAL(10, 2) COMMENT '權重',
     PRIMARY KEY (trade_date, etf_id, stock_id),
@@ -88,6 +85,7 @@ CREATE TABLE IF NOT EXISTS etf_component (
 CREATE TABLE IF NOT EXISTS stock_profile (
     stock_id VARCHAR(6) NOT NULL COMMENT '股票代號',
     stock_name VARCHAR(20) NOT NULL COMMENT '股票名稱',
+    stock_type ENUM('TSE','TPEx','ESM','ETF') NOT NULL COMMENT '股票類型',
     industry VARCHAR(20) DEFAULT '' COMMENT '主產業',
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
