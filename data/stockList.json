@@ -1,0 +1,4038 @@
+{
+    "00679B": {
+        "stock_id": "00679B",
+        "stock_name": "元大美債20年"
+    },
+    "00687B": {
+        "stock_id": "00687B",
+        "stock_name": "國泰20年美債"
+    },
+    "00687C": {
+        "stock_id": "00687C",
+        "stock_name": "國泰20年美債+櫃U"
+    },
+    "00694B": {
+        "stock_id": "00694B",
+        "stock_name": "富邦美債1-3"
+    },
+    "00695B": {
+        "stock_id": "00695B",
+        "stock_name": "富邦美債7-10"
+    },
+    "00696B": {
+        "stock_id": "00696B",
+        "stock_name": "富邦美債20年"
+    },
+    "00697B": {
+        "stock_id": "00697B",
+        "stock_name": "元大美債7-10"
+    },
+    "00719B": {
+        "stock_id": "00719B",
+        "stock_name": "元大美債1-3"
+    },
+    "00720B": {
+        "stock_id": "00720B",
+        "stock_name": "元大投資級公司債"
+    },
+    "00722B": {
+        "stock_id": "00722B",
+        "stock_name": "群益投資級電信債"
+    },
+    "00723B": {
+        "stock_id": "00723B",
+        "stock_name": "群益投資級科技債"
+    },
+    "00724B": {
+        "stock_id": "00724B",
+        "stock_name": "群益投資級金融債"
+    },
+    "00725B": {
+        "stock_id": "00725B",
+        "stock_name": "國泰投資級公司債"
+    },
+    "00726B": {
+        "stock_id": "00726B",
+        "stock_name": "國泰新興投等債"
+    },
+    "00727B": {
+        "stock_id": "00727B",
+        "stock_name": "國泰優選非投等債"
+    },
+    "00734B": {
+        "stock_id": "00734B",
+        "stock_name": "台新JPM新興債"
+    },
+    "00740B": {
+        "stock_id": "00740B",
+        "stock_name": "富邦全球投等債"
+    },
+    "00741B": {
+        "stock_id": "00741B",
+        "stock_name": "富邦全球非投等債"
+    },
+    "00746B": {
+        "stock_id": "00746B",
+        "stock_name": "富邦A級公司債"
+    },
+    "00749B": {
+        "stock_id": "00749B",
+        "stock_name": "凱基新興債10+"
+    },
+    "00750B": {
+        "stock_id": "00750B",
+        "stock_name": "凱基科技債10+"
+    },
+    "00751B": {
+        "stock_id": "00751B",
+        "stock_name": "元大AAA至A公司債"
+    },
+    "00754B": {
+        "stock_id": "00754B",
+        "stock_name": "群益AAA-AA公司債"
+    },
+    "00755B": {
+        "stock_id": "00755B",
+        "stock_name": "群益投資級公用債"
+    },
+    "00756B": {
+        "stock_id": "00756B",
+        "stock_name": "群益投等新興公債"
+    },
+    "00758B": {
+        "stock_id": "00758B",
+        "stock_name": "復華能源債"
+    },
+    "00759B": {
+        "stock_id": "00759B",
+        "stock_name": "復華製藥債"
+    },
+    "00760B": {
+        "stock_id": "00760B",
+        "stock_name": "復華新興企業債"
+    },
+    "00761B": {
+        "stock_id": "00761B",
+        "stock_name": "國泰A級公司債"
+    },
+    "00764B": {
+        "stock_id": "00764B",
+        "stock_name": "群益25年美債"
+    },
+    "00768B": {
+        "stock_id": "00768B",
+        "stock_name": "復華20年美債"
+    },
+    "00772B": {
+        "stock_id": "00772B",
+        "stock_name": "中信高評級公司債"
+    },
+    "00773B": {
+        "stock_id": "00773B",
+        "stock_name": "中信優先金融債"
+    },
+    "00777B": {
+        "stock_id": "00777B",
+        "stock_name": "凱基AAA至A公司債"
+    },
+    "00778B": {
+        "stock_id": "00778B",
+        "stock_name": "凱基金融債20+"
+    },
+    "00779B": {
+        "stock_id": "00779B",
+        "stock_name": "凱基美債25+"
+    },
+    "00780B": {
+        "stock_id": "00780B",
+        "stock_name": "國泰A級金融債"
+    },
+    "00781B": {
+        "stock_id": "00781B",
+        "stock_name": "國泰A級科技債"
+    },
+    "00782B": {
+        "stock_id": "00782B",
+        "stock_name": "國泰A級公用債"
+    },
+    "00785B": {
+        "stock_id": "00785B",
+        "stock_name": "富邦金融投等債"
+    },
+    "00786B": {
+        "stock_id": "00786B",
+        "stock_name": "元大10年IG銀行債"
+    },
+    "00787B": {
+        "stock_id": "00787B",
+        "stock_name": "元大10年IG醫療債"
+    },
+    "00788B": {
+        "stock_id": "00788B",
+        "stock_name": "元大10年IG電能債"
+    },
+    "00789B": {
+        "stock_id": "00789B",
+        "stock_name": "復華公司債A3"
+    },
+    "00791B": {
+        "stock_id": "00791B",
+        "stock_name": "復華信用債1-5"
+    },
+    "00792B": {
+        "stock_id": "00792B",
+        "stock_name": "群益A級公司債"
+    },
+    "00793B": {
+        "stock_id": "00793B",
+        "stock_name": "群益AAA-A醫療債"
+    },
+    "00795B": {
+        "stock_id": "00795B",
+        "stock_name": "中信美國公債20年"
+    },
+    "00799B": {
+        "stock_id": "00799B",
+        "stock_name": "國泰A級醫療債"
+    },
+    "00834B": {
+        "stock_id": "00834B",
+        "stock_name": "第一金金融債10+"
+    },
+    "00836B": {
+        "stock_id": "00836B",
+        "stock_name": "永豐10年A公司債"
+    },
+    "00840B": {
+        "stock_id": "00840B",
+        "stock_name": "凱基IG精選15+"
+    },
+    "00841B": {
+        "stock_id": "00841B",
+        "stock_name": "凱基AAA-AA公司債"
+    },
+    "00842B": {
+        "stock_id": "00842B",
+        "stock_name": "台新美元銀行債"
+    },
+    "00844B": {
+        "stock_id": "00844B",
+        "stock_name": "新光15年IG金融債"
+    },
+    "00845B": {
+        "stock_id": "00845B",
+        "stock_name": "富邦新興投等債"
+    },
+    "00846B": {
+        "stock_id": "00846B",
+        "stock_name": "富邦歐洲銀行債"
+    },
+    "00847B": {
+        "stock_id": "00847B",
+        "stock_name": "中信美國市政債"
+    },
+    "00848B": {
+        "stock_id": "00848B",
+        "stock_name": "中信新興亞洲債"
+    },
+    "00849B": {
+        "stock_id": "00849B",
+        "stock_name": "中信EM主權債0-5"
+    },
+    "00853B": {
+        "stock_id": "00853B",
+        "stock_name": "統一美債10年Aa-A"
+    },
+    "00856B": {
+        "stock_id": "00856B",
+        "stock_name": "永豐1-3年美公債"
+    },
+    "00857B": {
+        "stock_id": "00857B",
+        "stock_name": "永豐20年美公債"
+    },
+    "00858": {
+        "stock_id": "00858",
+        "stock_name": "永豐美國500大"
+    },
+    "00859B": {
+        "stock_id": "00859B",
+        "stock_name": "群益0-1年美債"
+    },
+    "00860B": {
+        "stock_id": "00860B",
+        "stock_name": "群益1-5Y投資級債"
+    },
+    "00862B": {
+        "stock_id": "00862B",
+        "stock_name": "中信投資級公司債"
+    },
+    "00863B": {
+        "stock_id": "00863B",
+        "stock_name": "中信全球電信債"
+    },
+    "00864B": {
+        "stock_id": "00864B",
+        "stock_name": "中信美國公債0-1"
+    },
+    "00867B": {
+        "stock_id": "00867B",
+        "stock_name": "新光A-BBB電信債"
+    },
+    "00870B": {
+        "stock_id": "00870B",
+        "stock_name": "元大15年EM主權債"
+    },
+    "00877": {
+        "stock_id": "00877",
+        "stock_name": "復華中國5G"
+    },
+    "00884B": {
+        "stock_id": "00884B",
+        "stock_name": "中信低碳新興債"
+    },
+    "00886": {
+        "stock_id": "00886",
+        "stock_name": "永豐美國科技"
+    },
+    "00887": {
+        "stock_id": "00887",
+        "stock_name": "永豐中國科技50大"
+    },
+    "00888": {
+        "stock_id": "00888",
+        "stock_name": "永豐台灣ESG"
+    },
+    "00890B": {
+        "stock_id": "00890B",
+        "stock_name": "凱基ESG BBB債15+"
+    },
+    "00928": {
+        "stock_id": "00928",
+        "stock_name": "中信上櫃ESG 30"
+    },
+    "00931B": {
+        "stock_id": "00931B",
+        "stock_name": "統一美債20年"
+    },
+    "00933B": {
+        "stock_id": "00933B",
+        "stock_name": "國泰10Y+金融債"
+    },
+    "00937B": {
+        "stock_id": "00937B",
+        "stock_name": "群益ESG投等債20+"
+    },
+    "00942B": {
+        "stock_id": "00942B",
+        "stock_name": "台新美A公司債20+"
+    },
+    "00948B": {
+        "stock_id": "00948B",
+        "stock_name": "中信優息投資級債"
+    },
+    "00950B": {
+        "stock_id": "00950B",
+        "stock_name": "凱基A級公司債"
+    },
+    "00955": {
+        "stock_id": "00955",
+        "stock_name": "中信日本商社"
+    },
+    "00957B": {
+        "stock_id": "00957B",
+        "stock_name": "兆豐US優選投等債"
+    },
+    "00958B": {
+        "stock_id": "00958B",
+        "stock_name": "永豐ESG銀行債15+"
+    },
+    "00959B": {
+        "stock_id": "00959B",
+        "stock_name": "大華投等美債15Y+"
+    },
+    "00966B": {
+        "stock_id": "00966B",
+        "stock_name": "統一ESG投等債15+"
+    },
+    "00967B": {
+        "stock_id": "00967B",
+        "stock_name": "元大優息美債"
+    },
+    "00968B": {
+        "stock_id": "00968B",
+        "stock_name": "元大優息投等債"
+    },
+    "00969B": {
+        "stock_id": "00969B",
+        "stock_name": "元大零息超長美債"
+    },
+    "00970B": {
+        "stock_id": "00970B",
+        "stock_name": "新光BBB投等債20+"
+    },
+    "00980B": {
+        "stock_id": "00980B",
+        "stock_name": "台新特選IG債10+"
+    },
+    "00980D": {
+        "stock_id": "00980D",
+        "stock_name": "主動聯博投等入息"
+    },
+    "00980T": {
+        "stock_id": "00980T",
+        "stock_name": "平衡凱基美國TOP"
+    },
+    "00981B": {
+        "stock_id": "00981B",
+        "stock_name": "第一金優選非投債"
+    },
+    "00981D": {
+        "stock_id": "00981D",
+        "stock_name": "主動中信非投等債"
+    },
+    "00982B": {
+        "stock_id": "00982B",
+        "stock_name": "FT投資級債20+"
+    },
+    "00983B": {
+        "stock_id": "00983B",
+        "stock_name": "大華優利美公債20"
+    },
+    "00984B": {
+        "stock_id": "00984B",
+        "stock_name": "大華優利美A債15"
+    },
+    "00985D": {
+        "stock_id": "00985D",
+        "stock_name": "主動貝萊德優投等"
+    },
+    "00986B": {
+        "stock_id": "00986B",
+        "stock_name": "FT金融債10+"
+    },
+    "00986D": {
+        "stock_id": "00986D",
+        "stock_name": "主動復華金融債息"
+    },
+    "00987B": {
+        "stock_id": "00987B",
+        "stock_name": "野村10+澳洲公債"
+    },
+    "00988B": {
+        "stock_id": "00988B",
+        "stock_name": "玉山嚴選非投債"
+    },
+    "00989B": {
+        "stock_id": "00989B",
+        "stock_name": "台新美國非投等債"
+    },
+    "00998A": {
+        "stock_id": "00998A",
+        "stock_name": "主動復華金融股息"
+    },
+    "1240": {
+        "stock_id": "1240",
+        "stock_name": "茂生農經"
+    },
+    "1259": {
+        "stock_id": "1259",
+        "stock_name": "安心"
+    },
+    "1264": {
+        "stock_id": "1264",
+        "stock_name": "德麥"
+    },
+    "1268": {
+        "stock_id": "1268",
+        "stock_name": "漢來美食"
+    },
+    "1294": {
+        "stock_id": "1294",
+        "stock_name": "漢田生技"
+    },
+    "1295": {
+        "stock_id": "1295",
+        "stock_name": "生合"
+    },
+    "1336": {
+        "stock_id": "1336",
+        "stock_name": "台翰"
+    },
+    "1565": {
+        "stock_id": "1565",
+        "stock_name": "精華"
+    },
+    "1569": {
+        "stock_id": "1569",
+        "stock_name": "濱川"
+    },
+    "1570": {
+        "stock_id": "1570",
+        "stock_name": "力肯"
+    },
+    "1580": {
+        "stock_id": "1580",
+        "stock_name": "新麥"
+    },
+    "1584": {
+        "stock_id": "1584",
+        "stock_name": "精剛"
+    },
+    "1586": {
+        "stock_id": "1586",
+        "stock_name": "和勤"
+    },
+    "1593": {
+        "stock_id": "1593",
+        "stock_name": "祺驊"
+    },
+    "1595": {
+        "stock_id": "1595",
+        "stock_name": "川寶"
+    },
+    "1599": {
+        "stock_id": "1599",
+        "stock_name": "宏佳騰"
+    },
+    "1742": {
+        "stock_id": "1742",
+        "stock_name": "台蠟"
+    },
+    "1777": {
+        "stock_id": "1777",
+        "stock_name": "生泰"
+    },
+    "1780": {
+        "stock_id": "1780",
+        "stock_name": "立弘"
+    },
+    "1781": {
+        "stock_id": "1781",
+        "stock_name": "合世"
+    },
+    "1784": {
+        "stock_id": "1784",
+        "stock_name": "訊聯"
+    },
+    "1785": {
+        "stock_id": "1785",
+        "stock_name": "光洋科"
+    },
+    "1788": {
+        "stock_id": "1788",
+        "stock_name": "杏昌"
+    },
+    "1796": {
+        "stock_id": "1796",
+        "stock_name": "金穎生技"
+    },
+    "1799": {
+        "stock_id": "1799",
+        "stock_name": "易威"
+    },
+    "1813": {
+        "stock_id": "1813",
+        "stock_name": "寶利徠"
+    },
+    "1815": {
+        "stock_id": "1815",
+        "stock_name": "富喬"
+    },
+    "2035": {
+        "stock_id": "2035",
+        "stock_name": "唐榮"
+    },
+    "2061": {
+        "stock_id": "2061",
+        "stock_name": "風青"
+    },
+    "2063": {
+        "stock_id": "2063",
+        "stock_name": "世鎧"
+    },
+    "2064": {
+        "stock_id": "2064",
+        "stock_name": "晉椿"
+    },
+    "2065": {
+        "stock_id": "2065",
+        "stock_name": "世豐"
+    },
+    "2066": {
+        "stock_id": "2066",
+        "stock_name": "世德"
+    },
+    "2067": {
+        "stock_id": "2067",
+        "stock_name": "嘉鋼"
+    },
+    "2070": {
+        "stock_id": "2070",
+        "stock_name": "精湛"
+    },
+    "2073": {
+        "stock_id": "2073",
+        "stock_name": "雄順"
+    },
+    "2221": {
+        "stock_id": "2221",
+        "stock_name": "大甲"
+    },
+    "2230": {
+        "stock_id": "2230",
+        "stock_name": "泰茂"
+    },
+    "2235": {
+        "stock_id": "2235",
+        "stock_name": "謚源"
+    },
+    "2596": {
+        "stock_id": "2596",
+        "stock_name": "綠意"
+    },
+    "2640": {
+        "stock_id": "2640",
+        "stock_name": "大車隊"
+    },
+    "2641": {
+        "stock_id": "2641",
+        "stock_name": "正德"
+    },
+    "2643": {
+        "stock_id": "2643",
+        "stock_name": "捷迅"
+    },
+    "2718": {
+        "stock_id": "2718",
+        "stock_name": "全心投控"
+    },
+    "2719": {
+        "stock_id": "2719",
+        "stock_name": "燦星旅"
+    },
+    "2724": {
+        "stock_id": "2724",
+        "stock_name": "藝舍-KY"
+    },
+    "2726": {
+        "stock_id": "2726",
+        "stock_name": "雅茗-KY"
+    },
+    "2729": {
+        "stock_id": "2729",
+        "stock_name": "瓦城"
+    },
+    "2732": {
+        "stock_id": "2732",
+        "stock_name": "六角"
+    },
+    "2734": {
+        "stock_id": "2734",
+        "stock_name": "易飛網"
+    },
+    "2736": {
+        "stock_id": "2736",
+        "stock_name": "富野"
+    },
+    "2740": {
+        "stock_id": "2740",
+        "stock_name": "華軒"
+    },
+    "2743": {
+        "stock_id": "2743",
+        "stock_name": "山富"
+    },
+    "2745": {
+        "stock_id": "2745",
+        "stock_name": "五福"
+    },
+    "2751": {
+        "stock_id": "2751",
+        "stock_name": "王座"
+    },
+    "2752": {
+        "stock_id": "2752",
+        "stock_name": "豆府"
+    },
+    "2754": {
+        "stock_id": "2754",
+        "stock_name": "亞洲藏壽司"
+    },
+    "2755": {
+        "stock_id": "2755",
+        "stock_name": "揚秦"
+    },
+    "2756": {
+        "stock_id": "2756",
+        "stock_name": "聯發國際"
+    },
+    "2916": {
+        "stock_id": "2916",
+        "stock_name": "滿心"
+    },
+    "2924": {
+        "stock_id": "2924",
+        "stock_name": "宏太-KY"
+    },
+    "2926": {
+        "stock_id": "2926",
+        "stock_name": "誠品生活"
+    },
+    "2937": {
+        "stock_id": "2937",
+        "stock_name": "集雅社"
+    },
+    "2941": {
+        "stock_id": "2941",
+        "stock_name": "米斯特"
+    },
+    "2947": {
+        "stock_id": "2947",
+        "stock_name": "振宇五金"
+    },
+    "2948": {
+        "stock_id": "2948",
+        "stock_name": "寶陞"
+    },
+    "2949": {
+        "stock_id": "2949",
+        "stock_name": "欣新網"
+    },
+    "3064": {
+        "stock_id": "3064",
+        "stock_name": "泰偉"
+    },
+    "3066": {
+        "stock_id": "3066",
+        "stock_name": "李洲"
+    },
+    "3067": {
+        "stock_id": "3067",
+        "stock_name": "全域"
+    },
+    "3071": {
+        "stock_id": "3071",
+        "stock_name": "協禧"
+    },
+    "3073": {
+        "stock_id": "3073",
+        "stock_name": "天方能源"
+    },
+    "3078": {
+        "stock_id": "3078",
+        "stock_name": "僑威"
+    },
+    "3081": {
+        "stock_id": "3081",
+        "stock_name": "聯亞"
+    },
+    "3083": {
+        "stock_id": "3083",
+        "stock_name": "網龍"
+    },
+    "3085": {
+        "stock_id": "3085",
+        "stock_name": "新零售"
+    },
+    "3086": {
+        "stock_id": "3086",
+        "stock_name": "華義*"
+    },
+    "3088": {
+        "stock_id": "3088",
+        "stock_name": "艾訊"
+    },
+    "3093": {
+        "stock_id": "3093",
+        "stock_name": "港建*"
+    },
+    "3095": {
+        "stock_id": "3095",
+        "stock_name": "及成"
+    },
+    "3105": {
+        "stock_id": "3105",
+        "stock_name": "穩懋"
+    },
+    "3114": {
+        "stock_id": "3114",
+        "stock_name": "好德"
+    },
+    "3115": {
+        "stock_id": "3115",
+        "stock_name": "富榮綱"
+    },
+    "3118": {
+        "stock_id": "3118",
+        "stock_name": "進階"
+    },
+    "3122": {
+        "stock_id": "3122",
+        "stock_name": "笙泉"
+    },
+    "3128": {
+        "stock_id": "3128",
+        "stock_name": "昇銳"
+    },
+    "3131": {
+        "stock_id": "3131",
+        "stock_name": "弘塑"
+    },
+    "3141": {
+        "stock_id": "3141",
+        "stock_name": "晶宏"
+    },
+    "3147": {
+        "stock_id": "3147",
+        "stock_name": "大綜"
+    },
+    "3158": {
+        "stock_id": "3158",
+        "stock_name": "嘉實"
+    },
+    "3162": {
+        "stock_id": "3162",
+        "stock_name": "精確"
+    },
+    "3163": {
+        "stock_id": "3163",
+        "stock_name": "波若威"
+    },
+    "3169": {
+        "stock_id": "3169",
+        "stock_name": "亞信"
+    },
+    "3171": {
+        "stock_id": "3171",
+        "stock_name": "炎洲流通"
+    },
+    "3176": {
+        "stock_id": "3176",
+        "stock_name": "基亞"
+    },
+    "3178": {
+        "stock_id": "3178",
+        "stock_name": "公準"
+    },
+    "3188": {
+        "stock_id": "3188",
+        "stock_name": "鑫龍騰"
+    },
+    "3191": {
+        "stock_id": "3191",
+        "stock_name": "雲嘉南"
+    },
+    "3205": {
+        "stock_id": "3205",
+        "stock_name": "佰研"
+    },
+    "3206": {
+        "stock_id": "3206",
+        "stock_name": "志豐"
+    },
+    "3207": {
+        "stock_id": "3207",
+        "stock_name": "耀勝"
+    },
+    "3211": {
+        "stock_id": "3211",
+        "stock_name": "順達"
+    },
+    "3213": {
+        "stock_id": "3213",
+        "stock_name": "茂訊"
+    },
+    "3217": {
+        "stock_id": "3217",
+        "stock_name": "優群"
+    },
+    "3218": {
+        "stock_id": "3218",
+        "stock_name": "大學光"
+    },
+    "3219": {
+        "stock_id": "3219",
+        "stock_name": "倚強科"
+    },
+    "3221": {
+        "stock_id": "3221",
+        "stock_name": "台嘉碩"
+    },
+    "3224": {
+        "stock_id": "3224",
+        "stock_name": "三顧"
+    },
+    "3226": {
+        "stock_id": "3226",
+        "stock_name": "龍鋒"
+    },
+    "3227": {
+        "stock_id": "3227",
+        "stock_name": "原相"
+    },
+    "3228": {
+        "stock_id": "3228",
+        "stock_name": "金麗科"
+    },
+    "3230": {
+        "stock_id": "3230",
+        "stock_name": "錦明"
+    },
+    "3232": {
+        "stock_id": "3232",
+        "stock_name": "昱捷"
+    },
+    "3234": {
+        "stock_id": "3234",
+        "stock_name": "光環"
+    },
+    "3236": {
+        "stock_id": "3236",
+        "stock_name": "千如"
+    },
+    "3252": {
+        "stock_id": "3252",
+        "stock_name": "海灣"
+    },
+    "3259": {
+        "stock_id": "3259",
+        "stock_name": "鑫創"
+    },
+    "3260": {
+        "stock_id": "3260",
+        "stock_name": "威剛"
+    },
+    "3264": {
+        "stock_id": "3264",
+        "stock_name": "欣銓"
+    },
+    "3265": {
+        "stock_id": "3265",
+        "stock_name": "台星科"
+    },
+    "3268": {
+        "stock_id": "3268",
+        "stock_name": "海德威"
+    },
+    "3272": {
+        "stock_id": "3272",
+        "stock_name": "東碩"
+    },
+    "3276": {
+        "stock_id": "3276",
+        "stock_name": "宇環"
+    },
+    "3284": {
+        "stock_id": "3284",
+        "stock_name": "太普高"
+    },
+    "3285": {
+        "stock_id": "3285",
+        "stock_name": "微端"
+    },
+    "3287": {
+        "stock_id": "3287",
+        "stock_name": "廣寰科"
+    },
+    "3288": {
+        "stock_id": "3288",
+        "stock_name": "點晶"
+    },
+    "3289": {
+        "stock_id": "3289",
+        "stock_name": "宜特"
+    },
+    "3290": {
+        "stock_id": "3290",
+        "stock_name": "東浦"
+    },
+    "3293": {
+        "stock_id": "3293",
+        "stock_name": "鈊象"
+    },
+    "3294": {
+        "stock_id": "3294",
+        "stock_name": "英濟"
+    },
+    "3297": {
+        "stock_id": "3297",
+        "stock_name": "杭特"
+    },
+    "3303": {
+        "stock_id": "3303",
+        "stock_name": "岱稜"
+    },
+    "3306": {
+        "stock_id": "3306",
+        "stock_name": "鼎天"
+    },
+    "3310": {
+        "stock_id": "3310",
+        "stock_name": "佳穎"
+    },
+    "3313": {
+        "stock_id": "3313",
+        "stock_name": "斐成"
+    },
+    "3317": {
+        "stock_id": "3317",
+        "stock_name": "尼克森"
+    },
+    "3322": {
+        "stock_id": "3322",
+        "stock_name": "建舜電"
+    },
+    "3323": {
+        "stock_id": "3323",
+        "stock_name": "加百裕"
+    },
+    "3324": {
+        "stock_id": "3324",
+        "stock_name": "雙鴻"
+    },
+    "3325": {
+        "stock_id": "3325",
+        "stock_name": "旭品"
+    },
+    "3332": {
+        "stock_id": "3332",
+        "stock_name": "幸康"
+    },
+    "3339": {
+        "stock_id": "3339",
+        "stock_name": "泰谷"
+    },
+    "3349": {
+        "stock_id": "3349",
+        "stock_name": "寶德"
+    },
+    "3354": {
+        "stock_id": "3354",
+        "stock_name": "律勝"
+    },
+    "3357": {
+        "stock_id": "3357",
+        "stock_name": "臺慶科"
+    },
+    "3360": {
+        "stock_id": "3360",
+        "stock_name": "尚立"
+    },
+    "3362": {
+        "stock_id": "3362",
+        "stock_name": "先進光"
+    },
+    "3363": {
+        "stock_id": "3363",
+        "stock_name": "上詮"
+    },
+    "3372": {
+        "stock_id": "3372",
+        "stock_name": "典範"
+    },
+    "3373": {
+        "stock_id": "3373",
+        "stock_name": "熱映"
+    },
+    "3374": {
+        "stock_id": "3374",
+        "stock_name": "精材"
+    },
+    "3379": {
+        "stock_id": "3379",
+        "stock_name": "彬台"
+    },
+    "3388": {
+        "stock_id": "3388",
+        "stock_name": "崇越電"
+    },
+    "3390": {
+        "stock_id": "3390",
+        "stock_name": "旭軟"
+    },
+    "3402": {
+        "stock_id": "3402",
+        "stock_name": "漢科"
+    },
+    "3430": {
+        "stock_id": "3430",
+        "stock_name": "奇鈦科"
+    },
+    "3434": {
+        "stock_id": "3434",
+        "stock_name": "哲固"
+    },
+    "3438": {
+        "stock_id": "3438",
+        "stock_name": "類比科"
+    },
+    "3441": {
+        "stock_id": "3441",
+        "stock_name": "聯一光"
+    },
+    "3444": {
+        "stock_id": "3444",
+        "stock_name": "利機"
+    },
+    "3455": {
+        "stock_id": "3455",
+        "stock_name": "由田"
+    },
+    "3465": {
+        "stock_id": "3465",
+        "stock_name": "進泰電子"
+    },
+    "3466": {
+        "stock_id": "3466",
+        "stock_name": "德晉"
+    },
+    "3467": {
+        "stock_id": "3467",
+        "stock_name": "台灣精材"
+    },
+    "3479": {
+        "stock_id": "3479",
+        "stock_name": "安勤"
+    },
+    "3483": {
+        "stock_id": "3483",
+        "stock_name": "力致"
+    },
+    "3484": {
+        "stock_id": "3484",
+        "stock_name": "崧騰"
+    },
+    "3485": {
+        "stock_id": "3485",
+        "stock_name": "敘豐"
+    },
+    "3489": {
+        "stock_id": "3489",
+        "stock_name": "森寶"
+    },
+    "3490": {
+        "stock_id": "3490",
+        "stock_name": "單井"
+    },
+    "3491": {
+        "stock_id": "3491",
+        "stock_name": "昇達科"
+    },
+    "3492": {
+        "stock_id": "3492",
+        "stock_name": "長盛"
+    },
+    "3498": {
+        "stock_id": "3498",
+        "stock_name": "陽程"
+    },
+    "3499": {
+        "stock_id": "3499",
+        "stock_name": "環天科"
+    },
+    "3508": {
+        "stock_id": "3508",
+        "stock_name": "位速"
+    },
+    "3511": {
+        "stock_id": "3511",
+        "stock_name": "矽瑪"
+    },
+    "3512": {
+        "stock_id": "3512",
+        "stock_name": "皇龍"
+    },
+    "3516": {
+        "stock_id": "3516",
+        "stock_name": "亞帝歐"
+    },
+    "3520": {
+        "stock_id": "3520",
+        "stock_name": "華盈"
+    },
+    "3521": {
+        "stock_id": "3521",
+        "stock_name": "台鋼建設"
+    },
+    "3522": {
+        "stock_id": "3522",
+        "stock_name": "御嵿"
+    },
+    "3523": {
+        "stock_id": "3523",
+        "stock_name": "迎輝"
+    },
+    "3526": {
+        "stock_id": "3526",
+        "stock_name": "凡甲"
+    },
+    "3527": {
+        "stock_id": "3527",
+        "stock_name": "聚積"
+    },
+    "3529": {
+        "stock_id": "3529",
+        "stock_name": "力旺"
+    },
+    "3531": {
+        "stock_id": "3531",
+        "stock_name": "先益"
+    },
+    "3537": {
+        "stock_id": "3537",
+        "stock_name": "堡達"
+    },
+    "3540": {
+        "stock_id": "3540",
+        "stock_name": "曜越"
+    },
+    "3541": {
+        "stock_id": "3541",
+        "stock_name": "西柏"
+    },
+    "3546": {
+        "stock_id": "3546",
+        "stock_name": "宇峻"
+    },
+    "3548": {
+        "stock_id": "3548",
+        "stock_name": "兆利"
+    },
+    "3551": {
+        "stock_id": "3551",
+        "stock_name": "世禾"
+    },
+    "3552": {
+        "stock_id": "3552",
+        "stock_name": "同致"
+    },
+    "3555": {
+        "stock_id": "3555",
+        "stock_name": "博士旺"
+    },
+    "3556": {
+        "stock_id": "3556",
+        "stock_name": "禾瑞亞"
+    },
+    "3558": {
+        "stock_id": "3558",
+        "stock_name": "神準"
+    },
+    "3564": {
+        "stock_id": "3564",
+        "stock_name": "其陽"
+    },
+    "3567": {
+        "stock_id": "3567",
+        "stock_name": "逸昌"
+    },
+    "3570": {
+        "stock_id": "3570",
+        "stock_name": "大塚"
+    },
+    "3577": {
+        "stock_id": "3577",
+        "stock_name": "泓格"
+    },
+    "3580": {
+        "stock_id": "3580",
+        "stock_name": "友威科"
+    },
+    "3581": {
+        "stock_id": "3581",
+        "stock_name": "博磊"
+    },
+    "3587": {
+        "stock_id": "3587",
+        "stock_name": "閎康"
+    },
+    "3594": {
+        "stock_id": "3594",
+        "stock_name": "磐儀"
+    },
+    "3597": {
+        "stock_id": "3597",
+        "stock_name": "映興"
+    },
+    "3609": {
+        "stock_id": "3609",
+        "stock_name": "三一東林"
+    },
+    "3611": {
+        "stock_id": "3611",
+        "stock_name": "鼎翰"
+    },
+    "3615": {
+        "stock_id": "3615",
+        "stock_name": "安可"
+    },
+    "3623": {
+        "stock_id": "3623",
+        "stock_name": "富晶通"
+    },
+    "3624": {
+        "stock_id": "3624",
+        "stock_name": "光頡"
+    },
+    "3625": {
+        "stock_id": "3625",
+        "stock_name": "西勝"
+    },
+    "3628": {
+        "stock_id": "3628",
+        "stock_name": "盈正"
+    },
+    "3629": {
+        "stock_id": "3629",
+        "stock_name": "地心引力"
+    },
+    "3630": {
+        "stock_id": "3630",
+        "stock_name": "新鉅科"
+    },
+    "3631": {
+        "stock_id": "3631",
+        "stock_name": "晟楠"
+    },
+    "3632": {
+        "stock_id": "3632",
+        "stock_name": "研勤"
+    },
+    "3646": {
+        "stock_id": "3646",
+        "stock_name": "艾恩特"
+    },
+    "3663": {
+        "stock_id": "3663",
+        "stock_name": "鑫科"
+    },
+    "3664": {
+        "stock_id": "3664",
+        "stock_name": "安瑞-KY"
+    },
+    "3666": {
+        "stock_id": "3666",
+        "stock_name": "光耀"
+    },
+    "3672": {
+        "stock_id": "3672",
+        "stock_name": "康聯訊"
+    },
+    "3675": {
+        "stock_id": "3675",
+        "stock_name": "德微"
+    },
+    "3680": {
+        "stock_id": "3680",
+        "stock_name": "家登"
+    },
+    "3684": {
+        "stock_id": "3684",
+        "stock_name": "榮昌"
+    },
+    "3685": {
+        "stock_id": "3685",
+        "stock_name": "元創精密"
+    },
+    "3687": {
+        "stock_id": "3687",
+        "stock_name": "歐買尬"
+    },
+    "3689": {
+        "stock_id": "3689",
+        "stock_name": "湧德"
+    },
+    "3691": {
+        "stock_id": "3691",
+        "stock_name": "碩禾"
+    },
+    "3693": {
+        "stock_id": "3693",
+        "stock_name": "營邦"
+    },
+    "3707": {
+        "stock_id": "3707",
+        "stock_name": "漢磊"
+    },
+    "3709": {
+        "stock_id": "3709",
+        "stock_name": "鑫聯大投控"
+    },
+    "3710": {
+        "stock_id": "3710",
+        "stock_name": "連展投控"
+    },
+    "3713": {
+        "stock_id": "3713",
+        "stock_name": "新晶投控"
+    },
+    "4102": {
+        "stock_id": "4102",
+        "stock_name": "永日"
+    },
+    "4105": {
+        "stock_id": "4105",
+        "stock_name": "東洋"
+    },
+    "4107": {
+        "stock_id": "4107",
+        "stock_name": "邦特"
+    },
+    "4109": {
+        "stock_id": "4109",
+        "stock_name": "加捷生醫"
+    },
+    "4111": {
+        "stock_id": "4111",
+        "stock_name": "濟生"
+    },
+    "4113": {
+        "stock_id": "4113",
+        "stock_name": "聯上"
+    },
+    "4114": {
+        "stock_id": "4114",
+        "stock_name": "健喬"
+    },
+    "4116": {
+        "stock_id": "4116",
+        "stock_name": "明基醫"
+    },
+    "4120": {
+        "stock_id": "4120",
+        "stock_name": "友華"
+    },
+    "4121": {
+        "stock_id": "4121",
+        "stock_name": "優盛"
+    },
+    "4123": {
+        "stock_id": "4123",
+        "stock_name": "晟德"
+    },
+    "4126": {
+        "stock_id": "4126",
+        "stock_name": "太醫"
+    },
+    "4127": {
+        "stock_id": "4127",
+        "stock_name": "天良"
+    },
+    "4128": {
+        "stock_id": "4128",
+        "stock_name": "中天"
+    },
+    "4129": {
+        "stock_id": "4129",
+        "stock_name": "聯合"
+    },
+    "4130": {
+        "stock_id": "4130",
+        "stock_name": "健亞"
+    },
+    "4131": {
+        "stock_id": "4131",
+        "stock_name": "浩泰"
+    },
+    "4138": {
+        "stock_id": "4138",
+        "stock_name": "曜亞"
+    },
+    "4139": {
+        "stock_id": "4139",
+        "stock_name": "馬光-KY"
+    },
+    "4147": {
+        "stock_id": "4147",
+        "stock_name": "中裕"
+    },
+    "4153": {
+        "stock_id": "4153",
+        "stock_name": "鈺緯"
+    },
+    "4154": {
+        "stock_id": "4154",
+        "stock_name": "樂威科-KY"
+    },
+    "4157": {
+        "stock_id": "4157",
+        "stock_name": "太景*-KY"
+    },
+    "4160": {
+        "stock_id": "4160",
+        "stock_name": "訊聯基因"
+    },
+    "4161": {
+        "stock_id": "4161",
+        "stock_name": "聿新科"
+    },
+    "4162": {
+        "stock_id": "4162",
+        "stock_name": "智擎"
+    },
+    "4163": {
+        "stock_id": "4163",
+        "stock_name": "鐿鈦"
+    },
+    "4166": {
+        "stock_id": "4166",
+        "stock_name": "友霖"
+    },
+    "4167": {
+        "stock_id": "4167",
+        "stock_name": "松瑞藥"
+    },
+    "4168": {
+        "stock_id": "4168",
+        "stock_name": "醣聯"
+    },
+    "4171": {
+        "stock_id": "4171",
+        "stock_name": "瑞基"
+    },
+    "4173": {
+        "stock_id": "4173",
+        "stock_name": "久裕"
+    },
+    "4174": {
+        "stock_id": "4174",
+        "stock_name": "浩鼎"
+    },
+    "4175": {
+        "stock_id": "4175",
+        "stock_name": "杏一"
+    },
+    "4183": {
+        "stock_id": "4183",
+        "stock_name": "福永生技"
+    },
+    "4188": {
+        "stock_id": "4188",
+        "stock_name": "安克"
+    },
+    "4192": {
+        "stock_id": "4192",
+        "stock_name": "杏國"
+    },
+    "4198": {
+        "stock_id": "4198",
+        "stock_name": "欣大健康"
+    },
+    "4205": {
+        "stock_id": "4205",
+        "stock_name": "中華食"
+    },
+    "4207": {
+        "stock_id": "4207",
+        "stock_name": "環泰"
+    },
+    "4303": {
+        "stock_id": "4303",
+        "stock_name": "信立"
+    },
+    "4304": {
+        "stock_id": "4304",
+        "stock_name": "勝昱"
+    },
+    "4305": {
+        "stock_id": "4305",
+        "stock_name": "世坤"
+    },
+    "4401": {
+        "stock_id": "4401",
+        "stock_name": "東隆興"
+    },
+    "4402": {
+        "stock_id": "4402",
+        "stock_name": "郡都開發"
+    },
+    "4406": {
+        "stock_id": "4406",
+        "stock_name": "新昕纖"
+    },
+    "4413": {
+        "stock_id": "4413",
+        "stock_name": "飛寶企業"
+    },
+    "4416": {
+        "stock_id": "4416",
+        "stock_name": "三圓"
+    },
+    "4417": {
+        "stock_id": "4417",
+        "stock_name": "金洲"
+    },
+    "4419": {
+        "stock_id": "4419",
+        "stock_name": "皇家美食"
+    },
+    "4420": {
+        "stock_id": "4420",
+        "stock_name": "光明"
+    },
+    "4430": {
+        "stock_id": "4430",
+        "stock_name": "耀億"
+    },
+    "4432": {
+        "stock_id": "4432",
+        "stock_name": "銘旺實"
+    },
+    "4433": {
+        "stock_id": "4433",
+        "stock_name": "興采"
+    },
+    "4442": {
+        "stock_id": "4442",
+        "stock_name": "竣邦-KY"
+    },
+    "4502": {
+        "stock_id": "4502",
+        "stock_name": "健信"
+    },
+    "4503": {
+        "stock_id": "4503",
+        "stock_name": "金雨"
+    },
+    "4506": {
+        "stock_id": "4506",
+        "stock_name": "崇友"
+    },
+    "4510": {
+        "stock_id": "4510",
+        "stock_name": "高鋒"
+    },
+    "4513": {
+        "stock_id": "4513",
+        "stock_name": "福裕"
+    },
+    "4523": {
+        "stock_id": "4523",
+        "stock_name": "永彰"
+    },
+    "4527": {
+        "stock_id": "4527",
+        "stock_name": "方土霖"
+    },
+    "4528": {
+        "stock_id": "4528",
+        "stock_name": "江興鍛"
+    },
+    "4529": {
+        "stock_id": "4529",
+        "stock_name": "淳紳"
+    },
+    "4530": {
+        "stock_id": "4530",
+        "stock_name": "宏易"
+    },
+    "4533": {
+        "stock_id": "4533",
+        "stock_name": "協易機"
+    },
+    "4534": {
+        "stock_id": "4534",
+        "stock_name": "慶騰"
+    },
+    "4535": {
+        "stock_id": "4535",
+        "stock_name": "至興"
+    },
+    "4538": {
+        "stock_id": "4538",
+        "stock_name": "大詠城"
+    },
+    "4541": {
+        "stock_id": "4541",
+        "stock_name": "晟田"
+    },
+    "4542": {
+        "stock_id": "4542",
+        "stock_name": "科嶠"
+    },
+    "4543": {
+        "stock_id": "4543",
+        "stock_name": "萬在"
+    },
+    "4549": {
+        "stock_id": "4549",
+        "stock_name": "桓達"
+    },
+    "4550": {
+        "stock_id": "4550",
+        "stock_name": "長佳"
+    },
+    "4554": {
+        "stock_id": "4554",
+        "stock_name": "橙的"
+    },
+    "4556": {
+        "stock_id": "4556",
+        "stock_name": "旭然"
+    },
+    "4558": {
+        "stock_id": "4558",
+        "stock_name": "寶緯"
+    },
+    "4561": {
+        "stock_id": "4561",
+        "stock_name": "健椿"
+    },
+    "4563": {
+        "stock_id": "4563",
+        "stock_name": "百德"
+    },
+    "4568": {
+        "stock_id": "4568",
+        "stock_name": "科際精密"
+    },
+    "4577": {
+        "stock_id": "4577",
+        "stock_name": "達航科技"
+    },
+    "4580": {
+        "stock_id": "4580",
+        "stock_name": "捷流閥業"
+    },
+    "4584": {
+        "stock_id": "4584",
+        "stock_name": "君帆"
+    },
+    "4609": {
+        "stock_id": "4609",
+        "stock_name": "唐鋒"
+    },
+    "4702": {
+        "stock_id": "4702",
+        "stock_name": "中美實"
+    },
+    "4706": {
+        "stock_id": "4706",
+        "stock_name": "大恭"
+    },
+    "4707": {
+        "stock_id": "4707",
+        "stock_name": "磐亞"
+    },
+    "4711": {
+        "stock_id": "4711",
+        "stock_name": "永純"
+    },
+    "4714": {
+        "stock_id": "4714",
+        "stock_name": "永捷"
+    },
+    "4716": {
+        "stock_id": "4716",
+        "stock_name": "大立"
+    },
+    "4721": {
+        "stock_id": "4721",
+        "stock_name": "美琪瑪"
+    },
+    "4726": {
+        "stock_id": "4726",
+        "stock_name": "永昕"
+    },
+    "4728": {
+        "stock_id": "4728",
+        "stock_name": "雙美"
+    },
+    "4729": {
+        "stock_id": "4729",
+        "stock_name": "熒茂"
+    },
+    "4735": {
+        "stock_id": "4735",
+        "stock_name": "豪展"
+    },
+    "4741": {
+        "stock_id": "4741",
+        "stock_name": "泓瀚"
+    },
+    "4743": {
+        "stock_id": "4743",
+        "stock_name": "合一"
+    },
+    "4744": {
+        "stock_id": "4744",
+        "stock_name": "皇將"
+    },
+    "4745": {
+        "stock_id": "4745",
+        "stock_name": "合富-KY"
+    },
+    "4747": {
+        "stock_id": "4747",
+        "stock_name": "強生"
+    },
+    "4749": {
+        "stock_id": "4749",
+        "stock_name": "新應材"
+    },
+    "4754": {
+        "stock_id": "4754",
+        "stock_name": "國碳科"
+    },
+    "4760": {
+        "stock_id": "4760",
+        "stock_name": "勤凱"
+    },
+    "4767": {
+        "stock_id": "4767",
+        "stock_name": "誠泰科技"
+    },
+    "4768": {
+        "stock_id": "4768",
+        "stock_name": "晶呈科技"
+    },
+    "4772": {
+        "stock_id": "4772",
+        "stock_name": "台特化"
+    },
+    "4806": {
+        "stock_id": "4806",
+        "stock_name": "桂田文創"
+    },
+    "4903": {
+        "stock_id": "4903",
+        "stock_name": "聯光通"
+    },
+    "4905": {
+        "stock_id": "4905",
+        "stock_name": "台聯電"
+    },
+    "4907": {
+        "stock_id": "4907",
+        "stock_name": "富宇"
+    },
+    "4908": {
+        "stock_id": "4908",
+        "stock_name": "前鼎"
+    },
+    "4909": {
+        "stock_id": "4909",
+        "stock_name": "新復興"
+    },
+    "4911": {
+        "stock_id": "4911",
+        "stock_name": "德英"
+    },
+    "4923": {
+        "stock_id": "4923",
+        "stock_name": "力士"
+    },
+    "4924": {
+        "stock_id": "4924",
+        "stock_name": "欣厚-KY"
+    },
+    "4931": {
+        "stock_id": "4931",
+        "stock_name": "新盛力"
+    },
+    "4933": {
+        "stock_id": "4933",
+        "stock_name": "友輝"
+    },
+    "4939": {
+        "stock_id": "4939",
+        "stock_name": "亞電"
+    },
+    "4946": {
+        "stock_id": "4946",
+        "stock_name": "辣椒"
+    },
+    "4950": {
+        "stock_id": "4950",
+        "stock_name": "金耘國際"
+    },
+    "4951": {
+        "stock_id": "4951",
+        "stock_name": "精拓科"
+    },
+    "4953": {
+        "stock_id": "4953",
+        "stock_name": "緯軟"
+    },
+    "4966": {
+        "stock_id": "4966",
+        "stock_name": "譜瑞-KY"
+    },
+    "4971": {
+        "stock_id": "4971",
+        "stock_name": "IET-KY"
+    },
+    "4972": {
+        "stock_id": "4972",
+        "stock_name": "湯石照明"
+    },
+    "4973": {
+        "stock_id": "4973",
+        "stock_name": "廣穎"
+    },
+    "4974": {
+        "stock_id": "4974",
+        "stock_name": "亞泰"
+    },
+    "4979": {
+        "stock_id": "4979",
+        "stock_name": "華星光"
+    },
+    "4991": {
+        "stock_id": "4991",
+        "stock_name": "環宇-KY"
+    },
+    "4995": {
+        "stock_id": "4995",
+        "stock_name": "晶達"
+    },
+    "5009": {
+        "stock_id": "5009",
+        "stock_name": "榮剛"
+    },
+    "5011": {
+        "stock_id": "5011",
+        "stock_name": "久陽"
+    },
+    "5013": {
+        "stock_id": "5013",
+        "stock_name": "強新"
+    },
+    "5014": {
+        "stock_id": "5014",
+        "stock_name": "建錩"
+    },
+    "5015": {
+        "stock_id": "5015",
+        "stock_name": "華祺"
+    },
+    "5016": {
+        "stock_id": "5016",
+        "stock_name": "松和"
+    },
+    "5201": {
+        "stock_id": "5201",
+        "stock_name": "凱衛"
+    },
+    "5202": {
+        "stock_id": "5202",
+        "stock_name": "力新"
+    },
+    "5205": {
+        "stock_id": "5205",
+        "stock_name": "中茂"
+    },
+    "5206": {
+        "stock_id": "5206",
+        "stock_name": "坤悅"
+    },
+    "5209": {
+        "stock_id": "5209",
+        "stock_name": "新鼎"
+    },
+    "5210": {
+        "stock_id": "5210",
+        "stock_name": "寶碩"
+    },
+    "5211": {
+        "stock_id": "5211",
+        "stock_name": "蒙恬"
+    },
+    "5212": {
+        "stock_id": "5212",
+        "stock_name": "凌網"
+    },
+    "5213": {
+        "stock_id": "5213",
+        "stock_name": "亞昕"
+    },
+    "5220": {
+        "stock_id": "5220",
+        "stock_name": "萬達光電"
+    },
+    "5223": {
+        "stock_id": "5223",
+        "stock_name": "安力-KY"
+    },
+    "5227": {
+        "stock_id": "5227",
+        "stock_name": "立凱-KY"
+    },
+    "5228": {
+        "stock_id": "5228",
+        "stock_name": "鈺鎧"
+    },
+    "5230": {
+        "stock_id": "5230",
+        "stock_name": "雷笛克光學"
+    },
+    "5236": {
+        "stock_id": "5236",
+        "stock_name": "凌陽創新"
+    },
+    "5245": {
+        "stock_id": "5245",
+        "stock_name": "智晶"
+    },
+    "5251": {
+        "stock_id": "5251",
+        "stock_name": "天鉞電"
+    },
+    "5263": {
+        "stock_id": "5263",
+        "stock_name": "智崴"
+    },
+    "5272": {
+        "stock_id": "5272",
+        "stock_name": "笙科"
+    },
+    "5274": {
+        "stock_id": "5274",
+        "stock_name": "信驊"
+    },
+    "5276": {
+        "stock_id": "5276",
+        "stock_name": "達輝-KY"
+    },
+    "5278": {
+        "stock_id": "5278",
+        "stock_name": "尚凡*"
+    },
+    "5287": {
+        "stock_id": "5287",
+        "stock_name": "數字"
+    },
+    "5289": {
+        "stock_id": "5289",
+        "stock_name": "宜鼎"
+    },
+    "5291": {
+        "stock_id": "5291",
+        "stock_name": "邑昇"
+    },
+    "5299": {
+        "stock_id": "5299",
+        "stock_name": "杰力"
+    },
+    "5301": {
+        "stock_id": "5301",
+        "stock_name": "寶得利"
+    },
+    "5302": {
+        "stock_id": "5302",
+        "stock_name": "太欣"
+    },
+    "5309": {
+        "stock_id": "5309",
+        "stock_name": "系統電"
+    },
+    "5310": {
+        "stock_id": "5310",
+        "stock_name": "天剛"
+    },
+    "5312": {
+        "stock_id": "5312",
+        "stock_name": "寶島科"
+    },
+    "5314": {
+        "stock_id": "5314",
+        "stock_name": "世紀*"
+    },
+    "5315": {
+        "stock_id": "5315",
+        "stock_name": "光聯"
+    },
+    "5321": {
+        "stock_id": "5321",
+        "stock_name": "美而快"
+    },
+    "5324": {
+        "stock_id": "5324",
+        "stock_name": "士開"
+    },
+    "5328": {
+        "stock_id": "5328",
+        "stock_name": "華容"
+    },
+    "5340": {
+        "stock_id": "5340",
+        "stock_name": "建榮"
+    },
+    "5344": {
+        "stock_id": "5344",
+        "stock_name": "立衛"
+    },
+    "5345": {
+        "stock_id": "5345",
+        "stock_name": "馥鴻"
+    },
+    "5347": {
+        "stock_id": "5347",
+        "stock_name": "世界"
+    },
+    "5348": {
+        "stock_id": "5348",
+        "stock_name": "正能量智能"
+    },
+    "5351": {
+        "stock_id": "5351",
+        "stock_name": "鈺創"
+    },
+    "5353": {
+        "stock_id": "5353",
+        "stock_name": "台林"
+    },
+    "5355": {
+        "stock_id": "5355",
+        "stock_name": "佳總"
+    },
+    "5356": {
+        "stock_id": "5356",
+        "stock_name": "協益"
+    },
+    "5364": {
+        "stock_id": "5364",
+        "stock_name": "力麗店"
+    },
+    "5371": {
+        "stock_id": "5371",
+        "stock_name": "中光電"
+    },
+    "5381": {
+        "stock_id": "5381",
+        "stock_name": "光譜"
+    },
+    "5386": {
+        "stock_id": "5386",
+        "stock_name": "青雲"
+    },
+    "5392": {
+        "stock_id": "5392",
+        "stock_name": "能率"
+    },
+    "5398": {
+        "stock_id": "5398",
+        "stock_name": "慕康生醫"
+    },
+    "5403": {
+        "stock_id": "5403",
+        "stock_name": "中菲"
+    },
+    "5410": {
+        "stock_id": "5410",
+        "stock_name": "國眾"
+    },
+    "5425": {
+        "stock_id": "5425",
+        "stock_name": "台半"
+    },
+    "5426": {
+        "stock_id": "5426",
+        "stock_name": "振發"
+    },
+    "5432": {
+        "stock_id": "5432",
+        "stock_name": "新門"
+    },
+    "5438": {
+        "stock_id": "5438",
+        "stock_name": "東友"
+    },
+    "5439": {
+        "stock_id": "5439",
+        "stock_name": "高技"
+    },
+    "5443": {
+        "stock_id": "5443",
+        "stock_name": "均豪"
+    },
+    "5450": {
+        "stock_id": "5450",
+        "stock_name": "南良"
+    },
+    "5452": {
+        "stock_id": "5452",
+        "stock_name": "佶優"
+    },
+    "5455": {
+        "stock_id": "5455",
+        "stock_name": "昇益"
+    },
+    "5457": {
+        "stock_id": "5457",
+        "stock_name": "宣德"
+    },
+    "5460": {
+        "stock_id": "5460",
+        "stock_name": "同協"
+    },
+    "5464": {
+        "stock_id": "5464",
+        "stock_name": "霖宏"
+    },
+    "5465": {
+        "stock_id": "5465",
+        "stock_name": "富驊"
+    },
+    "5468": {
+        "stock_id": "5468",
+        "stock_name": "凱鈺"
+    },
+    "5474": {
+        "stock_id": "5474",
+        "stock_name": "聰泰"
+    },
+    "5475": {
+        "stock_id": "5475",
+        "stock_name": "德宏"
+    },
+    "5478": {
+        "stock_id": "5478",
+        "stock_name": "智冠"
+    },
+    "5481": {
+        "stock_id": "5481",
+        "stock_name": "新華"
+    },
+    "5483": {
+        "stock_id": "5483",
+        "stock_name": "中美晶"
+    },
+    "5487": {
+        "stock_id": "5487",
+        "stock_name": "通泰"
+    },
+    "5488": {
+        "stock_id": "5488",
+        "stock_name": "松普"
+    },
+    "5489": {
+        "stock_id": "5489",
+        "stock_name": "彩富"
+    },
+    "5490": {
+        "stock_id": "5490",
+        "stock_name": "同亨"
+    },
+    "5493": {
+        "stock_id": "5493",
+        "stock_name": "三聯"
+    },
+    "5498": {
+        "stock_id": "5498",
+        "stock_name": "凱崴"
+    },
+    "5508": {
+        "stock_id": "5508",
+        "stock_name": "永信建"
+    },
+    "5511": {
+        "stock_id": "5511",
+        "stock_name": "德昌"
+    },
+    "5512": {
+        "stock_id": "5512",
+        "stock_name": "力麒"
+    },
+    "5514": {
+        "stock_id": "5514",
+        "stock_name": "三豐"
+    },
+    "5516": {
+        "stock_id": "5516",
+        "stock_name": "雙喜"
+    },
+    "5520": {
+        "stock_id": "5520",
+        "stock_name": "力泰"
+    },
+    "5523": {
+        "stock_id": "5523",
+        "stock_name": "豐謙"
+    },
+    "5529": {
+        "stock_id": "5529",
+        "stock_name": "鉅陞"
+    },
+    "5530": {
+        "stock_id": "5530",
+        "stock_name": "龍巖"
+    },
+    "5536": {
+        "stock_id": "5536",
+        "stock_name": "聖暉*"
+    },
+    "5543": {
+        "stock_id": "5543",
+        "stock_name": "桓鼎-KY"
+    },
+    "5547": {
+        "stock_id": "5547",
+        "stock_name": "久舜"
+    },
+    "5548": {
+        "stock_id": "5548",
+        "stock_name": "安倉"
+    },
+    "5601": {
+        "stock_id": "5601",
+        "stock_name": "台聯櫃"
+    },
+    "5603": {
+        "stock_id": "5603",
+        "stock_name": "陸海"
+    },
+    "5604": {
+        "stock_id": "5604",
+        "stock_name": "中連"
+    },
+    "5609": {
+        "stock_id": "5609",
+        "stock_name": "中菲行"
+    },
+    "5701": {
+        "stock_id": "5701",
+        "stock_name": "劍湖山"
+    },
+    "5703": {
+        "stock_id": "5703",
+        "stock_name": "亞都"
+    },
+    "5704": {
+        "stock_id": "5704",
+        "stock_name": "老爺知"
+    },
+    "5864": {
+        "stock_id": "5864",
+        "stock_name": "致和證"
+    },
+    "5878": {
+        "stock_id": "5878",
+        "stock_name": "台名"
+    },
+    "5902": {
+        "stock_id": "5902",
+        "stock_name": "德記"
+    },
+    "5903": {
+        "stock_id": "5903",
+        "stock_name": "全家"
+    },
+    "5904": {
+        "stock_id": "5904",
+        "stock_name": "寶雅"
+    },
+    "5905": {
+        "stock_id": "5905",
+        "stock_name": "南仁湖"
+    },
+    "6015": {
+        "stock_id": "6015",
+        "stock_name": "宏遠證"
+    },
+    "6016": {
+        "stock_id": "6016",
+        "stock_name": "康和證"
+    },
+    "6020": {
+        "stock_id": "6020",
+        "stock_name": "大展證"
+    },
+    "6021": {
+        "stock_id": "6021",
+        "stock_name": "美好證"
+    },
+    "6023": {
+        "stock_id": "6023",
+        "stock_name": "元大期"
+    },
+    "6026": {
+        "stock_id": "6026",
+        "stock_name": "福邦證"
+    },
+    "6028": {
+        "stock_id": "6028",
+        "stock_name": "公勝保經"
+    },
+    "6101": {
+        "stock_id": "6101",
+        "stock_name": "寬魚國際"
+    },
+    "6103": {
+        "stock_id": "6103",
+        "stock_name": "合邦"
+    },
+    "6104": {
+        "stock_id": "6104",
+        "stock_name": "創惟"
+    },
+    "6109": {
+        "stock_id": "6109",
+        "stock_name": "亞元"
+    },
+    "6111": {
+        "stock_id": "6111",
+        "stock_name": "光聚晶電"
+    },
+    "6113": {
+        "stock_id": "6113",
+        "stock_name": "亞矽"
+    },
+    "6114": {
+        "stock_id": "6114",
+        "stock_name": "久威"
+    },
+    "6118": {
+        "stock_id": "6118",
+        "stock_name": "建達"
+    },
+    "6121": {
+        "stock_id": "6121",
+        "stock_name": "新普"
+    },
+    "6122": {
+        "stock_id": "6122",
+        "stock_name": "擎邦"
+    },
+    "6123": {
+        "stock_id": "6123",
+        "stock_name": "上奇"
+    },
+    "6124": {
+        "stock_id": "6124",
+        "stock_name": "業強"
+    },
+    "6125": {
+        "stock_id": "6125",
+        "stock_name": "廣運"
+    },
+    "6126": {
+        "stock_id": "6126",
+        "stock_name": "信音"
+    },
+    "6127": {
+        "stock_id": "6127",
+        "stock_name": "九豪"
+    },
+    "6129": {
+        "stock_id": "6129",
+        "stock_name": "普誠"
+    },
+    "6130": {
+        "stock_id": "6130",
+        "stock_name": "上亞科技"
+    },
+    "6134": {
+        "stock_id": "6134",
+        "stock_name": "萬旭"
+    },
+    "6138": {
+        "stock_id": "6138",
+        "stock_name": "茂達"
+    },
+    "6140": {
+        "stock_id": "6140",
+        "stock_name": "訊達"
+    },
+    "6143": {
+        "stock_id": "6143",
+        "stock_name": "振曜"
+    },
+    "6144": {
+        "stock_id": "6144",
+        "stock_name": "得利影"
+    },
+    "6146": {
+        "stock_id": "6146",
+        "stock_name": "耕興"
+    },
+    "6147": {
+        "stock_id": "6147",
+        "stock_name": "頎邦"
+    },
+    "6148": {
+        "stock_id": "6148",
+        "stock_name": "驊宏資"
+    },
+    "6150": {
+        "stock_id": "6150",
+        "stock_name": "撼訊"
+    },
+    "6151": {
+        "stock_id": "6151",
+        "stock_name": "晉倫"
+    },
+    "6154": {
+        "stock_id": "6154",
+        "stock_name": "順發"
+    },
+    "6156": {
+        "stock_id": "6156",
+        "stock_name": "松上"
+    },
+    "6158": {
+        "stock_id": "6158",
+        "stock_name": "禾昌"
+    },
+    "6160": {
+        "stock_id": "6160",
+        "stock_name": "欣技"
+    },
+    "6161": {
+        "stock_id": "6161",
+        "stock_name": "捷波"
+    },
+    "6163": {
+        "stock_id": "6163",
+        "stock_name": "華電網"
+    },
+    "6167": {
+        "stock_id": "6167",
+        "stock_name": "久正"
+    },
+    "6169": {
+        "stock_id": "6169",
+        "stock_name": "昱泉"
+    },
+    "6170": {
+        "stock_id": "6170",
+        "stock_name": "統振"
+    },
+    "6171": {
+        "stock_id": "6171",
+        "stock_name": "大城地產"
+    },
+    "6173": {
+        "stock_id": "6173",
+        "stock_name": "信昌電"
+    },
+    "6174": {
+        "stock_id": "6174",
+        "stock_name": "安碁"
+    },
+    "6175": {
+        "stock_id": "6175",
+        "stock_name": "立敦"
+    },
+    "6179": {
+        "stock_id": "6179",
+        "stock_name": "亞通"
+    },
+    "6180": {
+        "stock_id": "6180",
+        "stock_name": "橘子"
+    },
+    "6182": {
+        "stock_id": "6182",
+        "stock_name": "合晶"
+    },
+    "6185": {
+        "stock_id": "6185",
+        "stock_name": "幃翔"
+    },
+    "6186": {
+        "stock_id": "6186",
+        "stock_name": "新潤"
+    },
+    "6187": {
+        "stock_id": "6187",
+        "stock_name": "萬潤"
+    },
+    "6188": {
+        "stock_id": "6188",
+        "stock_name": "廣明"
+    },
+    "6190": {
+        "stock_id": "6190",
+        "stock_name": "萬泰科"
+    },
+    "6194": {
+        "stock_id": "6194",
+        "stock_name": "育富"
+    },
+    "6195": {
+        "stock_id": "6195",
+        "stock_name": "詩肯"
+    },
+    "6198": {
+        "stock_id": "6198",
+        "stock_name": "瑞築"
+    },
+    "6199": {
+        "stock_id": "6199",
+        "stock_name": "天品"
+    },
+    "006201": {
+        "stock_id": "006201",
+        "stock_name": "元大富櫃50"
+    },
+    "6203": {
+        "stock_id": "6203",
+        "stock_name": "海韻電"
+    },
+    "6204": {
+        "stock_id": "6204",
+        "stock_name": "艾華"
+    },
+    "6207": {
+        "stock_id": "6207",
+        "stock_name": "雷科"
+    },
+    "6208": {
+        "stock_id": "6208",
+        "stock_name": "日揚"
+    },
+    "6210": {
+        "stock_id": "6210",
+        "stock_name": "慶生"
+    },
+    "6212": {
+        "stock_id": "6212",
+        "stock_name": "理銘"
+    },
+    "6217": {
+        "stock_id": "6217",
+        "stock_name": "中探針"
+    },
+    "6218": {
+        "stock_id": "6218",
+        "stock_name": "豪勉"
+    },
+    "6219": {
+        "stock_id": "6219",
+        "stock_name": "富旺"
+    },
+    "6220": {
+        "stock_id": "6220",
+        "stock_name": "岳豐"
+    },
+    "6221": {
+        "stock_id": "6221",
+        "stock_name": "晉泰"
+    },
+    "6222": {
+        "stock_id": "6222",
+        "stock_name": "立軒"
+    },
+    "6223": {
+        "stock_id": "6223",
+        "stock_name": "旺矽"
+    },
+    "6227": {
+        "stock_id": "6227",
+        "stock_name": "茂綸"
+    },
+    "6228": {
+        "stock_id": "6228",
+        "stock_name": "全譜"
+    },
+    "6229": {
+        "stock_id": "6229",
+        "stock_name": "研通"
+    },
+    "6231": {
+        "stock_id": "6231",
+        "stock_name": "系微"
+    },
+    "6233": {
+        "stock_id": "6233",
+        "stock_name": "旺玖"
+    },
+    "6234": {
+        "stock_id": "6234",
+        "stock_name": "高僑"
+    },
+    "6236": {
+        "stock_id": "6236",
+        "stock_name": "中湛"
+    },
+    "6237": {
+        "stock_id": "6237",
+        "stock_name": "驊訊"
+    },
+    "6240": {
+        "stock_id": "6240",
+        "stock_name": "松崗"
+    },
+    "6241": {
+        "stock_id": "6241",
+        "stock_name": "鑫永洋"
+    },
+    "6242": {
+        "stock_id": "6242",
+        "stock_name": "立康"
+    },
+    "6244": {
+        "stock_id": "6244",
+        "stock_name": "茂迪"
+    },
+    "6245": {
+        "stock_id": "6245",
+        "stock_name": "立端"
+    },
+    "6246": {
+        "stock_id": "6246",
+        "stock_name": "臺龍"
+    },
+    "6248": {
+        "stock_id": "6248",
+        "stock_name": "沛波"
+    },
+    "6259": {
+        "stock_id": "6259",
+        "stock_name": "百徽"
+    },
+    "6261": {
+        "stock_id": "6261",
+        "stock_name": "久元"
+    },
+    "6263": {
+        "stock_id": "6263",
+        "stock_name": "普萊德"
+    },
+    "6264": {
+        "stock_id": "6264",
+        "stock_name": "富裔"
+    },
+    "6265": {
+        "stock_id": "6265",
+        "stock_name": "方土昶"
+    },
+    "6266": {
+        "stock_id": "6266",
+        "stock_name": "泰詠"
+    },
+    "6270": {
+        "stock_id": "6270",
+        "stock_name": "倍微"
+    },
+    "6274": {
+        "stock_id": "6274",
+        "stock_name": "台燿"
+    },
+    "6275": {
+        "stock_id": "6275",
+        "stock_name": "元山"
+    },
+    "6276": {
+        "stock_id": "6276",
+        "stock_name": "安鈦克"
+    },
+    "6279": {
+        "stock_id": "6279",
+        "stock_name": "胡連"
+    },
+    "6284": {
+        "stock_id": "6284",
+        "stock_name": "佳邦"
+    },
+    "6290": {
+        "stock_id": "6290",
+        "stock_name": "良維"
+    },
+    "6291": {
+        "stock_id": "6291",
+        "stock_name": "沛亨"
+    },
+    "6292": {
+        "stock_id": "6292",
+        "stock_name": "迅德"
+    },
+    "6294": {
+        "stock_id": "6294",
+        "stock_name": "智基"
+    },
+    "6411": {
+        "stock_id": "6411",
+        "stock_name": "晶焱"
+    },
+    "6417": {
+        "stock_id": "6417",
+        "stock_name": "韋僑"
+    },
+    "6418": {
+        "stock_id": "6418",
+        "stock_name": "詠昇"
+    },
+    "6419": {
+        "stock_id": "6419",
+        "stock_name": "京晨科"
+    },
+    "6423": {
+        "stock_id": "6423",
+        "stock_name": "億而得"
+    },
+    "6425": {
+        "stock_id": "6425",
+        "stock_name": "易發"
+    },
+    "6432": {
+        "stock_id": "6432",
+        "stock_name": "今展科"
+    },
+    "6435": {
+        "stock_id": "6435",
+        "stock_name": "大中"
+    },
+    "6441": {
+        "stock_id": "6441",
+        "stock_name": "廣錠"
+    },
+    "6461": {
+        "stock_id": "6461",
+        "stock_name": "益得"
+    },
+    "6462": {
+        "stock_id": "6462",
+        "stock_name": "神盾"
+    },
+    "6465": {
+        "stock_id": "6465",
+        "stock_name": "威潤"
+    },
+    "6469": {
+        "stock_id": "6469",
+        "stock_name": "大樹"
+    },
+    "6470": {
+        "stock_id": "6470",
+        "stock_name": "宇智"
+    },
+    "6474": {
+        "stock_id": "6474",
+        "stock_name": "華豫寧"
+    },
+    "6482": {
+        "stock_id": "6482",
+        "stock_name": "弘煜科"
+    },
+    "6485": {
+        "stock_id": "6485",
+        "stock_name": "點序"
+    },
+    "6486": {
+        "stock_id": "6486",
+        "stock_name": "互動"
+    },
+    "6488": {
+        "stock_id": "6488",
+        "stock_name": "環球晶"
+    },
+    "6492": {
+        "stock_id": "6492",
+        "stock_name": "生華科"
+    },
+    "6494": {
+        "stock_id": "6494",
+        "stock_name": "九齊"
+    },
+    "6496": {
+        "stock_id": "6496",
+        "stock_name": "科懋"
+    },
+    "6498": {
+        "stock_id": "6498",
+        "stock_name": "久禾光"
+    },
+    "6499": {
+        "stock_id": "6499",
+        "stock_name": "益安"
+    },
+    "6506": {
+        "stock_id": "6506",
+        "stock_name": "雙邦"
+    },
+    "6508": {
+        "stock_id": "6508",
+        "stock_name": "惠光"
+    },
+    "6509": {
+        "stock_id": "6509",
+        "stock_name": "聚和"
+    },
+    "6510": {
+        "stock_id": "6510",
+        "stock_name": "精測"
+    },
+    "6512": {
+        "stock_id": "6512",
+        "stock_name": "啟發電"
+    },
+    "6516": {
+        "stock_id": "6516",
+        "stock_name": "勤崴國際"
+    },
+    "6517": {
+        "stock_id": "6517",
+        "stock_name": "保勝光學"
+    },
+    "6523": {
+        "stock_id": "6523",
+        "stock_name": "達爾膚"
+    },
+    "6527": {
+        "stock_id": "6527",
+        "stock_name": "明達醫"
+    },
+    "6530": {
+        "stock_id": "6530",
+        "stock_name": "創威"
+    },
+    "6532": {
+        "stock_id": "6532",
+        "stock_name": "瑞耘"
+    },
+    "6535": {
+        "stock_id": "6535",
+        "stock_name": "順藥"
+    },
+    "6538": {
+        "stock_id": "6538",
+        "stock_name": "倉和"
+    },
+    "6542": {
+        "stock_id": "6542",
+        "stock_name": "隆中"
+    },
+    "6546": {
+        "stock_id": "6546",
+        "stock_name": "正基"
+    },
+    "6547": {
+        "stock_id": "6547",
+        "stock_name": "高端疫苗"
+    },
+    "6548": {
+        "stock_id": "6548",
+        "stock_name": "長科*"
+    },
+    "6556": {
+        "stock_id": "6556",
+        "stock_name": "勝品"
+    },
+    "6560": {
+        "stock_id": "6560",
+        "stock_name": "欣普羅"
+    },
+    "6561": {
+        "stock_id": "6561",
+        "stock_name": "是方"
+    },
+    "6568": {
+        "stock_id": "6568",
+        "stock_name": "宏觀"
+    },
+    "6569": {
+        "stock_id": "6569",
+        "stock_name": "醫揚"
+    },
+    "6570": {
+        "stock_id": "6570",
+        "stock_name": "維田"
+    },
+    "6574": {
+        "stock_id": "6574",
+        "stock_name": "霈方"
+    },
+    "6576": {
+        "stock_id": "6576",
+        "stock_name": "逸達"
+    },
+    "6577": {
+        "stock_id": "6577",
+        "stock_name": "勁豐"
+    },
+    "6578": {
+        "stock_id": "6578",
+        "stock_name": "達邦蛋白"
+    },
+    "6584": {
+        "stock_id": "6584",
+        "stock_name": "南俊國際"
+    },
+    "6588": {
+        "stock_id": "6588",
+        "stock_name": "東典光電"
+    },
+    "6590": {
+        "stock_id": "6590",
+        "stock_name": "普鴻"
+    },
+    "6593": {
+        "stock_id": "6593",
+        "stock_name": "台灣銘板"
+    },
+    "6596": {
+        "stock_id": "6596",
+        "stock_name": "寬宏藝術"
+    },
+    "6597": {
+        "stock_id": "6597",
+        "stock_name": "立誠"
+    },
+    "6603": {
+        "stock_id": "6603",
+        "stock_name": "富強鑫"
+    },
+    "6609": {
+        "stock_id": "6609",
+        "stock_name": "瀧澤科"
+    },
+    "6612": {
+        "stock_id": "6612",
+        "stock_name": "奈米醫材"
+    },
+    "6613": {
+        "stock_id": "6613",
+        "stock_name": "朋億*"
+    },
+    "6615": {
+        "stock_id": "6615",
+        "stock_name": "慧智"
+    },
+    "6616": {
+        "stock_id": "6616",
+        "stock_name": "特昇-KY"
+    },
+    "6617": {
+        "stock_id": "6617",
+        "stock_name": "共信-KY"
+    },
+    "6620": {
+        "stock_id": "6620",
+        "stock_name": "漢達"
+    },
+    "6624": {
+        "stock_id": "6624",
+        "stock_name": "萬年清"
+    },
+    "6629": {
+        "stock_id": "6629",
+        "stock_name": "泰金-KY"
+    },
+    "6637": {
+        "stock_id": "6637",
+        "stock_name": "醫影"
+    },
+    "6640": {
+        "stock_id": "6640",
+        "stock_name": "均華"
+    },
+    "6642": {
+        "stock_id": "6642",
+        "stock_name": "富致"
+    },
+    "6643": {
+        "stock_id": "6643",
+        "stock_name": "M31"
+    },
+    "6649": {
+        "stock_id": "6649",
+        "stock_name": "台生材"
+    },
+    "6651": {
+        "stock_id": "6651",
+        "stock_name": "全宇昕"
+    },
+    "6654": {
+        "stock_id": "6654",
+        "stock_name": "天正國際"
+    },
+    "6661": {
+        "stock_id": "6661",
+        "stock_name": "威健生技"
+    },
+    "6662": {
+        "stock_id": "6662",
+        "stock_name": "樂斯科"
+    },
+    "6664": {
+        "stock_id": "6664",
+        "stock_name": "群翊"
+    },
+    "6667": {
+        "stock_id": "6667",
+        "stock_name": "信紘科"
+    },
+    "6679": {
+        "stock_id": "6679",
+        "stock_name": "鈺太"
+    },
+    "6680": {
+        "stock_id": "6680",
+        "stock_name": "鑫創電子"
+    },
+    "6683": {
+        "stock_id": "6683",
+        "stock_name": "雍智科技"
+    },
+    "6684": {
+        "stock_id": "6684",
+        "stock_name": "安格"
+    },
+    "6690": {
+        "stock_id": "6690",
+        "stock_name": "安碁資訊"
+    },
+    "6692": {
+        "stock_id": "6692",
+        "stock_name": "進能服"
+    },
+    "6693": {
+        "stock_id": "6693",
+        "stock_name": "廣閎科"
+    },
+    "6697": {
+        "stock_id": "6697",
+        "stock_name": "東捷資訊"
+    },
+    "6703": {
+        "stock_id": "6703",
+        "stock_name": "軒郁"
+    },
+    "6708": {
+        "stock_id": "6708",
+        "stock_name": "天擎"
+    },
+    "6712": {
+        "stock_id": "6712",
+        "stock_name": "長聖"
+    },
+    "6716": {
+        "stock_id": "6716",
+        "stock_name": "應廣"
+    },
+    "6720": {
+        "stock_id": "6720",
+        "stock_name": "久昌"
+    },
+    "6721": {
+        "stock_id": "6721",
+        "stock_name": "信實"
+    },
+    "6725": {
+        "stock_id": "6725",
+        "stock_name": "矽科宏晟"
+    },
+    "6727": {
+        "stock_id": "6727",
+        "stock_name": "亞泰金屬"
+    },
+    "6728": {
+        "stock_id": "6728",
+        "stock_name": "上洋"
+    },
+    "6730": {
+        "stock_id": "6730",
+        "stock_name": "常廣"
+    },
+    "6732": {
+        "stock_id": "6732",
+        "stock_name": "昇佳電子"
+    },
+    "6733": {
+        "stock_id": "6733",
+        "stock_name": "博晟生醫"
+    },
+    "6735": {
+        "stock_id": "6735",
+        "stock_name": "美達科技"
+    },
+    "6739": {
+        "stock_id": "6739",
+        "stock_name": "竹陞科技"
+    },
+    "6741": {
+        "stock_id": "6741",
+        "stock_name": "91APP*-KY"
+    },
+    "6751": {
+        "stock_id": "6751",
+        "stock_name": "智聯服務"
+    },
+    "6752": {
+        "stock_id": "6752",
+        "stock_name": "叡揚"
+    },
+    "6761": {
+        "stock_id": "6761",
+        "stock_name": "穩得"
+    },
+    "6762": {
+        "stock_id": "6762",
+        "stock_name": "達亞"
+    },
+    "6763": {
+        "stock_id": "6763",
+        "stock_name": "綠界科技*"
+    },
+    "6767": {
+        "stock_id": "6767",
+        "stock_name": "台微醫"
+    },
+    "6785": {
+        "stock_id": "6785",
+        "stock_name": "昱展新藥"
+    },
+    "6788": {
+        "stock_id": "6788",
+        "stock_name": "華景電"
+    },
+    "6791": {
+        "stock_id": "6791",
+        "stock_name": "虎門科技"
+    },
+    "6803": {
+        "stock_id": "6803",
+        "stock_name": "崑鼎"
+    },
+    "6804": {
+        "stock_id": "6804",
+        "stock_name": "明係"
+    },
+    "6811": {
+        "stock_id": "6811",
+        "stock_name": "宏碁資訊"
+    },
+    "6821": {
+        "stock_id": "6821",
+        "stock_name": "聯寶"
+    },
+    "6823": {
+        "stock_id": "6823",
+        "stock_name": "濾能"
+    },
+    "6829": {
+        "stock_id": "6829",
+        "stock_name": "千附精密"
+    },
+    "6840": {
+        "stock_id": "6840",
+        "stock_name": "東研信超"
+    },
+    "6841": {
+        "stock_id": "6841",
+        "stock_name": "長佳智能"
+    },
+    "6843": {
+        "stock_id": "6843",
+        "stock_name": "進典"
+    },
+    "6844": {
+        "stock_id": "6844",
+        "stock_name": "諾貝兒"
+    },
+    "6846": {
+        "stock_id": "6846",
+        "stock_name": "綠茵"
+    },
+    "6855": {
+        "stock_id": "6855",
+        "stock_name": "數泓科"
+    },
+    "6856": {
+        "stock_id": "6856",
+        "stock_name": "鑫傳"
+    },
+    "6859": {
+        "stock_id": "6859",
+        "stock_name": "伯特光"
+    },
+    "6865": {
+        "stock_id": "6865",
+        "stock_name": "偉康科技"
+    },
+    "6870": {
+        "stock_id": "6870",
+        "stock_name": "騰雲"
+    },
+    "6872": {
+        "stock_id": "6872",
+        "stock_name": "浩宇生醫"
+    },
+    "6874": {
+        "stock_id": "6874",
+        "stock_name": "倍力"
+    },
+    "6875": {
+        "stock_id": "6875",
+        "stock_name": "國邑*"
+    },
+    "6877": {
+        "stock_id": "6877",
+        "stock_name": "鏵友益"
+    },
+    "6881": {
+        "stock_id": "6881",
+        "stock_name": "潤德"
+    },
+    "6884": {
+        "stock_id": "6884",
+        "stock_name": "海柏特"
+    },
+    "6894": {
+        "stock_id": "6894",
+        "stock_name": "衛司特"
+    },
+    "6895": {
+        "stock_id": "6895",
+        "stock_name": "宏碩系統"
+    },
+    "6899": {
+        "stock_id": "6899",
+        "stock_name": "創為精密"
+    },
+    "6903": {
+        "stock_id": "6903",
+        "stock_name": "巨漢"
+    },
+    "6904": {
+        "stock_id": "6904",
+        "stock_name": "伯鑫"
+    },
+    "6907": {
+        "stock_id": "6907",
+        "stock_name": "雅特力-KY"
+    },
+    "6910": {
+        "stock_id": "6910",
+        "stock_name": "德鴻"
+    },
+    "6913": {
+        "stock_id": "6913",
+        "stock_name": "鴻呈"
+    },
+    "6922": {
+        "stock_id": "6922",
+        "stock_name": "宸曜"
+    },
+    "6925": {
+        "stock_id": "6925",
+        "stock_name": "意藍"
+    },
+    "6929": {
+        "stock_id": "6929",
+        "stock_name": "佑全"
+    },
+    "6945": {
+        "stock_id": "6945",
+        "stock_name": "圓祥生技"
+    },
+    "6953": {
+        "stock_id": "6953",
+        "stock_name": "家碩"
+    },
+    "6961": {
+        "stock_id": "6961",
+        "stock_name": "旅天下"
+    },
+    "6967": {
+        "stock_id": "6967",
+        "stock_name": "汎瑋材料"
+    },
+    "6968": {
+        "stock_id": "6968",
+        "stock_name": "萬達寵物"
+    },
+    "6971": {
+        "stock_id": "6971",
+        "stock_name": "惠民實業"
+    },
+    "6982": {
+        "stock_id": "6982",
+        "stock_name": "大井泵浦"
+    },
+    "6983": {
+        "stock_id": "6983",
+        "stock_name": "華洋精機"
+    },
+    "6996": {
+        "stock_id": "6996",
+        "stock_name": "力領科技"
+    },
+    "6997": {
+        "stock_id": "6997",
+        "stock_name": "博弘"
+    },
+    "7402": {
+        "stock_id": "7402",
+        "stock_name": "邑錡"
+    },
+    "7547": {
+        "stock_id": "7547",
+        "stock_name": "碩網"
+    },
+    "7556": {
+        "stock_id": "7556",
+        "stock_name": "意德士"
+    },
+    "7584": {
+        "stock_id": "7584",
+        "stock_name": "樂意"
+    },
+    "7642": {
+        "stock_id": "7642",
+        "stock_name": "昶瑞機電"
+    },
+    "7703": {
+        "stock_id": "7703",
+        "stock_name": "銳澤"
+    },
+    "7704": {
+        "stock_id": "7704",
+        "stock_name": "明遠精密"
+    },
+    "7708": {
+        "stock_id": "7708",
+        "stock_name": "全家餐飲"
+    },
+    "7709": {
+        "stock_id": "7709",
+        "stock_name": "榮田"
+    },
+    "7712": {
+        "stock_id": "7712",
+        "stock_name": "博盛半導體"
+    },
+    "7713": {
+        "stock_id": "7713",
+        "stock_name": "威力德生醫"
+    },
+    "7714": {
+        "stock_id": "7714",
+        "stock_name": "創泓科技"
+    },
+    "7715": {
+        "stock_id": "7715",
+        "stock_name": "裕山"
+    },
+    "7716": {
+        "stock_id": "7716",
+        "stock_name": "昱臺國際"
+    },
+    "7717": {
+        "stock_id": "7717",
+        "stock_name": "萊德光電-KY"
+    },
+    "7718": {
+        "stock_id": "7718",
+        "stock_name": "友鋮"
+    },
+    "7723": {
+        "stock_id": "7723",
+        "stock_name": "築間"
+    },
+    "7728": {
+        "stock_id": "7728",
+        "stock_name": "光焱科技"
+    },
+    "7734": {
+        "stock_id": "7734",
+        "stock_name": "印能科技"
+    },
+    "7738": {
+        "stock_id": "7738",
+        "stock_name": "東聯互動"
+    },
+    "7743": {
+        "stock_id": "7743",
+        "stock_name": "金利食安"
+    },
+    "7744": {
+        "stock_id": "7744",
+        "stock_name": "崴寶"
+    },
+    "7747": {
+        "stock_id": "7747",
+        "stock_name": "昕奇雲端"
+    },
+    "7751": {
+        "stock_id": "7751",
+        "stock_name": "竑騰"
+    },
+    "7753": {
+        "stock_id": "7753",
+        "stock_name": "星亞"
+    },
+    "7757": {
+        "stock_id": "7757",
+        "stock_name": "金色三麥"
+    },
+    "7767": {
+        "stock_id": "7767",
+        "stock_name": "仁大資訊"
+    },
+    "7770": {
+        "stock_id": "7770",
+        "stock_name": "君曜"
+    },
+    "7772": {
+        "stock_id": "7772",
+        "stock_name": "耀穎"
+    },
+    "7777": {
+        "stock_id": "7777",
+        "stock_name": "能率亞洲"
+    },
+    "7782": {
+        "stock_id": "7782",
+        "stock_name": "光速火箭"
+    },
+    "7792": {
+        "stock_id": "7792",
+        "stock_name": "安葆"
+    },
+    "7794": {
+        "stock_id": "7794",
+        "stock_name": "宏碁智新"
+    },
+    "7805": {
+        "stock_id": "7805",
+        "stock_name": "威聯通"
+    },
+    "7810": {
+        "stock_id": "7810",
+        "stock_name": "捷創科技"
+    },
+    "7811": {
+        "stock_id": "7811",
+        "stock_name": "民盛"
+    },
+    "7819": {
+        "stock_id": "7819",
+        "stock_name": "精誠金融"
+    },
+    "7820": {
+        "stock_id": "7820",
+        "stock_name": "立盈"
+    },
+    "7828": {
+        "stock_id": "7828",
+        "stock_name": "創新服務"
+    },
+    "7839": {
+        "stock_id": "7839",
+        "stock_name": "達人網"
+    },
+    "7842": {
+        "stock_id": "7842",
+        "stock_name": "天能綠電"
+    },
+    "8024": {
+        "stock_id": "8024",
+        "stock_name": "佑華"
+    },
+    "8027": {
+        "stock_id": "8027",
+        "stock_name": "鈦昇"
+    },
+    "8032": {
+        "stock_id": "8032",
+        "stock_name": "光菱"
+    },
+    "8034": {
+        "stock_id": "8034",
+        "stock_name": "榮群"
+    },
+    "8038": {
+        "stock_id": "8038",
+        "stock_name": "長園科"
+    },
+    "8040": {
+        "stock_id": "8040",
+        "stock_name": "九暘"
+    },
+    "8042": {
+        "stock_id": "8042",
+        "stock_name": "金山電"
+    },
+    "8043": {
+        "stock_id": "8043",
+        "stock_name": "蜜望實"
+    },
+    "8044": {
+        "stock_id": "8044",
+        "stock_name": "網家"
+    },
+    "8047": {
+        "stock_id": "8047",
+        "stock_name": "星雲"
+    },
+    "8048": {
+        "stock_id": "8048",
+        "stock_name": "德勝"
+    },
+    "8049": {
+        "stock_id": "8049",
+        "stock_name": "晶采"
+    },
+    "8050": {
+        "stock_id": "8050",
+        "stock_name": "廣積"
+    },
+    "8054": {
+        "stock_id": "8054",
+        "stock_name": "安國"
+    },
+    "8059": {
+        "stock_id": "8059",
+        "stock_name": "凱碩"
+    },
+    "8064": {
+        "stock_id": "8064",
+        "stock_name": "東捷"
+    },
+    "8066": {
+        "stock_id": "8066",
+        "stock_name": "來思達"
+    },
+    "8067": {
+        "stock_id": "8067",
+        "stock_name": "志旭"
+    },
+    "8068": {
+        "stock_id": "8068",
+        "stock_name": "全達"
+    },
+    "8069": {
+        "stock_id": "8069",
+        "stock_name": "元太"
+    },
+    "8071": {
+        "stock_id": "8071",
+        "stock_name": "能率網通"
+    },
+    "8074": {
+        "stock_id": "8074",
+        "stock_name": "鉅橡"
+    },
+    "8076": {
+        "stock_id": "8076",
+        "stock_name": "伍豐"
+    },
+    "8077": {
+        "stock_id": "8077",
+        "stock_name": "洛碁"
+    },
+    "8080": {
+        "stock_id": "8080",
+        "stock_name": "泰霖"
+    },
+    "8083": {
+        "stock_id": "8083",
+        "stock_name": "瑞穎"
+    },
+    "8084": {
+        "stock_id": "8084",
+        "stock_name": "巨虹"
+    },
+    "8085": {
+        "stock_id": "8085",
+        "stock_name": "福華"
+    },
+    "8086": {
+        "stock_id": "8086",
+        "stock_name": "宏捷科"
+    },
+    "8087": {
+        "stock_id": "8087",
+        "stock_name": "麗升能源"
+    },
+    "8088": {
+        "stock_id": "8088",
+        "stock_name": "品安"
+    },
+    "8089": {
+        "stock_id": "8089",
+        "stock_name": "康全電訊"
+    },
+    "8091": {
+        "stock_id": "8091",
+        "stock_name": "翔名"
+    },
+    "8092": {
+        "stock_id": "8092",
+        "stock_name": "建暐"
+    },
+    "8093": {
+        "stock_id": "8093",
+        "stock_name": "保銳"
+    },
+    "8096": {
+        "stock_id": "8096",
+        "stock_name": "擎亞"
+    },
+    "8097": {
+        "stock_id": "8097",
+        "stock_name": "常珵"
+    },
+    "8099": {
+        "stock_id": "8099",
+        "stock_name": "大世科"
+    },
+    "8102": {
+        "stock_id": "8102",
+        "stock_name": "傑霖科技"
+    },
+    "8107": {
+        "stock_id": "8107",
+        "stock_name": "大億金茂"
+    },
+    "8109": {
+        "stock_id": "8109",
+        "stock_name": "博大"
+    },
+    "8111": {
+        "stock_id": "8111",
+        "stock_name": "立碁"
+    },
+    "8121": {
+        "stock_id": "8121",
+        "stock_name": "越峰"
+    },
+    "8147": {
+        "stock_id": "8147",
+        "stock_name": "正淩"
+    },
+    "8155": {
+        "stock_id": "8155",
+        "stock_name": "博智"
+    },
+    "8171": {
+        "stock_id": "8171",
+        "stock_name": "天宇"
+    },
+    "8176": {
+        "stock_id": "8176",
+        "stock_name": "智捷"
+    },
+    "8182": {
+        "stock_id": "8182",
+        "stock_name": "加高"
+    },
+    "8183": {
+        "stock_id": "8183",
+        "stock_name": "精星"
+    },
+    "8227": {
+        "stock_id": "8227",
+        "stock_name": "巨有科技"
+    },
+    "8234": {
+        "stock_id": "8234",
+        "stock_name": "新漢"
+    },
+    "8240": {
+        "stock_id": "8240",
+        "stock_name": "華宏"
+    },
+    "8255": {
+        "stock_id": "8255",
+        "stock_name": "朋程"
+    },
+    "8272": {
+        "stock_id": "8272",
+        "stock_name": "全景軟體"
+    },
+    "8277": {
+        "stock_id": "8277",
+        "stock_name": "商丞"
+    },
+    "8279": {
+        "stock_id": "8279",
+        "stock_name": "生展"
+    },
+    "8284": {
+        "stock_id": "8284",
+        "stock_name": "三竹"
+    },
+    "8289": {
+        "stock_id": "8289",
+        "stock_name": "泰藝"
+    },
+    "8291": {
+        "stock_id": "8291",
+        "stock_name": "尚茂"
+    },
+    "8299": {
+        "stock_id": "8299",
+        "stock_name": "群聯"
+    },
+    "8342": {
+        "stock_id": "8342",
+        "stock_name": "益張"
+    },
+    "8349": {
+        "stock_id": "8349",
+        "stock_name": "恒耀"
+    },
+    "8349A": {
+        "stock_id": "8349A",
+        "stock_name": "恒耀甲特"
+    },
+    "8354": {
+        "stock_id": "8354",
+        "stock_name": "冠好"
+    },
+    "8358": {
+        "stock_id": "8358",
+        "stock_name": "金居"
+    },
+    "8383": {
+        "stock_id": "8383",
+        "stock_name": "千附"
+    },
+    "8390": {
+        "stock_id": "8390",
+        "stock_name": "金益鼎"
+    },
+    "8401": {
+        "stock_id": "8401",
+        "stock_name": "白紗科"
+    },
+    "8403": {
+        "stock_id": "8403",
+        "stock_name": "盛弘"
+    },
+    "8409": {
+        "stock_id": "8409",
+        "stock_name": "商之器"
+    },
+    "8410": {
+        "stock_id": "8410",
+        "stock_name": "森田"
+    },
+    "8415": {
+        "stock_id": "8415",
+        "stock_name": "大國鋼"
+    },
+    "8416": {
+        "stock_id": "8416",
+        "stock_name": "實威"
+    },
+    "8421": {
+        "stock_id": "8421",
+        "stock_name": "旭源"
+    },
+    "8423": {
+        "stock_id": "8423",
+        "stock_name": "保綠-KY"
+    },
+    "8424": {
+        "stock_id": "8424",
+        "stock_name": "惠普"
+    },
+    "8426": {
+        "stock_id": "8426",
+        "stock_name": "紅木-KY"
+    },
+    "8431": {
+        "stock_id": "8431",
+        "stock_name": "匯鑽科"
+    },
+    "8432": {
+        "stock_id": "8432",
+        "stock_name": "東生華"
+    },
+    "8433": {
+        "stock_id": "8433",
+        "stock_name": "弘帆"
+    },
+    "8435": {
+        "stock_id": "8435",
+        "stock_name": "鉅邁"
+    },
+    "8436": {
+        "stock_id": "8436",
+        "stock_name": "大江"
+    },
+    "8437": {
+        "stock_id": "8437",
+        "stock_name": "大地-KY"
+    },
+    "8440": {
+        "stock_id": "8440",
+        "stock_name": "綠電"
+    },
+    "8444": {
+        "stock_id": "8444",
+        "stock_name": "綠河-KY"
+    },
+    "8446": {
+        "stock_id": "8446",
+        "stock_name": "華研"
+    },
+    "8450": {
+        "stock_id": "8450",
+        "stock_name": "霹靂"
+    },
+    "8455": {
+        "stock_id": "8455",
+        "stock_name": "大拓-KY"
+    },
+    "8472": {
+        "stock_id": "8472",
+        "stock_name": "夠麻吉"
+    },
+    "8477": {
+        "stock_id": "8477",
+        "stock_name": "創業家"
+    },
+    "8489": {
+        "stock_id": "8489",
+        "stock_name": "三貝德"
+    },
+    "8905": {
+        "stock_id": "8905",
+        "stock_name": "裕國"
+    },
+    "8906": {
+        "stock_id": "8906",
+        "stock_name": "花王"
+    },
+    "8908": {
+        "stock_id": "8908",
+        "stock_name": "欣雄"
+    },
+    "8916": {
+        "stock_id": "8916",
+        "stock_name": "光隆"
+    },
+    "8917": {
+        "stock_id": "8917",
+        "stock_name": "欣泰"
+    },
+    "8921": {
+        "stock_id": "8921",
+        "stock_name": "沈氏"
+    },
+    "8923": {
+        "stock_id": "8923",
+        "stock_name": "時報"
+    },
+    "8924": {
+        "stock_id": "8924",
+        "stock_name": "大田"
+    },
+    "8927": {
+        "stock_id": "8927",
+        "stock_name": "北基"
+    },
+    "8928": {
+        "stock_id": "8928",
+        "stock_name": "鉅明"
+    },
+    "8929": {
+        "stock_id": "8929",
+        "stock_name": "富堡"
+    },
+    "8930": {
+        "stock_id": "8930",
+        "stock_name": "青鋼"
+    },
+    "8931": {
+        "stock_id": "8931",
+        "stock_name": "大汽電"
+    },
+    "8932": {
+        "stock_id": "8932",
+        "stock_name": "智通*"
+    },
+    "8933": {
+        "stock_id": "8933",
+        "stock_name": "愛地雅"
+    },
+    "8935": {
+        "stock_id": "8935",
+        "stock_name": "邦泰"
+    },
+    "8936": {
+        "stock_id": "8936",
+        "stock_name": "國統"
+    },
+    "8937": {
+        "stock_id": "8937",
+        "stock_name": "合騏*"
+    },
+    "8938": {
+        "stock_id": "8938",
+        "stock_name": "明安"
+    },
+    "8941": {
+        "stock_id": "8941",
+        "stock_name": "關中"
+    },
+    "8942": {
+        "stock_id": "8942",
+        "stock_name": "森鉅"
+    },
+    "009806": {
+        "stock_id": "009806",
+        "stock_name": "台新標普500"
+    },
+    "009807": {
+        "stock_id": "009807",
+        "stock_name": "台新標普科技精選"
+    },
+    "009814": {
+        "stock_id": "009814",
+        "stock_name": "富邦標普500"
+    },
+    "009815": {
+        "stock_id": "009815",
+        "stock_name": "大華美國MAG7+"
+    },
+    "009822": {
+        "stock_id": "009822",
+        "stock_name": "華南永昌未來金融"
+    },
+    "9949": {
+        "stock_id": "9949",
+        "stock_name": "琉園"
+    },
+    "9950": {
+        "stock_id": "9950",
+        "stock_name": "萬國通"
+    },
+    "9951": {
+        "stock_id": "9951",
+        "stock_name": "皇田"
+    },
+    "9960": {
+        "stock_id": "9960",
+        "stock_name": "邁達康"
+    },
+    "9962": {
+        "stock_id": "9962",
+        "stock_name": "有益"
+    },
+    "020001": {
+        "stock_id": "020001",
+        "stock_name": "富邦存股雙十N"
+    },
+    "020025": {
+        "stock_id": "020025",
+        "stock_name": "統一亞洲半導體N"
+    },
+    "020027": {
+        "stock_id": "020027",
+        "stock_name": "元大上櫃ESG成長N"
+    },
+    "020033": {
+        "stock_id": "020033",
+        "stock_name": "統一恒生科期N"
+    },
+    "020035": {
+        "stock_id": "020035",
+        "stock_name": "元大上櫃ESG高息N"
+    },
+    "020040": {
+        "stock_id": "020040",
+        "stock_name": "元大上櫃ESG龍頭N"
+    },
+    "020041": {
+        "stock_id": "020041",
+        "stock_name": "兆豐半導體氣候N"
+    }
+}
