@@ -1288,6 +1288,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
 function getStockProfileTSE(PDO $pdo): array
 {
     $stocksTSE = [];
+    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1305,7 +1306,8 @@ function getStockProfileTSE(PDO $pdo): array
                 $stocksTSE[$v['公司代號']] = [
                     'stock_id' => $v['公司代號'],
                     'stock_name' => $v['公司簡稱'],
-                    'stock_type' => 'TSE'
+                    'stock_type' => 'TSE',
+                    'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
                 ];
             }
         }
@@ -1318,6 +1320,7 @@ function getStockProfileTSE(PDO $pdo): array
 function getStockProfileTPEx(PDO $pdo): array
 {
     $stocksOTC = [];
+    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1335,7 +1338,8 @@ function getStockProfileTPEx(PDO $pdo): array
                 $stocksOTC[$v['SecuritiesCompanyCode']] = [
                     'stock_id' => $v['SecuritiesCompanyCode'],
                     'stock_name' => $v['CompanyAbbreviation'],
-                    'stock_type' => 'TPEx'
+                    'stock_type' => 'TPEx',
+                    'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
                 ];
             }
         }
@@ -1348,6 +1352,7 @@ function getStockProfileTPEx(PDO $pdo): array
 function getStockProfileESM(PDO $pdo): array
 {
     $stocksESM = [];
+    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_R";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1365,7 +1370,8 @@ function getStockProfileESM(PDO $pdo): array
                 $stocksESM[$v['SecuritiesCompanyCode']] = [
                     'stock_id' => $v['SecuritiesCompanyCode'],
                     'stock_name' => $v['CompanyAbbreviation'],
-                    'stock_type' => 'ESM'
+                    'stock_type' => 'ESM',
+                    'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
                 ];
             }
         }
@@ -1409,6 +1415,11 @@ function updateStockProfile(PDO $pdo): void
     $start_time = microtime(true);
     writeLog($pdo, 'updateStockProfile', '開始更新產業別及次產業概念', 'start');
     try {
+        // $stocksTSE = getStockProfileTSE($pdo);
+        // $stocksTPEx = getStockProfileTPEx($pdo);
+        // $stocksESM = getStockProfileESM($pdo);
+        // $stocksETF = getStockProfileETF($pdo);
+
         $stocks = getStockProfileWithTWSE($pdo);
         updateIndustry($pdo, $stocks);
         updateSubIndustry($pdo, $stocks);
