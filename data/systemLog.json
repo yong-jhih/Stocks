@@ -1,5 +1,96 @@
 [
     {
+        "id": 5880013,
+        "log_time": "2026-06-25 17:37:34",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880012,
+        "log_time": "2026-06-25 17:37:34",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880011,
+        "log_time": "2026-06-25 17:37:33",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880010,
+        "log_time": "2026-06-25 17:37:33",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880009,
+        "log_time": "2026-06-25 17:37:33",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880008,
+        "log_time": "2026-06-25 17:37:32",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880007,
+        "log_time": "2026-06-25 17:37:32",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880006,
+        "log_time": "2026-06-25 17:37:32",
+        "log_type": "updateStockProfile",
+        "content": "產業別及次產業概念更新完成,共耗時 3848.85 秒",
+        "result": "end"
+    },
+    {
+        "id": 5880005,
+        "log_time": "2026-06-25 17:37:32",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6519 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880004,
+        "log_time": "2026-06-25 17:33:59",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6665 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880003,
+        "log_time": "2026-06-25 16:40:50",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2592 筆",
+        "result": "success"
+    },
+    {
+        "id": 5880002,
+        "log_time": "2026-06-25 16:33:52",
+        "log_type": "getStockProfileOTC",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 5880001,
+        "log_time": "2026-06-25 16:33:23",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 5850012,
         "log_time": "2026-06-25 14:03:55",
         "log_type": "dbClean",
