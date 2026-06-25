@@ -1380,11 +1380,10 @@ function getStockProfileWithTPExO(PDO $pdo): array
 function updateIndustry(PDO $pdo, array $stocks): void
 {
     $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, stock_unified_business_number, industry) 
-            VALUES (?, ?, ?,?)
+            (stock_id, stock_name, industry) 
+            VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE 
             stock_name = VALUES(stock_name),
-            stock_unified_business_number = VALUES(stock_unified_business_number),
             industry = VALUES(industry)";
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
@@ -1394,7 +1393,6 @@ function updateIndustry(PDO $pdo, array $stocks): void
             $stmt->execute([
                 $row['stock_id'],
                 $row['stock_name'],
-                $row['stock_unified_business_number'],
                 $row['industry']
             ]);
         }
