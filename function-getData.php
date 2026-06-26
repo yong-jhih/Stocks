@@ -1586,7 +1586,7 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
                     $subIndustry = trim(end($parts));
                     if ($subIndustry != '') {
                         $subIndustries[] = $subIndustry;
-                        if (strlen($subIndustry) > 40) {
+                        if (mb_strlen($subIndustry, 'UTF-8') > 50) {
                             writeLog($pdo, 'test', "次產業名稱過長:{$subIndustry}", 'error');
                         }
                     }

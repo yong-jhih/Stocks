@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS stock_profile (
 -- 9. 次產業
 CREATE TABLE IF NOT EXISTS stock_sub_industry (
     stock_id VARCHAR(6) NOT NULL COMMENT '股票代號',
-    sub_industry VARCHAR(40) NOT NULL COMMENT '次產業',
+    sub_industry VARCHAR(50) NOT NULL COMMENT '次產業',
     create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         COMMENT '建立時間',
     PRIMARY KEY (
