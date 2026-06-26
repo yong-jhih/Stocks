@@ -1,0 +1,465 @@
+[
+    {
+        "stock_id": "1444",
+        "stock_name": "力麗",
+        "industry": "紡織纖維",
+        "subIndustry": [
+            " 人造纖維產品(例如尼龍纖維、聚酯纖維、嫘縈纖維等)"
+        ],
+        "concept": [
+            "Apple",
+            "CPTPP",
+            "世足",
+            "智慧手錶",
+            "智慧音箱",
+            "棉花漲價"
+        ],
+        "score": 86,
+        "rating": "S",
+        "strategy_type": "短線轉強",
+        "confidence": 0.67,
+        "trend_score": 10,
+        "momentum_score": 35,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 7.41,
+        "yesterday_high": 7.06,
+        "yesterday_low": 6.92,
+        "vol": 5505,
+        "vol_ratio": 4,
+        "rank10": 86.15,
+        "amp10": 9.49,
+        "ma5": 6.96,
+        "ma10": 7.04,
+        "ma20": 6.93,
+        "ma60": 6.5,
+        "vma5": 1517,
+        "vma10": 1794,
+        "vma20": 3416,
+        "bia5": 6.4,
+        "bia10": 5.21,
+        "bia20": 6.98,
+        "con1": 22.25,
+        "con5": 19.17,
+        "con10": 11.93,
+        "con20": 8.01,
+        "foreign_buy_sell": 1229832,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2208,
+        "foreign_sum10": 2376,
+        "foreign_sum20": 5576,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 0,
+        "margin_balance": 759,
+        "margin_balance_diff": -9,
+        "squeeze": 0,
+        "bullet": 0,
+        "net_sbl": 0,
+        "net_sbl_sum5": 0,
+        "sbl_total": 0,
+        "sbl_sold_balance": 0,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "法人集中",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "成交量放大 4 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "6191",
+        "stock_name": "精成科",
+        "industry": "電子零組件業",
+        "subIndustry": [
+            " 基板組裝加工及相關製造",
+            " 硬板、軟板、IC載板製造"
+        ],
+        "concept": [
+            "Google TPU",
+            "HDI板"
+        ],
+        "score": 65,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "confidence": 0.9,
+        "trend_score": 25,
+        "momentum_score": 20,
+        "chip_score": 21,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 100.5,
+        "yesterday_high": 99.4,
+        "yesterday_low": 97.1,
+        "vol": 25594,
+        "vol_ratio": 4.59,
+        "rank10": 53.13,
+        "amp10": 13.66,
+        "ma5": 100.16,
+        "ma10": 99.01,
+        "ma20": 98.09,
+        "ma60": 96.86,
+        "vma5": 7883,
+        "vma10": 9265,
+        "vma20": 8997,
+        "bia5": 0.34,
+        "bia10": 1.5,
+        "bia20": 2.46,
+        "con1": 36.21,
+        "con5": 9.79,
+        "con10": 12.45,
+        "con20": 6.2,
+        "foreign_buy_sell": 6981217,
+        "trust_buy_sell": 2134000,
+        "foreign_sum5": 3588,
+        "foreign_sum10": 11852,
+        "foreign_sum20": 9075,
+        "trust_sum5": 2133,
+        "trust_sum10": 1960,
+        "trust_sum20": 2275,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 1,
+        "margin_balance": 22488,
+        "margin_balance_diff": -618,
+        "squeeze": 3.79,
+        "bullet": 0.31,
+        "net_sbl": -122,
+        "net_sbl_sum5": -1993,
+        "sbl_total": 36899,
+        "sbl_sold_balance": 34134,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "土洋合力": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "土洋合力",
+            "融資減肥",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "成交量放大 4.59 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "2527",
+        "stock_name": "宏璟",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 工程承攬",
+            " 建設業"
+        ],
+        "concept": [
+            "都市更新"
+        ],
+        "score": 59,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.6,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 40.35,
+        "yesterday_high": 41,
+        "yesterday_low": 39.75,
+        "vol": 2371,
+        "vol_ratio": 2.14,
+        "rank10": 82.31,
+        "amp10": 18.57,
+        "ma5": 39.72,
+        "ma10": 38.77,
+        "ma20": 37.47,
+        "ma60": 34.88,
+        "vma5": 1442,
+        "vma10": 1760,
+        "vma20": 1128,
+        "bia5": 1.59,
+        "bia10": 4.08,
+        "bia20": 7.69,
+        "con1": 39.5,
+        "con5": 24.25,
+        "con10": 2.92,
+        "con20": 3.86,
+        "foreign_buy_sell": 941351,
+        "trust_buy_sell": -2849,
+        "foreign_sum5": 1841,
+        "foreign_sum10": 586,
+        "foreign_sum20": 938,
+        "trust_sum5": -4,
+        "trust_sum10": -6,
+        "trust_sum20": -7,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 3704,
+        "margin_balance_diff": 49,
+        "squeeze": 1.2,
+        "bullet": 0.12,
+        "net_sbl": 9,
+        "net_sbl_sum5": 133,
+        "sbl_total": 1483,
+        "sbl_sold_balance": 1349,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 2.14 倍"
+        ]
+    },
+    {
+        "stock_id": "5469",
+        "stock_name": "瀚宇博",
+        "industry": "電子零組件業",
+        "subIndustry": [
+            " 硬板、軟板、IC載板製造"
+        ],
+        "concept": [
+            "5G",
+            "AI PC",
+            "HDI板",
+            "Xbox ",
+            "英特爾伺服器"
+        ],
+        "score": 47,
+        "rating": "C",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.5,
+        "trend_score": 25,
+        "momentum_score": 0,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": -43,
+        "close": 87.4,
+        "yesterday_high": 87.4,
+        "yesterday_low": 84.6,
+        "vol": 13733,
+        "vol_ratio": 4.39,
+        "rank10": 52,
+        "amp10": 12.17,
+        "ma5": 87.16,
+        "ma10": 85.99,
+        "ma20": 85.07,
+        "ma60": 84.25,
+        "vma5": 5617,
+        "vma10": 4806,
+        "vma20": 4265,
+        "bia5": 0.28,
+        "bia10": 1.64,
+        "bia20": 2.74,
+        "con1": 41.9,
+        "con5": 12.59,
+        "con10": 14.71,
+        "con20": 8.74,
+        "foreign_buy_sell": 4371590,
+        "trust_buy_sell": 1325000,
+        "foreign_sum5": 3556,
+        "foreign_sum10": 7231,
+        "foreign_sum20": 6720,
+        "trust_sum5": 1325,
+        "trust_sum10": 1322,
+        "trust_sum20": 1320,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 1,
+        "margin_balance": 15936,
+        "margin_balance_diff": -307,
+        "squeeze": 3.69,
+        "bullet": 0.65,
+        "net_sbl": 7,
+        "net_sbl_sum5": 1221,
+        "sbl_total": 18481,
+        "sbl_sold_balance": 15716,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "外資連買": 10,
+                "土洋合力": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "高檔出貨": -25,
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "外資連買",
+            "土洋合力",
+            "融資減肥",
+            "高檔出貨",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 4.39 倍"
+        ]
+    },
+    {
+        "stock_id": "2634",
+        "stock_name": "漢翔",
+        "industry": "航運業",
+        "subIndustry": [
+            " 其他"
+        ],
+        "concept": [
+            "3D列印",
+            "ESG",
+            "低軌衛星",
+            "無人機",
+            "航太",
+            "軍工"
+        ],
+        "score": 38,
+        "rating": "C",
+        "strategy_type": "觀察",
+        "confidence": 0.3,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 6,
+        "structure_score": 0,
+        "risk_score": -20,
+        "close": 49.2,
+        "yesterday_high": 49.7,
+        "yesterday_low": 48.4,
+        "vol": 7105,
+        "vol_ratio": 1.71,
+        "rank10": 55.79,
+        "amp10": 10.2,
+        "ma5": 48.94,
+        "ma10": 47.93,
+        "ma20": 47.28,
+        "ma60": 47.34,
+        "vma5": 8091,
+        "vma10": 5769,
+        "vma20": 5381,
+        "bia5": 0.53,
+        "bia10": 2.66,
+        "bia20": 4.07,
+        "con1": 15.82,
+        "con5": 7.4,
+        "con10": 13.26,
+        "con20": 8.5,
+        "foreign_buy_sell": 1036082,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 3106,
+        "foreign_sum10": 7992,
+        "foreign_sum20": 9160,
+        "trust_sum5": -13,
+        "trust_sum10": -33,
+        "trust_sum20": -62,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 21988,
+        "margin_balance_diff": -105,
+        "squeeze": 5.11,
+        "bullet": 0.84,
+        "net_sbl": -13,
+        "net_sbl_sum5": -1099,
+        "sbl_total": 31999,
+        "sbl_sold_balance": 27502,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "融資減肥": 6
+            },
+            "risk": {
+                "假突破": -20
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "融資減肥",
+            "假突破"
+        ],
+        "trigger_reasons": [
+            "成交量放大 1.71 倍"
+        ]
+    }
+]
