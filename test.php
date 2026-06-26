@@ -15,5 +15,3 @@ $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
 // echo "興櫃共 " . count($stocksESM) . " 檔\n";
 // echo "ETF共 " . count($stocksETF) . " 檔\n";
 // echo "共 " . count($result) . " 檔\n";
-
-updateSubIndustryTest($pdo, $stocks);

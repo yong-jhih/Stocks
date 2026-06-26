@@ -1446,80 +1446,10 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
     $stockList = array_column($stocks, 'stock_id');
     if (empty($stockList)) return;
 
-    $pdo->beginTransaction();
-    try {
-        // 先刪
-        $placeholders = implode(',', array_fill(0, count($stockList), '?'));
-        $sqlDelete = "DELETE FROM stock_sub_industry WHERE stock_id IN ($placeholders)";
-        $stmtDelete = $pdo->prepare($sqlDelete);
-        $stmtDelete->execute($stockList);
-
-        // 後新增
-        $totalInsertCount = 0;
-        foreach ($stocks as $k => $stock) {
-            $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-            $html = curl_exec($ch);
-            $curlError = curl_error($ch);
-            curl_close($ch);
-            if ($html === false) {
-                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 網頁抓取失敗：" . $curlError, 'warning');
-                continue;
-            }
-            if (trim($html) == '') {
-                writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stock['stock_id']} 回傳內容為空字串", 'warning');
-                continue;
-            }
-            libxml_use_internal_errors(true);
-            $dom = new DOMDocument();
-            $dom->loadHTML($html);
-            $xpath = new DOMXPath($dom);
-            $nodes = $xpath->query('//h4[a[contains(@href,"introduce.php")]]');
-            $subIndustries = [];
-            foreach ($nodes as $node) {
-                $text = html_entity_decode(trim($node->textContent));
-                $parts = explode('>', $text);
-                if (count($parts) < 2) continue;
-                $subIndustry = trim(end($parts));
-                if ($subIndustry == '') continue;
-                $subIndustries[] = trim($subIndustry);
-            }
-            $subIndustries = array_values(array_unique($subIndustries));
-            if ($k > 0 && $k % 10 == 0) sleep(2);
-            $values = [];
-            $params = [];
-            foreach ($subIndustries as $subIndustry) {
-                $values[] = "(?, ?)";
-                $params[] = $stock['stock_id'];
-                $params[] = $subIndustry;
-            }
-            if (empty($values)) continue;
-            $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
-            $stmtInsert = $pdo->prepare($sqlInsert);
-            $stmtInsert->execute($params);
-            $totalInsertCount += $stmtInsert->rowCount();
-        }
-        $pdo->commit();
-        writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
-    } catch (Throwable $e) {
-        $pdo->rollBack();
-        throw new RuntimeException("[updateSubIndustry] " . $e->getMessage(), 0, $e);
-    }
-}
-
-function updateSubIndustryTest(PDO $pdo, array $stocks): void
-{
-    $stockList = array_column($stocks, 'stock_id');
-    if (empty($stockList)) return;
-
     // 1. 先刪除舊資料（這部分可以保持一次性處理，效率較高）
     try {
         $placeholders = implode(',', array_fill(0, count($stockList), '?'));
-        $sqlDelete = "DELETE FROM stock_sub_industry_test WHERE stock_id IN ($placeholders)";
+        $sqlDelete = "DELETE FROM stock_sub_industry WHERE stock_id IN ($placeholders)";
         $stmtDelete = $pdo->prepare($sqlDelete);
         $stmtDelete->execute($stockList);
     } catch (Throwable $e) {
@@ -1530,29 +1460,23 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
     $concurrency = 15;
     $stockChunks = array_chunk($stocks, $concurrency, true);
     $totalInsertCount = 0;
-
     foreach ($stockChunks as $chunk) {
         $mh = curl_multi_init();
         $handlers = [];
-
-        // 建立批次中的 cURL 句柄
         foreach ($chunk as $stockId => $stock) {
             $url = "https://ic.tpex.org.tw/company_chain.php?stk_code=" . $stock['stock_id'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 併發時超時可以縮短一點
-
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
             curl_multi_add_handle($mh, $ch);
             $handlers[$stock['stock_id']] = $ch;
         }
-
-        // 執行併發請求
         $running = null;
         do {
             curl_multi_exec($mh, $running);
-            curl_multi_select($mh); // 避免 CPU 空轉 100%
+            curl_multi_select($mh);
         } while ($running > 0);
 
         // 3. 解析與寫入資料 (每一批完成就寫入，並用小交易包起來)
@@ -1561,11 +1485,8 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
             foreach ($handlers as $stockId => $ch) {
                 $html = curl_multi_getcontent($ch);
                 $curlError = curl_error($ch);
-
-                // 移除控制代碼
                 curl_multi_remove_handle($mh, $ch);
                 curl_close($ch);
-
                 if ($html === false || trim($html) == '') {
                     writeLog($pdo, 'updateSubIndustry', "【次產業】代號 {$stockId} 抓取失敗或為空：{$curlError}", 'warning');
                     continue;
@@ -1586,14 +1507,9 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
                     $subIndustry = trim(end($parts));
                     if ($subIndustry != '') {
                         $subIndustries[] = $subIndustry;
-                        if (mb_strlen($subIndustry, 'UTF-8') > 50) {
-                            writeLog($pdo, 'test', "次產業名稱過長:{$subIndustry}", 'error');
-                        }
                     }
                 }
                 $subIndustries = array_values(array_unique($subIndustries));
-
-                // 準備寫入該檔股票的次產業
                 if (!empty($subIndustries)) {
                     $values = [];
                     $params = [];
@@ -1602,25 +1518,20 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
                         $params[] = $stockId;
                         $params[] = $subIndustry;
                     }
-                    $sqlInsert = "INSERT INTO stock_sub_industry_test (stock_id, sub_industry) VALUES " . implode(',', $values);
+                    $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
                     $stmtInsert = $pdo->prepare($sqlInsert);
                     $stmtInsert->execute($params);
                     $totalInsertCount += $stmtInsert->rowCount();
                 }
             }
-            $pdo->commit(); // 這一批成功就提交
+            $pdo->commit();
         } catch (Throwable $e) {
             $pdo->rollBack();
-            // 某一組批次失敗，記錄後繼續跑下一組，避免全盤皆輸
             writeLog($pdo, 'updateSubIndustry', "批次寫入失敗: " . $e->getMessage(), 'error');
         }
-
         curl_multi_close($mh);
-
-        // 稍微休息一下，保護對方伺服器，也避免自己 IP 被鎖
-        usleep(500000); // 0.5 秒
+        sleep(1);
     }
-
     writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
 }
 function updateConcept(PDO $pdo, array $stocks): void
