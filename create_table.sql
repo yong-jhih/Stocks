@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS etf_component (
 -- 8. 股票基本資料
 CREATE TABLE IF NOT EXISTS stock_profile (
     stock_id VARCHAR(6) NOT NULL COMMENT '股票代號',
-    stock_name VARCHAR(20) NOT NULL COMMENT '股票名稱',
+    stock_name VARCHAR(40) NOT NULL COMMENT '股票名稱',
     stock_type ENUM('TSE','TPEx','ESM','ETF') NOT NULL DEFAULT 'TSE' COMMENT '股票類型',
     industry VARCHAR(20) DEFAULT '' COMMENT '主產業',
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
