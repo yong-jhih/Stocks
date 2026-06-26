@@ -7,4 +7,8 @@ $stocksTSE = getStockProfileTSE($pdo);
 // $stocksESM = getStockProfileESM($pdo);
 
 
-echo json_encode($stocksTSE['2330']);
+
+// $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+// $industry = file_get_contents('data/industry_code.json');
+// echo json_encode($industry['2330']);
+// echo $industry['01'];

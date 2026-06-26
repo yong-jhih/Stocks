@@ -1307,7 +1307,7 @@ function getStockProfileTSE(PDO $pdo): array
                     'stock_id' => $v['公司代號'],
                     'stock_name' => $v['公司簡稱'],
                     'stock_type' => 'TSE',
-                    'industry'   => $industry[(string)($stock['產業別'] ?? '')] ?? ''
+                    'industry'   => $industry[(string)($v['產業別'] ?? '')] ?? ''
                 ];
             }
         }
@@ -1339,7 +1339,7 @@ function getStockProfileTPEx(PDO $pdo): array
                     'stock_id' => $v['SecuritiesCompanyCode'],
                     'stock_name' => $v['CompanyAbbreviation'],
                     'stock_type' => 'TPEx',
-                    'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
+                    'industry'   => $industry[(string)($v['SecuritiesIndustryCode'] ?? '')] ?? ''
                 ];
             }
         }
@@ -1371,7 +1371,7 @@ function getStockProfileESM(PDO $pdo): array
                     'stock_id' => $v['SecuritiesCompanyCode'],
                     'stock_name' => $v['CompanyAbbreviation'],
                     'stock_type' => 'ESM',
-                    'industry'   => $industry[(string)($stock['SecuritiesIndustryCode'] ?? '')] ?? ''
+                    'industry'   => $industry[(string)($v['SecuritiesIndustryCode'] ?? '')] ?? ''
                 ];
             }
         }
