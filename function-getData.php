@@ -1314,7 +1314,7 @@ function getStockProfileTSE(PDO $pdo): array
         return $stocksTSE;
     }
     writeLog($pdo, 'getStockProfileTSE', "執行 3 次失敗,退出", 'error');
-    exit(1);
+    throw new RuntimeException('取得上市公司基本資料, 執行 3 次失敗,退出');
 }
 
 function getStockProfileTPEx(PDO $pdo): array
@@ -1346,7 +1346,7 @@ function getStockProfileTPEx(PDO $pdo): array
         return $stocksOTC;
     }
     writeLog($pdo, 'getStockProfileTPEx', "執行 3 次失敗,退出", 'error');
-    exit(1);
+    throw new RuntimeException('取得上櫃公司基本資料, 執行 3 次失敗,退出');
 }
 
 function getStockProfileESM(PDO $pdo): array
@@ -1378,7 +1378,7 @@ function getStockProfileESM(PDO $pdo): array
         return $stocksESM;
     }
     writeLog($pdo, 'getStockProfileESM', "執行 3 次失敗,退出", 'error');
-    exit(1);
+    throw new RuntimeException('取得興櫃公司基本資料, 執行 3 次失敗,退出');
 }
 
 function getStockProfileETF(PDO $pdo): array
@@ -1409,31 +1409,7 @@ function getStockProfileETF(PDO $pdo): array
         return $stocksETF;
     }
     writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
-    exit(1);
-}
-function updateStockProfile(PDO $pdo): void
-{
-    $start_time = microtime(true);
-    writeLog($pdo, 'updateStockProfile', '開始更新基本資料及產業別及次產業概念', 'start');
-    try {
-        $stocksTSE = getStockProfileTSE($pdo);
-        $stocksTPEx = getStockProfileTPEx($pdo);
-        $stocksESM = getStockProfileESM($pdo);
-        $stocksETF = getStockProfileETF($pdo);
-
-        $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
-        $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
-
-        updateIndustry($pdo, $stocksMix);
-        updateSubIndustry($pdo, $stocks);
-        updateConcept($pdo, $stocks);
-        $end_time = microtime(true);
-        $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
-    } catch (Throwable $e) {
-        writeLog($pdo, 'updateStockProfile', "產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
-        throw $e;
-    }
+    throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
 }
 
 function updateIndustry(PDO $pdo, array $stocks): void
@@ -1543,7 +1519,7 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
     // 1. 先刪除舊資料（這部分可以保持一次性處理，效率較高）
     try {
         $placeholders = implode(',', array_fill(0, count($stockList), '?'));
-        $sqlDelete = "DELETE FROM stock_sub_industry WHERE stock_id IN ($placeholders)";
+        $sqlDelete = "DELETE FROM stock_sub_industry_test WHERE stock_id IN ($placeholders)";
         $stmtDelete = $pdo->prepare($sqlDelete);
         $stmtDelete->execute($stockList);
     } catch (Throwable $e) {
@@ -1623,7 +1599,7 @@ function updateSubIndustryTest(PDO $pdo, array $stocks): void
                         $params[] = $stockId;
                         $params[] = $subIndustry;
                     }
-                    $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
+                    $sqlInsert = "INSERT INTO stock_sub_industry_test (stock_id, sub_industry) VALUES " . implode(',', $values);
                     $stmtInsert = $pdo->prepare($sqlInsert);
                     $stmtInsert->execute($params);
                     $totalInsertCount += $stmtInsert->rowCount();
@@ -1735,5 +1711,30 @@ function updateConcept(PDO $pdo, array $stocks): void
     } catch (Throwable $e) {
         $pdo->rollBack();
         throw new RuntimeException("[updateConcept] " . $e->getMessage(), 0, $e);
+    }
+}
+
+function updateStockProfile(PDO $pdo): void
+{
+    $start_time = microtime(true);
+    writeLog($pdo, 'updateStockProfile', '開始更新基本資料及產業別及次產業概念', 'start');
+    try {
+        $stocksTSE = getStockProfileTSE($pdo);
+        $stocksTPEx = getStockProfileTPEx($pdo);
+        $stocksESM = getStockProfileESM($pdo);
+        $stocksETF = getStockProfileETF($pdo);
+
+        $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
+        $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
+
+        updateIndustry($pdo, $stocksMix);
+        updateSubIndustry($pdo, $stocks);
+        updateConcept($pdo, $stocks);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+    } catch (Throwable $e) {
+        writeLog($pdo, 'updateStockProfile', "產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
+        throw $e;
     }
 }
