@@ -1,224 +1,91 @@
 [
     {
-        "id": 6060003,
-        "log_time": "2026-06-25 21:32:44",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-06-25] 盤後篩選及評分排行已完成, 共耗時 112.39 秒",
-        "result": "end"
-    },
-    {
-        "id": 6060002,
-        "log_time": "2026-06-25 21:30:59",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-06-25] 排行分析完成，共 636 檔",
-        "result": "success"
-    },
-    {
-        "id": 6060001,
-        "log_time": "2026-06-25 21:30:55",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-06-25] 篩選分析完成，共 1 檔",
-        "result": "success"
-    },
-    {
-        "id": 6030001,
-        "log_time": "2026-06-25 21:25:18",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 6000001,
-        "log_time": "2026-06-25 21:19:20",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 5970003,
-        "log_time": "2026-06-25 21:13:39",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 5970002,
-        "log_time": "2026-06-25 21:13:36",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-06-25] 篩選分析完成，共 1 檔",
-        "result": "success"
-    },
-    {
-        "id": 5970001,
-        "log_time": "2026-06-25 21:13:32",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-06-25] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
-        "id": 5940009,
-        "log_time": "2026-06-25 20:55:21",
-        "log_type": "updateAllHistory",
-        "content": "歷史資料更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
-        "id": 5940008,
-        "log_time": "2026-06-25 20:55:21",
-        "log_type": "updateAllHistory",
-        "content": "更新盤後資料結束, 共耗時 724.45 秒",
-        "result": "end"
-    },
-    {
-        "id": 5940007,
-        "log_time": "2026-06-25 20:55:21",
-        "log_type": "insertSBLSold",
-        "content": "2026-06-25 借券賣出餘額 更新完成,共新增 1051 筆,耗時 139.26 秒",
-        "result": "success"
-    },
-    {
-        "id": 5940006,
-        "log_time": "2026-06-25 20:52:56",
-        "log_type": "insertSBLTotal",
-        "content": "2026-06-25 借券餘額 更新完成,共新增 991 筆,耗時 131.15 秒",
-        "result": "success"
-    },
-    {
-        "id": 5940005,
-        "log_time": "2026-06-25 20:50:39",
-        "log_type": "insertMargin",
-        "content": "2026-06-25 融資融券彙總 更新完成,共新增 1048 筆,耗時 138.76 秒",
-        "result": "success"
-    },
-    {
-        "id": 5940004,
-        "log_time": "2026-06-25 20:48:15",
-        "log_type": "insertInsti",
-        "content": "2026-06-25 三大法人買賣超 更新完成,共新增 1067 筆,耗時 141.39 秒",
-        "result": "success"
-    },
-    {
-        "id": 5940003,
-        "log_time": "2026-06-25 20:45:46",
-        "log_type": "insertHistory",
-        "content": "2026-06-25 上市個股日成交 更新完成,共新增 1081 筆,耗時 144.2 秒",
-        "result": "success"
-    },
-    {
-        "id": 5940002,
-        "log_time": "2026-06-25 20:43:17",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 [2026-06-25] 開始更新盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 5940001,
-        "log_time": "2026-06-25 20:43:16",
-        "log_type": "updateAllHistory",
-        "content": "偵測 [2026-06-25] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
-        "result": "waitting"
-    },
-    {
-        "id": 5910002,
-        "log_time": "2026-06-25 20:09:20",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成,共耗時 9.61 秒",
-        "result": "end"
-    },
-    {
-        "id": 5910001,
-        "log_time": "2026-06-25 20:09:11",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-06-25], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 5880013,
-        "log_time": "2026-06-25 17:37:34",
+        "id": 6270013,
+        "log_time": "2026-06-26 13:12:13",
         "log_type": "dbClean",
         "content": "system_logs 資料清理成功: 共刪除 0 筆",
         "result": "success"
     },
     {
-        "id": 5880012,
-        "log_time": "2026-06-25 17:37:34",
+        "id": 6270012,
+        "log_time": "2026-06-26 13:12:13",
         "log_type": "dbClean",
         "content": "00981A_component 資料清理成功: 共刪除 0 筆",
         "result": "success"
     },
     {
-        "id": 5880011,
-        "log_time": "2026-06-25 17:37:33",
+        "id": 6270011,
+        "log_time": "2026-06-26 13:12:13",
         "log_type": "dbClean",
-        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1043 筆",
         "result": "success"
     },
     {
-        "id": 5880010,
-        "log_time": "2026-06-25 17:37:33",
+        "id": 6270010,
+        "log_time": "2026-06-26 13:12:13",
         "log_type": "dbClean",
-        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 979 筆",
         "result": "success"
     },
     {
-        "id": 5880009,
-        "log_time": "2026-06-25 17:37:33",
+        "id": 6270009,
+        "log_time": "2026-06-26 13:12:12",
         "log_type": "dbClean",
-        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "content": "stock_margin 資料清理成功: 共刪除 1037 筆",
         "result": "success"
     },
     {
-        "id": 5880008,
-        "log_time": "2026-06-25 17:37:32",
+        "id": 6270008,
+        "log_time": "2026-06-26 13:12:12",
         "log_type": "dbClean",
-        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "content": "stock_insti 資料清理成功: 共刪除 1061 筆",
         "result": "success"
     },
     {
-        "id": 5880007,
-        "log_time": "2026-06-25 17:37:32",
+        "id": 6270007,
+        "log_time": "2026-06-26 13:12:12",
         "log_type": "dbClean",
-        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "content": "stock_history 資料清理成功: 共刪除 1072 筆",
         "result": "success"
     },
     {
-        "id": 5880006,
-        "log_time": "2026-06-25 17:37:32",
+        "id": 6270006,
+        "log_time": "2026-06-26 13:12:12",
         "log_type": "updateStockProfile",
-        "content": "產業別及次產業概念更新完成,共耗時 3848.85 秒",
+        "content": "產業別及次產業概念更新完成,共耗時 1661.7 秒",
         "result": "end"
     },
     {
-        "id": 5880005,
-        "log_time": "2026-06-25 17:37:32",
+        "id": 6270005,
+        "log_time": "2026-06-26 13:12:12",
         "log_type": "updateConcept",
-        "content": "概念股 更新完成,共更新 6519 筆",
+        "content": "概念股 更新完成,共更新 6516 筆",
         "result": "success"
     },
     {
-        "id": 5880004,
-        "log_time": "2026-06-25 17:33:59",
+        "id": 6270004,
+        "log_time": "2026-06-26 13:09:35",
         "log_type": "updateSubIndustry",
-        "content": "次產業 更新完成,共更新 6665 筆",
+        "content": "次產業 更新完成,共更新 6660 筆",
         "result": "success"
     },
     {
-        "id": 5880003,
-        "log_time": "2026-06-25 16:40:50",
+        "id": 6270003,
+        "log_time": "2026-06-26 12:50:34",
         "log_type": "updateIndustry",
-        "content": "產業別 更新完成,共更新 2592 筆",
+        "content": "產業別 更新完成,共更新 2591 筆",
         "result": "success"
     },
     {
-        "id": 5880002,
-        "log_time": "2026-06-25 16:33:52",
-        "log_type": "getStockProfileOTC",
+        "id": 6270002,
+        "log_time": "2026-06-26 12:45:36",
+        "log_type": "getStockProfileESM",
         "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
         "result": "warning"
     },
     {
-        "id": 5880001,
-        "log_time": "2026-06-25 16:33:23",
+        "id": 6270001,
+        "log_time": "2026-06-26 12:44:30",
         "log_type": "updateStockProfile",
         "content": "開始更新基本資料及產業別及次產業概念",
         "result": "start"
