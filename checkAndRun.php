@@ -16,11 +16,11 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
     echo 'TWT93U 信用額度總量管制餘額 資料未到齊, 等待下次觸發';
     exit(0);
 } else if ( // 已公布 檢查資料量 足夠 直接進行分析
-    checkIfDataPublished($pdo, $targetDate, 'stock_history', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_insti', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_margin', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
+    checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700)
 ) {
     $start_time = microtime(true);
     $log = testRetry($pdo);

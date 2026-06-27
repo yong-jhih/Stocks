@@ -4,18 +4,29 @@
 function updateAllHistory(PDO $pdo, string $targetDate): void
 {
     $start_time = microtime(true);
-    writeLog($pdo, 'updateAllHistory', '取得交易日期 [' . $targetDate . '] 開始更新盤後資料', 'start');
-    insertHistory($pdo, $targetDate, getHistory($targetDate, $pdo));
-    insertInsti($pdo, $targetDate, getInsti($targetDate, $pdo));
-    insertMargin($pdo, $targetDate, getMargin($targetDate, $pdo));
-    insertSBLTotal($pdo, $targetDate, getSBLTotal($targetDate, $pdo));
-    insertSBLSold($pdo, $targetDate, getSBLSold($targetDate, $pdo));
-    $end_time = microtime(true);
-    $execution_time = round($end_time - $start_time, 2);
-    writeLog($pdo, 'updateAllHistory', '更新盤後資料結束, 共耗時 ' . $execution_time . ' 秒', 'end');
+    writeLog($pdo, 'updateAllHistory', "取得交易日期 [{$targetDate}] 開始更新盤後資料", 'start');
+    try {
+        $historyData = getHistory($pdo, $targetDate);
+        $instiData = getInsti($pdo, $targetDate);
+        $marginData = getMargin($pdo, $targetDate);
+        $SBLTotalData = getSBLTotal($pdo, $targetDate);
+        $SBLSoldData = getSBLSold($pdo, $targetDate);
+        // 資料不足且有抓到資料才新增
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && $historyData !== null) insertHistory($pdo, $targetDate, $historyData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && $instiData !== null) insertInsti($pdo, $targetDate, $instiData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) && $marginData !== null) insertMargin($pdo, $targetDate, $marginData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) && $SBLTotalData !== null) insertSBLTotal($pdo, $targetDate, $SBLTotalData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && $SBLSoldData !== null) insertSBLSold($pdo, $targetDate, $SBLSoldData);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'updateAllHistory', "更新盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+    } catch (Throwable $e) {
+        writeLog($pdo, 'updateAllHistory', "歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
+        throw new RuntimeException("歷史資料更新失敗，原因：{$e->getMessage()}");
+    }
 }
 
-function getHistory(string $date, PDO $pdo): ?array
+function getHistory(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
@@ -39,7 +50,7 @@ function getHistory(string $date, PDO $pdo): ?array
     return null;
 }
 
-function getInsti(string $date, PDO $pdo): ?array
+function getInsti(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
@@ -61,7 +72,7 @@ function getInsti(string $date, PDO $pdo): ?array
     return null;
 }
 
-function getMargin(string $date, PDO $pdo): ?array
+function getMargin(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
@@ -84,7 +95,7 @@ function getMargin(string $date, PDO $pdo): ?array
     writeLog($pdo, 'getMargin', '執行 3 次失敗,退出', 'error');
     return null;
 }
-function getSBLTotal(string $date, PDO $pdo): ?array
+function getSBLTotal(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
@@ -105,7 +116,7 @@ function getSBLTotal(string $date, PDO $pdo): ?array
     writeLog($pdo, 'getSBLTotal', '執行 3 次失敗,退出', 'error');
     return null;
 }
-function getSBLSold(string $date, PDO $pdo): ?array
+function getSBLSold(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
@@ -164,7 +175,7 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 寫入失敗：' . $e->getMessage(), 'error');
     }
