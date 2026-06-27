@@ -247,9 +247,6 @@ function updateDateList(string $date, string $folder = 'data')
 
 function createJsonFile(PDO $pdo, string $filename, array $data, string $folder = 'data'): ?string
 {
-    // $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
-    // $safeDate = preg_replace('/[^0-9\-]/', '', $date);
-    // $fileName = "{$safeDate}_{$safeName}.json";
     $fullPath = $folder . DIRECTORY_SEPARATOR . $filename . '.json';
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
@@ -257,9 +254,16 @@ function createJsonFile(PDO $pdo, string $filename, array $data, string $folder 
             return null;
         }
     }
+    if (file_exists($fullPath)) {
+        $timestamp = date('Ymd_His');
+        $backupFileName = "{$filename}_backup_{$timestamp}.json";
+        $backupFullPath = $folder . DIRECTORY_SEPARATOR . $backupFileName;
+        if (!rename($fullPath, $backupFullPath)) {
+            writeLog($pdo, 'createJsonFile', "無法將舊檔案備份至: $backupFullPath", 'warning');
+        }
+    }
     $jsonString = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     if (file_put_contents($fullPath, $jsonString) !== false) {
-        // updateDateList($safeDate, $folder);
         return $fullPath;
     } else {
         writeLog($pdo, 'createJsonFile', "無法更新檔案: $fullPath", 'error');

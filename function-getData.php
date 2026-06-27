@@ -1641,6 +1641,9 @@ function updateStockProfile(PDO $pdo): void
         $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
         $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
 
+        createJsonFile($pdo, 'stockProfileList', $stocks);
+        createJsonFile($pdo, 'ETFProfileList', $stocksETF);
+
         updateIndustry($pdo, $stocksMix);
         updateSubIndustry($pdo, $stocks);
         updateConcept($pdo, $stocks);

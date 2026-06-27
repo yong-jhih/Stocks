@@ -37,6 +37,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
+        updateDateList($targetDate);
         callGAS($pdo, [
             'date' => $targetDate,
             'action' => 'triggersSelfSelect'
