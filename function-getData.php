@@ -212,7 +212,7 @@ function insertInsti(PDO $pdo, string $targetDate, array $instiData): void
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 寫入失敗：' . $e->getMessage(), 'error');
     }
@@ -249,7 +249,7 @@ function insertMargin(PDO $pdo, string $targetDate, array $marginData): void
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 寫入失敗：' . $e->getMessage(), 'error');
     }
@@ -271,7 +271,7 @@ function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
         writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
     }
@@ -306,7 +306,7 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 寫入失敗：' . $e->getMessage(), 'error');
     }
