@@ -1478,9 +1478,15 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             $handlers[$stock['stock_id']] = $ch;
         }
         $running = null;
+        // do {
+        //     curl_multi_exec($mh, $running);
+        //     curl_multi_select($mh);
+        // } while ($running > 0);
         do {
             curl_multi_exec($mh, $running);
-            curl_multi_select($mh);
+            if (curl_multi_select($mh) === -1) {
+                usleep(10000);
+            }
         } while ($running > 0);
 
         // 3. 解析與寫入資料 (每一批完成就寫入，並用小交易包起來)
@@ -1582,6 +1588,8 @@ function updateConcept(PDO $pdo, array $stocks): void
         }
         $totalInsertCount = 0;
         $stockMap = array_flip($stockList);
+        $allValues = [];
+        $allParams = [];
         foreach ($result as $k => $v) {
             $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
             $ch = curl_init();
@@ -1637,10 +1645,6 @@ function updateStockProfile(PDO $pdo): void
         $stocksETF = getStockProfileETF($pdo);
         $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
         $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
-        // $stocks_R = [];
-        // foreach ($stocks as $v) {
-        //     $stocks_R[$v['stock_id']] = $v;
-        // }
         $stocks_R = array_column($stocks, null, 'stock_id');
         createJsonFile($pdo, 'stockProfileList', $stocks_R);
         createJsonFile($pdo, 'ETFProfileList', $stocksETF);
