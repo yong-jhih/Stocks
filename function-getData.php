@@ -1288,7 +1288,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
 function getStockProfileTSE(PDO $pdo): array
 {
     $stocksTSE = [];
-    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    $industry = getIndustryMap();
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1320,7 +1320,7 @@ function getStockProfileTSE(PDO $pdo): array
 function getStockProfileTPEx(PDO $pdo): array
 {
     $stocksOTC = [];
-    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    $industry = getIndustryMap();
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1352,7 +1352,7 @@ function getStockProfileTPEx(PDO $pdo): array
 function getStockProfileESM(PDO $pdo): array
 {
     $stocksESM = [];
-    $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    $industry = getIndustryMap();
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_R";
     for ($i = 1; $i <= 3; $i++) {
         $data = fetchUrl($pdo, $url);
@@ -1410,6 +1410,15 @@ function getStockProfileETF(PDO $pdo): array
     }
     writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
     throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
+}
+
+function getIndustryMap(): array
+{
+    static $industry = null;
+    if ($industry === null) {
+        $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    }
+    return $industry;
 }
 
 function updateIndustry(PDO $pdo, array $stocks): void
@@ -1478,10 +1487,6 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             $handlers[$stock['stock_id']] = $ch;
         }
         $running = null;
-        // do {
-        //     curl_multi_exec($mh, $running);
-        //     curl_multi_select($mh);
-        // } while ($running > 0);
         do {
             curl_multi_exec($mh, $running);
             if (curl_multi_select($mh) === -1) {
@@ -1609,28 +1614,12 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $c[] = substr($b, 0, 4);
             }
             $c = array_values(array_unique($c));
-            // $values = [];
-            // $params = [];
-            // foreach ($c as $stock_id) {
-            //     if (!isset($stockMap[$stock_id])) continue;
-
-            //     $values[] = "(?, ?)";
-            //     $params[] = $stock_id;
-            //     $params[] = $v['concept_name'];
-            // }
             foreach ($c as $stock_id) {
                 if (!isset($stockMap[$stock_id])) continue;
                 $allValues[] = "(?, ?)";
                 $allParams[] = $stock_id;
                 $allParams[] = $v['concept_name'];
             }
-            // if (!empty($values)) {
-            //     $sql = "INSERT IGNORE INTO stock_concept (stock_id, concept) VALUES " . implode(',', $values);
-            //     $stmt = $pdo->prepare($sql);
-            //     $stmt->execute($params);
-            //     $totalInsertCount += $stmt->rowCount();
-            // }
-
             if ($k > 0 && $k % 10 == 0) sleep(1);
         }
         if (!empty($allValues)) {
@@ -1659,16 +1648,16 @@ function updateStockProfile(PDO $pdo): void
         $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
         $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
         $stocks_R = array_column($stocks, null, 'stock_id');
-        createJsonFile($pdo, 'stockProfileList', $stocks_R);
-        createJsonFile($pdo, 'ETFProfileList', $stocksETF);
         updateIndustry($pdo, $stocksMix);
         updateSubIndustry($pdo, $stocks);
         updateConcept($pdo, $stocks);
+        createJsonFile($pdo, 'stockProfileList', $stocks_R);
+        createJsonFile($pdo, 'ETFProfileList', $stocksETF);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateStockProfile', '產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+        writeLog($pdo, 'updateStockProfile', '基本資料及產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
     } catch (Throwable $e) {
-        writeLog($pdo, 'updateStockProfile', "產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
         throw $e;
     }
 }
