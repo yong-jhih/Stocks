@@ -1609,22 +1609,35 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $c[] = substr($b, 0, 4);
             }
             $c = array_values(array_unique($c));
-            $values = [];
-            $params = [];
+            // $values = [];
+            // $params = [];
+            // foreach ($c as $stock_id) {
+            //     if (!isset($stockMap[$stock_id])) continue;
+
+            //     $values[] = "(?, ?)";
+            //     $params[] = $stock_id;
+            //     $params[] = $v['concept_name'];
+            // }
             foreach ($c as $stock_id) {
                 if (!isset($stockMap[$stock_id])) continue;
+                $allValues[] = "(?, ?)";
+                $allParams[] = $stock_id;
+                $allParams[] = $v['concept_name'];
+            }
+            // if (!empty($values)) {
+            //     $sql = "INSERT IGNORE INTO stock_concept (stock_id, concept) VALUES " . implode(',', $values);
+            //     $stmt = $pdo->prepare($sql);
+            //     $stmt->execute($params);
+            //     $totalInsertCount += $stmt->rowCount();
+            // }
 
-                $values[] = "(?, ?)";
-                $params[] = $stock_id;
-                $params[] = $v['concept_name'];
-            }
-            if (!empty($values)) {
-                $sql = "INSERT IGNORE INTO stock_concept (stock_id, concept) VALUES " . implode(',', $values);
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute($params);
-                $totalInsertCount += $stmt->rowCount();
-            }
             if ($k > 0 && $k % 10 == 0) sleep(1);
+        }
+        if (!empty($allValues)) {
+            $sql = "INSERT IGNORE INTO stock_concept(stock_id, concept)VALUES " . implode(',', $allValues);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($allParams);
+            $totalInsertCount = $stmt->rowCount();
         }
         $pdo->commit();
         writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
