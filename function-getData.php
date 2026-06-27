@@ -1473,7 +1473,7 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             curl_multi_add_handle($mh, $ch);
             $handlers[$stock['stock_id']] = $ch;
         }
@@ -1560,7 +1560,9 @@ function updateConcept(PDO $pdo, array $stocks): void
     $pdo->beginTransaction();
     try {
         // 先刪除舊資料
-        $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN (" . implode(',', $stockList) . ")";
+        // $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN (" . implode(',', $stockList) . ")";
+        $placeholders = implode(',', array_fill(0, count($stockList), '?'));
+        $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN ($placeholders)";
         $stmtDelConcept = $pdo->prepare($sqlDelConcept);
         $stmtDelConcept->execute();
 
@@ -1657,10 +1659,11 @@ function updateStockProfile(PDO $pdo): void
         $stocksETF = getStockProfileETF($pdo);
         $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
         $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
-        $stocks_R = [];
-        foreach ($stocks as $v) {
-            $stocks_R[$v['stock_id']] = $v;
-        }
+        // $stocks_R = [];
+        // foreach ($stocks as $v) {
+        //     $stocks_R[$v['stock_id']] = $v;
+        // }
+        $stocks_R = array_column($stocks, null, 'stock_id');
         createJsonFile($pdo, 'stockProfileList', $stocks_R);
         createJsonFile($pdo, 'ETFProfileList', $stocksETF);
         updateIndustry($pdo, $stocksMix);
