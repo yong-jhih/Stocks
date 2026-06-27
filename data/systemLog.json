@@ -1,5 +1,159 @@
 [
     {
+        "id": 6660015,
+        "log_time": "2026-06-28 06:21:12",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 6660014,
+        "log_time": "2026-06-28 06:21:12",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660013,
+        "log_time": "2026-06-28 06:21:12",
+        "log_type": "dbClean",
+        "content": "00981A_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660012,
+        "log_time": "2026-06-28 06:21:11",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1043 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660011,
+        "log_time": "2026-06-28 06:21:11",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 979 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660010,
+        "log_time": "2026-06-28 06:21:11",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1037 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660009,
+        "log_time": "2026-06-28 06:21:11",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1060 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660008,
+        "log_time": "2026-06-28 06:21:10",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1072 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660007,
+        "log_time": "2026-06-28 06:21:10",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
+        "id": 6660006,
+        "log_time": "2026-06-28 06:21:10",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 474.54 秒",
+        "result": "end"
+    },
+    {
+        "id": 6660005,
+        "log_time": "2026-06-28 06:21:10",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6519 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660004,
+        "log_time": "2026-06-28 06:19:03",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6669 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660003,
+        "log_time": "2026-06-28 06:13:43",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2596 筆",
+        "result": "success"
+    },
+    {
+        "id": 6660002,
+        "log_time": "2026-06-28 06:13:34",
+        "log_type": "getStockProfileESM",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 6660001,
+        "log_time": "2026-06-28 06:13:16",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 6630007,
+        "log_time": "2026-06-28 02:03:41",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新失敗，原因：取得上市公司基本資料, 執行 3 次失敗,退出",
+        "result": "error"
+    },
+    {
+        "id": 6630006,
+        "log_time": "2026-06-28 02:03:41",
+        "log_type": "getStockProfileTSE",
+        "content": "執行 3 次失敗,退出",
+        "result": "error"
+    },
+    {
+        "id": 6630005,
+        "log_time": "2026-06-28 02:03:41",
+        "log_type": "getStockProfileTSE",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 6630004,
+        "log_time": "2026-06-28 02:03:36",
+        "log_type": "getStockProfileTSE",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 6630003,
+        "log_time": "2026-06-28 02:03:32",
+        "log_type": "getStockProfileTSE",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 6630002,
+        "log_time": "2026-06-28 02:03:28",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 6630001,
+        "log_time": "2026-06-28 02:03:27",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
         "id": 6420004,
         "log_time": "2026-06-26 21:15:27",
         "log_type": "generateDailyDashboard",
