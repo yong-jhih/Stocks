@@ -1414,23 +1414,44 @@ function getStockProfileETF(PDO $pdo): array
 
 function updateIndustry(PDO $pdo, array $stocks): void
 {
-    $sql = "INSERT INTO stock_profile 
-            (stock_id, stock_name, stock_type, industry) 
-            VALUES (?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
-            stock_name = VALUES(stock_name),
-            stock_type = VALUES(stock_type),
-            industry = VALUES(industry)";
-    $stmt = $pdo->prepare($sql);
+    // $sql = "INSERT INTO stock_profile 
+    //         (stock_id, stock_name, stock_type, industry) 
+    //         VALUES (?, ?, ?, ?)
+    //         ON DUPLICATE KEY UPDATE 
+    //         stock_name = VALUES(stock_name),
+    //         stock_type = VALUES(stock_type),
+    //         industry = VALUES(industry)";
+    // $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
-        foreach ($stocks as $row) {
-            $stmt->execute([
-                $row['stock_id'],
-                $row['stock_name'],
-                $row['stock_type'],
-                $row['industry']
-            ]);
+        // foreach ($stocks as $row) {
+        //     $stmt->execute([
+        //         $row['stock_id'],
+        //         $row['stock_name'],
+        //         $row['stock_type'],
+        //         $row['industry']
+        //     ]);
+        // }
+        foreach (array_chunk($stocks, 500) as $chunk) {
+            $values = [];
+            $params = [];
+            foreach ($chunk as $row) {
+                $values[] = "(?, ?, ?, ?)";
+                $params[] = $row['stock_id'];
+                $params[] = $row['stock_name'];
+                $params[] = $row['stock_type'];
+                $params[] = $row['industry'];
+            }
+            $sql = "
+                INSERT INTO stock_profile
+                (stock_id, stock_name, stock_type, industry)
+                VALUES " . implode(',', $values) . "
+                ON DUPLICATE KEY UPDATE
+                    stock_name = VALUES(stock_name),
+                    stock_type = VALUES(stock_type),
+                    industry   = VALUES(industry)
+            ";
+            $pdo->prepare($sql)->execute($params);
         }
         $pdo->commit();
         writeLog($pdo, 'updateIndustry', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
