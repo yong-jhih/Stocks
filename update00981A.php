@@ -8,7 +8,7 @@ try {
     insertComponentOf00981A($pdo, $targetDate, $results);
     $analysis = analyzeMultiPeriodChanges($pdo, $targetDate)[0];
     $lineNotifyStr = analyzeMultiPeriodChanges($pdo, $targetDate)[1];
-    createJsonFile($pdo, $targetDate, 'componentOf00981A', $analysis, 'data');
+    createJsonFile($pdo, $targetDate . '_componentOf00981A', $analysis, 'data');
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
     writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');

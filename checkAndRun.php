@@ -30,11 +30,11 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未
 
     try {
         $results = generateDailyDashboard($pdo, $targetDate);
-        createJsonFile($pdo, $targetDate, 'filter', $results);
+        createJsonFile($pdo, $targetDate . '_filter', $results);
         renewCharts($pdo, $targetDate, 'filter', 'charts');
 
         $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
-        createJsonFile($pdo, $targetDate, 'topPerforming', $resultsTop);
+        createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
         callGAS($pdo, [

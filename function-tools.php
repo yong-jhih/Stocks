@@ -245,12 +245,12 @@ function updateDateList(string $date, string $folder = 'data')
     return file_put_contents($listPath, $jsonString) !== false;
 }
 
-function createJsonFile(PDO $pdo, string $date, string $name, array $data, string $folder = 'data'): ?string
+function createJsonFile(PDO $pdo, string $filename, array $data, string $folder = 'data'): ?string
 {
-    $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
-    $safeDate = preg_replace('/[^0-9\-]/', '', $date);
-    $fileName = "{$safeDate}_{$safeName}.json";
-    $fullPath = $folder . DIRECTORY_SEPARATOR . $fileName;
+    // $safeName = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $name);
+    // $safeDate = preg_replace('/[^0-9\-]/', '', $date);
+    // $fileName = "{$safeDate}_{$safeName}.json";
+    $fullPath = $folder . DIRECTORY_SEPARATOR . $filename . '.json';
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
             writeLog($pdo, 'createJsonFile', "無法建立目錄: $folder", 'error');
@@ -259,7 +259,7 @@ function createJsonFile(PDO $pdo, string $date, string $name, array $data, strin
     }
     $jsonString = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     if (file_put_contents($fullPath, $jsonString) !== false) {
-        updateDateList($safeDate, $folder);
+        // updateDateList($safeDate, $folder);
         return $fullPath;
     } else {
         writeLog($pdo, 'createJsonFile', "無法更新檔案: $fullPath", 'error');
@@ -331,7 +331,7 @@ function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name
             $allData['stocks'][$stock['stock_id']] = $data;
         }
     }
-    createJsonFile($pdo, $targetDate, $name, $allData);
+    createJsonFile($pdo, $targetDate . '_' . $name, $allData);
 }
 
 function testRetry(PDO $pdo): array

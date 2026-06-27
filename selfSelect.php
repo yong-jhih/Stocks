@@ -30,7 +30,7 @@ if (
     echo '資料數量正常, 開始進行自選分析';
     try {
         $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $stockList);
-        createJsonFile($pdo, $targetDate, 'self-select', $resultsSelf);
+        createJsonFile($pdo, $targetDate . '_self-select', $resultsSelf);
         renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
         callGAS($pdo, [
             'date' => $targetDate,
