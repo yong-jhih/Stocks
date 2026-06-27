@@ -1551,7 +1551,7 @@ function updateConcept(PDO $pdo, array $stocks): void
         $placeholders = implode(',', array_fill(0, count($stockList), '?'));
         $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN ($placeholders)";
         $stmtDelConcept = $pdo->prepare($sqlDelConcept);
-        $stmtDelConcept->execute();
+        $stmtDelConcept->execute($stockList);
 
         // 取得概念
         $url = "https://www.moneydj.com/Z/ZG/ZGE/ZGE_E_E.djhtm";
