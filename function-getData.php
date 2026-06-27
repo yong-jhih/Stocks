@@ -1517,23 +1517,11 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
                 }
                 $subIndustries = array_values(array_unique($subIndustries));
                 if (!empty($subIndustries)) {
-                    $values = [];
-                    $params = [];
-                    // foreach ($subIndustries as $subIndustry) {
-                    //     $values[] = "(?, ?)";
-                    //     $params[] = $stockId;
-                    //     $params[] = $subIndustry;
-                    // }
-                    // $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
-                    // $stmtInsert = $pdo->prepare($sqlInsert);
-                    // $stmtInsert->execute($params);
-
                     foreach ($subIndustries as $subIndustry) {
                         $allValues[] = "(?, ?)";
                         $allParams[] = $stockId;
                         $allParams[] = $subIndustry;
                     }
-                    // $totalInsertCount += $stmtInsert->rowCount();
                 }
             }
             if (!empty($allValues)) {
@@ -1560,7 +1548,6 @@ function updateConcept(PDO $pdo, array $stocks): void
     $pdo->beginTransaction();
     try {
         // 先刪除舊資料
-        // $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN (" . implode(',', $stockList) . ")";
         $placeholders = implode(',', array_fill(0, count($stockList), '?'));
         $sqlDelConcept = "DELETE FROM stock_concept WHERE stock_id IN ($placeholders)";
         $stmtDelConcept = $pdo->prepare($sqlDelConcept);
@@ -1574,17 +1561,14 @@ function updateConcept(PDO $pdo, array $stocks): void
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         $html = curl_exec($ch);
         curl_close($ch);
-
         if ($html === false) {
             throw new RuntimeException("無法取得 MoneyDJ 分類主頁面");
         }
-
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $dom->loadHTML($html);
         $xpath = new DOMXPath($dom);
         $nodes = $xpath->query('//select[@name="M1"]/option');
-
         $result = [];
         foreach ($nodes as $node) {
             $value = trim($node->getAttribute('value'));
@@ -1596,7 +1580,6 @@ function updateConcept(PDO $pdo, array $stocks): void
                 ];
             }
         }
-
         $totalInsertCount = 0;
         $stockMap = array_flip($stockList);
         foreach ($result as $k => $v) {
@@ -1608,11 +1591,9 @@ function updateConcept(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             $html = curl_exec($ch);
             curl_close($ch);
-
             if ($html === false) {
                 throw new RuntimeException("無法取得分類成分股，分類：{$v['concept_name']}");
             }
-
             $c = [];
             $a = explode("GenLink2stk('AS", $html);
             foreach ($a as $i => $b) {
@@ -1620,7 +1601,6 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $c[] = substr($b, 0, 4);
             }
             $c = array_values(array_unique($c));
-
             $values = [];
             $params = [];
             foreach ($c as $stock_id) {
@@ -1630,14 +1610,12 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $params[] = $stock_id;
                 $params[] = $v['concept_name'];
             }
-
             if (!empty($values)) {
                 $sql = "INSERT IGNORE INTO stock_concept (stock_id, concept) VALUES " . implode(',', $values);
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($params);
                 $totalInsertCount += $stmt->rowCount();
             }
-
             if ($k > 0 && $k % 10 == 0) sleep(1);
         }
         $pdo->commit();
