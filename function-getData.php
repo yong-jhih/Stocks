@@ -348,6 +348,13 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
     return $dashboardResults;
 }
 
+function getStocksMap(): array
+{
+    static $stock = null;
+    if ($stock === null) $stock = json_decode(file_get_contents('data/stockProfileList.json'), true);
+    return $stock;
+}
+
 function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
 {
     $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
@@ -492,6 +499,7 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
 
 function outputModel(PDO $pdo, array $sqlFetch): array
 {
+    $stocksMap = getStocksMap();
     $profile = [];
     $sqlProfile = "SELECT * FROM stock_profile";
     $stmtProfile = $pdo->prepare($sqlProfile);
@@ -983,7 +991,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         $dashboardResults[] = [
             'stock_id' => $s['stock_id'],
-            'stock_name' => $s['stock_name'],
+            // 'stock_name' => $s['stock_name'],
+            'stock_name' => $stocksMap[$s['stock_id']]['stock_name'] ?? '',
             'industry' => $industry,
             'subIndustry' => $subIndustry,
             'concept' => $concept,
