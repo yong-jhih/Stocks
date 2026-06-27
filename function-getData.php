@@ -1414,24 +1414,8 @@ function getStockProfileETF(PDO $pdo): array
 
 function updateIndustry(PDO $pdo, array $stocks): void
 {
-    // $sql = "INSERT INTO stock_profile 
-    //         (stock_id, stock_name, stock_type, industry) 
-    //         VALUES (?, ?, ?, ?)
-    //         ON DUPLICATE KEY UPDATE 
-    //         stock_name = VALUES(stock_name),
-    //         stock_type = VALUES(stock_type),
-    //         industry = VALUES(industry)";
-    // $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
-        // foreach ($stocks as $row) {
-        //     $stmt->execute([
-        //         $row['stock_id'],
-        //         $row['stock_name'],
-        //         $row['stock_type'],
-        //         $row['industry']
-        //     ]);
-        // }
         foreach (array_chunk($stocks, 500) as $chunk) {
             $values = [];
             $params = [];
@@ -1502,6 +1486,8 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
         // 3. 解析與寫入資料 (每一批完成就寫入，並用小交易包起來)
         $pdo->beginTransaction();
         try {
+            $allValues = [];
+            $allParams = [];
             foreach ($handlers as $stockId => $ch) {
                 $html = curl_multi_getcontent($ch);
                 $curlError = curl_error($ch);
@@ -1533,16 +1519,28 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
                 if (!empty($subIndustries)) {
                     $values = [];
                     $params = [];
+                    // foreach ($subIndustries as $subIndustry) {
+                    //     $values[] = "(?, ?)";
+                    //     $params[] = $stockId;
+                    //     $params[] = $subIndustry;
+                    // }
+                    // $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
+                    // $stmtInsert = $pdo->prepare($sqlInsert);
+                    // $stmtInsert->execute($params);
+
                     foreach ($subIndustries as $subIndustry) {
-                        $values[] = "(?, ?)";
-                        $params[] = $stockId;
-                        $params[] = $subIndustry;
+                        $allValues[] = "(?, ?)";
+                        $allParams[] = $stockId;
+                        $allParams[] = $subIndustry;
                     }
-                    $sqlInsert = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $values);
-                    $stmtInsert = $pdo->prepare($sqlInsert);
-                    $stmtInsert->execute($params);
-                    $totalInsertCount += $stmtInsert->rowCount();
+                    // $totalInsertCount += $stmtInsert->rowCount();
                 }
+            }
+            if (!empty($allValues)) {
+                $sql = "INSERT INTO stock_sub_industry (stock_id, sub_industry) VALUES " . implode(',', $allValues);
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($allParams);
+                $totalInsertCount += $stmt->rowCount();
             }
             $pdo->commit();
         } catch (Throwable $e) {
@@ -1550,7 +1548,7 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
             writeLog($pdo, 'updateSubIndustry', "批次寫入失敗: " . $e->getMessage(), 'error');
         }
         curl_multi_close($mh);
-        sleep(1);
+        usleep(200000);
     }
     writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
 }

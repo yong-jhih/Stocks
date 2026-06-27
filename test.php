@@ -6,10 +6,8 @@ try {
     $stocksTSE = getStockProfileTSE($pdo);
     $stocksTPEx = getStockProfileTPEx($pdo);
     $stocksESM = getStockProfileESM($pdo);
-    $stocksETF = getStockProfileETF($pdo);
-    $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
-    updateIndustry($pdo, $stocksMix);
-
+    $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
+    updateSubIndustry($pdo, $stocks);
 } catch (Throwable $e) {
     throw $e;
 }
