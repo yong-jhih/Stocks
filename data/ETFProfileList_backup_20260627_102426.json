@@ -1,0 +1,1580 @@
+{
+    "00400A": {
+        "stock_id": "00400A",
+        "stock_name": "主動國泰動能高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00401A": {
+        "stock_id": "00401A",
+        "stock_name": "主動摩根台灣鑫收",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00402A": {
+        "stock_id": "00402A",
+        "stock_name": "主動安聯美國科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00403A": {
+        "stock_id": "00403A",
+        "stock_name": "主動統一升級50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00404A": {
+        "stock_id": "00404A",
+        "stock_name": "主動聯博動能50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00405A": {
+        "stock_id": "00405A",
+        "stock_name": "主動富邦台灣龍耀",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00406A": {
+        "stock_id": "00406A",
+        "stock_name": "主動中信台灣收益",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00407A": {
+        "stock_id": "00407A",
+        "stock_name": "主動凱基台灣",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0050": {
+        "stock_id": "0050",
+        "stock_name": "元大台灣50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0051": {
+        "stock_id": "0051",
+        "stock_name": "元大中型100",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0052": {
+        "stock_id": "0052",
+        "stock_name": "富邦科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0053": {
+        "stock_id": "0053",
+        "stock_name": "元大電子",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0054": {
+        "stock_id": "0054",
+        "stock_name": "元大台商50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0055": {
+        "stock_id": "0055",
+        "stock_name": "元大MSCI金融",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0056": {
+        "stock_id": "0056",
+        "stock_name": "元大高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0057": {
+        "stock_id": "0057",
+        "stock_name": "富邦摩台",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0058": {
+        "stock_id": "0058",
+        "stock_name": "富邦發達",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0059": {
+        "stock_id": "0059",
+        "stock_name": "富邦金融",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0060": {
+        "stock_id": "0060",
+        "stock_name": "新台灣",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0061": {
+        "stock_id": "0061",
+        "stock_name": "元大寶滬深",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006203": {
+        "stock_id": "006203",
+        "stock_name": "元大MSCI台灣",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006204": {
+        "stock_id": "006204",
+        "stock_name": "永豐臺灣加權",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006205": {
+        "stock_id": "006205",
+        "stock_name": "富邦上証",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006206": {
+        "stock_id": "006206",
+        "stock_name": "元大上證50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006207": {
+        "stock_id": "006207",
+        "stock_name": "復華滬深",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "006208": {
+        "stock_id": "006208",
+        "stock_name": "富邦台50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00625K": {
+        "stock_id": "00625K",
+        "stock_name": "富邦上証+R",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00631L": {
+        "stock_id": "00631L",
+        "stock_name": "元大台灣50正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00632R": {
+        "stock_id": "00632R",
+        "stock_name": "元大台灣50反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00633L": {
+        "stock_id": "00633L",
+        "stock_name": "富邦上証正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00634R": {
+        "stock_id": "00634R",
+        "stock_name": "富邦上証反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00635U": {
+        "stock_id": "00635U",
+        "stock_name": "期元大S&amp;P黃金(原名：元大S&amp;P黃金)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00636": {
+        "stock_id": "00636",
+        "stock_name": "國泰中國A50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00636K": {
+        "stock_id": "00636K",
+        "stock_name": "國泰富時中國A50+U",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00637L": {
+        "stock_id": "00637L",
+        "stock_name": "元大滬深300正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00638R": {
+        "stock_id": "00638R",
+        "stock_name": "元大滬深300反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00639": {
+        "stock_id": "00639",
+        "stock_name": "富邦深100",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00640L": {
+        "stock_id": "00640L",
+        "stock_name": "富邦日本正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00641R": {
+        "stock_id": "00641R",
+        "stock_name": "富邦日本反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00642U": {
+        "stock_id": "00642U",
+        "stock_name": "期元大S&amp;P石油(原名：元大S&amp;P石油)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00643": {
+        "stock_id": "00643",
+        "stock_name": "群益深証中小",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00643K": {
+        "stock_id": "00643K",
+        "stock_name": "群益深証中小+R",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00645": {
+        "stock_id": "00645",
+        "stock_name": "富邦日本",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00646": {
+        "stock_id": "00646",
+        "stock_name": "元大S&amp;P500",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00647L": {
+        "stock_id": "00647L",
+        "stock_name": "元大S&amp;P500正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00648R": {
+        "stock_id": "00648R",
+        "stock_name": "元大S&amp;P500反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00649": {
+        "stock_id": "00649",
+        "stock_name": "FH香港",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00650L": {
+        "stock_id": "00650L",
+        "stock_name": "復華香港正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00651R": {
+        "stock_id": "00651R",
+        "stock_name": "復華香港反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00652": {
+        "stock_id": "00652",
+        "stock_name": "富邦印度",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00653L": {
+        "stock_id": "00653L",
+        "stock_name": "富邦印度正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00654R": {
+        "stock_id": "00654R",
+        "stock_name": "富邦印度反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00655L": {
+        "stock_id": "00655L",
+        "stock_name": "國泰中國A50正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00656R": {
+        "stock_id": "00656R",
+        "stock_name": "國泰中國A50反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00657": {
+        "stock_id": "00657",
+        "stock_name": "國泰日經225",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00657K": {
+        "stock_id": "00657K",
+        "stock_name": "國泰日經225+U",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00658L": {
+        "stock_id": "00658L",
+        "stock_name": "國泰日本正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00659R": {
+        "stock_id": "00659R",
+        "stock_name": "國泰日本反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00660": {
+        "stock_id": "00660",
+        "stock_name": "元大歐洲50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00661": {
+        "stock_id": "00661",
+        "stock_name": "元大日經225",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00662": {
+        "stock_id": "00662",
+        "stock_name": "富邦NASDAQ",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00663L": {
+        "stock_id": "00663L",
+        "stock_name": "國泰臺灣加權正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00664R": {
+        "stock_id": "00664R",
+        "stock_name": "國泰臺灣加權反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00665L": {
+        "stock_id": "00665L",
+        "stock_name": "富邦恒生國企正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00666R": {
+        "stock_id": "00666R",
+        "stock_name": "富邦恒生國企反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00667": {
+        "stock_id": "00667",
+        "stock_name": "元大韓國",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00668": {
+        "stock_id": "00668",
+        "stock_name": "國泰美國道瓊",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00668K": {
+        "stock_id": "00668K",
+        "stock_name": "國泰美國道瓊+U",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00669R": {
+        "stock_id": "00669R",
+        "stock_name": "國泰美國道瓊反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00670L": {
+        "stock_id": "00670L",
+        "stock_name": "富邦NASDAQ正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00671R": {
+        "stock_id": "00671R",
+        "stock_name": "富邦NASDAQ 反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00672L": {
+        "stock_id": "00672L",
+        "stock_name": "元大S&amp;P原油正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00673R": {
+        "stock_id": "00673R",
+        "stock_name": "期元大S&amp;P原油反1(原名：元大S&amp;P原油反1)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00674R": {
+        "stock_id": "00674R",
+        "stock_name": "期元大S&amp;P黃金反1(原名：元大S&amp;P黃金反1)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00675L": {
+        "stock_id": "00675L",
+        "stock_name": "FB臺灣加權正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00676R": {
+        "stock_id": "00676R",
+        "stock_name": "富邦臺灣加權反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00677U": {
+        "stock_id": "00677U",
+        "stock_name": "期富邦VIX",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00678": {
+        "stock_id": "00678",
+        "stock_name": "群益那斯達克生技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00680L": {
+        "stock_id": "00680L",
+        "stock_name": "元大美債20正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00681R": {
+        "stock_id": "00681R",
+        "stock_name": "元大美債20反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00682U": {
+        "stock_id": "00682U",
+        "stock_name": "期元大美元指數(原名：元大美元指數)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00683L": {
+        "stock_id": "00683L",
+        "stock_name": "期元大美元指正2(原名：元大美元指數正2)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00684R": {
+        "stock_id": "00684R",
+        "stock_name": "期元大美元指反1(原名：元大美元指數反1)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00685L": {
+        "stock_id": "00685L",
+        "stock_name": "群益臺灣加權正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00686R": {
+        "stock_id": "00686R",
+        "stock_name": "群益臺灣加權反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00688L": {
+        "stock_id": "00688L",
+        "stock_name": "國泰20年美債正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00689R": {
+        "stock_id": "00689R",
+        "stock_name": "國泰20年美債反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00690": {
+        "stock_id": "00690",
+        "stock_name": "兆豐藍籌30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00691R": {
+        "stock_id": "00691R",
+        "stock_name": "兆豐藍籌反一",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00692": {
+        "stock_id": "00692",
+        "stock_name": "富邦公司治理",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00693U": {
+        "stock_id": "00693U",
+        "stock_name": "期街口S&amp;P黃豆",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00698L": {
+        "stock_id": "00698L",
+        "stock_name": "元大美債7-10正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00699R": {
+        "stock_id": "00699R",
+        "stock_name": "元大美債7-10反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00700": {
+        "stock_id": "00700",
+        "stock_name": "富邦恒生國企",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00701": {
+        "stock_id": "00701",
+        "stock_name": "國泰臺灣低波動股利精選30基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00702": {
+        "stock_id": "00702",
+        "stock_name": "國泰標普低波高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00703": {
+        "stock_id": "00703",
+        "stock_name": "台新MSCI中國",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00704L": {
+        "stock_id": "00704L",
+        "stock_name": "台新MSCI台灣正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00705R": {
+        "stock_id": "00705R",
+        "stock_name": "台新MSCI台灣反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00706L": {
+        "stock_id": "00706L",
+        "stock_name": "期元大S&amp;P日圓正2(原名：元大S&amp;P日圓正2)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00707R": {
+        "stock_id": "00707R",
+        "stock_name": "期元大S&amp;P日圓反1(原名：元大S&amp;P日圓反1)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00708L": {
+        "stock_id": "00708L",
+        "stock_name": "期元大S&amp;P黃金正2(原名：元大S&amp;P黃金正2)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00709": {
+        "stock_id": "00709",
+        "stock_name": "富邦歐洲",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00710B": {
+        "stock_id": "00710B",
+        "stock_name": "復華彭博非投等債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00711B": {
+        "stock_id": "00711B",
+        "stock_name": "復華彭博新興債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00712": {
+        "stock_id": "00712",
+        "stock_name": "復華富時不動產",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00713": {
+        "stock_id": "00713",
+        "stock_name": "元大台灣高息低波",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00714": {
+        "stock_id": "00714",
+        "stock_name": "群益道瓊美國地產",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00715L": {
+        "stock_id": "00715L",
+        "stock_name": "期街口布蘭特正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00716R": {
+        "stock_id": "00716R",
+        "stock_name": "華頓S&amp;P布蘭特反1",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00717": {
+        "stock_id": "00717",
+        "stock_name": "富邦美國特別股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00728": {
+        "stock_id": "00728",
+        "stock_name": "第一金工業30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00729R": {
+        "stock_id": "00729R",
+        "stock_name": "第一金工業30反一",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00730": {
+        "stock_id": "00730",
+        "stock_name": "富邦臺灣優質高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00731": {
+        "stock_id": "00731",
+        "stock_name": "復華富時高息低波",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00732": {
+        "stock_id": "00732",
+        "stock_name": "國泰RMB短期報酬",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00733": {
+        "stock_id": "00733",
+        "stock_name": "臺灣中小A級動能50 ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00735": {
+        "stock_id": "00735",
+        "stock_name": "國泰臺韓科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00736": {
+        "stock_id": "00736",
+        "stock_name": "國泰富時新興市場基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00737": {
+        "stock_id": "00737",
+        "stock_name": "國泰AI機器人",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00738U": {
+        "stock_id": "00738U",
+        "stock_name": "期元大道瓊白銀(原名：元大道瓊白銀)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00739": {
+        "stock_id": "00739",
+        "stock_name": "元大MSCI A股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00742": {
+        "stock_id": "00742",
+        "stock_name": "新光內需收益",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00743": {
+        "stock_id": "00743",
+        "stock_name": "國泰中國A150",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00752": {
+        "stock_id": "00752",
+        "stock_name": "中信中國50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00753L": {
+        "stock_id": "00753L",
+        "stock_name": "中信中國50正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00757": {
+        "stock_id": "00757",
+        "stock_name": "統一FANG+",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00762": {
+        "stock_id": "00762",
+        "stock_name": "元大全球AI",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00763U": {
+        "stock_id": "00763U",
+        "stock_name": "期街口道瓊銅",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00766L": {
+        "stock_id": "00766L",
+        "stock_name": "台新MSCI中國正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00767": {
+        "stock_id": "00767",
+        "stock_name": "FH美國金融股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00770": {
+        "stock_id": "00770",
+        "stock_name": "國泰標普北美科技ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00771": {
+        "stock_id": "00771",
+        "stock_name": "元大US高息特別股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00774B": {
+        "stock_id": "00774B",
+        "stock_name": "新光中國政金綠債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00774C": {
+        "stock_id": "00774C",
+        "stock_name": "00774C",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00775B": {
+        "stock_id": "00775B",
+        "stock_name": "新光投等債15+",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00776": {
+        "stock_id": "00776",
+        "stock_name": "新光ICE美國權值",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00783": {
+        "stock_id": "00783",
+        "stock_name": "富邦中証500",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0080": {
+        "stock_id": "0080",
+        "stock_name": "恒中國",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "0081": {
+        "stock_id": "0081",
+        "stock_name": "恒香港",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "008201": {
+        "stock_id": "008201",
+        "stock_name": "BP上證50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00830": {
+        "stock_id": "00830",
+        "stock_name": "國泰費城半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00850": {
+        "stock_id": "00850",
+        "stock_name": "元大臺灣ESG永續",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00851": {
+        "stock_id": "00851",
+        "stock_name": "台新全球AI",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00852L": {
+        "stock_id": "00852L",
+        "stock_name": "國泰美國道瓊正2",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00861": {
+        "stock_id": "00861",
+        "stock_name": "元大全球未來通訊",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00865B": {
+        "stock_id": "00865B",
+        "stock_name": "國泰US短期公債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00866": {
+        "stock_id": "00866",
+        "stock_name": "新光Shiller CAPE",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00875": {
+        "stock_id": "00875",
+        "stock_name": "國泰網路資安ETF",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00876": {
+        "stock_id": "00876",
+        "stock_name": "元大全球5G(原名:元大未來關鍵科技)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00878": {
+        "stock_id": "00878",
+        "stock_name": "國泰永續高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00881": {
+        "stock_id": "00881",
+        "stock_name": "國泰台灣科技龍頭",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00882": {
+        "stock_id": "00882",
+        "stock_name": "中信中國高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00885": {
+        "stock_id": "00885",
+        "stock_name": "富邦越南",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00891": {
+        "stock_id": "00891",
+        "stock_name": "中信關鍵半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00892": {
+        "stock_id": "00892",
+        "stock_name": "富邦台灣半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00893": {
+        "stock_id": "00893",
+        "stock_name": "國泰智能電動車",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00894": {
+        "stock_id": "00894",
+        "stock_name": "中信小資高價30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00895": {
+        "stock_id": "00895",
+        "stock_name": "富邦未來車",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00896": {
+        "stock_id": "00896",
+        "stock_name": "中信綠能及電動車",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00897": {
+        "stock_id": "00897",
+        "stock_name": "富邦基因免疫生技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00898": {
+        "stock_id": "00898",
+        "stock_name": "國泰全球基因免疫與醫療革命ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00899": {
+        "stock_id": "00899",
+        "stock_name": "FT潔淨能源(原名:富蘭克林潔淨能源)",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00900": {
+        "stock_id": "00900",
+        "stock_name": "富邦特選高股息30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00901": {
+        "stock_id": "00901",
+        "stock_name": "永豐智能車供應鏈",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00902": {
+        "stock_id": "00902",
+        "stock_name": "中信電池及儲能",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00903": {
+        "stock_id": "00903",
+        "stock_name": "富邦元宇宙",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00904": {
+        "stock_id": "00904",
+        "stock_name": "新光臺灣半導體30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00905": {
+        "stock_id": "00905",
+        "stock_name": "FT臺灣Smart",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00906": {
+        "stock_id": "00906",
+        "stock_name": "大華元宇宙科技50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00907": {
+        "stock_id": "00907",
+        "stock_name": "永豐優息存股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00908": {
+        "stock_id": "00908",
+        "stock_name": "富邦入息REITs+",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00909": {
+        "stock_id": "00909",
+        "stock_name": "國泰全球數位支付服務ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00910": {
+        "stock_id": "00910",
+        "stock_name": "第一金太空衛星",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00911": {
+        "stock_id": "00911",
+        "stock_name": "兆豐洲際半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00912": {
+        "stock_id": "00912",
+        "stock_name": "中信臺灣智慧50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00913": {
+        "stock_id": "00913",
+        "stock_name": "兆豐台灣晶圓製造ETF",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00915": {
+        "stock_id": "00915",
+        "stock_name": "凱基優選高股息30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00916": {
+        "stock_id": "00916",
+        "stock_name": "國泰全球品牌50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00917": {
+        "stock_id": "00917",
+        "stock_name": "中信特選金融",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00918": {
+        "stock_id": "00918",
+        "stock_name": "大華優利高填息30 ETF",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00919": {
+        "stock_id": "00919",
+        "stock_name": "群益台灣精選高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00920": {
+        "stock_id": "00920",
+        "stock_name": "富邦ESG綠色電力",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00921": {
+        "stock_id": "00921",
+        "stock_name": "兆豐龍頭等權重",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00922": {
+        "stock_id": "00922",
+        "stock_name": "國泰台灣領袖 50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00923": {
+        "stock_id": "00923",
+        "stock_name": "群益台ESG低碳50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00924": {
+        "stock_id": "00924",
+        "stock_name": "復華S&amp;P500成長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00925": {
+        "stock_id": "00925",
+        "stock_name": "新光標普電動車",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00926": {
+        "stock_id": "00926",
+        "stock_name": "凱基全球菁英55",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00927": {
+        "stock_id": "00927",
+        "stock_name": "群益半導體收益",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00929": {
+        "stock_id": "00929",
+        "stock_name": "復華台灣科技優息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00930": {
+        "stock_id": "00930",
+        "stock_name": "永豐ESG低碳高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00932": {
+        "stock_id": "00932",
+        "stock_name": "兆豐永續高息等權",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00934": {
+        "stock_id": "00934",
+        "stock_name": "中信成長高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00935": {
+        "stock_id": "00935",
+        "stock_name": "野村臺灣新科技50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00936": {
+        "stock_id": "00936",
+        "stock_name": "台新永續高息中小型ETF",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00938": {
+        "stock_id": "00938",
+        "stock_name": "凱基優選30",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00939": {
+        "stock_id": "00939",
+        "stock_name": "統一台灣高息動能ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00940": {
+        "stock_id": "00940",
+        "stock_name": "元大台灣價值高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00941": {
+        "stock_id": "00941",
+        "stock_name": "中信上游半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00943": {
+        "stock_id": "00943",
+        "stock_name": "兆豐電子高息等權",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00944": {
+        "stock_id": "00944",
+        "stock_name": "野村趨勢動能高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00945B": {
+        "stock_id": "00945B",
+        "stock_name": "凱基美國非投等債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00946": {
+        "stock_id": "00946",
+        "stock_name": "群益科技高息成長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00947": {
+        "stock_id": "00947",
+        "stock_name": "台新臺灣IC設計動能ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00949": {
+        "stock_id": "00949",
+        "stock_name": "復華日本龍頭",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00951": {
+        "stock_id": "00951",
+        "stock_name": "台新日本半導體ETF",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00952": {
+        "stock_id": "00952",
+        "stock_name": "凱基台灣AI 50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00953B": {
+        "stock_id": "00953B",
+        "stock_name": "群益優選非投等債",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00954": {
+        "stock_id": "00954",
+        "stock_name": "中信日本半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00956": {
+        "stock_id": "00956",
+        "stock_name": "中信日經高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00960": {
+        "stock_id": "00960",
+        "stock_name": "野村全球航運龍頭",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00961": {
+        "stock_id": "00961",
+        "stock_name": "FT臺灣永續高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00962": {
+        "stock_id": "00962",
+        "stock_name": "台新AI優息動能基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00963": {
+        "stock_id": "00963",
+        "stock_name": "中信全球高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00964": {
+        "stock_id": "00964",
+        "stock_name": "中信亞太高股息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00965": {
+        "stock_id": "00965",
+        "stock_name": "元大航太防衛科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00971": {
+        "stock_id": "00971",
+        "stock_name": "野村美國研發龍頭",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00972": {
+        "stock_id": "00972",
+        "stock_name": "野村日本動能高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009800": {
+        "stock_id": "009800",
+        "stock_name": "中信NASDAQ",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009801": {
+        "stock_id": "009801",
+        "stock_name": "中信美國創新科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009802": {
+        "stock_id": "009802",
+        "stock_name": "富邦旗艦50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009803": {
+        "stock_id": "009803",
+        "stock_name": "玉山市值動能50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009804": {
+        "stock_id": "009804",
+        "stock_name": "聯邦台灣精彩50ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009805": {
+        "stock_id": "009805",
+        "stock_name": "新光美國電力基建",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009808": {
+        "stock_id": "009808",
+        "stock_name": "華南永昌優選50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009809": {
+        "stock_id": "009809",
+        "stock_name": "富邦淨零ESG50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00980A": {
+        "stock_id": "00980A",
+        "stock_name": "主動野村臺灣優選",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009810": {
+        "stock_id": "009810",
+        "stock_name": "玉山全球藍籌100",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009811": {
+        "stock_id": "009811",
+        "stock_name": "統一美國50ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009812": {
+        "stock_id": "009812",
+        "stock_name": "野村日本東證",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009813": {
+        "stock_id": "009813",
+        "stock_name": "貝萊德標普卓越50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009816": {
+        "stock_id": "009816",
+        "stock_name": "凱基台灣TOP50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009817": {
+        "stock_id": "009817",
+        "stock_name": "國泰大和日本不動產收息ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009818": {
+        "stock_id": "009818",
+        "stock_name": "華南永昌NASDAQxT",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009819": {
+        "stock_id": "009819",
+        "stock_name": "中信數據及電力",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00981A": {
+        "stock_id": "00981A",
+        "stock_name": "主動統一台股增長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00981T": {
+        "stock_id": "00981T",
+        "stock_name": "平衡凱基雙核收息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009820": {
+        "stock_id": "009820",
+        "stock_name": "元大納斯達克精選",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009821": {
+        "stock_id": "009821",
+        "stock_name": "野村稀土關鍵資源",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009824": {
+        "stock_id": "009824",
+        "stock_name": "群益美國科技巨頭ETF基金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00982A": {
+        "stock_id": "00982A",
+        "stock_name": "主動群益台灣強棒",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00982D": {
+        "stock_id": "00982D",
+        "stock_name": "主動富邦動態入息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00982T": {
+        "stock_id": "00982T",
+        "stock_name": "平衡兆豐台美動能",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00983A": {
+        "stock_id": "00983A",
+        "stock_name": "主動中信ARK創新",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00983D": {
+        "stock_id": "00983D",
+        "stock_name": "主動富邦複合收益",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00984A": {
+        "stock_id": "00984A",
+        "stock_name": "主動安聯台灣高息",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00984D": {
+        "stock_id": "00984D",
+        "stock_name": "主動聯博全球非投",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00985A": {
+        "stock_id": "00985A",
+        "stock_name": "主動野村台灣50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00985B": {
+        "stock_id": "00985B",
+        "stock_name": "群益ESG投等債0-5",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00986A": {
+        "stock_id": "00986A",
+        "stock_name": "主動台新龍頭成長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00987A": {
+        "stock_id": "00987A",
+        "stock_name": "主動台新優勢成長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00988A": {
+        "stock_id": "00988A",
+        "stock_name": "主動統一全球創新",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00989A": {
+        "stock_id": "00989A",
+        "stock_name": "主動摩根美國科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00990A": {
+        "stock_id": "00990A",
+        "stock_name": "主動元大AI新經濟",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00991A": {
+        "stock_id": "00991A",
+        "stock_name": "主動復華未來50",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00992A": {
+        "stock_id": "00992A",
+        "stock_name": "主動群益科技創新",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00993A": {
+        "stock_id": "00993A",
+        "stock_name": "主動安聯台灣",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00994A": {
+        "stock_id": "00994A",
+        "stock_name": "主動第一金台股優",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00995A": {
+        "stock_id": "00995A",
+        "stock_name": "主動中信台灣卓越",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00996A": {
+        "stock_id": "00996A",
+        "stock_name": "主動兆豐台灣豐收",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00997A": {
+        "stock_id": "00997A",
+        "stock_name": "主動群益美國增長",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00999A": {
+        "stock_id": "00999A",
+        "stock_name": "主動野村臺灣高息",
+        "stock_type": "ETF",
+        "industry": ""
+    }
+}
