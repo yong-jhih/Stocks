@@ -26,6 +26,30 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
     }
 }
 
+function getTWSE(PDO $pdo, string $date, string $url): ?array
+{
+    $url = $url . str_replace("-", "", $date);
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($pdo, $url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
+            // foreach ($data['tables'] as $v) {
+            //     if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
+            //         $stocks = [];
+            //         foreach ($v['data'] as $v1) {
+            //             if (preg_match('/^[1-9]\d{3}$/', trim($v1[0]))) {
+            //                 $stocks[] = $v1;
+            //             }
+            //         }
+            //         return $stocks;
+            //     }
+            // }
+        }
+        writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+    }
+    writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
+    return null;
+}
+
 function getHistory(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
