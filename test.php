@@ -9,7 +9,12 @@ try {
     $stocksETF = getStockProfileETF($pdo);
     $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
 
-    createJsonFile($pdo, 'stockProfileList', $stocks);
+    $stocks_R = [];
+    foreach ($stocks as $v) {
+        $stocks_R[$v['stock_id']] = $v;
+    }
+
+    createJsonFile($pdo, 'stockProfileList', $stocks_R);
     createJsonFile($pdo, 'ETFProfileList', $stocksETF);
     echo "stocks:" . count($stocks) . "\n";
     echo "stocksETF:" . count($stocksETF) . "\n";

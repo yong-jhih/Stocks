@@ -1424,8 +1424,7 @@ function updateIndustry(PDO $pdo, array $stocks): void
     $stmt = $pdo->prepare($sql);
     $pdo->beginTransaction();
     try {
-        foreach ($stocks as $k => $row) {
-            if ($row['stock_id'] == '') continue;
+        foreach ($stocks as $row) {
             $stmt->execute([
                 $row['stock_id'],
                 $row['stock_name'],
