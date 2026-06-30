@@ -34,7 +34,8 @@ if (
         renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
         callGAS($pdo, [
             'date' => $targetDate,
-            'action' => 'upload'
+            'action' => 'upload',
+            'after' => 300
         ]);
         cleanData(20);
         updateSystemLog($pdo);
