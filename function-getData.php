@@ -160,10 +160,9 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
 {
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
-            (trade_date, stock_id, stock_name, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (trade_date, stock_id, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
-            stock_name = VALUES(stock_name),
             open_price = VALUES(open_price),
             high_price = VALUES(high_price),
             low_price = VALUES(low_price),
@@ -180,7 +179,6 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
             $stmt->execute([
                 $targetDate,
                 $row[0],
-                $row[1],
                 (float)$clean($row[5]), // 開盤
                 (float)$clean($row[6]), // 最高
                 (float)$clean($row[7]), // 最低
@@ -392,7 +390,6 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
             SELECT
                 h.trade_date,
                 h.stock_id,
-                h.stock_name,
                 h.open_price,
                 h.high_price,
                 h.low_price,
