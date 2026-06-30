@@ -531,19 +531,19 @@ function outputModel(PDO $pdo, array $sqlFetch): array
     $stmtProfile = $pdo->prepare($sqlProfile);
     $stmtProfile->execute();
     foreach ($stmtProfile->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['industry'] = $row['industry'];
+        $profile[$row['stock_id']]['industry'] = trim($row['industry']);
     }
     $sqlSub_industry = "SELECT * FROM stock_sub_industry";
     $stmtSub_industry = $pdo->prepare($sqlSub_industry);
     $stmtSub_industry->execute();
     foreach ($stmtSub_industry->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['sub_industry'][] = $row['sub_industry'];
+        $profile[$row['stock_id']]['sub_industry'][] = trim($row['sub_industry']);
     }
     $sqlConcept = "SELECT * FROM stock_concept";
     $stmtConcept = $pdo->prepare($sqlConcept);
     $stmtConcept->execute();
     foreach ($stmtConcept->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['concept'][] = $row['concept'];
+        $profile[$row['stock_id']]['concept'][] = trim($row['concept']);
     }
 
     $dashboardResults = [];
