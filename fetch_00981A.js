@@ -27,7 +27,7 @@ const fs = require('fs');
             }
         });
         if (jsonData) {
-            fs.writeFileSync('stock_data.json', jsonData);
+            fs.writeFileSync('etf_componet_00981A.json', jsonData);
             console.log('成功產出標準 JSON：stock_data.json');
         } else {
             console.error('找不到資料或解析失敗');

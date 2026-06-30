@@ -1165,7 +1165,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 // 00981A
 function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): array
 {
-    $jsonFile = 'stock_data.json';
+    $jsonFile = 'etf_componet_00981A.json';
     if (file_exists($jsonFile)) {
         $jsonStr = file_get_contents($jsonFile);
         $data = json_decode($jsonStr, true);
@@ -1197,11 +1197,10 @@ function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): array
 function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): void
 {
     try {
-        $sql = "INSERT INTO 00981A_component 
-                (trade_date, stock_id, stock_name, amount, weight)
+        $sql = "INSERT INTO etf_component 
+                (trade_date, etf_id, stock_id, amount, weight)
                 VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
-                stock_name = VALUES(stock_name),
                 amount = VALUES(amount),
                 weight = VALUES(weight)";
         $stmt = $pdo->prepare($sql);
@@ -1209,8 +1208,8 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
         foreach ($data as $row) {
             $stmt->execute([
                 $targetDate,
+                '00981A',
                 $row['DetailCode'],
-                $row['DetailName'],
                 (int)$row['Share'],
                 $row['NavRate']
             ]);
@@ -1222,16 +1221,18 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
     }
 }
 
-function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
+function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id): array
 {
     try {
+        $stocksMap = getStocksMap();
         $intervals = [1, 5, 10, 20];
         $compareDates = [];
         foreach ($intervals as $days) {
-            $dateSql = "SELECT DISTINCT trade_date FROM 00981A_component 
-                        WHERE trade_date < :targetDate ORDER BY trade_date DESC LIMIT :offset, 1";
+            $dateSql = "SELECT DISTINCT trade_date FROM etf_component 
+                        WHERE trade_date < :targetDate AND etf_id = :etf_id ORDER BY trade_date DESC LIMIT :offset, 1";
             $dateStmt = $pdo->prepare($dateSql);
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
+            $dateStmt->bindValue(':etf_id', $etf_id, PDO::PARAM_STR);
             $dateStmt->bindValue(':offset', (int)($days - 1), PDO::PARAM_INT);
             $dateStmt->execute();
             $found = $dateStmt->fetchColumn();
@@ -1240,7 +1241,6 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
         $sql = "
             SELECT 
                 all_ids.stock_id,
-                MAX(COALESCE(curr.stock_name, d1.stock_name, d5.stock_name, d10.stock_name, d20.stock_name)) as stock_name,
                 MAX(IFNULL(curr.amount, 0)) as amount,
                 MAX(IFNULL(curr.weight, 0)) as weight,
                 MAX(IFNULL(d1.amount, 0)) as prev_amount,
@@ -1249,29 +1249,30 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d10.amount, 0))) as diff10,
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20
             FROM (
-                SELECT stock_id FROM 00981A_component WHERE trade_date = :targetDate
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d1
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d5
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d10
-                UNION SELECT stock_id FROM 00981A_component WHERE trade_date = :d20
+                SELECT stock_id FROM etf_component WHERE trade_date = :targetDate AND etf_id = :etf_id
+                UNION SELECT stock_id FROM etf_component WHERE trade_date = :d1 AND etf_id = :etf_id
+                UNION SELECT stock_id FROM etf_component WHERE trade_date = :d5 AND etf_id = :etf_id
+                UNION SELECT stock_id FROM etf_component WHERE trade_date = :d10 AND etf_id = :etf_id
+                UNION SELECT stock_id FROM etf_component WHERE trade_date = :d20 AND etf_id = :etf_id
             ) all_ids
-            LEFT JOIN 00981A_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate
-            LEFT JOIN 00981A_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1
-            LEFT JOIN 00981A_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5
-            LEFT JOIN 00981A_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10
-            LEFT JOIN 00981A_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20
+            LEFT JOIN etf_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate AND curr.etf_id = :etf_id
+            LEFT JOIN etf_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1 AND d1.etf_id = :etf_id
+            LEFT JOIN etf_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5 AND d5.etf_id = :etf_id
+            LEFT JOIN etf_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10 AND d10.etf_id = :etf_id
+            LEFT JOIN etf_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20 AND d20.etf_id = :etf_id
             GROUP BY all_ids.stock_id
             ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
         ";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':targetDate', $targetDate);
+        $stmt->bindValue(':etf_id', $etf_id);
         $stmt->bindValue(':d1', $compareDates[1]);
         $stmt->bindValue(':d5', $compareDates[5]);
         $stmt->bindValue(':d10', $compareDates[10]);
         $stmt->bindValue(':d20', $compareDates[20]);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (!$rows) throw new RuntimeException('查詢不到 00981A 成分股歷史資料');
+        if (!$rows) throw new RuntimeException("查詢不到 {$etf_id} 成分股歷史資料");
         $finalData = [];
         $new = [];
         $eliminate = [];
@@ -1282,25 +1283,26 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
+            $stockName = " " . $stocksMap[$item['stock_id']]['stock_name'] ?? '未知股票';
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
-                $new[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+                $new[] = (string)$item['stock_id'] . (string)$stockName;
             } elseif ($prevAmount > 0 && $currAmount == 0) {
                 $note = "剔除";
-                $eliminate[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+                $eliminate[] = (string)$item['stock_id'] . (string)$stockName;
             } elseif ($diff1 > 0) {
                 $note = "增持";
-                $increase[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+                $increase[] = (string)$item['stock_id'] . (string)$stockName;
             } elseif ($diff1 < 0) {
                 $note = "減持";
-                $decrease[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+                $decrease[] = (string)$item['stock_id'] . (string)$stockName;
             } else {
                 $note = "無變動";
-                $constant[] = (string)$item['stock_id'] . (string)$item['stock_name'];
+                $constant[] = (string)$item['stock_id'] . (string)$stockName;
             }
             $finalData[] = [
                 'stock_id'   => (string)$item['stock_id'],
-                'stock_name' => (string)$item['stock_name'],
+                'stock_name' => (string)$stockName,
                 'note'       => $note,
                 'amount'     => $currAmount,
                 'weight'     => (float)$item['weight'],
@@ -1310,7 +1312,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate): array
                 'diff20'     => (int)$item['diff20']
             ];
         }
-        $notificationStr = "00981A成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page=00981A_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        $notificationStr = "{$etf_id} 成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
         if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
         if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
         return [$finalData, $notificationStr];
