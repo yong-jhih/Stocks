@@ -527,7 +527,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
 {
     $stocksMap = getStocksMap();
     $profile = [];
-    $sqlProfile = "SELECT * FROM stock_profile";
+    $sqlProfile = "SELECT * FROM stock_profile WHERE stock_type != 'ETF'";
     $stmtProfile = $pdo->prepare($sqlProfile);
     $stmtProfile->execute();
     foreach ($stmtProfile->fetchAll(PDO::FETCH_ASSOC) as $row) {
