@@ -6,11 +6,24 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
     $start_time = microtime(true);
     writeLog($pdo, 'updateAllHistory', "取得交易日期 [{$targetDate}] 開始更新盤後資料", 'start');
     try {
-        $historyData = getHistory($pdo, $targetDate);
-        $instiData = getInsti($pdo, $targetDate);
-        $marginData = getMargin($pdo, $targetDate);
-        $SBLTotalData = getSBLTotal($pdo, $targetDate);
-        $SBLSoldData = getSBLSold($pdo, $targetDate);
+        $historyData = null;
+        $instiData = null;
+        $marginData = null;
+        $SBLTotalData = null;
+        $SBLSoldData = null;
+        for ($i = 1; $i <= 3; $i++) {
+            if ($historyData === null) $historyData = getHistory($pdo, $targetDate);
+            if ($instiData === null) $instiData = getInsti($pdo, $targetDate);
+            if ($marginData === null) $marginData = getMargin($pdo, $targetDate);
+            if ($SBLTotalData === null) $SBLTotalData = getSBLTotal($pdo, $targetDate);
+            if ($SBLSoldData === null) $SBLSoldData = getSBLSold($pdo, $targetDate);
+            if ($historyData !== null || $instiData !== null || $marginData !== null || $SBLTotalData !== null || $SBLSoldData !== null) {
+                break;
+            } else {
+                writeLog($pdo, 'updateAllHistory', "第 {$i} 次抓取完成, 尚有缺漏資料, 60秒後重試", 'error');
+                sleep(60);
+            }
+        }
         // 資料不足且有抓到資料才新增
         if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && $historyData !== null) insertHistory($pdo, $targetDate, $historyData);
         if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && $instiData !== null) insertInsti($pdo, $targetDate, $instiData);
@@ -45,8 +58,9 @@ function getHistory(PDO $pdo, string $date): ?array
             }
         }
         writeLog($pdo, 'getHistory', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
     }
-    writeLog($pdo, 'getHistory', '執行 3 次失敗,退出', 'error');
+    writeLog($pdo, 'getHistory', '取得 每日收盤行情 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 
@@ -67,8 +81,9 @@ function getInsti(PDO $pdo, string $date): ?array
             }
         }
         writeLog($pdo, 'getInsti', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
     }
-    writeLog($pdo, 'getInsti', '執行 3 次失敗,退出', 'error');
+    writeLog($pdo, 'getInsti', '取得 三大法人買賣超日報 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 
@@ -91,8 +106,9 @@ function getMargin(PDO $pdo, string $date): ?array
             }
         }
         writeLog($pdo, 'getMargin', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
     }
-    writeLog($pdo, 'getMargin', '執行 3 次失敗,退出', 'error');
+    writeLog($pdo, 'getMargin', '取得 融資融券彙總 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 function getSBLTotal(PDO $pdo, string $date): ?array
@@ -112,8 +128,9 @@ function getSBLTotal(PDO $pdo, string $date): ?array
             }
         }
         writeLog($pdo, 'getSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
     }
-    writeLog($pdo, 'getSBLTotal', '執行 3 次失敗,退出', 'error');
+    writeLog($pdo, 'getSBLTotal', '取得 借券餘額合計表 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 function getSBLSold(PDO $pdo, string $date): ?array
@@ -133,8 +150,9 @@ function getSBLSold(PDO $pdo, string $date): ?array
             }
         }
         writeLog($pdo, 'getSBLSold', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
     }
-    writeLog($pdo, 'getSBLSold', '執行 3 次失敗,退出', 'error');
+    writeLog($pdo, 'getSBLSold', '取得 信用額度總量管制餘額 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 
