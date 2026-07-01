@@ -7,5 +7,5 @@ $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00981A.json"),
 foreach ($a as $v) {
     $stockIds[] = $v['stock_id'];
 }
-$result = getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
+$result = getEtfComponentChartDataTest($pdo,  '00981A',  $targetDate, $stockIds);
 createJsonFile($pdo, $targetDate . '_test', $result);
