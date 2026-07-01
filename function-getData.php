@@ -1345,7 +1345,7 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
         WHERE ec.stock_id IN ($placeholders)
         AND ec.trade_date <= ?
         AND etf_id = ?
-        ORDER BY ec.trade_date, ec.stock_id
+        ORDER BY ec.trade_date DESC
     ";
     $stmt = $pdo->prepare($sql);
     $params = array_merge($stockIds, [$targetDate, $etfId]);
