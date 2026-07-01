@@ -11,7 +11,7 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
         $marginData = null;
         $SBLTotalData = null;
         $SBLSoldData = null;
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             if ($historyData === null) $historyData = getHistory($pdo, $targetDate);
             if ($instiData === null) $instiData = getInsti($pdo, $targetDate);
             if ($marginData === null) $marginData = getMargin($pdo, $targetDate);
@@ -25,11 +25,11 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
             }
         }
         // 資料不足且有抓到資料才新增
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && $historyData !== null) insertHistory($pdo, $targetDate, $historyData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && $instiData !== null) insertInsti($pdo, $targetDate, $instiData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) && $marginData !== null) insertMargin($pdo, $targetDate, $marginData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) && $SBLTotalData !== null) insertSBLTotal($pdo, $targetDate, $SBLTotalData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && $SBLSoldData !== null) insertSBLSold($pdo, $targetDate, $SBLSoldData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && $historyData !== null && count($historyData) > 0) insertHistory($pdo, $targetDate, $historyData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && $instiData !== null && count($instiData) > 0) insertInsti($pdo, $targetDate, $instiData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) && $marginData !== null && count($marginData) > 0) insertMargin($pdo, $targetDate, $marginData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) && $SBLTotalData !== null && count($SBLTotalData) > 0) insertSBLTotal($pdo, $targetDate, $SBLTotalData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && $SBLSoldData !== null && count($SBLSoldData) > 0) insertSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'updateAllHistory', "更新盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
