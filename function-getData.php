@@ -17,7 +17,7 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
             if ($marginData === null) $marginData = getMargin($pdo, $targetDate);
             if ($SBLTotalData === null) $SBLTotalData = getSBLTotal($pdo, $targetDate);
             if ($SBLSoldData === null) $SBLSoldData = getSBLSold($pdo, $targetDate);
-            if ($historyData !== null || $instiData !== null || $marginData !== null || $SBLTotalData !== null || $SBLSoldData !== null) {
+            if ($historyData !== null && $instiData !== null && $marginData !== null && $SBLTotalData !== null && $SBLSoldData !== null) {
                 break;
             } else {
                 writeLog($pdo, 'updateAllHistory', "第 {$i} 次抓取完成, 尚有缺漏資料, 60秒後重試", 'error');
