@@ -1329,77 +1329,44 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
     }
 }
 
-function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds)
+function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
 {
+    $stocksMap = getStocksMap();
     $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
     $sql = "
         SELECT
-            ec.stock_id,
-            ec.trade_date,
-            ec.amount,
-            sh.close_price
+            ec.stock_id stock_id,
+            ec.trade_date trade_date,
+            ec.amount amount,
+            sh.close_price close_price
         FROM etf_component ec
         LEFT JOIN stock_history sh
             ON sh.trade_date = ec.trade_date
            AND sh.stock_id = ec.stock_id
-        WHERE ec.etf_id = ?
-          AND ec.stock_id IN ($placeholders)
-          AND ec.trade_date >= (
-              SELECT trade_date
-              FROM (
-                  SELECT DISTINCT trade_date
-                  FROM etf_component
-                  WHERE etf_id = ?
-                    AND trade_date <= ?
-                  ORDER BY trade_date DESC
-                  LIMIT 59,1
-              ) x
-          )
-          AND ec.trade_date <= ?
-        ORDER BY ec.stock_id, ec.trade_date
+        WHERE ec.stock_id IN ($placeholders)
+        AND trade_date <= :trade_date
+        AND etf_id = :etfId
+        ORDER BY ec.trade_date, ec.stock_id
     ";
-    echo $sql;
-    // $params = [
-    //     $etfId,
-    //     ...$stockIds,
-    //     $etfId,
-    //     $targetDate,
-    //     $targetDate
-    // ];
-    // $stmt = $pdo->prepare($sql);
-    // $stmt->execute($params);
-    // $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // $stocks = [];
-    // $prevLots = [];
-    // foreach ($rows as $row) {
-    //     $stockId = $row['stock_id'];
-    //     if (!isset($stocks[$stockId])) {
-    //         $stocks[$stockId] = [
-    //             'stockId' => $stockId,
-    //             'series' => []
-    //         ];
-    //         $prevLots[$stockId] = null;
-    //     }
-    //     $lot = (int) round($row['amount'] / 1000);
-    //     $stocks[$stockId]['series'][] = [
-    //         'date' => date(
-    //             'm/d',
-    //             strtotime($row['trade_date'])
-    //         ),
-    //         'price' => (float) $row['close_price'],
-    //         // 單日增減張數
-    //         'bar_etf' => $prevLots[$stockId] === null
-    //             ? 0
-    //             : $lot - $prevLots[$stockId],
-    //         // ETF總持股
-    //         'line_etf' => $lot
-    //     ];
-    //     $prevLots[$stockId] = $lot;
-    // }
-    // return [
-    //     'date' => $targetDate,
-    //     'stocks' => $stocks
-    // ];
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':trade_date', $targetDate);
+    $stmt->bindValue(':etfId', $etfId);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stocks = [];
+    foreach ($rows as $row) {
+        $stocks[$row['stock_id']]['stockId'] = $row['stock_id'];
+        $stocks[$row['stock_id']]['series'][] = [
+            "date" => $row['trade_date'],
+            "stock_id" => $row['stock_id'],
+            "price" => $row['close_price'],
+            "amount" => $row['amount'] / 1000
+        ];
+    }
+    return [
+        'date' => $targetDate,
+        'stocks' => $stocks
+    ];
 }
 
 // 產業概念
