@@ -780,6 +780,11 @@
                 "title": "20日持股差異",
                 "field": "diff20",
                 "format": "number"
+            },
+            {
+                "title": "60日持股差異",
+                "field": "diff60",
+                "format": "number"
             }
         ]
     },

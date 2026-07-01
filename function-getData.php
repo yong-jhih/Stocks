@@ -11,25 +11,28 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
         $marginData = null;
         $SBLTotalData = null;
         $SBLSoldData = null;
-        for ($i = 1; $i <= 5; $i++) {
-            if ($historyData === null) $historyData = getHistory($pdo, $targetDate);
-            if ($instiData === null) $instiData = getInsti($pdo, $targetDate);
-            if ($marginData === null) $marginData = getMargin($pdo, $targetDate);
-            if ($SBLTotalData === null) $SBLTotalData = getSBLTotal($pdo, $targetDate);
-            if ($SBLSoldData === null) $SBLSoldData = getSBLSold($pdo, $targetDate);
-            if ($historyData !== null && $instiData !== null && $marginData !== null && $SBLTotalData !== null && $SBLSoldData !== null) {
+        for ($i = 1; $i <= 10; $i++) {
+            if (empty($historyData)) $historyData = getHistory($pdo, $targetDate);
+            if (empty($instiData)) $instiData = getInsti($pdo, $targetDate);
+            if (empty($marginData)) $marginData = getMargin($pdo, $targetDate);
+            if (empty($SBLTotalData)) $SBLTotalData = getSBLTotal($pdo, $targetDate);
+            if (empty($SBLSoldData)) $SBLSoldData = getSBLSold($pdo, $targetDate);
+            if (!empty($historyData) && !empty($instiData) && !empty($marginData) && !empty($SBLTotalData) && !empty($SBLSoldData)) {
                 break;
             } else {
-                writeLog($pdo, 'updateAllHistory', "第 {$i} 次抓取完成, 尚有缺漏資料, 60秒後重試", 'error');
-                sleep(60);
+                if ($i <= 9) {
+                    writeLog($pdo, 'updateAllHistory', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                    sleep(60);
+                } else {
+                    writeLog($pdo, 'updateAllHistory', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 直接寫入現有資料", 'warning');
+                }
             }
         }
-        // 資料不足且有抓到資料才新增
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && $historyData !== null && count($historyData) > 0) insertHistory($pdo, $targetDate, $historyData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && $instiData !== null && count($instiData) > 0) insertInsti($pdo, $targetDate, $instiData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) && $marginData !== null && count($marginData) > 0) insertMargin($pdo, $targetDate, $marginData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) && $SBLTotalData !== null && count($SBLTotalData) > 0) insertSBLTotal($pdo, $targetDate, $SBLTotalData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && $SBLSoldData !== null && count($SBLSoldData) > 0) insertSBLSold($pdo, $targetDate, $SBLSoldData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) && !empty($historyData)) insertHistory($pdo, $targetDate, $historyData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) && !empty($instiData)) insertInsti($pdo, $targetDate, $instiData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) && !empty($marginData)) insertMargin($pdo, $targetDate, $marginData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) && !empty($SBLTotalData)) insertSBLTotal($pdo, $targetDate, $SBLTotalData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && !empty($SBLSoldData)) insertSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'updateAllHistory', "更新盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
@@ -1225,7 +1228,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
 {
     try {
         $stocksMap = getStocksMap();
-        $intervals = [1, 5, 10, 20];
+        $intervals = [1, 5, 10, 20, 60];
         $compareDates = [];
         foreach ($intervals as $days) {
             $dateSql = "SELECT DISTINCT trade_date FROM etf_component 
@@ -1247,19 +1250,22 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d1.amount, 0))) as diff1,
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d5.amount, 0))) as diff5,
                 (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d10.amount, 0))) as diff10,
-                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d20.amount, 0))) as diff20,
+                (MAX(IFNULL(curr.amount, 0)) - MAX(IFNULL(d60.amount, 0))) as diff60
             FROM (
                 SELECT stock_id FROM etf_component WHERE trade_date = :targetDate AND etf_id = :etf_id
                 UNION SELECT stock_id FROM etf_component WHERE trade_date = :d1 AND etf_id = :etf_id
                 UNION SELECT stock_id FROM etf_component WHERE trade_date = :d5 AND etf_id = :etf_id
                 UNION SELECT stock_id FROM etf_component WHERE trade_date = :d10 AND etf_id = :etf_id
                 UNION SELECT stock_id FROM etf_component WHERE trade_date = :d20 AND etf_id = :etf_id
+                UNION SELECT stock_id FROM etf_component WHERE trade_date = :d60 AND etf_id = :etf_id
             ) all_ids
             LEFT JOIN etf_component curr ON all_ids.stock_id = curr.stock_id AND curr.trade_date = :targetDate AND curr.etf_id = :etf_id
             LEFT JOIN etf_component d1 ON all_ids.stock_id = d1.stock_id AND d1.trade_date = :d1 AND d1.etf_id = :etf_id
             LEFT JOIN etf_component d5 ON all_ids.stock_id = d5.stock_id AND d5.trade_date = :d5 AND d5.etf_id = :etf_id
             LEFT JOIN etf_component d10 ON all_ids.stock_id = d10.stock_id AND d10.trade_date = :d10 AND d10.etf_id = :etf_id
             LEFT JOIN etf_component d20 ON all_ids.stock_id = d20.stock_id AND d20.trade_date = :d20 AND d20.etf_id = :etf_id
+            LEFT JOIN etf_component d60 ON all_ids.stock_id = d60.stock_id AND d60.trade_date = :d60 AND d60.etf_id = :etf_id
             GROUP BY all_ids.stock_id
             ORDER BY weight DESC, amount DESC, all_ids.stock_id ASC
         ";
@@ -1270,6 +1276,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
         $stmt->bindValue(':d5', $compareDates[5]);
         $stmt->bindValue(':d10', $compareDates[10]);
         $stmt->bindValue(':d20', $compareDates[20]);
+        $stmt->bindValue(':d60', $compareDates[60]);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) throw new RuntimeException("查詢不到 {$etf_id} 成分股歷史資料");
@@ -1309,7 +1316,8 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
                 'diff1'      => (int)$diff1,
                 'diff5'      => (int)$item['diff5'],
                 'diff10'     => (int)$item['diff10'],
-                'diff20'     => (int)$item['diff20']
+                'diff20'     => (int)$item['diff20'],
+                'diff60'     => (int)$item['diff60']
             ];
         }
         $notificationStr = "{$etf_id} 成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
