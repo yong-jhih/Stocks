@@ -1,5 +1,54 @@
 [
     {
+        "id": 7050002,
+        "log_time": "2026-07-01 20:09:19",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 8.35 秒",
+        "result": "end"
+    },
+    {
+        "id": 7050001,
+        "log_time": "2026-07-01 20:09:11",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-01], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 7020003,
+        "log_time": "2026-07-01 16:32:30",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3106 天)",
+        "result": "error"
+    },
+    {
+        "id": 7020002,
+        "log_time": "2026-07-01 16:28:48",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3106 天)",
+        "result": "error"
+    },
+    {
+        "id": 7020001,
+        "log_time": "2026-07-01 16:25:34",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3106 天)",
+        "result": "error"
+    },
+    {
+        "id": 6990001,
+        "log_time": "2026-07-01 16:18:58",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3106 天)",
+        "result": "error"
+    },
+    {
+        "id": 6960001,
+        "log_time": "2026-06-30 22:43:12",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所資料異常：回傳日期 (2017-12-29) 與今日差距過大 (3105 天)",
+        "result": "error"
+    },
+    {
         "id": 6930004,
         "log_time": "2026-06-30 21:45:24",
         "log_type": "generateDailyDashboard",
