@@ -1353,6 +1353,7 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stocks = [];
     foreach ($rows as $row) {
+        if (count($stocks[$row['stock_id']]['series']) == 60) continue;
         $stocks[$row['stock_id']]['stockId'] = $row['stock_id'];
         $stocks[$row['stock_id']]['series'][] = [
             "date" => $row['trade_date'],

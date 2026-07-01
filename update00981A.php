@@ -11,6 +11,13 @@ try {
     $lineNotifyStr = $analyzeMultiPeriodChanges[1];
     createJsonFile($pdo, $targetDate . '_componentOf00981A', $analysis, 'data');
     updateDateList($targetDate);
+    $stockIds = [];
+    $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00981A.json"), true);
+    foreach ($a as $v) {
+        $stockIds[] = $v['stock_id'];
+    }
+    $result = getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
+    createJsonFile($pdo, $targetDate . '_00981A_charts', $result);
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
     writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
