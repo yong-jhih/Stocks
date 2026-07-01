@@ -9,7 +9,7 @@
             "table": "filter.json",
             "chart": "charts.json"
         },
-        "illustrate_main": "※ 核心規則：僅上市個股，需同時滿足以下條件。建議短線觀測週期約 2 週。",
+        "illustrate_main": "※ 核心規則：僅上市個股，需同時滿足以下條件，較為嚴苛可能多日無資料。建議短線觀測週期約 2 週。",
         "illustrate": [
             {
                 "condition": "基礎量能門檻",
