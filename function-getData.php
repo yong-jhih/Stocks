@@ -1331,7 +1331,6 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
 
 function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
 {
-    $stocksMap = getStocksMap();
     $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
     $sql = "
         SELECT
@@ -1344,14 +1343,13 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
             ON sh.trade_date = ec.trade_date
            AND sh.stock_id = ec.stock_id
         WHERE ec.stock_id IN ($placeholders)
-        AND trade_date <= :trade_date
-        AND etf_id = :etfId
+        AND trade_date <= ?
+        AND etf_id = ?
         ORDER BY ec.trade_date, ec.stock_id
     ";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':trade_date', $targetDate);
-    $stmt->bindValue(':etfId', $etfId);
-    $stmt->execute();
+    $params = array_merge($stockIds, [$targetDate, $etfId]);
+    $stmt->execute($params);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stocks = [];
     foreach ($rows as $row) {
