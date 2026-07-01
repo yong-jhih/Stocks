@@ -8,5 +8,5 @@ foreach ($a as $v) {
     $stockIds[] = $v['stock_id'];
 }
 echo json_encode($stockIds);
-// $result = getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
+getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
 // createJsonFile($pdo, $targetDate . '_test', $result);

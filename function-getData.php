@@ -1329,7 +1329,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
     }
 }
 
-function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
+function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds)
 {
     $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
     $sql = "
@@ -1358,47 +1358,48 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
           AND ec.trade_date <= ?
         ORDER BY ec.stock_id, ec.trade_date
     ";
-    $params = [
-        $etfId,
-        ...$stockIds,
-        $etfId,
-        $targetDate,
-        $targetDate
-    ];
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $stocks = [];
-    $prevLots = [];
-    foreach ($rows as $row) {
-        $stockId = $row['stock_id'];
-        if (!isset($stocks[$stockId])) {
-            $stocks[$stockId] = [
-                'stockId' => $stockId,
-                'series' => []
-            ];
-            $prevLots[$stockId] = null;
-        }
-        $lot = (int) round($row['amount'] / 1000);
-        $stocks[$stockId]['series'][] = [
-            'date' => date(
-                'm/d',
-                strtotime($row['trade_date'])
-            ),
-            'price' => (float) $row['close_price'],
-            // 單日增減張數
-            'bar_etf' => $prevLots[$stockId] === null
-                ? 0
-                : $lot - $prevLots[$stockId],
-            // ETF總持股
-            'line_etf' => $lot
-        ];
-        $prevLots[$stockId] = $lot;
-    }
-    return [
-        'date' => $targetDate,
-        'stocks' => $stocks
-    ];
+    echo $sql;
+    // $params = [
+    //     $etfId,
+    //     ...$stockIds,
+    //     $etfId,
+    //     $targetDate,
+    //     $targetDate
+    // ];
+    // $stmt = $pdo->prepare($sql);
+    // $stmt->execute($params);
+    // $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // $stocks = [];
+    // $prevLots = [];
+    // foreach ($rows as $row) {
+    //     $stockId = $row['stock_id'];
+    //     if (!isset($stocks[$stockId])) {
+    //         $stocks[$stockId] = [
+    //             'stockId' => $stockId,
+    //             'series' => []
+    //         ];
+    //         $prevLots[$stockId] = null;
+    //     }
+    //     $lot = (int) round($row['amount'] / 1000);
+    //     $stocks[$stockId]['series'][] = [
+    //         'date' => date(
+    //             'm/d',
+    //             strtotime($row['trade_date'])
+    //         ),
+    //         'price' => (float) $row['close_price'],
+    //         // 單日增減張數
+    //         'bar_etf' => $prevLots[$stockId] === null
+    //             ? 0
+    //             : $lot - $prevLots[$stockId],
+    //         // ETF總持股
+    //         'line_etf' => $lot
+    //     ];
+    //     $prevLots[$stockId] = $lot;
+    // }
+    // return [
+    //     'date' => $targetDate,
+    //     'stocks' => $stocks
+    // ];
 }
 
 // 產業概念
