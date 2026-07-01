@@ -1331,45 +1331,6 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
 
 function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
 {
-    $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
-    $sql = "
-        SELECT
-            ec.stock_id stock_id,
-            ec.trade_date trade_date,
-            ec.amount amount,
-            sh.close_price close_price
-        FROM etf_component ec
-        LEFT JOIN stock_history sh
-            ON sh.trade_date = ec.trade_date
-           AND sh.stock_id = ec.stock_id
-        WHERE ec.stock_id IN ($placeholders)
-        AND ec.trade_date <= ?
-        AND etf_id = ?
-        ORDER BY ec.trade_date DESC
-    ";
-    $stmt = $pdo->prepare($sql);
-    $params = array_merge($stockIds, [$targetDate, $etfId]);
-    $stmt->execute($params);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $stocks = [];
-    foreach ($rows as $row) {
-        if (count($stocks[$row['stock_id']]['series']) == 60) continue;
-        $stocks[$row['stock_id']]['stockId'] = $row['stock_id'];
-        $stocks[$row['stock_id']]['series'][] = [
-            "date" => $row['trade_date'],
-            "stock_id" => $row['stock_id'],
-            "price" => $row['close_price'],
-            "amount" => $row['amount'] / 1000
-        ];
-    }
-    return [
-        'date' => $targetDate,
-        'stocks' => $stocks
-    ];
-}
-
-function getEtfComponentChartDataTest(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
-{
     if (empty($stockIds)) {
         return ['date' => $targetDate, 'stocks' => []];
     }
