@@ -1343,7 +1343,7 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
             ON sh.trade_date = ec.trade_date
            AND sh.stock_id = ec.stock_id
         WHERE ec.stock_id IN ($placeholders)
-        AND trade_date <= ?
+        AND ec.trade_date <= ?
         AND etf_id = ?
         ORDER BY ec.trade_date, ec.stock_id
     ";
