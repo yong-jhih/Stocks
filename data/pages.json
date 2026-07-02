@@ -9,6 +9,89 @@
             "table": "filter.json",
             "chart": "charts.json"
         },
+        "chart": {
+            "title": "籌碼分析",
+            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "bar_inst",
+                    "name": "法人買賣超",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#ef4444",
+                    "negativeColor": "#22c55e"
+                },
+                {
+                    "field": "bar_margin",
+                    "name": "融資增減",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#fb923c",
+                    "negativeColor": "#38bdf8"
+                },
+                {
+                    "field": "bar_sbl",
+                    "name": "借券淨賣還",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#a855f7",
+                    "negativeColor": "#64748b"
+                },
+                {
+                    "field": "line_inst5",
+                    "name": "法人5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                },
+                {
+                    "field": "line_margin5",
+                    "name": "融資5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#38bdf8"
+                },
+                {
+                    "field": "line_sbl5",
+                    "name": "借券5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#c084fc"
+                }
+            ]
+        },
         "illustrate_main": "※ 核心規則：僅上市個股，需同時滿足以下條件，較為嚴苛可能多日無資料。建議短線觀測週期約 2 週。",
         "illustrate": [
             {
@@ -258,6 +341,89 @@
             "table": "self-select.json",
             "chart": "self-charts.json"
         },
+        "chart": {
+            "title": "籌碼分析",
+            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "bar_inst",
+                    "name": "法人買賣超",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#ef4444",
+                    "negativeColor": "#22c55e"
+                },
+                {
+                    "field": "bar_margin",
+                    "name": "融資增減",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#fb923c",
+                    "negativeColor": "#38bdf8"
+                },
+                {
+                    "field": "bar_sbl",
+                    "name": "借券淨賣還",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#a855f7",
+                    "negativeColor": "#64748b"
+                },
+                {
+                    "field": "line_inst5",
+                    "name": "法人5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                },
+                {
+                    "field": "line_margin5",
+                    "name": "融資5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#38bdf8"
+                },
+                {
+                    "field": "line_sbl5",
+                    "name": "借券5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#c084fc"
+                }
+            ]
+        },
         "datatable": {
             "order": [
                 5,
@@ -475,13 +641,96 @@
     },
     {
         "page": "topPerforming",
-        "title": "市場評分排行",
+        "title": "市場評分排行(僅上市)",
         "enableChart": true,
         "enableTag": true,
         "useDate": true,
         "dataSource": {
             "table": "topPerforming.json",
             "chart": "topPerforming-charts.json"
+        },
+        "chart": {
+            "title": "籌碼分析",
+            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "bar_inst",
+                    "name": "法人買賣超",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#ef4444",
+                    "negativeColor": "#22c55e"
+                },
+                {
+                    "field": "bar_margin",
+                    "name": "融資增減",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#fb923c",
+                    "negativeColor": "#38bdf8"
+                },
+                {
+                    "field": "bar_sbl",
+                    "name": "借券淨賣還",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#a855f7",
+                    "negativeColor": "#64748b"
+                },
+                {
+                    "field": "line_inst5",
+                    "name": "法人5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                },
+                {
+                    "field": "line_margin5",
+                    "name": "融資5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#38bdf8"
+                },
+                {
+                    "field": "line_sbl5",
+                    "name": "借券5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#c084fc"
+                }
+            ]
         },
         "datatable": {
             "order": [
@@ -706,7 +955,44 @@
         "useDate": true,
         "dataSource": {
             "table": "componentOf00981A.json",
-            "chart": "topPerforming-charts.json"
+            "chart": "00981A-charts.json"
+        },
+        "chart": {
+            "title": "成分股分析",
+            "subTitle": "折線：持股數 & 價格 (僅上市有價格資料)",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "amount",
+                    "name": "持股數",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                }
+            ]
         },
         "datatable": {
             "order": [

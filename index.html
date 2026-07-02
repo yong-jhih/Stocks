@@ -495,7 +495,7 @@
             <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-800/40">
                 <div>
                     <h2 class="text-2xl font-bold text-white">個股趨勢</h2>
-                    <p class="text-slate-400 text-sm mt-1">折線：5日累計 & 價格 | 柱狀：每日增減</p>
+                    <p id="chartSubTitle" class="text-slate-400 text-sm mt-1"></p>
                 </div>
                 <button onclick="closeModal('chartModal')"
                     class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-700 text-slate-300 text-2xl">✕</button>
@@ -666,6 +666,9 @@
         let cachedChartData = {};
         $(document).ready(async function () {
             await loadPageData();
+            $('#chartSubTitle').text(
+                page_info.chart?.subTitle || ''
+            );
             $('#stockTable tbody').on('click', '.tag-btn', function (e) {
                 e.stopPropagation();
                 const name = $(this).data('name');
@@ -877,190 +880,239 @@
                 console.error("載入圖表 JSON 失敗:", error);
             }
         }
+        function buildChartOption(
+            id,
+            name,
+            stockData,
+            chartConfig
+        ) {
+
+            const isMobile = window.innerWidth < 768;
+
+            const dates = stockData.series.map(x => x.date);
+
+            const series = chartConfig.series.map(cfg => {
+
+                const values =
+                    stockData.series.map(x => x[cfg.field]);
+
+                //----------------------------------
+                // BAR
+                //----------------------------------
+
+                if (cfg.type === 'bar') {
+
+                    return {
+                        name: cfg.name,
+
+                        type: 'bar',
+
+                        data: values,
+
+                        yAxisIndex: cfg.yAxisIndex,
+
+                        barMaxWidth:
+                            isMobile ? 10 : 18,
+
+                        itemStyle: {
+                            color: params =>
+                                params.value >= 0
+                                    ? cfg.positiveColor
+                                    : cfg.negativeColor
+                        }
+                    };
+                }
+
+                //----------------------------------
+                // LINE
+                //----------------------------------
+
+                return {
+
+                    name: cfg.name,
+
+                    type: 'line',
+
+                    data: values,
+
+                    yAxisIndex: cfg.yAxisIndex,
+
+                    smooth: cfg.smooth,
+
+                    symbol: cfg.symbol,
+
+                    symbolSize: cfg.symbolSize,
+
+                    lineStyle: {
+                        width: cfg.lineWidth,
+                        type: cfg.lineType,
+                        color: cfg.color
+                    },
+
+                    itemStyle: {
+                        color: cfg.color
+                    }
+                };
+
+            });
+
+            return {
+
+                title: {
+                    text: `${id} ${name} ${chartConfig.title}`,
+                    left: 'center'
+                },
+
+                tooltip: {
+                    trigger: 'axis',
+
+                    backgroundColor: '#0f172a',
+
+                    borderColor: '#334155',
+
+                    textStyle: {
+                        color: '#e2e8f0'
+                    },
+
+                    axisPointer: {
+                        type: 'cross'
+                    }
+                },
+
+                legend: {
+
+                    bottom: 0,
+
+                    textStyle: {
+                        color: '#cbd5e1',
+                        fontSize: isMobile ? 10 : 12
+                    },
+
+                    itemWidth:
+                        isMobile ? 12 : 20,
+
+                    itemHeight:
+                        isMobile ? 8 : 12,
+
+                    type: 'scroll'
+                },
+
+                grid: {
+
+                    left:
+                        isMobile ? 40 : 60,
+
+                    right:
+                        isMobile ? 30 : 60,
+
+                    top: 60,
+
+                    bottom:
+                        isMobile ? 80 : 60
+                },
+
+                xAxis: {
+
+                    type: 'category',
+
+                    data: dates,
+
+                    axisLine: {
+                        lineStyle: {
+                            color: '#64748b'
+                        }
+                    },
+
+                    axisLabel: {
+
+                        color: '#cbd5e1',
+
+                        fontSize:
+                            isMobile ? 10 : 12,
+
+                        rotate:
+                            isMobile ? 45 : 0
+                    }
+                },
+
+                yAxis:
+                    chartConfig.yAxis.map(y => ({
+
+                        type: 'value',
+
+                        name: y.name,
+
+                        scale: true,
+
+                        axisLine: {
+
+                            show: true,
+
+                            lineStyle: {
+                                color: y.color
+                            }
+                        },
+
+                        axisLabel: {
+                            color: y.color
+                        },
+
+                        splitLine: {
+
+                            lineStyle: {
+                                color: '#1e293b'
+                            }
+                        }
+                    })),
+
+                series
+            };
+        }
         function openChart(id, name) {
+
             id = String(id).trim();
-            if (!cachedChartData || !cachedChartData.stocks || !cachedChartData.stocks[id]) {
-                console.error("找不到該股票的快取資料:", id);
+
+            if (
+                !cachedChartData ||
+                !cachedChartData.stocks ||
+                !cachedChartData.stocks[id]
+            ) {
                 return;
             }
+
             openModal('chartModal');
-            const stockData = cachedChartData.stocks[id];
-            const s = stockData.series;
-            const dates = s.map(item => item.date);
-            const prices = s.map(item => item.price);
-            const instBars = s.map(item => item.bar_inst);
-            const marginBars = s.map(item => item.bar_margin);
-            const sblBars = s.map(item => item.bar_sbl);
-            const instLine = s.map(item => item.line_inst5);
-            const marginLine = s.map(item => item.line_margin5);
-            const sblLine = s.map(item => item.line_sbl5);
+
+            const stockData =
+                cachedChartData.stocks[id];
+
             requestAnimationFrame(() => {
-                const chartDom = document.getElementById('mainChart');
+
+                const chartDom =
+                    document.getElementById('mainChart');
+
                 if (chartInstance) {
                     chartInstance.dispose();
                 }
-                chartInstance = echarts.init(chartDom, 'dark');
-                const isMobile = window.innerWidth < 768;
-                const option = {
-                    title: { text: `${id} ${name} 籌碼分析`, left: 'center' },
-                    tooltip: {
-                        trigger: 'axis',
-                        backgroundColor: '#0f172a',
-                        borderColor: '#334155',
-                        textStyle: { color: '#e2e8f0' },
-                        axisPointer: { type: 'cross' }
-                    },
-                    legend: {
-                        bottom: isMobile ? 0 : 0,
-                        textStyle: { color: '#cbd5e1', fontSize: isMobile ? 10 : 12 },
-                        itemWidth: isMobile ? 12 : 20,
-                        itemHeight: isMobile ? 8 : 12,
-                        type: 'scroll'
-                    },
-                    grid: {
-                        left: isMobile ? 40 : 60,
-                        right: isMobile ? 30 : 60,
-                        top: 60,
-                        bottom: isMobile ? 80 : 60
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: dates,
-                        axisLine: {
-                            lineStyle: { color: '#64748b' }
-                        },
-                        axisLabel: {
-                            color: '#cbd5e1',
-                            fontSize: isMobile ? 10 : 12,
-                            rotate: isMobile ? 45 : 0
-                        }
-                    },
-                    yAxis: [
-                        {
-                            type: 'value',
-                            name: '股價',
-                            position: 'left',
-                            scale: true,
-                            axisLine: {
-                                show: true,
-                                lineStyle: { color: '#facc15' }
-                            },
-                            axisLabel: { color: '#facc15' },
-                            splitLine: {
-                                lineStyle: { color: '#1e293b' }
-                            }
-                        },
-                        {
-                            type: 'value',
-                            name: '籌碼',
-                            position: 'right',
-                            scale: true,
-                            axisLine: {
-                                show: true,
-                                lineStyle: {
-                                    color: '#38bdf8'
-                                }
-                            },
-                            axisLabel: {
-                                color: '#38bdf8'
-                            }
-                        }
-                    ],
-                    series: [
-                        {
-                            name: '股價',
-                            type: 'line',
-                            data: prices,
-                            yAxisIndex: 0,
-                            smooth: true,
-                            symbol: 'circle',
-                            symbolSize: 6,
-                            lineStyle: {
-                                width: 3,
-                                color: '#facc15'
-                            },
-                            itemStyle: {
-                                color: '#facc15'
-                            }
-                        },
-                        {
-                            name: '法人買賣超',
-                            type: 'bar',
-                            barMaxWidth: isMobile ? 10 : 18,
-                            data: instBars,
-                            yAxisIndex: 1,
-                            itemStyle: {
-                                color: (params) =>
-                                    params.value >= 0 ? '#ef4444' : '#22c55e'
-                            }
-                        },
-                        {
-                            name: '融資增減',
-                            type: 'bar',
-                            barMaxWidth: isMobile ? 10 : 18,
-                            data: marginBars,
-                            yAxisIndex: 1,
-                            itemStyle: {
-                                color: (params) =>
-                                    params.value >= 0 ? '#fb923c' : '#38bdf8'
-                            }
-                        },
-                        {
-                            name: '借券淨賣還',
-                            type: 'bar',
-                            barMaxWidth: isMobile ? 10 : 18,
-                            data: sblBars,
-                            yAxisIndex: 1,
-                            itemStyle: {
-                                color: (params) =>
-                                    params.value >= 0 ? '#a855f7' : '#64748b'
-                            }
-                        },
-                        {
-                            name: '法人5日累計',
-                            type: 'line',
-                            data: instLine,
-                            yAxisIndex: 1,
-                            smooth: true,
-                            symbol: 'none',
-                            lineStyle: {
-                                width: 3,
-                                color: '#f87171'
-                            }
-                        },
-                        {
-                            name: '融資5日累計',
-                            type: 'line',
-                            data: marginLine,
-                            yAxisIndex: 1,
-                            smooth: true,
-                            symbol: 'none',
-                            lineStyle: {
-                                width: 2,
-                                type: 'dashed',
-                                color: '#38bdf8'
-                            }
-                        },
-                        {
-                            name: '借券5日累計',
-                            type: 'line',
-                            data: sblLine,
-                            yAxisIndex: 1,
-                            smooth: true,
-                            symbol: 'none',
-                            lineStyle: {
-                                width: 2,
-                                type: 'dashed',
-                                color: '#c084fc'
-                            }
-                        }
-                    ]
-                };
+
+                chartInstance =
+                    echarts.init(chartDom, 'dark');
+
+                const option =
+                    buildChartOption(
+                        id,
+                        name,
+                        stockData,
+                        page_info.chart
+                    );
+
                 chartInstance.setOption(option);
+
                 setTimeout(() => {
                     chartInstance.resize();
                 }, 50);
+
             });
+
         }
         function openModal(id) {
             $(`#${id}`)
