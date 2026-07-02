@@ -289,7 +289,16 @@ function cleanData(int $days): void
             echo "❌ 寫入 JSON 失敗，請檢查權限。<br>";
             return;
         }
-        $targetFiles = ["*_filter.json", "*_self-select.json", "*_componentOf00981A.json", "*_charts.json", "*_self-charts.json", "*_topPerforming.json", "*_topPerforming-charts.json"];
+        $targetFiles = [
+            "*_00981A-charts.json",
+            "*_charts.json",
+            "*_componentOf00981A.json",
+            "*_filter.json",
+            "*_self-charts.json",
+            "*_self-select.json",
+            "*_topPerforming-charts.json",
+            "*_topPerforming.json"
+        ];
         foreach ($targetFiles as $pattern) {
             $allFiles = glob("data/" . $pattern);
             if ($allFiles) {

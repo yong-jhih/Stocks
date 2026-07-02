@@ -17,7 +17,7 @@ try {
         $stockIds[] = $v['stock_id'];
     }
     $result = getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
-    createJsonFile($pdo, $targetDate . '_00981A_charts', $result);
+    createJsonFile($pdo, $targetDate . '_00981A-charts', $result);
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
     writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
