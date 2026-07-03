@@ -1,5 +1,12 @@
 <?php
 
+function getStocksMap(): array
+{
+    static $stock = null;
+    if ($stock === null) $stock = json_decode(file_get_contents('data/stockProfileList.json'), true);
+    return $stock;
+}
+
 // TSE歷史資料更新
 function updateAllHistory(PDO $pdo, string $targetDate): void
 {
@@ -376,13 +383,6 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
     $dashboardResults = outputModel($pdo, $stocks);
     writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
-}
-
-function getStocksMap(): array
-{
-    static $stock = null;
-    if ($stock === null) $stock = json_decode(file_get_contents('data/stockProfileList.json'), true);
-    return $stock;
 }
 
 function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
@@ -1424,6 +1424,15 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
 }
 
 // 產業概念
+function getIndustryMap(): array
+{
+    static $industry = null;
+    if ($industry === null) {
+        $industry = json_decode(file_get_contents('data/industry_code.json'), true);
+    }
+    return $industry;
+}
+
 function getStockProfileTSE(PDO $pdo): array
 {
     $stocksTSE = [];
@@ -1549,15 +1558,6 @@ function getStockProfileETF(PDO $pdo): array
     }
     writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
     throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
-}
-
-function getIndustryMap(): array
-{
-    static $industry = null;
-    if ($industry === null) {
-        $industry = json_decode(file_get_contents('data/industry_code.json'), true);
-    }
-    return $industry;
 }
 
 function updateIndustry(PDO $pdo, array $stocks): void
