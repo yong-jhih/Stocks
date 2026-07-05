@@ -488,12 +488,5 @@
         "log_type": "update00981A",
         "content": "00981A 成分股資料更新完成,共耗時 8.35 秒",
         "result": "end"
-    },
-    {
-        "id": 7050001,
-        "log_time": "2026-07-01 20:09:11",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-07-01], 開始更新 00981A 成分股資料",
-        "result": "start"
     }
 ]
