@@ -11707,7 +11707,7 @@
     },
     "8472": {
         "stock_id": "8472",
-        "stock_name": "納維康",
+        "stock_name": "夠麻吉",
         "stock_type": "TPEx",
         "industry": "數位雲端"
     },
@@ -13061,12 +13061,6 @@
         "stock_type": "ESM",
         "industry": "半導體業"
     },
-    "7418": {
-        "stock_id": "7418",
-        "stock_name": "香繼光",
-        "stock_type": "ESM",
-        "industry": "觀光餐旅"
-    },
     "7419": {
         "stock_id": "7419",
         "stock_name": "達勝",
@@ -13942,12 +13936,6 @@
         "stock_name": "碩通",
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
-    },
-    "7931": {
-        "stock_id": "7931",
-        "stock_name": "續升綠能",
-        "stock_type": "ESM",
-        "industry": "綠能環保"
     },
     "8058": {
         "stock_id": "8058",
