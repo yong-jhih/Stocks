@@ -1311,13 +1311,13 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
                 'stock_id'   => (string)$item['stock_id'],
                 'stock_name' => (string)$stockName,
                 'note'       => $note,
-                'amount'     => $currAmount,
+                'amount'     => (float)($currAmount / 1000),
                 'weight'     => (float)$item['weight'],
-                'diff1'      => (int)$diff1,
-                'diff5'      => (int)$item['diff5'],
-                'diff10'     => (int)$item['diff10'],
-                'diff20'     => (int)$item['diff20'],
-                'diff60'     => (int)$item['diff60']
+                'diff1'      => (float)($diff1 / 1000),
+                'diff5'      => (float)((int)$item['diff5'] / 1000),
+                'diff10'     => (float)((int)$item['diff10'] / 1000),
+                'diff20'     => (float)((int)$item['diff20'] / 1000),
+                'diff60'     => (float)((int)$item['diff60'] / 1000)
             ];
         }
         $notificationStr = "{$etf_id} 成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
