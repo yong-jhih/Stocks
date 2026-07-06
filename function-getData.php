@@ -1433,7 +1433,7 @@ function getIndustryMap(): array
     return $industry;
 }
 
-function getStockProfileTSE(PDO $pdo): array
+function getStockProfileTSE(PDO $pdo): ?array
 {
     $stocksTSE = [];
     $industry = getIndustryMap();
@@ -1462,10 +1462,11 @@ function getStockProfileTSE(PDO $pdo): array
         return $stocksTSE;
     }
     writeLog($pdo, 'getStockProfileTSE', "執行 3 次失敗,退出", 'error');
-    throw new RuntimeException('取得上市公司基本資料, 執行 3 次失敗,退出');
+    // throw new RuntimeException('取得上市公司基本資料, 執行 3 次失敗,退出');
+    return null;
 }
 
-function getStockProfileTPEx(PDO $pdo): array
+function getStockProfileTPEx(PDO $pdo): ?array
 {
     $stocksOTC = [];
     $industry = getIndustryMap();
@@ -1494,10 +1495,11 @@ function getStockProfileTPEx(PDO $pdo): array
         return $stocksOTC;
     }
     writeLog($pdo, 'getStockProfileTPEx', "執行 3 次失敗,退出", 'error');
-    throw new RuntimeException('取得上櫃公司基本資料, 執行 3 次失敗,退出');
+    // throw new RuntimeException('取得上櫃公司基本資料, 執行 3 次失敗,退出');
+    return null;
 }
 
-function getStockProfileESM(PDO $pdo): array
+function getStockProfileESM(PDO $pdo): ?array
 {
     $stocksESM = [];
     $industry = getIndustryMap();
@@ -1526,10 +1528,11 @@ function getStockProfileESM(PDO $pdo): array
         return $stocksESM;
     }
     writeLog($pdo, 'getStockProfileESM', "執行 3 次失敗,退出", 'error');
-    throw new RuntimeException('取得興櫃公司基本資料, 執行 3 次失敗,退出');
+    // throw new RuntimeException('取得興櫃公司基本資料, 執行 3 次失敗,退出');
+    return null;
 }
 
-function getStockProfileETF(PDO $pdo): array
+function getStockProfileETF(PDO $pdo): ?array
 {
     $stocksETF = [];
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap47_L";
@@ -1557,7 +1560,8 @@ function getStockProfileETF(PDO $pdo): array
         return $stocksETF;
     }
     writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
-    throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
+    // throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
+    return null;
 }
 
 function updateIndustry(PDO $pdo, array $stocks): void
@@ -1780,10 +1784,27 @@ function updateStockProfile(PDO $pdo): void
     $start_time = microtime(true);
     writeLog($pdo, 'updateStockProfile', '開始更新基本資料及產業別及次產業概念', 'start');
     try {
-        $stocksTSE = getStockProfileTSE($pdo);
-        $stocksTPEx = getStockProfileTPEx($pdo);
-        $stocksESM = getStockProfileESM($pdo);
-        $stocksETF = getStockProfileETF($pdo);
+        $stocksTSE = null;
+        $stocksTPEx = null;
+        $stocksESM = null;
+        $stocksETF = null;
+        for ($i = 1; $i <= 10; $i++) {
+            if (empty($stocksTSE)) $stocksTSE = getStockProfileTSE($pdo);
+            if (empty($stocksTPEx)) $stocksTPEx = getStockProfileTPEx($pdo);
+            if (empty($stocksESM)) $stocksESM = getStockProfileESM($pdo);
+            if (empty($stocksETF)) $stocksETF = getStockProfileETF($pdo);
+            if (!empty($stocksTSE) && !empty($stocksTPEx) && !empty($stocksESM) && !empty($stocksETF)) {
+                break;
+            } else {
+                if ($i <= 9) {
+                    writeLog($pdo, 'updateStockProfile', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                    sleep(60);
+                } else {
+                    writeLog($pdo, 'updateStockProfile', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新基本資料", 'error');
+                    exit(1);
+                }
+            }
+        }
         $stocks = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM];
         $stocksMix = [...$stocksTSE, ...$stocksTPEx, ...$stocksESM, ...$stocksETF];
         $stocks_R = array_column($stocks, null, 'stock_id');
