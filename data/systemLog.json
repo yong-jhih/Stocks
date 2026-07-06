@@ -1,5 +1,82 @@
 [
     {
+        "id": 7560004,
+        "log_time": "2026-07-06 21:45:12",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-06] 盤後篩選及評分排行已完成, 共耗時 109.09 秒",
+        "result": "end"
+    },
+    {
+        "id": 7560003,
+        "log_time": "2026-07-06 21:43:30",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-06] 排行分析完成，共 610 檔",
+        "result": "success"
+    },
+    {
+        "id": 7560002,
+        "log_time": "2026-07-06 21:43:26",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-06] 篩選分析完成，共 3 檔",
+        "result": "success"
+    },
+    {
+        "id": 7560001,
+        "log_time": "2026-07-06 21:43:23",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-06] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 7530148,
+        "log_time": "2026-07-06 21:29:36",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 7530147,
+        "log_time": "2026-07-06 21:29:36",
+        "log_type": "updateAllHistory",
+        "content": "更新盤後資料結束, 共耗時   462.25   秒",
+        "result": "end"
+    },
+    {
+        "id": 7530146,
+        "log_time": "2026-07-06 21:29:36",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-06 借券賣出餘額 更新完成,共新增 1055 筆,耗時 146.67 秒",
+        "result": "success"
+    },
+    {
+        "id": 7530145,
+        "log_time": "2026-07-06 21:27:09",
+        "log_type": "insertSBLTotal",
+        "content": "2026-07-06 借券餘額 更新完成,共新增 995 筆,耗時 138.26 秒",
+        "result": "success"
+    },
+    {
+        "id": 7530144,
+        "log_time": "2026-07-06 21:24:50",
+        "log_type": "insertInsti",
+        "content": "2026-07-06 三大法人買賣超 更新完成,共新增 1071 筆,耗時 149.09 秒",
+        "result": "success"
+    },
+    {
+        "id": 7530143,
+        "log_time": "2026-07-06 21:21:53",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-07-06] 開始更新盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 7530142,
+        "log_time": "2026-07-06 21:21:53",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-07-06] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 7530141,
         "log_time": "2026-07-06 21:21:25",
         "log_type": "updateAllHistory",
