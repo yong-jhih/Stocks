@@ -1,12 +1,5 @@
 [
     {
-        "id": 7590001,
-        "log_time": "2026-07-07 10:10:51",
-        "log_type": "getLatestTradingDateWithTWSE",
-        "content": "證交所回傳錯誤訊息：很抱歉，沒有符合條件的資料!",
-        "result": "error"
-    },
-    {
         "id": 7560004,
         "log_time": "2026-07-06 21:45:12",
         "log_type": "generateDailyDashboard",
