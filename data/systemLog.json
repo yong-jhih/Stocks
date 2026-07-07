@@ -1,5 +1,61 @@
 [
     {
+        "id": 7710004,
+        "log_time": "2026-07-07 21:45:23",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-07] 盤後篩選及評分排行已完成, 共耗時 121.4 秒",
+        "result": "end"
+    },
+    {
+        "id": 7710003,
+        "log_time": "2026-07-07 21:43:30",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-07] 排行分析完成，共 609 檔",
+        "result": "success"
+    },
+    {
+        "id": 7710002,
+        "log_time": "2026-07-07 21:43:25",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-07] 篩選分析完成，共 3 檔",
+        "result": "success"
+    },
+    {
+        "id": 7710001,
+        "log_time": "2026-07-07 21:43:22",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-07] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 7680004,
+        "log_time": "2026-07-07 21:13:57",
+        "log_type": "getSBLSold",
+        "content": "取得 信用額度總量管制餘額 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 7680003,
+        "log_time": "2026-07-07 21:13:46",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 7680002,
+        "log_time": "2026-07-07 21:13:32",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 7680001,
+        "log_time": "2026-07-07 21:13:18",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
         "id": 7650009,
         "log_time": "2026-07-07 20:57:07",
         "log_type": "updateAllHistory",
