@@ -1,0 +1,26 @@
+name: Upload JSON to InfinityFree
+
+# 觸發條件：當 main 分支有 push 動作，且 data/ 目錄下的檔案有變動時
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/**.json'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Sync data folder to FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./data/
+        server-dir: /htdocs/data/
