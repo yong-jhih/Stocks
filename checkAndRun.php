@@ -12,7 +12,7 @@ if (
 }
 
 $SBLSoldData = getSBLSold($pdo, $targetDate);
-if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error') { // 未公布
+if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty($SBLSoldData)) { // 未公布
     echo 'TWT93U 信用額度總量管制餘額 資料未到齊, 等待下次觸發';
     exit(0);
 } else if ( // 已公布 檢查資料量 足夠 直接進行分析
