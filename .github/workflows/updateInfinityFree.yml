@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'data/**.json'
+      - 'data/**'
 
 jobs:
   deploy:
@@ -24,3 +24,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./data/
         server-dir: /htdocs/data/
+        dangerous-clean-slate: true
