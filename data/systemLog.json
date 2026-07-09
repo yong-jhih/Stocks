@@ -1,5 +1,26 @@
 [
     {
+        "id": 7860002,
+        "log_time": "2026-07-09 20:14:31",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 9.88 秒",
+        "result": "end"
+    },
+    {
+        "id": 7860001,
+        "log_time": "2026-07-09 20:14:21",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-09], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 7830001,
+        "log_time": "2026-07-08 22:43:20",
+        "log_type": "getLatestTradingDateWithTWSE",
+        "content": "證交所回傳錯誤訊息：未知錯誤",
+        "result": "error"
+    },
+    {
         "id": 7800004,
         "log_time": "2026-07-08 21:15:27",
         "log_type": "generateDailyDashboard",
