@@ -1,5 +1,68 @@
 [
     {
+        "id": 7890009,
+        "log_time": "2026-07-09 21:26:12",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 7890008,
+        "log_time": "2026-07-09 21:26:12",
+        "log_type": "updateAllHistory",
+        "content": "更新盤後資料結束, 共耗時   651.22   秒",
+        "result": "end"
+    },
+    {
+        "id": 7890007,
+        "log_time": "2026-07-09 21:26:11",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-09 借券賣出餘額 更新完成,共新增 1056 筆,耗時 125.14 秒",
+        "result": "success"
+    },
+    {
+        "id": 7890006,
+        "log_time": "2026-07-09 21:24:06",
+        "log_type": "insertSBLTotal",
+        "content": "2026-07-09 借券餘額 更新完成,共新增 994 筆,耗時 117.66 秒",
+        "result": "success"
+    },
+    {
+        "id": 7890005,
+        "log_time": "2026-07-09 21:22:08",
+        "log_type": "insertMargin",
+        "content": "2026-07-09 融資融券彙總 更新完成,共新增 1050 筆,耗時 124.46 秒",
+        "result": "success"
+    },
+    {
+        "id": 7890004,
+        "log_time": "2026-07-09 21:20:03",
+        "log_type": "insertInsti",
+        "content": "2026-07-09 三大法人買賣超 更新完成,共新增 1075 筆,耗時 127.53 秒",
+        "result": "success"
+    },
+    {
+        "id": 7890003,
+        "log_time": "2026-07-09 21:17:56",
+        "log_type": "insertHistory",
+        "content": "2026-07-09 上市個股日成交 更新完成,共新增 1082 筆,耗時 128.21 秒",
+        "result": "success"
+    },
+    {
+        "id": 7890002,
+        "log_time": "2026-07-09 21:15:20",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-07-09] 開始更新盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 7890001,
+        "log_time": "2026-07-09 21:15:20",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-07-09] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 7860002,
         "log_time": "2026-07-09 20:14:31",
         "log_type": "update00981A",
