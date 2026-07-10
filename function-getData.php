@@ -53,7 +53,7 @@ function getHistory(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&type=ALLBUT0999&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables'])) {
             foreach ($data['tables'] as $v) {
                 if (str_contains($v['title'], "每日收盤行情") && is_array($v['data'])) {
@@ -78,7 +78,7 @@ function getInsti(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
             if (str_contains($data['title'], "三大法人買賣超日報")) {
                 $stocks = [];
@@ -101,7 +101,7 @@ function getMargin(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['tables']) && is_array($data['tables'])) {
             foreach ($data['tables'] as $v) {
                 if (str_contains($v['title'], "融資融券彙總") && is_array($v['data'])) {
@@ -125,7 +125,7 @@ function getSBLTotal(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && is_array($data['data'])) {
             if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
                 $stocks = [];
@@ -147,7 +147,7 @@ function getSBLSold(PDO $pdo, string $date): ?array
 {
     $url = "https://www.twse.com.tw/exchangeReport/TWT93U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && is_array($data['data'])) {
             if (str_contains($data['title'], "信用額度總量管制餘額")) {
                 $stocks = [];
@@ -1439,7 +1439,7 @@ function getStockProfileTSE(PDO $pdo): ?array
     $industry = getIndustryMap();
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
     for ($i = 1; $i <= 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['status']) && $data['status'] === 'error') {
             $errorMsg = $data['msg'] ?? '未知錯誤';
             writeLog($pdo, 'getStockProfileTSE', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
@@ -1472,7 +1472,7 @@ function getStockProfileTPEx(PDO $pdo): ?array
     $industry = getIndustryMap();
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O";
     for ($i = 1; $i <= 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['status']) && $data['status'] === 'error') {
             $errorMsg = $data['msg'] ?? '未知錯誤';
             writeLog($pdo, 'getStockProfileTPEx', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
@@ -1505,7 +1505,7 @@ function getStockProfileESM(PDO $pdo): ?array
     $industry = getIndustryMap();
     $url = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_R";
     for ($i = 1; $i <= 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['status']) && $data['status'] === 'error') {
             $errorMsg = $data['msg'] ?? '未知錯誤';
             writeLog($pdo, 'getStockProfileESM', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
@@ -1537,7 +1537,7 @@ function getStockProfileETF(PDO $pdo): ?array
     $stocksETF = [];
     $url = "https://openapi.twse.com.tw/v1/opendata/t187ap47_L";
     for ($i = 1; $i <= 3; $i++) {
-        $data = fetchUrl($pdo, $url);
+        $data = fetchUrl($url);
         if (isset($data['status']) && $data['status'] === 'error') {
             $errorMsg = $data['msg'] ?? '未知錯誤';
             writeLog($pdo, 'getStockProfileETF', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');

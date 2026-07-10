@@ -1,13 +1,13 @@
 <?php
 
-function getLatestTradingDateWithTWSE(PDO $pdo): ?string
+function getLatestTradingDateWithTWSE(): ?string
 {
     $url = "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json";
-    $data = fetchUrl($pdo, $url);
+    $data = fetchUrl($url);
     if (isset($data['stat']) && $data['stat'] === 'OK') {
         $rawDate = end($data['data'])[0];
         $cleanDate = str_replace('/', '', $rawDate);
-        $convertedDate = convertTaiwanDateToWestern($pdo, $cleanDate);
+        $convertedDate = convertTaiwanDateToWestern($cleanDate);
         if (!$convertedDate) {
             echo "getLatestTradingDateWithTWSE 日期格式轉換失敗\n";
             return null;
@@ -28,7 +28,7 @@ function getLatestTradingDateWithTWSE(PDO $pdo): ?string
     }
 }
 
-function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?string
+function getLatestTradingDateWithFugle(string $symbol = '2330'): ?string
 {
     $apiToken = getenv('FUGLE_TOKEN');
     if (!$apiToken) {
@@ -60,7 +60,7 @@ function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?stri
     }
 }
 
-function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
+function convertTaiwanDateToWestern(string $dateStr): ?string
 {
     if (preg_match('/^(\d{3})(\d{2})(\d{2})$/', $dateStr, $matches)) {
         $taiwanYear = (int)$matches[1];
@@ -72,11 +72,10 @@ function convertTaiwanDateToWestern(PDO $pdo, string $dateStr): ?string
             return $result;
         }
     }
-    writeLog($pdo, 'convertTaiwanDateToWestern', '民國年格式 轉換 西元年格式 失敗', 'error');
     return null;
 }
 
-function fetchUrl(PDO $pdo, string $url): array
+function fetchUrl(string $url): array
 {
     sleep(3);
     $options = [
