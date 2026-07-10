@@ -11,7 +11,7 @@ function getStocksMap(): array
 function updateAllHistory(PDO $pdo, string $targetDate): void
 {
     $start_time = microtime(true);
-    writeLog($pdo, 'updateAllHistory', "取得交易日期 [{$targetDate}] 開始更新盤後資料", 'start');
+    writeLog($pdo, 'updateAllHistory', "取得交易日期 [{$targetDate}] 開始更新上市盤後資料", 'start');
     try {
         $historyData = null;
         $instiData = null;
@@ -42,10 +42,10 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
         if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && !empty($SBLSoldData)) insertSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateAllHistory', "更新盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+        writeLog($pdo, 'updateAllHistory', "更新上市盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
     } catch (Throwable $e) {
-        writeLog($pdo, 'updateAllHistory', "歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
-        throw new RuntimeException("歷史資料更新失敗，原因：{$e->getMessage()}");
+        writeLog($pdo, 'updateAllHistory', "上市歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
+        throw new RuntimeException("上市歷史資料更新失敗，原因：{$e->getMessage()}");
     }
 }
 
@@ -342,7 +342,7 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
 function updateAllTPExHistory(PDO $pdo, string $targetDate): void
 {
     $start_time = microtime(true);
-    writeLog($pdo, 'updateAllTPExHistory', "取得交易日期 [{$targetDate}] 開始更新上櫃公司盤後資料", 'start');
+    writeLog($pdo, 'updateAllTPExHistory', "取得交易日期 [{$targetDate}] 開始更新上櫃盤後資料", 'start');
     try {
         $historyData = null;
         $instiData = null;
@@ -366,17 +366,17 @@ function updateAllTPExHistory(PDO $pdo, string $targetDate): void
                 }
             }
         }
-        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_history', 700) && !empty($historyData)) insertTPExHistory($pdo, $targetDate, $historyData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_insti', 700) && !empty($instiData)) insertTPExInsti($pdo, $targetDate, $instiData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_margin', 700) && !empty($marginData)) insertTPExMargin($pdo, $targetDate, $marginData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_total', 700) && !empty($SBLTotalData)) insertTPExSBLTotal($pdo, $targetDate, $SBLTotalData);
-        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 700) && !empty($SBLSoldData)) insertTPExSBLSold($pdo, $targetDate, $SBLSoldData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_history', 500) && !empty($historyData)) insertTPExHistory($pdo, $targetDate, $historyData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_insti', 500) && !empty($instiData)) insertTPExInsti($pdo, $targetDate, $instiData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_margin', 500) && !empty($marginData)) insertTPExMargin($pdo, $targetDate, $marginData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_total', 500) && !empty($SBLTotalData)) insertTPExSBLTotal($pdo, $targetDate, $SBLTotalData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 500) && !empty($SBLSoldData)) insertTPExSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateAllTPExHistory', "更新上櫃公司盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+        writeLog($pdo, 'updateAllTPExHistory', "更新上櫃盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
     } catch (Throwable $e) {
-        writeLog($pdo, 'updateAllTPExHistory', "上櫃公司歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
-        throw new RuntimeException("上櫃公司歷史資料更新失敗，原因：{$e->getMessage()}");
+        writeLog($pdo, 'updateAllTPExHistory', "上櫃歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
+        throw new RuntimeException("上櫃歷史資料更新失敗，原因：{$e->getMessage()}");
     }
 }
 
@@ -476,10 +476,10 @@ function getTPExSBLSold(PDO $pdo): ?array
             }
             if (!empty($stocks)) return $stocks;
         }
-        writeLog($pdo, 'getTPExSBLTotal', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        writeLog($pdo, 'getTPExSBLSold', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
         sleep(10);
     }
-    writeLog($pdo, 'getTPExSBLTotal', '取得 上櫃借券賣出餘額 重試 3 次失敗,跳過', 'warning');
+    writeLog($pdo, 'getTPExSBLSold', '取得 上櫃借券賣出餘額 重試 3 次失敗,跳過', 'warning');
     return null;
 }
 
@@ -613,10 +613,10 @@ function insertTPExSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): 
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 上櫃公司 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 上櫃公司 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
 
