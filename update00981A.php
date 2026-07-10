@@ -4,7 +4,7 @@ require_once("init.php");
 $start_time = microtime(true);
 writeLog($pdo, 'update00981A', '取得交易日期 [' . $targetDate . '], 開始更新 00981A 成分股資料', 'start');
 try {
-    $results = getComponentOf00981A_FromLocal($pdo, $targetDate);
+    $results = getComponentOf00981A_FromLocal($targetDate);
     insertComponentOf00981A($pdo, $targetDate, $results);
     $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, '00981A');
     $analysis = $analyzeMultiPeriodChanges[0];

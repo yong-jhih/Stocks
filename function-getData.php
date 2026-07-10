@@ -1166,7 +1166,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 00981A
-function getComponentOf00981A_FromLocal(PDO $pdo, string $targetDate): array
+function getComponentOf00981A_FromLocal(string $targetDate): array
 {
     $jsonFile = 'etf_componet_00981A.json';
     if (file_exists($jsonFile)) {

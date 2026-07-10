@@ -32,7 +32,7 @@ if (
         $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $stockList);
         createJsonFile($pdo, $targetDate . '_self-select', $resultsSelf);
         renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
-        callGAS($pdo, [
+        callGAS([
             'date' => $targetDate,
             'action' => 'upload',
             'after' => 300
@@ -42,7 +42,7 @@ if (
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'selfSelectGenerateDailyDashboard', 'TiDB記憶體不足，3分鐘後重試', 'retry');
-            callGAS($pdo, [
+            callGAS([
                 'date' => $targetDate,
                 'action' => 'retry',
                 'target' => 'SelfSelect',

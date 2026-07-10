@@ -198,7 +198,7 @@ function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model =
     }
 }
 
-function callGAS(PDO $pdo, $data = []): void
+function callGAS($data = []): void
 {
     $gas_url = getenv('GAS_URL_TRIGGERS');
     $json_data = json_encode($data);

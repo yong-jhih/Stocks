@@ -38,7 +38,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
         updateDateList($targetDate);
-        callGAS($pdo, [
+        callGAS([
             'date' => $targetDate,
             'action' => 'triggersSelfSelect'
         ]);
@@ -51,7 +51,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
-            callGAS($pdo, [
+            callGAS([
                 'date' => $targetDate,
                 'action' => 'retry',
                 'target' => 'CheckAndRun',
