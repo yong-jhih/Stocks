@@ -9,7 +9,7 @@ function getLatestTradingDateWithTWSE(PDO $pdo): ?string
         $cleanDate = str_replace('/', '', $rawDate);
         $convertedDate = convertTaiwanDateToWestern($pdo, $cleanDate);
         if (!$convertedDate) {
-            // writeLog($pdo, 'getLatestTradingDateWithTWSE', "日期格式轉換失敗", 'error');
+            echo "getLatestTradingDateWithTWSE 日期格式轉換失敗\n";
             return null;
         }
         $latestDate = new DateTime($convertedDate);
@@ -18,12 +18,12 @@ function getLatestTradingDateWithTWSE(PDO $pdo): ?string
         $daysDiff = $interval->days;
         $threshold = 10;
         if ($daysDiff > $threshold) {
-            // writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)", 'error');
+            echo "getLatestTradingDateWithTWSE 證交所資料異常：回傳日期 ($convertedDate) 與今日差距過大 ($daysDiff 天)\n";
             return null;
         }
         return $convertedDate;
     } else {
-        // writeLog($pdo, 'getLatestTradingDateWithTWSE', "證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤'), 'error');
+        echo "getLatestTradingDateWithTWSE 證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤') . "\n";
         return null;
     }
 }
@@ -32,7 +32,7 @@ function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?stri
 {
     $apiToken = getenv('FUGLE_TOKEN');
     if (!$apiToken) {
-        // writeLog($pdo, 'getLatestTradingDateWithFugle', "找不到 Fugle Token", 'error');
+        echo "getLatestTradingDateWithFugle 找不到 Fugle Token \n";
         return null;
     }
     $url = "https://api.fugle.tw/marketdata/v1.0/stock/historical/stats/$symbol";
@@ -51,11 +51,11 @@ function getLatestTradingDateWithFugle(PDO $pdo, string $symbol = '2330'): ?stri
         if (isset($data['date']) && $data['date'] != '') {
             return $data['date'];
         } else {
-            // writeLog($pdo, 'getLatestTradingDateWithFugle', "回傳格式異常", 'error');
+            echo "getLatestTradingDateWithFugle 回傳格式異常 \n";
             return null;
         }
     } else {
-        // writeLog($pdo, 'getLatestTradingDateWithFugle', "API 請求失敗，狀態碼：$httpCode", 'error');
+        echo "getLatestTradingDateWithFugle API 請求失敗，狀態碼：$httpCode \n";
         return null;
     }
 }
