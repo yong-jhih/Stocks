@@ -338,6 +338,324 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
     }
 }
 
+// TPEx歷史資料更新
+function updateAllTPExHistory(PDO $pdo, string $targetDate): void
+{
+    $start_time = microtime(true);
+    writeLog($pdo, 'updateAllTPExHistory', "取得交易日期 [{$targetDate}] 開始更新上櫃公司盤後資料", 'start');
+    try {
+        $historyData = null;
+        $instiData = null;
+        $marginData = null;
+        $SBLTotalData = null;
+        $SBLSoldData = null;
+        for ($i = 1; $i <= 10; $i++) {
+            if (empty($historyData)) $historyData = getTPExHistory($pdo);
+            if (empty($instiData)) $instiData = getTPExInsti($pdo);
+            if (empty($marginData)) $marginData = getTPExMargin($pdo);
+            if (empty($SBLTotalData)) $SBLTotalData = getTPExSBLTotal($pdo, $targetDate);
+            if (empty($SBLSoldData)) $SBLSoldData = getTPExSBLSold($pdo);
+            if (!empty($historyData) && !empty($instiData) && !empty($marginData) && !empty($SBLTotalData) && !empty($SBLSoldData)) {
+                break;
+            } else {
+                if ($i <= 9) {
+                    writeLog($pdo, 'updateAllTPExHistory', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                    sleep(60);
+                } else {
+                    writeLog($pdo, 'updateAllTPExHistory', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 直接寫入現有資料", 'warning');
+                }
+            }
+        }
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_history', 700) && !empty($historyData)) insertTPExHistory($pdo, $targetDate, $historyData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_insti', 700) && !empty($instiData)) insertTPExInsti($pdo, $targetDate, $instiData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_margin', 700) && !empty($marginData)) insertTPExMargin($pdo, $targetDate, $marginData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_total', 700) && !empty($SBLTotalData)) insertTPExSBLTotal($pdo, $targetDate, $SBLTotalData);
+        if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 700) && !empty($SBLSoldData)) insertTPExSBLSold($pdo, $targetDate, $SBLSoldData);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'updateAllTPExHistory', "更新上櫃公司盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+    } catch (Throwable $e) {
+        writeLog($pdo, 'updateAllTPExHistory', "上櫃公司歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
+        throw new RuntimeException("上櫃公司歷史資料更新失敗，原因：{$e->getMessage()}");
+    }
+}
+
+function getTPExHistory(PDO $pdo): ?array
+{
+    $url = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes";
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($url);
+        if (is_array($data) && count($data) > 0) {
+            $stocks = [];
+            foreach ($data as $row) {
+                if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
+                $stocks[] = $row;
+            }
+            if (!empty($stocks)) return $stocks;
+        }
+        writeLog($pdo, 'getTPExHistory', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
+    }
+    writeLog($pdo, 'getTPExHistory', '取得 上櫃每日收盤行情 重試 3 次失敗, 跳過', 'warning');
+    return null;
+}
+
+function getTPExInsti(PDO $pdo): ?array
+{
+    $url = "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading";
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($url);
+        if (is_array($data) && count($data) > 0) {
+            $stocks = [];
+            foreach ($data as $row) {
+                if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
+                $stocks[] = $row;
+            }
+            if (!empty($stocks)) return $stocks;
+        }
+        writeLog($pdo, 'getTPExInsti', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
+    }
+    writeLog($pdo, 'getTPExInsti', '取得 上櫃三大法人買賣超 重試 3 次失敗,跳過', 'warning');
+    return null;
+}
+
+function getTPExMargin(PDO $pdo): ?array
+{
+    $url = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance";
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($url);
+        if (is_array($data) && count($data) > 0) {
+            $stocks = [];
+            foreach ($data as $row) {
+                if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
+                $stocks[] = $row;
+            }
+            if (!empty($stocks)) return $stocks;
+        }
+        writeLog($pdo, 'getTPExMargin', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
+    }
+    writeLog($pdo, 'getTPExMargin', '取得 上櫃融資融券 執行3次失敗,跳過', 'warning');
+    return null;
+}
+
+function getTPExSBLTotal(PDO $pdo, string $date): ?array
+{
+    $url = "https://www.twse.com.tw/exchangeReport/TWT72U?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($url);
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && is_array($data['data'])) {
+            if (str_contains($data['title'], "證金營業處所借券餘額合計表")) {
+                $stocks = [];
+                foreach ($data['data'] as $row) {
+                    if (preg_match('/^[1-9]\d{3}$/', $row[0]) && $row[8] == '櫃檯買賣中心') {
+                        $stocks[] = $row;
+                    }
+                }
+                return $stocks;
+            }
+        }
+        writeLog($pdo, 'getTPExSBLTotal', "證交所回傳錯誤訊息：" . ($data['msg'] ?? '未知錯誤') . ", 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
+    }
+    writeLog($pdo, 'getTPExSBLTotal', '取得 借券餘額合計表 執行 3 次失敗,跳過', 'warning');
+    return null;
+}
+
+function getTPExSBLSold(PDO $pdo): ?array
+{
+    $url = "https://www.tpex.org.tw/openapi/v1/tpex_margin_sbl";
+    for ($i = 0; $i < 3; $i++) {
+        $data = fetchUrl($url);
+        if (is_array($data) && count($data) > 0) {
+            $stocks = [];
+            foreach ($data as $row) {
+                if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
+                $stocks[] = $row;
+            }
+            if (!empty($stocks)) return $stocks;
+        }
+        writeLog($pdo, 'getTPExSBLTotal', "櫃買中心回傳資料異常, 準備執行第 " . ($i + 1) . " 次重試", 'warning');
+        sleep(10);
+    }
+    writeLog($pdo, 'getTPExSBLTotal', '取得 上櫃借券賣出餘額 重試 3 次失敗,跳過', 'warning');
+    return null;
+}
+
+function insertTPExHistory(PDO $pdo, string $targetDate, array $historyData): void
+{
+    $start_time = microtime(true);
+    $sql = "INSERT INTO TPEx_stock_history 
+            (trade_date, stock_id, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            open_price = VALUES(open_price),
+            high_price = VALUES(high_price),
+            low_price = VALUES(low_price),
+            close_price = VALUES(close_price),
+            trade_volume = VALUES(trade_volume),
+            trade_value = VALUES(trade_value)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($historyData as $row) {
+            $clean = function ($v) {
+                return str_replace(',', '', $v);
+            };
+            $stmt->execute([
+                $targetDate,
+                $row['SecuritiesCompanyCode'],
+                (float)$clean($row['Open']), // 開盤
+                (float)$clean($row['High']), // 最高
+                (float)$clean($row['Low']), // 最低
+                (float)$clean($row['Close']), // 收盤
+                (int)$clean($row['TradingShares']),   // 成交股數
+                (int)$clean($row['TransactionAmount'])    // 成交金額
+            ]);
+        }
+        $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertTPExHistory', $targetDate . ' 上櫃個股日成交 更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'insertTPExHistory', $targetDate . ' 上櫃個股日成交 寫入失敗：' . $e->getMessage(), 'error');
+    }
+}
+
+function insertTPExInsti(PDO $pdo, string $targetDate, array $instiData): void
+{
+    $start_time = microtime(true);
+    $sql = "INSERT INTO TPEx_stock_insti 
+            (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            foreign_buy_sell = VALUES(foreign_buy_sell),
+            trust_buy_sell = VALUES(trust_buy_sell),
+            dealer_buy_sell = VALUES(dealer_buy_sell),
+            total_buy_sell = VALUES(total_buy_sell)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($instiData as $row) {
+            $clean = function ($v) {
+                return str_replace(',', '', $v);
+            };
+            $stmt->execute([
+                $targetDate,
+                $row['SecuritiesCompanyCode'],
+                (int)$clean($row['ForeignInvestorsInclude MainlandAreaInvestors-Difference']),  // 外資
+                (int)$clean($row['SecuritiesInvestmentTrustCompanies-Difference']), // 投信
+                (int)$clean($row['Dealers-Difference']), // 自營
+                (int)$clean($row['TotalDifference'])  // 合計
+            ]);
+        }
+        $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertTPExInsti', $targetDate . ' 上櫃公司 三大法人買賣超 更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'insertTPExInsti', $targetDate . ' 上櫃公司 三大法人買賣超 寫入失敗：' . $e->getMessage(), 'error');
+    }
+}
+
+function insertTPExMargin(PDO $pdo, string $targetDate, array $marginData): void
+{
+    $start_time = microtime(true);
+    $sql = "INSERT INTO TPEx_stock_margin 
+            (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            margin_balance = VALUES(margin_balance),
+            margin_balance_diff = VALUES(margin_balance_diff),
+            short_balance = VALUES(short_balance),
+            short_balance_diff = VALUES(short_balance_diff)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($marginData as $row) {
+            $clean = function ($v) {
+                return (int)str_replace(',', '', $v);
+            };
+            $stmt->execute([
+                $targetDate,
+                $row['SecuritiesCompanyCode'],
+                $clean($row['MarginPurchaseBalance']),                 // 融資餘額
+                $clean($row['MarginPurchaseBalance']) - $clean($row['MarginPurchaseBalancePreviousDay']), // 融資增減
+                $clean($row['ShortSaleBalance']),                // 融券餘額
+                $clean($row['ShortSaleBalance']) - $clean($row['ShortSaleBalancePreviousDay']) // 融券增減
+            ]);
+        }
+        $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertMargin', $targetDate . ' 上櫃公司 融資融券彙總 更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'insertMargin', $targetDate . '上櫃公司 融資融券彙總 寫入失敗：' . $e->getMessage(), 'error');
+    }
+}
+
+function insertTPExSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
+{
+    $start_time = microtime(true);
+    $sql = "INSERT INTO TPEx_stock_sbl_total (trade_date, stock_id, sbl_balance) 
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE sbl_balance = VALUES(sbl_balance)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($SBLTotalData as $row) {
+            $stmt->execute([$targetDate, $row[0], (int)str_replace(',', '', $row[5])]);
+        }
+        $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
+    }
+}
+
+function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
+{
+    $start_time = microtime(true);
+    $sql = "INSERT INTO TPEx_stock_sbl_sold 
+            (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
+            VALUES (?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            sbl_sold_balance = VALUES(sbl_sold_balance),
+            sbl_sold = VALUES(sbl_sold),
+            sbl_return = VALUES(sbl_return)";
+    $stmt = $pdo->prepare($sql);
+    $pdo->beginTransaction();
+    try {
+        foreach ($SBLSoldData as $row) {
+            $clean = function ($v) {
+                return (int)str_replace(',', '', $v);
+            };
+            $stmt->execute([
+                $targetDate,
+                $row['SecuritiesCompanyCode'],
+                $clean($row['SecuritiesBorrowingBalanceOfTheMarketDay']), // 券賣餘額
+                $clean($row['SecuritiesBorrowingSale']),  // 賣出
+                $clean($row['SecuritiesBorrowingReturn'])  // 還券
+            ]);
+        }
+        $pdo->commit();
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 上櫃公司 借券賣出餘額 更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        writeLog($pdo, 'insertSBLSold', $targetDate . ' 上櫃公司 借券賣出餘額 寫入失敗：' . $e->getMessage(), 'error');
+    }
+}
+
+
 // 分析篩選
 function generateDailyDashboard(PDO $pdo, string $targetDate): array
 {
