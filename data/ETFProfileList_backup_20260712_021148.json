@@ -199,7 +199,7 @@
     },
     "00636K": {
         "stock_id": "00636K",
-        "stock_name": "國泰中國A50+U",
+        "stock_name": "國泰富時中國A50+U",
         "stock_type": "ETF",
         "industry": ""
     },
@@ -565,7 +565,7 @@
     },
     "00701": {
         "stock_id": "00701",
-        "stock_name": "國泰股利精選30",
+        "stock_name": "國泰臺灣低波動股利精選30基金",
         "stock_type": "ETF",
         "industry": ""
     },
@@ -709,7 +709,7 @@
     },
     "00736": {
         "stock_id": "00736",
-        "stock_name": "國泰新興市場",
+        "stock_name": "國泰富時新興市場基金",
         "stock_type": "ETF",
         "industry": ""
     },
@@ -1105,7 +1105,7 @@
     },
     "00922": {
         "stock_id": "00922",
-        "stock_name": "國泰台灣領袖50 ETF基金",
+        "stock_name": "國泰台灣領袖 50",
         "stock_type": "ETF",
         "industry": ""
     },

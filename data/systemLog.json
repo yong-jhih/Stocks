@@ -1,5 +1,103 @@
 [
     {
+        "id": 8040014,
+        "log_time": "2026-07-12 02:11:50",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 8040013,
+        "log_time": "2026-07-12 02:11:50",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040012,
+        "log_time": "2026-07-12 02:11:50",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040011,
+        "log_time": "2026-07-12 02:11:50",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 4179 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040010,
+        "log_time": "2026-07-12 02:11:49",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 3922 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040009,
+        "log_time": "2026-07-12 02:11:49",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 4153 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040008,
+        "log_time": "2026-07-12 02:11:49",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 4227 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040007,
+        "log_time": "2026-07-12 02:11:48",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 4295 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040006,
+        "log_time": "2026-07-12 02:11:48",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
+        "id": 8040005,
+        "log_time": "2026-07-12 02:11:48",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 499.86 秒",
+        "result": "end"
+    },
+    {
+        "id": 8040004,
+        "log_time": "2026-07-12 02:11:48",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6517 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040003,
+        "log_time": "2026-07-12 02:08:17",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6671 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040002,
+        "log_time": "2026-07-12 02:03:49",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2598 筆",
+        "result": "success"
+    },
+    {
+        "id": 8040001,
+        "log_time": "2026-07-12 02:03:28",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 8010028,
         "log_time": "2026-07-10 15:49:05",
         "log_type": "updateAllTPExHistory",
