@@ -1,0 +1,385 @@
+[
+    {
+        "stock_id": "2023",
+        "stock_name": "燁輝",
+        "industry": "鋼鐵工業",
+        "subIndustry": [
+            " 冷熱軋鋼板捲"
+        ],
+        "concept": [
+            "CPTPP",
+            "傳產原物料股"
+        ],
+        "score": 86,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 20,
+        "momentum_score": 20,
+        "chip_score": 31,
+        "structure_score": 8,
+        "risk_score": 0,
+        "close": 14.2,
+        "yesterday_high": 14.05,
+        "yesterday_low": 13.85,
+        "vol": 2977,
+        "vol_ratio": 2.06,
+        "rank10": 85.71,
+        "amp10": 7.89,
+        "ma5": 13.77,
+        "ma10": 13.68,
+        "ma20": 13.74,
+        "ma60": 13.84,
+        "vma5": 1909,
+        "vma10": 2622,
+        "vma20": 2285,
+        "bia5": 3.12,
+        "bia10": 3.84,
+        "bia20": 3.35,
+        "con1": 35.3,
+        "con5": 34.27,
+        "con10": -9.17,
+        "con20": -9.59,
+        "foreign_buy_sell": 1012832,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 3378,
+        "foreign_sum10": -2485,
+        "foreign_sum20": -4600,
+        "trust_sum5": -11,
+        "trust_sum10": -4,
+        "trust_sum20": -16,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 0,
+        "margin_balance": 2476,
+        "margin_balance_diff": -181,
+        "squeeze": 25.16,
+        "bullet": 1.59,
+        "net_sbl": 265,
+        "net_sbl_sum5": 890,
+        "sbl_total": 61106,
+        "sbl_sold_balance": 57480,
+        "signals": {
+            "trend": {
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "外資連買",
+            "融資減肥",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "成交量放大 2.06 倍",
+            "突破前高"
+        ]
+    },
+    {
+        "stock_id": "1216",
+        "stock_name": "統一",
+        "industry": "食品工業",
+        "subIndustry": [
+            " 乳製品",
+            " 冷凍、罐頭、脫水、醃漬食品",
+            " 加工食品",
+            " 原物料"
+        ],
+        "concept": [
+            "ESG",
+            "中元節",
+            "傳產內需股",
+            "台商越南",
+            "基金重押股",
+            "大陸收成股",
+            "暑假",
+            "臺灣50指數成分股",
+            "臺灣發達指數成分股",
+            "臺灣高股息指數成分股"
+        ],
+        "score": 75,
+        "rating": "A",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.6,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 40,
+        "structure_score": 0,
+        "risk_score": -20,
+        "close": 78.5,
+        "yesterday_high": 79,
+        "yesterday_low": 78.2,
+        "vol": 20557,
+        "vol_ratio": 1.08,
+        "rank10": 83.93,
+        "amp10": 7.59,
+        "ma5": 77.82,
+        "ma10": 76.33,
+        "ma20": 75.9,
+        "ma60": 73.55,
+        "vma5": 19935,
+        "vma10": 15017,
+        "vma20": 15542,
+        "bia5": 0.87,
+        "bia10": 2.84,
+        "bia20": 3.43,
+        "con1": 28.62,
+        "con5": 27.06,
+        "con10": 24.34,
+        "con20": 15.31,
+        "foreign_buy_sell": 5321896,
+        "trust_buy_sell": 117556,
+        "foreign_sum5": 24747,
+        "foreign_sum10": 28952,
+        "foreign_sum20": -11817,
+        "trust_sum5": 681,
+        "trust_sum10": 5604,
+        "trust_sum20": 54984,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 16,
+        "margin_balance": 564,
+        "margin_balance_diff": -33,
+        "squeeze": 13.63,
+        "bullet": 5.19,
+        "net_sbl": 857,
+        "net_sbl_sum5": -1332,
+        "sbl_total": 292463,
+        "sbl_sold_balance": 211855,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "投信連買": 12,
+                "土洋合力": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "假突破": -20
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "投信連買",
+            "土洋合力",
+            "融資減肥",
+            "假突破"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "法人持股集中度提升"
+        ]
+    },
+    {
+        "stock_id": "2836",
+        "stock_name": "高雄銀",
+        "industry": "金融保險",
+        "subIndustry": [
+            " 金控業\/銀行業\/保險業"
+        ],
+        "concept": [],
+        "score": 68,
+        "rating": "A",
+        "strategy_type": "高風險",
+        "confidence": 0.9,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 15,
+        "structure_score": 0,
+        "risk_score": -30,
+        "close": 12.55,
+        "yesterday_high": 12.5,
+        "yesterday_low": 12.4,
+        "vol": 8103,
+        "vol_ratio": 8.42,
+        "rank10": 80,
+        "amp10": 4.12,
+        "ma5": 12.45,
+        "ma10": 12.34,
+        "ma20": 12.31,
+        "ma60": 12.05,
+        "vma5": 4720,
+        "vma10": 2925,
+        "vma20": 2859,
+        "bia5": 0.8,
+        "bia10": 1.74,
+        "bia20": 1.99,
+        "con1": 26.78,
+        "con5": 15.76,
+        "con10": 15.71,
+        "con20": 11.54,
+        "foreign_buy_sell": 2158093,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 4152,
+        "foreign_sum10": 5560,
+        "foreign_sum20": 7302,
+        "trust_sum5": -7,
+        "trust_sum10": -5,
+        "trust_sum20": -14,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 6006,
+        "margin_balance_diff": 32,
+        "squeeze": 3.21,
+        "bullet": 0.92,
+        "net_sbl": -5,
+        "net_sbl_sum5": -1120,
+        "sbl_total": 11821,
+        "sbl_sold_balance": 9185,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15
+            },
+            "risk": {
+                "爆量滯漲": -30
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "爆量滯漲"
+        ],
+        "trigger_reasons": [
+            "成交量放大 8.42 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ]
+    },
+    {
+        "stock_id": "9938",
+        "stock_name": "百和",
+        "industry": "其他",
+        "subIndustry": [
+            " 其他"
+        ],
+        "concept": [
+            "Apple",
+            "WWDC",
+            "世足",
+            "台商越南",
+            "大陸收成股",
+            "奧運",
+            "運動休閒"
+        ],
+        "score": 42,
+        "rating": "C",
+        "strategy_type": "觀察",
+        "confidence": 0.3,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": -20,
+        "close": 45.95,
+        "yesterday_high": 46.75,
+        "yesterday_low": 45.9,
+        "vol": 1717,
+        "vol_ratio": 1.76,
+        "rank10": 70.13,
+        "amp10": 8.9,
+        "ma5": 45.72,
+        "ma10": 45.1,
+        "ma20": 44.74,
+        "ma60": 44.56,
+        "vma5": 1518,
+        "vma10": 1683,
+        "vma20": 1493,
+        "bia5": 0.5,
+        "bia10": 1.9,
+        "bia20": 2.7,
+        "con1": 31.78,
+        "con5": 10.74,
+        "con10": 11.31,
+        "con20": 1.16,
+        "foreign_buy_sell": 551430,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 791,
+        "foreign_sum10": 128,
+        "foreign_sum20": -1715,
+        "trust_sum5": -27,
+        "trust_sum10": 1682,
+        "trust_sum20": 1640,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 3509,
+        "margin_balance_diff": -61,
+        "squeeze": 12.18,
+        "bullet": 1.52,
+        "net_sbl": 33,
+        "net_sbl_sum5": 213,
+        "sbl_total": 20458,
+        "sbl_sold_balance": 18195,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": {
+                "假突破": -20
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "外資連買",
+            "假突破"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 1.76 倍"
+        ]
+    }
+]
