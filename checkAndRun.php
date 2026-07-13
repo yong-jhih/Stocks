@@ -34,11 +34,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
     }
 
     try {
-        $results = generateDailyDashboard($pdo, $targetDate);
+        $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+        $results = generateDailyDashboard($pdo, $targetDate, $table);
         createJsonFile($pdo, $targetDate . '_filter', $results);
         renewCharts($pdo, $targetDate, 'filter', 'charts');
 
-        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate);
+        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 

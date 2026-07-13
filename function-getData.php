@@ -655,11 +655,10 @@ function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): vo
     }
 }
 
-
 // 分析篩選
-function generateDailyDashboard(PDO $pdo, string $targetDate): array
+function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): array
 {
-    $stocks = returnSqlFetch($pdo, $targetDate, [
+    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
         "vma20 > 700000",
         "((trade_volume > vma5 AND vma5 >= vma20) OR (trade_volume > vma20 * 1.3))",
         "yesterday_vol < vma5",
@@ -676,24 +675,9 @@ function generateDailyDashboard(PDO $pdo, string $targetDate): array
     return $dashboardResults;
 }
 
-function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $code_array = []): array
+function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate, array $table): array
 {
-    if (empty($code_array)) return [];
-    $safeCodes = array_map(function ($code) use ($pdo) {
-        return $pdo->quote($code);
-    }, $code_array);
-    $inClause = implode(",", $safeCodes);
-    $stocks = returnSqlFetch($pdo, $targetDate, [
-        "stock_id IN({$inClause})"
-    ]);
-    $dashboardResults = outputModel($pdo, $stocks);
-    // writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
-    return $dashboardResults;
-}
-
-function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): array
-{
-    $stocks = returnSqlFetch($pdo, $targetDate, [
+    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
         "vma20 > 700000",
         "ma20 IS NOT NULL",
         "ma60 IS NOT NULL"
@@ -703,7 +687,22 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate): arra
     return $dashboardResults;
 }
 
-function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
+function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $table, array $code_array = []): array
+{
+    if (empty($code_array)) return [];
+    $safeCodes = array_map(function ($code) use ($pdo) {
+        return $pdo->quote($code);
+    }, $code_array);
+    $inClause = implode(",", $safeCodes);
+    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
+        "stock_id IN({$inClause})"
+    ]);
+    $dashboardResults = outputModel($pdo, $stocks);
+    // writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    return $dashboardResults;
+}
+
+function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where): array
 {
     $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
     $sql = "
@@ -790,11 +789,11 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $where): array
                 LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
                 LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
 
-            FROM stock_history h
-            LEFT JOIN stock_insti i      ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
-            LEFT JOIN stock_margin m     ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
-            LEFT JOIN stock_sbl_total st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
-            LEFT JOIN stock_sbl_sold ss  ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
+            FROM {$table[0]} h
+            LEFT JOIN {$table[1]} i      ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
+            LEFT JOIN {$table[2]} m     ON h.stock_id = m.stock_id AND h.trade_date = m.trade_date
+            LEFT JOIN {$table[3]} st ON h.stock_id = st.stock_id AND h.trade_date = st.trade_date
+            LEFT JOIN {$table[4]} ss  ON h.stock_id = ss.stock_id AND h.trade_date = ss.trade_date
 
             WINDOW
                 lagw AS (PARTITION BY h.stock_id ORDER BY h.trade_date),
