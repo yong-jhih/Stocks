@@ -96,12 +96,5 @@
         "log_type": "updateStockProfile",
         "content": "開始更新基本資料及產業別及次產業概念",
         "result": "start"
-    },
-    {
-        "id": 8010028,
-        "log_time": "2026-07-10 15:49:05",
-        "log_type": "updateAllTPExHistory",
-        "content": "更新上櫃公司盤後資料結束, 共耗時   1121.16   秒",
-        "result": "end"
     }
 ]
