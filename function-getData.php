@@ -704,7 +704,7 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $t
 
 function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where): array
 {
-    $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 200 days'));
+    $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 108 days'));
     $sql = "
         WITH BaseData AS (
             SELECT
