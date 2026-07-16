@@ -893,7 +893,9 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $vma60 = (float)$s['vma60'];
         $volRatio = ($s['yesterday_vol'] > 0) ? ($s['trade_volume'] / $s['yesterday_vol']) : 0;
         $rank10 = ($s['high10'] - $s['low10']) != 0 ? (($close - $s['low10']) / ($s['high10'] - $s['low10']) * 100) : 0;
+        $rank20 = ($s['high20'] - $s['low20']) != 0 ? (($close - $s['low20']) / ($s['high20'] - $s['low20']) * 100) : 0;
         $amp10 = ($s['low10'] != 0) ? (($s['high10'] - $s['low10']) / $s['low10'] * 100) : 0;
+        $amp20 = ($s['low20'] != 0) ? (($s['high20'] - $s['low20']) / $s['low20'] * 100) : 0;
         $bia5  = $ma5 ? (($close - $ma5) / $ma5 * 100) : 0;
         $bia10 = $ma10 ? (($close - $ma10) / $ma10 * 100) : 0;
         $bia20 = $ma20 ? (($close - $ma20) / $ma20 * 100) : 0;
@@ -1042,7 +1044,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $addSignal(
             'structure',
             $rank10 < 30,
-            '低檔區',
+            '低位階',
             6
         );
         $addSignal(
@@ -1337,7 +1339,6 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         $dashboardResults[] = [
             'stock_id' => $s['stock_id'],
-            // 'stock_name' => $s['stock_name'],
             'stock_name' => $stocksMap[$s['stock_id']]['stock_name'] ?? '',
             'industry' => $industry,
             'subIndustry' => $subIndustry,
