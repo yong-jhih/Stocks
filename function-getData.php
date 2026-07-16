@@ -1041,17 +1041,33 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             '整理末端',
             8
         );
-        $addSignal(
-            'structure',
-            $rank10 < 30,
-            '低位階',
-            6
-        );
+        if ($rank20 < 30 && $close > $ma20 && $yClose <= $prevMa20) {
+            $addSignal(
+                'structure',
+                true,
+                '低位階轉強',
+                8
+            );
+        } else if ($rank20 < 30 && $ma20 >= $prevMa20) {
+            $addSignal(
+                'structure',
+                true,
+                '低位階止跌',
+                6
+            );
+        } else if ($rank20 < 30) {
+            $addSignal(
+                'structure',
+                true,
+                '低位階',
+                4
+            );
+        }
         $addSignal(
             'structure',
             $close > $ma20 &&
-                $volRatio < 0.9 &&
-                $close >= $yClose,
+                $volRatio < 0.8 &&
+                $low >= $yLow,
             '量縮抗跌',
             10
         );
