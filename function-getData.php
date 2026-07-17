@@ -1324,6 +1324,26 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         }
 
         // =========================
+        // 組合技
+        // =========================
+        $hint = [];
+        if (empty(array_diff(['多頭排列', '爆量突破', '外資連買'], $tags))) $hint[] = '主升段啟動';
+        if (
+            empty(array_diff(['低位階', '爆量突破', '價量齊揚'], $tags)) ||
+            empty(array_diff(['低位階止跌', '爆量突破', '價量齊揚'], $tags)) ||
+            empty(array_diff(['低位階轉強', '爆量突破', '價量齊揚'], $tags))
+        ) {
+            $hint[] = '妖股起漲型';
+        }
+        if (empty(array_diff(['外資連買', '投信連買', '土洋合力'], $tags))) $hint[] = '法人鎖碼';
+        if (empty(array_diff(['整理末端', '量縮抗跌', '法人集中'], $tags))) $hint[] = '發動前夕';
+        if (empty(array_diff(['首次站上月線', '均線上彎', '量縮抗跌'], $tags))) $hint[] = '波段轉強';
+        if (empty(array_diff(['融資減肥', '外資連買'], $tags))) $hint[] = '洗盤完成';
+        if (empty(array_diff(['爆量滯漲', '高檔出貨'], $tags))) $hint[] = '出貨警訊';
+        if (empty(array_diff(['極度過熱', '乖離過大'], $tags))) $hint[] = '主升段末端';
+        if (empty(array_diff(['跌破月線', '法人倒貨'], $tags))) $hint[] = '趨勢反轉';
+
+        // =========================
         // Trigger Reasons
         // =========================
         $triggerReasons = [];
@@ -1374,13 +1394,15 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'vol' => round($s['trade_volume'] / 1000, 0),
             'vol_ratio' => round($volRatio, 2),
             'rank10' => round($rank10, 2),
+            'rank20' => round($rank20, 2),
             'amp10' => round($amp10, 2),
+            'amp20' => round($amp20, 2),
             'ma5' => round($ma5, 2),
             'ma10' => round($ma10, 2),
             'ma20' => round($ma20, 2),
             'ma60' => round($ma60, 2),
             'vma5' => round($vma5 / 1000, 0),
-            'vma10' => round($s['vma10'] / 1000, 0),
+            'vma10' => round($vma10 / 1000, 0),
             'vma20' => round($vma20 / 1000, 0),
             'bia5' => round($bia5, 2),
             'bia10' => round($bia10, 2),
@@ -1409,7 +1431,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'sbl_sold_balance' => round($s['sbl_sold_balance'] / 1000, 0),
             'signals' => $signals,
             'tags' => $tags,
-            'trigger_reasons' => $triggerReasons
+            'trigger_reasons' => $triggerReasons,
+            'hint' => $hint
         ];
     }
 
