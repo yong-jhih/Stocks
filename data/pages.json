@@ -1,7 +1,7 @@
 [
     {
         "page": "index",
-        "title": "盤後分析篩選",
+        "title": "盤後分析篩選(僅上市,上櫃資料施工中)",
         "enableChart": true,
         "enableTag": true,
         "useDate": true,
@@ -348,7 +348,7 @@
     },
     {
         "page": "self",
-        "title": "自選分析",
+        "title": "自選分析(僅上市,上櫃資料施工中)",
         "enableChart": true,
         "enableTag": true,
         "useDate": true,
@@ -671,7 +671,7 @@
     },
     {
         "page": "topPerforming",
-        "title": "市場評分排行(僅上市)",
+        "title": "市場評分排行(僅上市,上櫃資料施工中)",
         "enableChart": true,
         "enableTag": true,
         "useDate": true,
@@ -994,7 +994,7 @@
     },
     {
         "page": "00981A_component",
-        "title": "跟著瑤姐走",
+        "title": "跟著瑤姐走(上櫃股價施工中)",
         "enableChart": true,
         "enableTag": false,
         "useDate": true,
