@@ -245,13 +245,28 @@
                 "format": "percent"
             },
             {
+                "title": "20日乖離率",
+                "field": "bia20",
+                "format": "percent"
+            },
+            {
                 "title": "10日位階",
                 "field": "rank10",
                 "format": "percent"
             },
             {
+                "title": "20日位階",
+                "field": "rank20",
+                "format": "percent"
+            },
+            {
                 "title": "10日振幅",
                 "field": "amp10",
+                "format": "percent"
+            },
+            {
+                "title": "20日振幅",
+                "field": "amp20",
                 "format": "percent"
             },
             {
@@ -553,13 +568,28 @@
                 "format": "percent"
             },
             {
+                "title": "20日乖離率",
+                "field": "bia20",
+                "format": "percent"
+            },
+            {
                 "title": "10日位階",
                 "field": "rank10",
                 "format": "percent"
             },
             {
+                "title": "20日位階",
+                "field": "rank20",
+                "format": "percent"
+            },
+            {
                 "title": "10日振幅",
                 "field": "amp10",
+                "format": "percent"
+            },
+            {
+                "title": "20日振幅",
+                "field": "amp20",
                 "format": "percent"
             },
             {
@@ -861,13 +891,28 @@
                 "format": "percent"
             },
             {
+                "title": "20日乖離率",
+                "field": "bia20",
+                "format": "percent"
+            },
+            {
                 "title": "10日位階",
                 "field": "rank10",
                 "format": "percent"
             },
             {
+                "title": "20日位階",
+                "field": "rank20",
+                "format": "percent"
+            },
+            {
                 "title": "10日振幅",
                 "field": "amp10",
+                "format": "percent"
+            },
+            {
+                "title": "20日振幅",
+                "field": "amp20",
                 "format": "percent"
             },
             {

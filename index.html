@@ -100,7 +100,6 @@
         }
 
         @media (max-width: 768px) {
-
             body {
                 padding: 8px !important;
                 overflow-x: hidden;
@@ -164,6 +163,20 @@
             #infoModal button {
                 font-size: 12px;
             }
+        }
+
+        .stock-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hint-bar {
+            width: 4px;
+            height: 18px;
+            border-radius: 2px;
+            background: #22c55e;
+            flex-shrink: 0;
         }
     </style>
     <script>
@@ -407,7 +420,7 @@
                         <h4 class="text-pink-400 font-bold mb-3">🔥 妖股起漲型</h4>
                         <div class="bg-gray-700/30 p-3 rounded border border-pink-900/50">
                             <div class="mb-2">
-                                <span class="text-green-300">低位階</span> +
+                                <span class="text-green-300">低位階系列</span> +
                                 <span class="text-green-300">爆量突破</span> +
                                 <span class="text-green-300">價量齊揚</span>
                             </div>
@@ -858,9 +871,19 @@
                                 </div>
                             `;
                         }
-                        if (col.field === 'stock_name') return `<span class="${col.class || ''}">${value}</span>`;
+                        // if (col.field === 'stock_name') return `<span class="${col.class || ''}">${value}</span>`;
+                        if (col.field === 'stock_name') {
+                            let bar = '';
+                            if (item.hint && item.hint.length > 0) bar = `<span class="hint-bar"></span>`;
+                            return `
+                                <div class="stock-cell">
+                                    ${bar}
+                                    <span class="${col.class || ''}">${value}</span>
+                                </div>
+                                <span style="display:none">${(item.hint || []).join(' ')}</span>
+                            `;
+                        }
                         if (value === null || value === undefined) return '';
-                        // return value;
                         return formatValue(value, col.format);
                     });
                     table.row.add(row);
@@ -900,45 +923,23 @@
                 console.error("載入圖表 JSON 失敗:", error);
             }
         }
-        function buildChartOption(
-            id,
-            name,
-            stockData,
-            chartConfig
-        ) {
-
+        function buildChartOption(id, name, stockData, chartConfig) {
             const isMobile = window.innerWidth < 768;
-
             const dates = stockData.series.map(x => x.date);
-
             const series = chartConfig.series.map(cfg => {
-
-                const values =
-                    stockData.series.map(x => x[cfg.field]);
-
+                const values = stockData.series.map(x => x[cfg.field]);
                 //----------------------------------
                 // BAR
                 //----------------------------------
-
                 if (cfg.type === 'bar') {
-
                     return {
                         name: cfg.name,
-
                         type: 'bar',
-
                         data: values,
-
                         yAxisIndex: cfg.yAxisIndex,
-
-                        barMaxWidth:
-                            isMobile ? 10 : 18,
-
+                        barMaxWidth: isMobile ? 10 : 18,
                         itemStyle: {
-                            color: params =>
-                                params.value >= 0
-                                    ? cfg.positiveColor
-                                    : cfg.negativeColor
+                            color: params => params.value >= 0 ? cfg.positiveColor : cfg.negativeColor
                         }
                     };
                 }
@@ -948,150 +949,94 @@
                 //----------------------------------
 
                 return {
-
                     name: cfg.name,
-
                     type: 'line',
-
                     data: values,
-
                     yAxisIndex: cfg.yAxisIndex,
-
                     smooth: cfg.smooth,
-
                     symbol: cfg.symbol,
-
                     symbolSize: cfg.symbolSize,
-
                     lineStyle: {
                         width: cfg.lineWidth,
                         type: cfg.lineType,
                         color: cfg.color
                     },
-
                     itemStyle: {
                         color: cfg.color
                     }
                 };
-
             });
-
             return {
-
                 title: {
                     text: `${id} ${name} ${chartConfig.title}`,
                     left: 'center'
                 },
-
                 tooltip: {
                     trigger: 'axis',
-
                     backgroundColor: '#0f172a',
-
                     borderColor: '#334155',
-
                     textStyle: {
                         color: '#e2e8f0'
                     },
-
                     axisPointer: {
                         type: 'cross'
                     }
                 },
-
                 legend: {
-
                     bottom: 0,
-
                     textStyle: {
                         color: '#cbd5e1',
                         fontSize: isMobile ? 10 : 12
                     },
-
-                    itemWidth:
-                        isMobile ? 12 : 20,
-
-                    itemHeight:
-                        isMobile ? 8 : 12,
-
+                    itemWidth: isMobile ? 12 : 20,
+                    itemHeight: isMobile ? 8 : 12,
                     type: 'scroll'
                 },
-
                 grid: {
-
-                    left:
-                        isMobile ? 40 : 60,
-
-                    right:
-                        isMobile ? 30 : 60,
-
+                    left: isMobile ? 40 : 60,
+                    right: isMobile ? 30 : 60,
                     top: 60,
-
-                    bottom:
-                        isMobile ? 80 : 60
+                    bottom: isMobile ? 80 : 60
                 },
-
                 xAxis: {
-
                     type: 'category',
-
                     data: dates,
-
                     axisLine: {
                         lineStyle: {
                             color: '#64748b'
                         }
                     },
-
                     axisLabel: {
-
                         color: '#cbd5e1',
-
-                        fontSize:
-                            isMobile ? 10 : 12,
-
-                        rotate:
-                            isMobile ? 45 : 0
+                        fontSize: isMobile ? 10 : 12,
+                        rotate: isMobile ? 45 : 0
                     }
                 },
-
                 yAxis:
                     chartConfig.yAxis.map(y => ({
-
                         type: 'value',
-
                         name: y.name,
-
                         scale: true,
-
                         axisLine: {
-
                             show: true,
-
                             lineStyle: {
                                 color: y.color
                             }
                         },
-
                         axisLabel: {
                             color: y.color
                         },
-
                         splitLine: {
-
                             lineStyle: {
                                 color: '#1e293b'
                             }
                         }
                     })),
-
                 series
             };
         }
         function openChart(id, name) {
-
             id = String(id).trim();
-
             if (
                 !cachedChartData ||
                 !cachedChartData.stocks ||
@@ -1099,40 +1044,18 @@
             ) {
                 return;
             }
-
             openModal('chartModal');
-
-            const stockData =
-                cachedChartData.stocks[id];
-
+            const stockData = cachedChartData.stocks[id];
             requestAnimationFrame(() => {
-
-                const chartDom =
-                    document.getElementById('mainChart');
-
-                if (chartInstance) {
-                    chartInstance.dispose();
-                }
-
-                chartInstance =
-                    echarts.init(chartDom, 'dark');
-
-                const option =
-                    buildChartOption(
-                        id,
-                        name,
-                        stockData,
-                        page_info.chart
-                    );
-
+                const chartDom = document.getElementById('mainChart');
+                if (chartInstance) chartInstance.dispose();
+                chartInstance = echarts.init(chartDom, 'dark');
+                const option = buildChartOption(id, name, stockData, page_info.chart);
                 chartInstance.setOption(option);
-
                 setTimeout(() => {
                     chartInstance.resize();
                 }, 50);
-
             });
-
         }
         function openModal(id) {
             $(`#${id}`)
