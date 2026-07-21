@@ -1,0 +1,90 @@
+[
+    {
+        "stock_id": "2836",
+        "stock_name": "高雄銀",
+        "industry": "金融保險",
+        "subIndustry": [
+            " 金控業\/銀行業\/保險業"
+        ],
+        "concept": [],
+        "score": 45,
+        "rating": "C",
+        "strategy_type": "高風險",
+        "confidence": 0.6,
+        "trend_score": 25,
+        "momentum_score": 0,
+        "chip_score": 21,
+        "structure_score": 0,
+        "risk_score": -30,
+        "close": 12.65,
+        "yesterday_high": 12.7,
+        "yesterday_low": 12.45,
+        "vol": 6654,
+        "vol_ratio": 3.29,
+        "rank10": 66.67,
+        "rank20": 76.92,
+        "amp10": 3.64,
+        "amp20": 5.35,
+        "ma5": 12.59,
+        "ma10": 12.53,
+        "ma20": 12.4,
+        "ma60": 12.1,
+        "vma5": 5080,
+        "vma10": 5181,
+        "vma20": 3463,
+        "bia5": 0.48,
+        "bia10": 0.96,
+        "bia20": 2.02,
+        "con1": 27.13,
+        "con5": 18.63,
+        "con10": 17.65,
+        "con20": 18.42,
+        "foreign_buy_sell": 1830100,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 5142,
+        "foreign_sum10": 8559,
+        "foreign_sum20": 13543,
+        "trust_sum5": -7,
+        "trust_sum10": -14,
+        "trust_sum20": -17,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 5896,
+        "margin_balance_diff": -13,
+        "squeeze": 2.3,
+        "bullet": 1.29,
+        "net_sbl": 42,
+        "net_sbl_sum5": -1341,
+        "sbl_total": 12461,
+        "sbl_sold_balance": 7979,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "爆量滯漲": -30
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "融資減肥",
+            "爆量滯漲"
+        ],
+        "trigger_reasons": [
+            "成交量放大 3.29 倍",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    }
+]
