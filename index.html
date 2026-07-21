@@ -729,7 +729,8 @@
             table.on('click', 'tbody tr', function (e) {
                 const rowData = table.row(this).data();
                 if (rowData) {
-                    openChart(rowData[0], $(rowData[1]).text());
+                    const stockName = $(rowData[1]).find('span:last').text().trim();
+                    openChart(rowData[0], stockName);
                 }
             });
             initSystem();
@@ -840,7 +841,6 @@
                 } else {
                     filePath = `./data/${date}_${page_info.dataSource.table}?t=${timestamp}`;
                 }
-                console.log(filePath);
                 const res = await fetch(filePath);
                 const data = await res.json();
                 table.clear();
@@ -853,6 +853,7 @@
                             const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
                             const searchText = [
                                 ...(item.tags || []),
+                                ...(item.hint || []),
                                 item.industry || '',
                                 ...(item.subIndustry || []),
                                 ...(item.concept || [])
