@@ -1,5 +1,117 @@
 [
     {
+        "id": 8820016,
+        "log_time": "2026-07-21 21:05:20",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 8820015,
+        "log_time": "2026-07-21 21:05:20",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時   485.77   秒",
+        "result": "end"
+    },
+    {
+        "id": 8820014,
+        "log_time": "2026-07-21 21:05:20",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-21 上櫃公司 借券賣出餘額 更新完成,共新增 811 筆,耗時 92.56 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820013,
+        "log_time": "2026-07-21 21:03:47",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-07-21 上櫃公司 借券餘額 更新完成,共新增 729 筆,耗時 82.89 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820012,
+        "log_time": "2026-07-21 21:02:24",
+        "log_type": "insertMargin",
+        "content": "2026-07-21 上櫃公司 融資融券彙總 更新完成,共新增 797 筆,耗時 90.19 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820011,
+        "log_time": "2026-07-21 21:00:54",
+        "log_type": "insertTPExInsti",
+        "content": "2026-07-21 上櫃公司 三大法人買賣超 更新完成,共新增 803 筆,耗時 90.19 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820010,
+        "log_time": "2026-07-21 20:59:23",
+        "log_type": "insertTPExHistory",
+        "content": "2026-07-21 上櫃個股日成交 更新完成,共新增 889 筆,耗時 99.95 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820009,
+        "log_time": "2026-07-21 20:57:14",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-07-21] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 8820008,
+        "log_time": "2026-07-21 20:57:14",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時   624.43   秒",
+        "result": "end"
+    },
+    {
+        "id": 8820007,
+        "log_time": "2026-07-21 20:57:14",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-21 借券賣出餘額 更新完成,共新增 1057 筆,耗時 118.75 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820006,
+        "log_time": "2026-07-21 20:55:15",
+        "log_type": "insertSBLTotal",
+        "content": "2026-07-21 借券餘額 更新完成,共新增 995 筆,耗時 111.86 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820005,
+        "log_time": "2026-07-21 20:53:23",
+        "log_type": "insertMargin",
+        "content": "2026-07-21 融資融券彙總 更新完成,共新增 1052 筆,耗時 118.33 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820004,
+        "log_time": "2026-07-21 20:51:25",
+        "log_type": "insertInsti",
+        "content": "2026-07-21 三大法人買賣超 更新完成,共新增 1068 筆,耗時 120.04 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820003,
+        "log_time": "2026-07-21 20:49:24",
+        "log_type": "insertHistory",
+        "content": "2026-07-21 上市個股日成交 更新完成,共新增 1083 筆,耗時 121.57 秒",
+        "result": "success"
+    },
+    {
+        "id": 8820002,
+        "log_time": "2026-07-21 20:46:50",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-07-21] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 8820001,
+        "log_time": "2026-07-21 20:46:50",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-07-21] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 8790002,
         "log_time": "2026-07-21 20:09:24",
         "log_type": "update00981A",
