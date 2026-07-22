@@ -52,8 +52,29 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
+
+        // 併00981A執行
+        $start_time = microtime(true);
+        writeLog($pdo, 'update00981A', "取得交易日期 [{$targetDate}], 開始更新 00981A 成分股資料", 'start');
+        $results = getComponentOf00981A_FromLocal($targetDate);
+        insertComponentOf00981A($pdo, $targetDate, $results);
+        $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, '00981A');
+        $analysis = $analyzeMultiPeriodChanges[0];
+        $lineNotifyStr = $analyzeMultiPeriodChanges[1] . "\n\n";
+        createJsonFile($pdo, $targetDate . '_componentOf00981A', $analysis, 'data');
+        updateDateList($targetDate);
+        $stockIds = [];
+        $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00981A.json"), true);
+        foreach ($a as $v) {
+            $stockIds[] = $v['stock_id'];
+        }
+        $result = getEtfComponentChartData($pdo,  '00981A',  $targetDate, $stockIds);
+        createJsonFile($pdo, $targetDate . '_00981A-charts', $result);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
         updateSystemLog($pdo);
-        lineNotification($pdo, getenv('LINE_TARGET'), '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+        lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
@@ -66,7 +87,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             updateSystemLog($pdo);
             exit(0);
         } else {
-            writeLog($pdo, 'generateDailyDashboard', $e->getMessage(), 'error');
+            writeLog($pdo, 'checkAndRun', $e->getMessage(), 'error');
             updateSystemLog($pdo);
             exit(1);
         }
