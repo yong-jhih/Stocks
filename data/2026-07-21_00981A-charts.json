@@ -331,7 +331,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2330",
-                    "price": null,
+                    "price": 2410,
                     "amount": 11960
                 }
             ]
@@ -666,7 +666,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2383",
-                    "price": null,
+                    "price": 4830,
                     "amount": 4653
                 }
             ]
@@ -1001,7 +1001,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2454",
-                    "price": null,
+                    "price": 3670,
                     "amount": 5131
                 }
             ]
@@ -1336,7 +1336,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2327",
-                    "price": null,
+                    "price": 670,
                     "amount": 25098
                 }
             ]
@@ -1347,331 +1347,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 1886
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 1921
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 1922
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 1922
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2054
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2084
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2084
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2169
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2279
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2352
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2352
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2352
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2367
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2382
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 0,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 7080,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 6640,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 6340,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 6330,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 6220,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 5600,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 5455,
                     "amount": 2443
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6223",
-                    "price": null,
+                    "price": 5875,
                     "amount": 2443
                 }
             ]
@@ -2006,7 +2006,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2345",
-                    "price": null,
+                    "price": 2220,
                     "amount": 6334
                 }
             ]
@@ -2341,7 +2341,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3037",
-                    "price": null,
+                    "price": 825,
                     "amount": 16971
                 }
             ]
@@ -2676,7 +2676,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3017",
-                    "price": null,
+                    "price": 2320,
                     "amount": 5423
                 }
             ]
@@ -3011,7 +3011,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6669",
-                    "price": null,
+                    "price": 5000,
                     "amount": 2417
                 }
             ]
@@ -3346,7 +3346,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2303",
-                    "price": null,
+                    "price": 134.5,
                     "amount": 86550
                 }
             ]
@@ -3681,7 +3681,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "8046",
-                    "price": null,
+                    "price": 1190,
                     "amount": 9519
                 }
             ]
@@ -4016,7 +4016,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3711",
-                    "price": null,
+                    "price": 633,
                     "amount": 16135
                 }
             ]
@@ -4351,7 +4351,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2308",
-                    "price": null,
+                    "price": 1835,
                     "amount": 5567
                 }
             ]
@@ -4686,7 +4686,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3665",
-                    "price": null,
+                    "price": 2000,
                     "amount": 4833.848
                 }
             ]
@@ -5021,7 +5021,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2368",
-                    "price": null,
+                    "price": 980,
                     "amount": 8315
                 }
             ]
@@ -5356,7 +5356,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3653",
-                    "price": null,
+                    "price": 3520,
                     "amount": 2267
                 }
             ]
@@ -5367,331 +5367,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 3019
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 3257
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 3778
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4151
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4400
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4643
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4763
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4763
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4763
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4763
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4763
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 4927
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5058
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 0,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1570,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1550,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1395,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1435,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1295,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1170,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1125,
                     "amount": 5160
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6274",
-                    "price": null,
+                    "price": 1235,
                     "amount": 5160
                 }
             ]
@@ -5702,331 +5702,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 458
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 473
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 483
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 422
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 379
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 416.9
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 0,
                     "amount": 416.9
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 13665,
                     "amount": 416.9
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 13520,
                     "amount": 416.9
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 12985,
                     "amount": 416.9
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 13900,
                     "amount": 448.9
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 13905,
                     "amount": 448.9
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 12950,
                     "amount": 448.9
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 12915,
                     "amount": 448.9
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "5274",
-                    "price": null,
+                    "price": 14100,
                     "amount": 448.9
                 }
             ]
@@ -6361,7 +6361,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6805",
-                    "price": null,
+                    "price": 1415,
                     "amount": 1881
                 }
             ]
@@ -6696,7 +6696,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "8210",
-                    "price": null,
+                    "price": 1165,
                     "amount": 2267
                 }
             ]
@@ -7031,7 +7031,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2449",
-                    "price": null,
+                    "price": 279,
                     "amount": 6197
                 }
             ]
@@ -7042,331 +7042,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1222
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1223
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1224
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 0,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 1050,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 1035,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 985,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 1080,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 1075,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 975,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 935,
                     "amount": 1334
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6187",
-                    "price": null,
+                    "price": 998,
                     "amount": 1334
                 }
             ]
@@ -7377,331 +7377,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 7884
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 7984
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 7985
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 7985
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 3201
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 4631
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 4631
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5775
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5875
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 5875
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 0,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 217,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 198,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 186,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 204.5,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 198,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 178.5,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 164,
                     "amount": 6275
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6147",
-                    "price": null,
+                    "price": 173,
                     "amount": 5752
                 }
             ]
@@ -7712,331 +7712,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 930
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 830
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 636
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 636
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 457
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 0,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2855,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2775,
                     "amount": 411
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2700,
                     "amount": 349
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2810,
                     "amount": 349
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2680,
                     "amount": 349
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2585,
                     "amount": 349
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2565,
                     "amount": 349
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6510",
-                    "price": null,
+                    "price": 2645,
                     "amount": 349
                 }
             ]
@@ -8371,7 +8371,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6515",
-                    "price": null,
+                    "price": 6655,
                     "amount": 130
                 }
             ]
@@ -8382,331 +8382,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3130
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3178
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3228
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 0,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 325.5,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 310.5,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 293,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 296,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 289,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 262,
                     "amount": 3528
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 248,
                     "amount": 3234
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "5439",
-                    "price": null,
+                    "price": 256.5,
                     "amount": 2940
                 }
             ]
@@ -9041,7 +9041,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6278",
-                    "price": null,
+                    "price": 167,
                     "amount": 4334
                 }
             ]
@@ -9376,7 +9376,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "1590",
-                    "price": null,
+                    "price": 1360,
                     "amount": 528
                 }
             ]
@@ -9711,7 +9711,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6271",
-                    "price": null,
+                    "price": 200.5,
                     "amount": 2966
                 }
             ]
@@ -10046,7 +10046,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "6191",
-                    "price": null,
+                    "price": 90.5,
                     "amount": 3988
                 }
             ]
@@ -10381,7 +10381,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3376",
-                    "price": null,
+                    "price": 189.5,
                     "amount": 1741
                 }
             ]
@@ -10392,331 +10392,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 4897
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6994
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 8608
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 9030
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 7772
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 6217
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 2117
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 0,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 235,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 225,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 217.5,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 224.5,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 237.5,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 214,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 197.5,
                     "amount": 1508
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "3264",
-                    "price": null,
+                    "price": 210,
                     "amount": 1508
                 }
             ]
@@ -11051,7 +11051,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2002",
-                    "price": null,
+                    "price": 18.8,
                     "amount": 5163
                 }
             ]
@@ -11062,331 +11062,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 371
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 376
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 386
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 386
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 486
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1036
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1642
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1116
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 1116
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 624
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 0,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 655,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 647,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 628,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 636,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 631,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 585,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 567,
                     "amount": 140
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "4966",
-                    "price": null,
+                    "price": 583,
                     "amount": 140
                 }
             ]
@@ -11721,7 +11721,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2481",
-                    "price": null,
+                    "price": 143.5,
                     "amount": 5
                 }
             ]
@@ -11732,331 +11732,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 0,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 95,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 94.6,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 88.4,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 91.3,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 89.1,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 81.5,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 77.3,
                     "amount": 107
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "1815",
-                    "price": null,
+                    "price": 79.2,
                     "amount": 1
                 }
             ]
@@ -12391,7 +12391,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2313",
-                    "price": null,
+                    "price": 210,
                     "amount": 1
                 }
             ]
@@ -12726,7 +12726,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2317",
-                    "price": null,
+                    "price": 246,
                     "amount": 1
                 }
             ]
@@ -13061,7 +13061,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2382",
-                    "price": null,
+                    "price": 324,
                     "amount": 1
                 }
             ]
@@ -13396,7 +13396,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "2439",
-                    "price": null,
+                    "price": 84.7,
                     "amount": 1
                 }
             ]
@@ -13731,7 +13731,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3008",
-                    "price": null,
+                    "price": 3985,
                     "amount": 1
                 }
             ]
@@ -14066,7 +14066,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3443",
-                    "price": null,
+                    "price": 4115,
                     "amount": 1
                 }
             ]
@@ -14401,7 +14401,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3533",
-                    "price": null,
+                    "price": 2030,
                     "amount": 1
                 }
             ]
@@ -14736,7 +14736,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "3661",
-                    "price": null,
+                    "price": 3490,
                     "amount": 1
                 }
             ]
@@ -15071,7 +15071,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "4958",
-                    "price": null,
+                    "price": 509,
                     "amount": 1
                 }
             ]
@@ -15082,331 +15082,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 62
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 63
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 63
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 63
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 173,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 178.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 174,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 186.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 187.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 169,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 152.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "5347",
-                    "price": null,
+                    "price": 155.5,
                     "amount": 1
                 }
             ]
@@ -15597,151 +15597,151 @@
                 {
                     "date": "2026-06-15",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 350
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 0,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1350,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1485,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1515,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1480,
                     "amount": 50
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1370,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1240,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1265,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "6488",
-                    "price": null,
+                    "price": 1205,
                     "amount": 1
                 }
             ]
@@ -16076,7 +16076,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "8150",
-                    "price": null,
+                    "price": 104,
                     "amount": 1
                 }
             ]
@@ -16087,331 +16087,331 @@
                 {
                     "date": "2026-05-04",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 5558
                 },
                 {
                     "date": "2026-05-05",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 5558
                 },
                 {
                     "date": "2026-05-06",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 5558
                 },
                 {
                     "date": "2026-05-07",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 5558
                 },
                 {
                     "date": "2026-05-08",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-11",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-12",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-13",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-14",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-15",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-18",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-19",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-20",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-21",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-22",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-25",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-26",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-27",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-28",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-05-29",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-06-01",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1980
                 },
                 {
                     "date": "2026-06-02",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-03",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-04",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-05",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-08",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-09",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-10",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-11",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-12",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-15",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-16",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-17",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-18",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-22",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-23",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-24",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-25",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-26",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-29",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-06-30",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 980
                 },
                 {
                     "date": "2026-07-01",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 490
                 },
                 {
                     "date": "2026-07-02",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-03",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-06",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-07",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-08",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 0,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-09",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 533,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-13",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 498,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-14",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 460,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-15",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 462.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-16",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 439,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-17",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 398.5,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-20",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 371,
                     "amount": 1
                 },
                 {
                     "date": "2026-07-21",
                     "stock_id": "8358",
-                    "price": null,
+                    "price": 394.5,
                     "amount": 1
                 }
             ]
@@ -16746,7 +16746,7 @@
                 {
                     "date": "2026-07-21",
                     "stock_id": "8996",
-                    "price": null,
+                    "price": 983,
                     "amount": 1
                 }
             ]

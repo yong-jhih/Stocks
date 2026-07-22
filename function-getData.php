@@ -1721,11 +1721,15 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
             ec.stock_id stock_id,
             ec.trade_date trade_date,
             ec.amount amount,
-            sh.close_price close_price
+            sh.close_price close_price_twse,
+            shx.close_price close_price_tpex
         FROM etf_component ec
         LEFT JOIN stock_history sh
             ON sh.trade_date = ec.trade_date
            AND sh.stock_id = ec.stock_id
+        LEFT JOIN TPEx_stock_history shx
+            ON shx.trade_date = ec.trade_date
+           AND shx.stock_id = ec.stock_id
         WHERE ec.stock_id IN ($stockPlaceholders)
           AND ec.trade_date IN ($datePlaceholders)
           AND ec.etf_id = ?
@@ -1759,7 +1763,7 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
                 $stocks[$stockId]['series'][] = [
                     "date"   => $date,
                     "stock_id" => $stockId,
-                    "price"  => $row['close_price'] !== null ? (float)$row['close_price'] : null,
+                    "price"  => (float)($row['close_price_twse'] ?? $row['close_price_tpex'] ?? null),
                     "amount" => $row['amount'] !== null ? $row['amount'] / 1000 : 0
                 ];
             } else {
