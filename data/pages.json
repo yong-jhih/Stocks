@@ -994,7 +994,7 @@
     },
     {
         "page": "00981A_component",
-        "title": "跟著瑤姐走(上櫃股價施工中)",
+        "title": "跟著瑤姐走",
         "enableChart": true,
         "enableTag": false,
         "useDate": true,
@@ -1004,7 +1004,7 @@
         },
         "chart": {
             "title": "成分股分析",
-            "subTitle": "折線：持股數 & 價格 (僅上市有價格資料)",
+            "subTitle": "折線：持股數 & 價格",
             "yAxis": [
                 {
                     "name": "股價",
