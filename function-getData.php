@@ -1744,6 +1744,38 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
         $dbData[$row['stock_id']][$row['trade_date']] = $row;
     }
 
+
+    // ============================================================================================================
+    $sql = "
+        SELECT
+            ec.stock_id stock_id,
+            ec.trade_date trade_date,
+            ec.amount amount,
+            sh.close_price close_price
+        FROM etf_component ec
+        LEFT JOIN TPEx_stock_history sh
+            ON sh.trade_date = ec.trade_date
+           AND sh.stock_id = ec.stock_id
+        WHERE ec.stock_id IN ($stockPlaceholders)
+          AND ec.trade_date IN ($datePlaceholders)
+          AND ec.etf_id = ?
+        ORDER BY ec.trade_date ASC, ec.stock_id ASC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    // 參數順序：所有 stockId -> 所有限定日期 -> etfId
+    $params = array_merge($stockIds, $recentDates, [$etfId]);
+    $stmt->execute($params);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 將資料庫撈出來的結果，先整理成以 [stock_id][trade_date] 為 Key 的雙層陣列，方便等一下快速比對
+    // $dbData = [];
+    foreach ($rows as $row) {
+        $dbData[$row['stock_id']][$row['trade_date']] = $row;
+    }
+    // =================================================================================================================
+
+
     // 步驟 3：開始建立標準的 60 天對齊結構
     $stocks = [];
     foreach ($stockIds as $stockId) {
