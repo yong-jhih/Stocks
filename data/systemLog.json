@@ -1,5 +1,47 @@
 [
     {
+        "id": 8880028,
+        "log_time": "2026-07-22 21:18:19",
+        "log_type": "checkAndRun",
+        "content": "00981A 資料未完全更新",
+        "result": "error"
+    },
+    {
+        "id": 8880027,
+        "log_time": "2026-07-22 21:18:19",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-22], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 8880026,
+        "log_time": "2026-07-22 21:18:19",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-22] 盤後篩選及評分排行已完成, 共耗時 89.99 秒",
+        "result": "end"
+    },
+    {
+        "id": 8880025,
+        "log_time": "2026-07-22 21:16:57",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-22] 排行分析完成，共 567 檔",
+        "result": "success"
+    },
+    {
+        "id": 8880024,
+        "log_time": "2026-07-22 21:16:53",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-22] 篩選分析完成，共 5 檔",
+        "result": "success"
+    },
+    {
+        "id": 8880023,
+        "log_time": "2026-07-22 21:16:49",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-22] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 8880022,
         "log_time": "2026-07-22 21:15:16",
         "log_type": "updateAllHistory",
