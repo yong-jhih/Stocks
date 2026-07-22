@@ -1453,6 +1453,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         SELECT 
             h.trade_date,
             h.close_price,
+            h.trade_volume,
             i.total_buy_sell as inst_diff,
             m.margin_balance,
             s.sbl_sold,
@@ -1509,6 +1510,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         $results[] = [
             'date'  => date('m/d', strtotime($curr['trade_date'])),
             'price' => (float)$curr['close_price'],
+            'volume' => round($curr['trade_volume'] / 1000),
             // 柱狀圖用 (Bars)
             'bar_inst'   => $instDiff,
             'bar_margin' => $marginDiff,
