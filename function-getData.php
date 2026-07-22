@@ -1677,7 +1677,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
                 'diff60'     => (float)((int)$item['diff60'] / 1000)
             ];
         }
-        $notificationStr = "{$etf_id} 成分股今日變動,請稍候佈署 - https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
+        $notificationStr = "{$etf_id} 成分股今日變動 - https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n" . "增持共" . count($increase) . "檔\n" . "減持共" . count($decrease) . "檔\n" . "無變動共" . count($constant) . "檔\n";
         if (count($eliminate) > 0) $notificationStr .= "剔除共" . count($eliminate) . "檔:" . implode(',', $eliminate) . "\n";
         if (count($new) > 0) $notificationStr .= "新納入共" . count($new) . "檔:" . implode(',', $new) . "\n";
         return [$finalData, $notificationStr];
