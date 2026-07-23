@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate = '2026-07-22';
+
 
 
 // $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
