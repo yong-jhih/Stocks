@@ -1,5 +1,40 @@
 [
     {
+        "id": 9240017,
+        "log_time": "2026-07-24 05:01:20",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 10.71 秒",
+        "result": "end"
+    },
+    {
+        "id": 9240016,
+        "log_time": "2026-07-24 05:01:10",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-23], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9240015,
+        "log_time": "2026-07-24 05:01:10",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-23] 盤後篩選及評分排行已完成, 共耗時 126.89 秒",
+        "result": "end"
+    },
+    {
+        "id": 9240014,
+        "log_time": "2026-07-24 04:59:15",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-23] 排行分析完成，共 565 檔",
+        "result": "success"
+    },
+    {
+        "id": 9240013,
+        "log_time": "2026-07-24 04:59:09",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-23] 篩選分析完成，共 1 檔",
+        "result": "success"
+    },
+    {
         "id": 9240012,
         "log_time": "2026-07-24 04:57:43",
         "log_type": "generateDailyDashboard",
