@@ -1376,6 +1376,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $dashboardResults[] = [
             'stock_id' => $s['stock_id'],
             'stock_name' => $stocksMap[$s['stock_id']]['stock_name'] ?? '',
+            'stock_type' => $stocksMap[$s['stock_id']]['stock_type'] ?? 'TSE',
             'industry' => $industry,
             'subIndustry' => $subIndustry,
             'concept' => $concept,
