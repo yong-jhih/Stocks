@@ -859,6 +859,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
     foreach ($stmtSub_industry->fetchAll(PDO::FETCH_ASSOC) as $row) {
         $profile[$row['stock_id']]['sub_industry'][] = trim($row['sub_industry']);
     }
+
+    echo json_encode($profile['3324']);
     $sqlConcept = "SELECT * FROM stock_concept";
     $stmtConcept = $pdo->prepare($sqlConcept);
     $stmtConcept->execute();
