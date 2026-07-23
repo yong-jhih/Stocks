@@ -246,7 +246,6 @@ function updateDateList(string $date, string $folder = 'data')
 
 function createJsonFile(PDO $pdo, string $filename, array $data, string $folder = 'data'): ?string
 {
-    echo count($data).'\n';
     $fullPath = $folder . DIRECTORY_SEPARATOR . $filename . '.json';
     if (!is_dir($folder)) {
         if (!mkdir($folder, 0755, true)) {
