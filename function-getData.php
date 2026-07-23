@@ -851,21 +851,19 @@ function outputModel(PDO $pdo, array $sqlFetch): array
     $stmtProfile = $pdo->prepare($sqlProfile);
     $stmtProfile->execute();
     foreach ($stmtProfile->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['industry'] = trim($row['industry']);
+        $profile[$row['stock_id']]['industry'] = trim($row['industry'], " \t\n\r\0\x0B\xc2\xa0");
     }
     $sqlSub_industry = "SELECT * FROM stock_sub_industry";
     $stmtSub_industry = $pdo->prepare($sqlSub_industry);
     $stmtSub_industry->execute();
     foreach ($stmtSub_industry->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['sub_industry'][] = trim($row['sub_industry']);
+        $profile[$row['stock_id']]['sub_industry'][] = trim($row['sub_industry'], " \t\n\r\0\x0B\xc2\xa0");
     }
-
-    echo json_encode($profile['3324']);
     $sqlConcept = "SELECT * FROM stock_concept";
     $stmtConcept = $pdo->prepare($sqlConcept);
     $stmtConcept->execute();
     foreach ($stmtConcept->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        $profile[$row['stock_id']]['concept'][] = trim($row['concept']);
+        $profile[$row['stock_id']]['concept'][] = trim($row['concept'], " \t\n\r\0\x0B\xc2\xa0");
     }
 
     $dashboardResults = [];
