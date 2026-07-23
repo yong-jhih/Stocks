@@ -33,7 +33,6 @@ if ( // 已公布 檢查資料量 足夠 直接進行分析
     checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_total', 500) &&
     checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 500)
 ) {
-    echo '分析開始'；
 
     try {
         $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
