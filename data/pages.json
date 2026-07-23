@@ -12,6 +12,7 @@
         "chart": {
             "title": "籌碼分析",
             "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "showVolume": true,
             "yAxis": [
                 {
                     "name": "股價",
@@ -359,6 +360,7 @@
         "chart": {
             "title": "籌碼分析",
             "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "showVolume": true,
             "yAxis": [
                 {
                     "name": "股價",
@@ -682,6 +684,7 @@
         "chart": {
             "title": "籌碼分析",
             "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "showVolume": true,
             "yAxis": [
                 {
                     "name": "股價",

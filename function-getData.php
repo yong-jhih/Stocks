@@ -1509,7 +1509,8 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         // --- 4. 組合資料 ---
         $results[] = [
             'date'  => date('m/d', strtotime($curr['trade_date'])),
-            'price' => (float)$curr['close_price'],
+            'price' => (float)$curr['close_price'], // json夠20日js換讀d.close (目前維持d.price)
+            'close' => (float)$curr['close_price'],
             'volume' => round($curr['trade_volume'] / 1000),
             // 柱狀圖用 (Bars)
             'bar_inst'   => $instDiff,

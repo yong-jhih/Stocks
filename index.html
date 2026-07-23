@@ -927,6 +927,7 @@
         function buildChartOption(id, name, stockData, chartConfig) {
             const isMobile = window.innerWidth < 768;
             const dates = stockData.series.map(x => x.date);
+            const hasVolume = chartConfig.showVolume === true;
             const series = chartConfig.series.map(cfg => {
                 const values = stockData.series.map(x => x[cfg.field]);
                 //----------------------------------
@@ -967,6 +968,24 @@
                     }
                 };
             });
+            if (hasVolume) {
+                series.push({
+                    name: '成交量',
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: chartConfig.yAxis.length,
+                    barMaxWidth: isMobile ? 6 : 10,
+                    data: stockData.series.map((d, i) => {
+                        const prevPrice = i === 0 ? d.price : stockData.series[i - 1].price;
+                        return {
+                            value: d.volume,
+                            itemStyle: {
+                                color: d.price >= prevPrice ? '#ef4444' : '#22c55e'
+                            }
+                        };
+                    })
+                });
+            }
             return {
                 title: {
                     text: `${id} ${name} ${chartConfig.title}`,
@@ -993,28 +1012,51 @@
                     itemHeight: isMobile ? 8 : 12,
                     type: 'scroll'
                 },
-                grid: {
-                    left: isMobile ? 40 : 60,
-                    right: isMobile ? 30 : 60,
-                    top: 60,
-                    bottom: isMobile ? 80 : 60
-                },
-                xAxis: {
-                    type: 'category',
-                    data: dates,
-                    axisLine: {
-                        lineStyle: {
-                            color: '#64748b'
+                grid: hasVolume
+                    ? [
+                        {
+                            left: 60,
+                            right: 60,
+                            top: 50,
+                            height: '62%'
+                        },
+                        {
+                            left: 60,
+                            right: 60,
+                            top: '75%',
+                            height: '20%'
                         }
+                    ]
+                    : {
+                        left: 60,
+                        right: 60,
+                        top: 50,
+                        bottom: 40
                     },
-                    axisLabel: {
-                        color: '#cbd5e1',
-                        fontSize: isMobile ? 10 : 12,
-                        rotate: isMobile ? 45 : 0
-                    }
-                },
-                yAxis:
-                    chartConfig.yAxis.map(y => ({
+                xAxis: hasVolume
+                    ? [
+                        {
+                            type: 'category',
+                            data: dates
+                        },
+                        {
+                            type: 'category',
+                            gridIndex: 1,
+                            data: dates,
+                            axisLabel: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            }
+                        }
+                    ]
+                    : {
+                        type: 'category',
+                        data: dates
+                    },
+                yAxis: (() => {
+                    const yAxis = chartConfig.yAxis.map(y => ({
                         type: 'value',
                         name: y.name,
                         scale: true,
@@ -1032,8 +1074,32 @@
                                 color: '#1e293b'
                             }
                         }
-                    })),
-                series
+                    }));
+                    if (hasVolume) {
+                        yAxis.push({
+                            type: 'value',
+                            name: '',
+                            gridIndex: 1,
+                            scale: true,
+                            min: 0,
+                            max: value => value.max * 1.1,
+                            boundaryGap: ['5%', '5%'],
+                            splitLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                color: '#94a3b8',
+                                formatter: value => {
+                                    if (value >= 1000) {
+                                        return (value / 1000).toFixed(value >= 10000 ? 0 : 1) + 'K';
+                                    }
+                                    return value;
+                                }
+                            }
+                        });
+                    }
+                    return yAxis;
+                })(), series
             };
         }
         function openChart(id, name) {
