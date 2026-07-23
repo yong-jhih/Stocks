@@ -1,5 +1,26 @@
 [
     {
+        "id": 9090001,
+        "log_time": "2026-07-23 23:17:22",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 9060002,
+        "log_time": "2026-07-23 22:55:26",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-23] 排行分析完成，共 565 檔",
+        "result": "success"
+    },
+    {
+        "id": 9060001,
+        "log_time": "2026-07-23 22:52:37",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-22] 排行分析完成，共 567 檔",
+        "result": "success"
+    },
+    {
         "id": 9030005,
         "log_time": "2026-07-23 21:59:18",
         "log_type": "update00981A",
