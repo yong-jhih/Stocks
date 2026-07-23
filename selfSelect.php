@@ -21,11 +21,16 @@ if (count($stockList) == 0) {
 }
 
 if (
-    checkIfDataPublished($pdo, $targetDate, 'stock_history', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_insti', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_margin', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 500) &&
-    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 500)
+    checkIfDataPublished($pdo, $targetDate, 'stock_history', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_insti', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_margin', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_total', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) &&
+    checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_history', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_insti', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_margin', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_total', 500) &&
+    checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 500)
 ) {
     echo '資料數量正常, 開始進行自選分析';
     try {
