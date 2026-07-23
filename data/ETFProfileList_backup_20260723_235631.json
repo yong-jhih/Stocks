@@ -47,12 +47,6 @@
         "stock_type": "ETF",
         "industry": ""
     },
-    "00408A": {
-        "stock_id": "00408A",
-        "stock_name": "主動第一金優股息",
-        "stock_type": "ETF",
-        "industry": ""
-    },
     "0050": {
         "stock_id": "0050",
         "stock_name": "元大台灣50",
@@ -817,7 +811,7 @@
     },
     "00775B": {
         "stock_id": "00775B",
-        "stock_name": "台新投等債15+",
+        "stock_name": "新光投等債15+",
         "stock_type": "ETF",
         "industry": ""
     },
@@ -1009,7 +1003,7 @@
     },
     "00904": {
         "stock_id": "00904",
-        "stock_name": "台新臺灣半導體30",
+        "stock_name": "新光臺灣半導體30",
         "stock_type": "ETF",
         "industry": ""
     },
@@ -1351,7 +1345,7 @@
     },
     "009805": {
         "stock_id": "009805",
-        "stock_name": "台新美國電力基建",
+        "stock_name": "新光美國電力基建",
         "stock_type": "ETF",
         "industry": ""
     },

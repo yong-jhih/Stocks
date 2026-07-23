@@ -4433,12 +4433,6 @@
         "stock_type": "TSE",
         "industry": "光電業"
     },
-    "5236": {
-        "stock_id": "5236",
-        "stock_name": "凌陽創新",
-        "stock_type": "TSE",
-        "industry": "半導體業"
-    },
     "5243": {
         "stock_id": "5243",
         "stock_name": "乙盛-KY",
@@ -8341,7 +8335,7 @@
     },
     "4530": {
         "stock_id": "4530",
-        "stock_name": "天意能創",
+        "stock_name": "宏易",
         "stock_type": "TPEx",
         "industry": "觀光餐旅"
     },
@@ -8860,6 +8854,12 @@
         "stock_name": "雷笛克光學",
         "stock_type": "TPEx",
         "industry": "光電業"
+    },
+    "5236": {
+        "stock_id": "5236",
+        "stock_name": "凌陽創新",
+        "stock_type": "TPEx",
+        "industry": "半導體業"
     },
     "5245": {
         "stock_id": "5245",
@@ -11153,12 +11153,6 @@
         "stock_type": "TPEx",
         "industry": "運動休閒"
     },
-    "7814": {
-        "stock_id": "7814",
-        "stock_name": "海昌生技",
-        "stock_type": "TPEx",
-        "industry": "生技醫療業"
-    },
     "7819": {
         "stock_id": "7819",
         "stock_name": "精誠金融",
@@ -12869,6 +12863,12 @@
         "stock_type": "ESM",
         "industry": "資訊服務業"
     },
+    "6883": {
+        "stock_id": "6883",
+        "stock_name": "微電能源",
+        "stock_type": "ESM",
+        "industry": "綠能環保"
+    },
     "6886": {
         "stock_id": "6886",
         "stock_name": "遠東生技",
@@ -12971,6 +12971,12 @@
         "stock_type": "ESM",
         "industry": "綠能環保"
     },
+    "6947": {
+        "stock_id": "6947",
+        "stock_name": "台鎔科技",
+        "stock_type": "ESM",
+        "industry": "綠能環保"
+    },
     "6959": {
         "stock_id": "6959",
         "stock_name": "兆捷科技",
@@ -13036,12 +13042,6 @@
         "stock_name": "華鉬",
         "stock_type": "ESM",
         "industry": "綠能環保"
-    },
-    "6992": {
-        "stock_id": "6992",
-        "stock_name": "萬勝發科技",
-        "stock_type": "ESM",
-        "industry": "半導體業"
     },
     "6995": {
         "stock_id": "6995",
@@ -13438,6 +13438,12 @@
         "stock_name": "宇辰系統",
         "stock_type": "ESM",
         "industry": "其他電子業"
+    },
+    "7814": {
+        "stock_id": "7814",
+        "stock_name": "海昌生技",
+        "stock_type": "ESM",
+        "industry": "生技醫療業"
     },
     "7815": {
         "stock_id": "7815",
@@ -13937,35 +13943,11 @@
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
     },
-    "7930": {
-        "stock_id": "7930",
-        "stock_name": "威世波",
-        "stock_type": "ESM",
-        "industry": "通信網路業"
-    },
     "7931": {
         "stock_id": "7931",
         "stock_name": "續升綠能",
         "stock_type": "ESM",
         "industry": "綠能環保"
-    },
-    "7933": {
-        "stock_id": "7933",
-        "stock_name": "威旭",
-        "stock_type": "ESM",
-        "industry": "其他"
-    },
-    "7935": {
-        "stock_id": "7935",
-        "stock_name": "安富",
-        "stock_type": "ESM",
-        "industry": "通信網路業"
-    },
-    "7936": {
-        "stock_id": "7936",
-        "stock_name": "寰聖",
-        "stock_type": "ESM",
-        "industry": "電子零組件業"
     },
     "8058": {
         "stock_id": "8058",
