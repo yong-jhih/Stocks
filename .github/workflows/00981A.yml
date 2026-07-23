@@ -54,8 +54,8 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      - name: Run Update
-        run: php update00981A.php
+      # - name: Run Update
+      #   run: php update00981A.php
 
       - name: Commit And Push JSON files
         if: always()
