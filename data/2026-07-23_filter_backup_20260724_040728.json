@@ -2,6 +2,7 @@
     {
         "stock_id": "2324",
         "stock_name": "仁寶",
+        "stock_type": "TSE",
         "industry": "電腦及週邊設備業",
         "subIndustry": [
             "伺服器",
