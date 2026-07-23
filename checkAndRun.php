@@ -41,7 +41,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         renewCharts($pdo, $targetDate, 'filter', 'charts');
 
         $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
-        echo json_encode($resultsTop[100]);
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
