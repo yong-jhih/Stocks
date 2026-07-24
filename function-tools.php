@@ -289,14 +289,18 @@ function cleanData(int $days): void
             return;
         }
         $targetFiles = [
-            "*_00981A-charts.json",
-            "*_charts.json",
+            "*_componentOf00991A.json",
+            "*_00991A-charts.json",
+            "*_componentOf00403A.json",
+            "*_00403A-charts.json",
             "*_componentOf00981A.json",
+            "*_00981A-charts.json",
             "*_filter.json",
-            "*_self-charts.json",
+            "*_charts.json",
             "*_self-select.json",
-            "*_topPerforming-charts.json",
-            "*_topPerforming.json"
+            "*_self-charts.json",
+            "*_topPerforming.json",
+            "*_topPerforming-charts.json"
         ];
         foreach ($targetFiles as $pattern) {
             $allFiles = glob("data/" . $pattern);
