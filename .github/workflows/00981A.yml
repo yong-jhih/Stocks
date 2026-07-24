@@ -48,6 +48,9 @@ jobs:
       - name: Run Puppeteer to Fetch HTML(00981A)
         run: node fetch_00981A.js
 
+      - name: Run Puppeteer to Fetch HTML(00991A)
+        run: node fetch_00991A.js
+
       - name: Run Puppeteer to Fetch HTML(00403A)
         run: node fetch_00403A.js
 

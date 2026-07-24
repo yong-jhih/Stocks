@@ -6,8 +6,7 @@ const fs = require('fs');
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     const date = `${yyyy}/${mm}/${dd}`;
-    // const url = `https://www.fhtrust.com.tw/api/assets?fundID=ETF23&qDate=${date}`;
-    const url = `https://www.fhtrust.com.tw/api/assets?fundID=ETF23&qDate=2026/07/23`;
+    const url = `https://www.fhtrust.com.tw/api/assets?fundID=ETF23&qDate=${date}`;
     console.log(url);
     const res = await fetch(url);
     if (!res.ok) {

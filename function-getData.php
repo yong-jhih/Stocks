@@ -1585,6 +1585,64 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
     }
 }
 
+function getComponentOf00403A_FromLocal(string $targetDate): array
+{
+    $jsonFile = 'etf_componet_00403A.json';
+    if (file_exists($jsonFile)) {
+        $jsonStr = file_get_contents($jsonFile);
+        $data = json_decode($jsonStr, true);
+        if ($data) {
+            $details = null;
+            foreach ($data as $item) {
+                if ($item['AssetName'] === '股票') {
+                    $details = $item['Details'];
+                    $value = (int)$item['Value'];
+                }
+            }
+            $totalAmount = 0;
+            foreach ($details as $detail) {
+                $itemDate = substr($detail['EditTime'], 0, 10);
+                if ($itemDate !== $targetDate) {
+                    throw new RuntimeException('00403A 資料未完全更新');
+                }
+                $totalAmount += (int)$detail['Amount'];
+            }
+            if (isset($value) && $value !== $totalAmount) {
+                throw new RuntimeException('00403A 總市值不符');
+            }
+            return $details;
+        }
+    }
+    throw new RuntimeException('查詢不到 00403A 成分股資料');
+}
+
+function insertComponentOf00403A(PDO $pdo, string $targetDate, array $data): void
+{
+    try {
+        $sql = "INSERT INTO etf_component 
+                (trade_date, etf_id, stock_id, amount, weight)
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                amount = VALUES(amount),
+                weight = VALUES(weight)";
+        $stmt = $pdo->prepare($sql);
+        $pdo->beginTransaction();
+        foreach ($data as $row) {
+            $stmt->execute([
+                $targetDate,
+                '00403A',
+                $row['DetailCode'],
+                (int)$row['Share'],
+                $row['NavRate']
+            ]);
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw new RuntimeException($targetDate . " 00403A 成分股資料新增失敗: " . $e->getMessage());
+    }
+}
+
 function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id): array
 {
     try {

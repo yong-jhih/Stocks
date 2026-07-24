@@ -73,6 +73,28 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+
+        // 併00403A執行
+        $start_time = microtime(true);
+        writeLog($pdo, 'update00403A', "取得交易日期 [{$targetDate}], 開始更新 00403A 成分股資料", 'start');
+        $results = getComponentOf00403A_FromLocal($targetDate);
+        insertComponentOf00403A($pdo, $targetDate, $results);
+        $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, '00403A');
+        $analysis = $analyzeMultiPeriodChanges[0];
+        // $lineNotifyStr = $analyzeMultiPeriodChanges[1] . "\n";
+        createJsonFile($pdo, $targetDate . '_componentOf00403A', $analysis, 'data');
+        updateDateList($targetDate);
+        $stockIds = [];
+        $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00403A.json"), true);
+        foreach ($a as $v) {
+            $stockIds[] = $v['stock_id'];
+        }
+        $result = getEtfComponentChartData($pdo,  '00403A',  $targetDate, $stockIds);
+        createJsonFile($pdo, $targetDate . '_00403A-charts', $result);
+        $end_time = microtime(true);
+        $execution_time = round($end_time - $start_time, 2);
+        writeLog($pdo, 'update00403A', '00403A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+
         updateSystemLog($pdo);
         lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
