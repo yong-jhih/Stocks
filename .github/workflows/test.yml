@@ -28,33 +28,49 @@ env:
   GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
 
 jobs:
-  stock_job:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Check Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: pdo, pdo_mysql
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Run Update
-      run: php test.php 
+      - name: Install dependencies
+        run: npm install
 
-    - name: Commit And Push JSON files
-      if: always()
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add .
-        if git diff --quiet && git diff --staged --quiet; then
-          echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
-        else
-          git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
-          git push
-        fi
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+  
+      - name: Run Puppeteer to Fetch HTML(00981A)
+        run: node fetch_00991A.js
+
+      - name: Run Puppeteer to Fetch HTML(00403A)
+        run: node fetch_00403A.js
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_mysql
+
+      # - name: Run Update
+      #   run: php update00981A.php
+
+      - name: Commit And Push JSON files
+        if: always()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
+          else
+            git commit -m "自動更新 00981A 成分股數據: $(date +'%Y-%m-%d %H:%M')"
+            git push
+          fi
