@@ -1585,6 +1585,7 @@ function insertComponentOf00981A(PDO $pdo, string $targetDate, array $data): voi
     }
 }
 
+// 00403A
 function getComponentOf00403A_FromLocal(string $targetDate): array
 {
     $jsonFile = 'etf_componet_00403A.json';
@@ -1640,6 +1641,67 @@ function insertComponentOf00403A(PDO $pdo, string $targetDate, array $data): voi
     } catch (Throwable $e) {
         $pdo->rollBack();
         throw new RuntimeException($targetDate . " 00403A 成分股資料新增失敗: " . $e->getMessage());
+    }
+}
+
+// 00991A
+function getComponentOf00991A_FromLocal(string $targetDate): array
+{
+    $jsonFile = 'etf_componet_00991A.json';
+    if (file_exists($jsonFile)) {
+        $jsonStr = file_get_contents($jsonFile);
+        $data = json_decode($jsonStr, true)['result'][0];
+        if ($data) {
+            if ($data['dDate'] !== str_replace("-", "/", $targetDate)) {
+                throw new RuntimeException('00991A 資料未完全更新');
+            }
+            $amount = 0;
+            $details = [];
+            $totalAmount = 0;
+            foreach ($data['detail'] as $item) {
+                if ($item['ftype'] === '股票') {
+                    $details[] = $item;
+                    $totalAmount += (int)str_replace(",", "", $item['mvalue']);
+                }
+            }
+            foreach ($data['result'] as $item) {
+                if ($item['ftype'] === '股票') {
+                    $amount = (int)str_replace(",", "", $item['tot_mvalue']);
+                    if ($amount !== $totalAmount) {
+                        throw new RuntimeException('00991A 總市值不符');
+                    }
+                }
+            }
+            return $details;
+        }
+    }
+    throw new RuntimeException('查詢不到 00991A 成分股資料');
+}
+
+function insertComponentOf00991A(PDO $pdo, string $targetDate, array $data): void
+{
+    try {
+        $sql = "INSERT INTO etf_component 
+                (trade_date, etf_id, stock_id, amount, weight)
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                amount = VALUES(amount),
+                weight = VALUES(weight)";
+        $stmt = $pdo->prepare($sql);
+        $pdo->beginTransaction();
+        foreach ($data as $row) {
+            $stmt->execute([
+                $targetDate,
+                '00991A',
+                $row['stockid'],
+                (int)str_replace(",", "", $row['qshare']),
+                (float)str_replace("%", "", $row['prate_addaccint'])
+            ]);
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw new RuntimeException($targetDate . " 00991A 成分股資料新增失敗: " . $e->getMessage());
     }
 }
 
