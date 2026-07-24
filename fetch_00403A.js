@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    const url = 'https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=49YTW';
+    const url = 'https://www.ezmoney.com.tw/ETF/Fund/Info?fundCode=63YTW';
     const browser = await puppeteer.launch({
         headless: "new",
         args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -27,7 +27,7 @@ const fs = require('fs');
             }
         });
         if (jsonData) {
-            fs.writeFileSync('etf_componet_00981A.json', jsonData);
+            fs.writeFileSync('etf_componet_00403A.json', jsonData);
             console.log('成功產出標準 JSON：stock_data.json');
         } else {
             console.error('找不到資料或解析失敗');
