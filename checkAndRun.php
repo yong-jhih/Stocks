@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate='2026-07-23';
+$targetDate = '2026-07-23';
 
 if (
     file_exists("data/" . $targetDate . "_filter.json") &&
@@ -41,7 +41,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         renewCharts($pdo, $targetDate, 'filter', 'charts');
 
         $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
-        echo count($resultsTop);
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
@@ -76,7 +75,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'update00981A', '00981A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
         updateSystemLog($pdo);
-       // lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+        // lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
