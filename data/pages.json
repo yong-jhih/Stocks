@@ -1066,7 +1066,261 @@
             ],
             "fixedColumns": 2
         },
-        "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間8~9點爬取統一證券官網公告之成分股內容",
+        "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容",
+        "illustrate": [],
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id",
+                "format": ""
+            },
+            {
+                "class": "text-blue-300 font-bold",
+                "title": "名稱",
+                "field": "stock_name",
+                "format": ""
+            },
+            {
+                "title": "持股數",
+                "field": "amount",
+                "format": "number"
+            },
+            {
+                "title": "權重",
+                "field": "weight",
+                "format": "percent"
+            },
+            {
+                "title": "備註",
+                "field": "note",
+                "format": ""
+            },
+            {
+                "title": "1日持股差異",
+                "field": "diff1",
+                "format": "number"
+            },
+            {
+                "title": "5日持股差異",
+                "field": "diff5",
+                "format": "number"
+            },
+            {
+                "title": "10日持股差異",
+                "field": "diff10",
+                "format": "number"
+            },
+            {
+                "title": "20日持股差異",
+                "field": "diff20",
+                "format": "number"
+            },
+            {
+                "title": "60日持股差異",
+                "field": "diff60",
+                "format": "number"
+            }
+        ]
+    },
+    {
+        "page": "00403A_component",
+        "title": "00403A",
+        "enableChart": true,
+        "enableTag": false,
+        "useDate": true,
+        "dataSource": {
+            "table": "componentOf00403A.json",
+            "chart": "00403A-charts.json"
+        },
+        "chart": {
+            "title": "成分股分析",
+            "subTitle": "折線：持股數 & 價格",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "amount",
+                    "name": "持股數",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                }
+            ]
+        },
+        "datatable": {
+            "order": [
+                3,
+                "desc"
+            ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
+            "fixedColumns": 2
+        },
+        "illustrate_main": "※ 核心規則：僅00403A納入之成分股，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容",
+        "illustrate": [],
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id",
+                "format": ""
+            },
+            {
+                "class": "text-blue-300 font-bold",
+                "title": "名稱",
+                "field": "stock_name",
+                "format": ""
+            },
+            {
+                "title": "持股數",
+                "field": "amount",
+                "format": "number"
+            },
+            {
+                "title": "權重",
+                "field": "weight",
+                "format": "percent"
+            },
+            {
+                "title": "備註",
+                "field": "note",
+                "format": ""
+            },
+            {
+                "title": "1日持股差異",
+                "field": "diff1",
+                "format": "number"
+            },
+            {
+                "title": "5日持股差異",
+                "field": "diff5",
+                "format": "number"
+            },
+            {
+                "title": "10日持股差異",
+                "field": "diff10",
+                "format": "number"
+            },
+            {
+                "title": "20日持股差異",
+                "field": "diff20",
+                "format": "number"
+            },
+            {
+                "title": "60日持股差異",
+                "field": "diff60",
+                "format": "number"
+            }
+        ]
+    },
+    {
+        "page": "00991A_component",
+        "title": "00991A",
+        "enableChart": true,
+        "enableTag": false,
+        "useDate": true,
+        "dataSource": {
+            "table": "componentOf00991A.json",
+            "chart": "00991A-charts.json"
+        },
+        "chart": {
+            "title": "成分股分析",
+            "subTitle": "折線：持股數 & 價格",
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "amount",
+                    "name": "持股數",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                }
+            ]
+        },
+        "datatable": {
+            "order": [
+                3,
+                "desc"
+            ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
+            "fixedColumns": 2
+        },
+        "illustrate_main": "※ 核心規則：僅00991A納入之成分股，每日盤後晚間7~8點爬取復華投顧官網公告之成分股內容",
         "illustrate": [],
         "columns": [
             {
