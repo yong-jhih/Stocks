@@ -2204,6 +2204,17 @@ function updateConcept(PDO $pdo, array $stocks): void
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_USERAGENT,
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36'
+        );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: text/html,application/xhtml+xml',
+            'Accept-Language: zh-TW,zh;q=0.9'
+        ]);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
         $html = curl_exec($ch);
         curl_close($ch);
         if ($html === false) {
@@ -2231,23 +2242,39 @@ function updateConcept(PDO $pdo, array $stocks): void
         $allParams = [];
         foreach ($result as $k => $v) {
             $url = "https://www.moneydj.com/z/zg/zge_" . $v['concept_id'] . "_1.djhtm";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-            $html = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $error = curl_error($ch);
-            curl_close($ch);
-            if ($html === false || $httpCode != 200) {
+            for ($retry = 1; $retry <= 3; $retry++) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+                curl_setopt(
+                    $ch,
+                    CURLOPT_USERAGENT,
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36'
+                );
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Accept: text/html,application/xhtml+xml',
+                    'Accept-Language: zh-TW,zh;q=0.9'
+                ]);
+                curl_setopt($ch, CURLOPT_ENCODING, '');
+                $html = curl_exec($ch);
+                $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $error = curl_error($ch);
+                curl_close($ch);
+                if ($http == 200 && $html !== false) {
+                    break;
+                }
+                if ($retry < 3) {
+                    writeLog($pdo, 'updateConcept', "{$v['concept_name']} HTTP {$http} Retry {$retry}", 'warning');
+                    sleep(5);
+                }
+            }
+            if ($html === false || $http != 200) {
                 throw new RuntimeException(
-                    "HTTP={$httpCode} Error={$error} 無法取得分類成分股，分類：{$v['concept_name']}"
+                    "HTTP={$http} Error={$error} 無法取得分類成分股，分類：{$v['concept_name']}"
                 );
             }
-            // if ($html === false) {
-            //     throw new RuntimeException("無法取得分類成分股，分類：{$v['concept_name']}");
-            // }
             $c = [];
             $a = explode("GenLink2stk('AS", $html);
             foreach ($a as $i => $b) {
