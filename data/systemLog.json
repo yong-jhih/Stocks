@@ -1,5 +1,75 @@
 [
     {
+        "id": 9750031,
+        "log_time": "2026-07-27 21:38:59",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成,共耗時 7.98 秒",
+        "result": "end"
+    },
+    {
+        "id": 9750030,
+        "log_time": "2026-07-27 21:38:51",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-07-27], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9750029,
+        "log_time": "2026-07-27 21:38:51",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成,共耗時 7.95 秒",
+        "result": "end"
+    },
+    {
+        "id": 9750028,
+        "log_time": "2026-07-27 21:38:43",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-07-27], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9750027,
+        "log_time": "2026-07-27 21:38:43",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 8.26 秒",
+        "result": "end"
+    },
+    {
+        "id": 9750026,
+        "log_time": "2026-07-27 21:38:35",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-27], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9750025,
+        "log_time": "2026-07-27 21:38:34",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-27] 盤後篩選及評分排行已完成, 共耗時 101.08 秒",
+        "result": "end"
+    },
+    {
+        "id": 9750024,
+        "log_time": "2026-07-27 21:37:02",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-27] 排行分析完成，共 568 檔",
+        "result": "success"
+    },
+    {
+        "id": 9750023,
+        "log_time": "2026-07-27 21:36:57",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-27] 篩選分析完成，共 4 檔",
+        "result": "success"
+    },
+    {
+        "id": 9750022,
+        "log_time": "2026-07-27 21:36:54",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-27] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 9750021,
         "log_time": "2026-07-27 21:33:15",
         "log_type": "updateAllHistory",
