@@ -2057,6 +2057,7 @@ function getStockProfileETF(PDO $pdo): ?array
 
 function updateIndustry(PDO $pdo, array $stocks): void
 {
+    $num = count($stocks);
     $pdo->beginTransaction();
     try {
         foreach (array_chunk($stocks, 500) as $chunk) {
@@ -2081,7 +2082,7 @@ function updateIndustry(PDO $pdo, array $stocks): void
             $pdo->prepare($sql)->execute($params);
         }
         $pdo->commit();
-        writeLog($pdo, 'updateIndustry', '產業別 更新完成,共更新 ' . count($stocks) . ' 筆', 'success');
+        writeLog($pdo, 'updateIndustry', "產業別 更新完成,共更新 {$num} 筆", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
         throw new RuntimeException("[updateIndustry] " . $e->getMessage(), 0, $e);
@@ -2183,7 +2184,7 @@ function updateSubIndustry(PDO $pdo, array $stocks): void
         curl_multi_close($mh);
         usleep(200000);
     }
-    writeLog($pdo, 'updateSubIndustry', '次產業 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
+    writeLog($pdo, 'updateSubIndustry', "次產業 更新完成,共更新 {$totalInsertCount} 筆", 'success');
 }
 function updateConcept(PDO $pdo, array $stocks): void
 {
@@ -2203,23 +2204,14 @@ function updateConcept(PDO $pdo, array $stocks): void
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt(
-            $ch,
-            CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36'
-        );
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: text/html,application/xhtml+xml',
-            'Accept-Language: zh-TW,zh;q=0.9'
-        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: text/html,application/xhtml+xml', 'Accept-Language: zh-TW,zh;q=0.9']);
         curl_setopt($ch, CURLOPT_ENCODING, '');
         $html = curl_exec($ch);
         curl_close($ch);
-        if ($html === false) {
-            throw new RuntimeException("無法取得 MoneyDJ 分類主頁面");
-        }
+        if ($html === false) throw new RuntimeException("無法取得 MoneyDJ 分類主頁面");
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $dom->loadHTML($html);
@@ -2248,33 +2240,17 @@ function updateConcept(PDO $pdo, array $stocks): void
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-                curl_setopt(
-                    $ch,
-                    CURLOPT_USERAGENT,
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36'
-                );
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Accept: text/html,application/xhtml+xml',
-                    'Accept-Language: zh-TW,zh;q=0.9'
-                ]);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0 Safari/537.36');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: text/html,application/xhtml+xml', 'Accept-Language: zh-TW,zh;q=0.9']);
                 curl_setopt($ch, CURLOPT_ENCODING, '');
                 $html = curl_exec($ch);
                 $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 $error = curl_error($ch);
                 curl_close($ch);
-                if ($http == 200 && $html !== false) {
-                    break;
-                }
-                if ($retry < 3) {
-                    writeLog($pdo, 'updateConcept', "{$v['concept_name']} HTTP {$http} Retry {$retry}", 'warning');
-                    sleep(5);
-                }
+                if ($http == 200 && $html !== false) break;
+                if ($retry < 3) sleep(5);
             }
-            if ($html === false || $http != 200) {
-                throw new RuntimeException(
-                    "HTTP={$http} Error={$error} 無法取得分類成分股，分類：{$v['concept_name']}"
-                );
-            }
+            if ($html === false || $http != 200) throw new RuntimeException("HTTP={$http} Error={$error} 無法取得分類成分股，分類：{$v['concept_name']}");
             $c = [];
             $a = explode("GenLink2stk('AS", $html);
             foreach ($a as $i => $b) {
@@ -2288,7 +2264,6 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $allParams[] = $stock_id;
                 $allParams[] = $v['concept_name'];
             }
-            // if ($k > 0 && $k % 8 == 0) sleep(2);
             usleep(random_int(300000, 800000));
         }
         if (!empty($allValues)) {
@@ -2298,7 +2273,7 @@ function updateConcept(PDO $pdo, array $stocks): void
             $totalInsertCount = $stmt->rowCount();
         }
         $pdo->commit();
-        writeLog($pdo, 'updateConcept', '概念股 更新完成,共更新 ' . $totalInsertCount . ' 筆', 'success');
+        writeLog($pdo, 'updateConcept', "概念股 更新完成,共更新 {$totalInsertCount} 筆", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
         throw new RuntimeException("[updateConcept] " . $e->getMessage(), 0, $e);
@@ -2341,7 +2316,7 @@ function updateStockProfile(PDO $pdo): void
         createJsonFile($pdo, 'ETFProfileList', $stocksETF);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateStockProfile', '基本資料及產業別及次產業概念更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
+        writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新完成,共耗時 {$execution_time} 秒", 'end');
     } catch (Throwable $e) {
         writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
         throw $e;
