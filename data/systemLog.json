@@ -98,6 +98,20 @@
         "result": "start"
     },
     {
+        "id": 9690025,
+        "log_time": "2026-07-27 10:18:23",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 1320.4 秒",
+        "result": "end"
+    },
+    {
+        "id": 9690024,
+        "log_time": "2026-07-27 10:18:22",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6534 筆",
+        "result": "success"
+    },
+    {
         "id": 9690003,
         "log_time": "2026-07-27 10:00:34",
         "log_type": "updateSubIndustry",
