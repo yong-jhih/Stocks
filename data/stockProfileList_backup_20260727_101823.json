@@ -5675,12 +5675,6 @@
         "stock_type": "TSE",
         "industry": "綠能環保"
     },
-    "6947": {
-        "stock_id": "6947",
-        "stock_name": "台鎔科技",
-        "stock_type": "TSE",
-        "industry": "綠能環保"
-    },
     "6949": {
         "stock_id": "6949",
         "stock_name": "沛爾生醫-創",
@@ -5914,12 +5908,6 @@
         "stock_name": "漢康-KY創",
         "stock_type": "TSE",
         "industry": "生技醫療業"
-    },
-    "7835": {
-        "stock_id": "7835",
-        "stock_name": "永悅健康-創",
-        "stock_type": "TSE",
-        "industry": "數位雲端"
     },
     "8011": {
         "stock_id": "8011",
@@ -13084,12 +13072,6 @@
         "stock_name": "達勝",
         "stock_type": "ESM",
         "industry": "電子零組件業"
-    },
-    "7422": {
-        "stock_id": "7422",
-        "stock_name": "鴻林堂",
-        "stock_type": "ESM",
-        "industry": "生技醫療業"
     },
     "7427": {
         "stock_id": "7427",

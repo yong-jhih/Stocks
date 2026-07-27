@@ -1,268 +1,275 @@
 [
     {
-        "id": 9420009,
-        "log_time": "2026-07-24 21:56:30",
-        "log_type": "update00991A",
-        "content": "00991A 成分股資料更新完成,共耗時 7.03 秒",
+        "id": 9690039,
+        "log_time": "2026-07-27 10:18:27",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
         "result": "end"
     },
     {
-        "id": 9420008,
-        "log_time": "2026-07-24 21:56:23",
-        "log_type": "update00991A",
-        "content": "取得交易日期 [2026-07-24], 開始更新 00991A 成分股資料",
+        "id": 9690038,
+        "log_time": "2026-07-27 10:18:27",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690037,
+        "log_time": "2026-07-27 10:18:27",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690036,
+        "log_time": "2026-07-27 10:18:26",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690035,
+        "log_time": "2026-07-27 10:18:26",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690034,
+        "log_time": "2026-07-27 10:18:26",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690033,
+        "log_time": "2026-07-27 10:18:25",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690032,
+        "log_time": "2026-07-27 10:18:25",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690031,
+        "log_time": "2026-07-27 10:18:25",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1047 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690030,
+        "log_time": "2026-07-27 10:18:24",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 981 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690029,
+        "log_time": "2026-07-27 10:18:24",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1040 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690028,
+        "log_time": "2026-07-27 10:18:24",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1052 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690027,
+        "log_time": "2026-07-27 10:18:23",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1073 筆",
+        "result": "success"
+    },
+    {
+        "id": 9690026,
+        "log_time": "2026-07-27 10:18:23",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
         "result": "start"
     },
     {
-        "id": 9420007,
-        "log_time": "2026-07-24 21:56:23",
-        "log_type": "update00403A",
-        "content": "00403A 成分股資料更新完成,共耗時 6.96 秒",
+        "id": 9690025,
+        "log_time": "2026-07-27 10:18:23",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 1320.4 秒",
         "result": "end"
     },
     {
-        "id": 9420006,
-        "log_time": "2026-07-24 21:56:16",
-        "log_type": "update00403A",
-        "content": "取得交易日期 [2026-07-24], 開始更新 00403A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 9420005,
-        "log_time": "2026-07-24 21:56:16",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成,共耗時 7.44 秒",
-        "result": "end"
-    },
-    {
-        "id": 9420004,
-        "log_time": "2026-07-24 21:56:08",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-07-24], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 9420003,
-        "log_time": "2026-07-24 21:56:08",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-24] 盤後篩選及評分排行已完成, 共耗時 95.06 秒",
-        "result": "end"
-    },
-    {
-        "id": 9420002,
-        "log_time": "2026-07-24 21:54:45",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-24] 排行分析完成，共 564 檔",
+        "id": 9690024,
+        "log_time": "2026-07-27 10:18:22",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6534 筆",
         "result": "success"
     },
     {
-        "id": 9420001,
-        "log_time": "2026-07-24 21:54:39",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
+        "id": 9690023,
+        "log_time": "2026-07-27 10:18:00",
+        "log_type": "updateConcept",
+        "content": "輝達機器人 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690022,
+        "log_time": "2026-07-27 10:17:45",
+        "log_type": "updateConcept",
+        "content": "精準醫療 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690021,
+        "log_time": "2026-07-27 10:17:24",
+        "log_type": "updateConcept",
+        "content": "電動車充電 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690020,
+        "log_time": "2026-07-27 10:16:51",
+        "log_type": "updateConcept",
+        "content": "無線充電 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690019,
+        "log_time": "2026-07-27 10:16:07",
+        "log_type": "updateConcept",
+        "content": "星鏈計畫(Starlink) HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690018,
+        "log_time": "2026-07-27 10:14:56",
+        "log_type": "updateConcept",
+        "content": "物流 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690017,
+        "log_time": "2026-07-27 10:14:41",
+        "log_type": "updateConcept",
+        "content": "折疊式手機 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690016,
+        "log_time": "2026-07-27 10:13:45",
+        "log_type": "updateConcept",
+        "content": "助聽器 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690015,
+        "log_time": "2026-07-27 10:13:36",
+        "log_type": "updateConcept",
+        "content": "自動駕駛車 HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690014,
+        "log_time": "2026-07-27 10:12:24",
+        "log_type": "updateConcept",
+        "content": "生物辨識 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690013,
+        "log_time": "2026-07-27 10:12:16",
+        "log_type": "updateConcept",
+        "content": "台積電 HTTP 503 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690012,
+        "log_time": "2026-07-27 10:10:53",
+        "log_type": "updateConcept",
+        "content": "LiDAR(光學雷達) HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690011,
+        "log_time": "2026-07-27 10:09:47",
+        "log_type": "updateConcept",
+        "content": "iPhone 系列 HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690010,
+        "log_time": "2026-07-27 10:08:35",
+        "log_type": "updateConcept",
+        "content": "Google HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690009,
+        "log_time": "2026-07-27 10:07:28",
+        "log_type": "updateConcept",
+        "content": "Google TPU HTTP 0 Retry 2",
+        "result": "warning"
+    },
+    {
+        "id": 9690008,
+        "log_time": "2026-07-27 10:06:23",
+        "log_type": "updateConcept",
+        "content": "Google TPU HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690007,
+        "log_time": "2026-07-27 10:05:04",
+        "log_type": "updateConcept",
+        "content": "AMD HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690006,
+        "log_time": "2026-07-27 10:03:56",
+        "log_type": "updateConcept",
+        "content": "AI智慧眼鏡 HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690005,
+        "log_time": "2026-07-27 10:02:41",
+        "log_type": "updateConcept",
+        "content": "3D IC先進封裝聯盟 HTTP 0 Retry 2",
+        "result": "warning"
+    },
+    {
+        "id": 9690004,
+        "log_time": "2026-07-27 10:01:36",
+        "log_type": "updateConcept",
+        "content": "3D IC先進封裝聯盟 HTTP 0 Retry 1",
+        "result": "warning"
+    },
+    {
+        "id": 9690003,
+        "log_time": "2026-07-27 10:00:34",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6680 筆",
         "result": "success"
     },
     {
-        "id": 9390001,
-        "log_time": "2026-07-24 21:48:54",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 9360002,
-        "log_time": "2026-07-24 21:42:44",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 9360001,
-        "log_time": "2026-07-24 21:42:41",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
+        "id": 9690002,
+        "log_time": "2026-07-27 09:56:59",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2605 筆",
         "result": "success"
     },
     {
-        "id": 9330003,
-        "log_time": "2026-07-24 21:36:59",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 9330002,
-        "log_time": "2026-07-24 21:36:56",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
-        "result": "success"
-    },
-    {
-        "id": 9330001,
-        "log_time": "2026-07-24 21:36:52",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-24] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
-        "id": 9300016,
-        "log_time": "2026-07-24 21:25:16",
-        "log_type": "updateAllHistory",
-        "content": "歷史資料更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
-        "id": 9300015,
-        "log_time": "2026-07-24 21:25:16",
-        "log_type": "updateAllTPExHistory",
-        "content": "更新上櫃盤後資料結束, 共耗時   482.72   秒",
-        "result": "end"
-    },
-    {
-        "id": 9300014,
-        "log_time": "2026-07-24 21:25:16",
-        "log_type": "insertSBLSold",
-        "content": "2026-07-24 上櫃公司 借券賣出餘額 更新完成,共新增 811 筆,耗時 91.44 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300013,
-        "log_time": "2026-07-24 21:23:44",
-        "log_type": "insertTPExSBLTotal",
-        "content": "2026-07-24 上櫃公司 借券餘額 更新完成,共新增 727 筆,耗時 82.07 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300012,
-        "log_time": "2026-07-24 21:22:22",
-        "log_type": "insertMargin",
-        "content": "2026-07-24 上櫃公司 融資融券彙總 更新完成,共新增 797 筆,耗時 90.1 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300011,
-        "log_time": "2026-07-24 21:20:51",
-        "log_type": "insertTPExInsti",
-        "content": "2026-07-24 上櫃公司 三大法人買賣超 更新完成,共新增 776 筆,耗時 87.61 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300010,
-        "log_time": "2026-07-24 21:19:24",
-        "log_type": "insertTPExHistory",
-        "content": "2026-07-24 上櫃個股日成交 更新完成,共新增 889 筆,耗時 100.47 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300009,
-        "log_time": "2026-07-24 21:17:13",
-        "log_type": "updateAllTPExHistory",
-        "content": "取得交易日期 [2026-07-24] 開始更新上櫃盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 9300008,
-        "log_time": "2026-07-24 21:17:13",
-        "log_type": "updateAllHistory",
-        "content": "更新上市盤後資料結束, 共耗時   624.27   秒",
-        "result": "end"
-    },
-    {
-        "id": 9300007,
-        "log_time": "2026-07-24 21:17:13",
-        "log_type": "insertSBLSold",
-        "content": "2026-07-24 借券賣出餘額 更新完成,共新增 1059 筆,耗時 120.41 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300006,
-        "log_time": "2026-07-24 21:15:12",
-        "log_type": "insertSBLTotal",
-        "content": "2026-07-24 借券餘額 更新完成,共新增 996 筆,耗時 113.29 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300005,
-        "log_time": "2026-07-24 21:13:19",
-        "log_type": "insertMargin",
-        "content": "2026-07-24 融資融券彙總 更新完成,共新增 1055 筆,耗時 120.09 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300004,
-        "log_time": "2026-07-24 21:11:18",
-        "log_type": "insertInsti",
-        "content": "2026-07-24 三大法人買賣超 更新完成,共新增 1076 筆,耗時 122.39 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300003,
-        "log_time": "2026-07-24 21:09:16",
-        "log_type": "insertHistory",
-        "content": "2026-07-24 上市個股日成交 更新完成,共新增 1084 筆,耗時 123.34 秒",
-        "result": "success"
-    },
-    {
-        "id": 9300002,
-        "log_time": "2026-07-24 21:06:49",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 [2026-07-24] 開始更新上市盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 9300001,
-        "log_time": "2026-07-24 21:06:49",
-        "log_type": "updateAllHistory",
-        "content": "偵測 [2026-07-24] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
-        "result": "waitting"
-    },
-    {
-        "id": 9270007,
-        "log_time": "2026-07-24 09:32:49",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成,共耗時 8.71 秒",
-        "result": "end"
-    },
-    {
-        "id": 9270006,
-        "log_time": "2026-07-24 09:32:40",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-07-23], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 9270005,
-        "log_time": "2026-07-24 09:32:40",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-23] 盤後篩選及評分排行已完成, 共耗時 105.32 秒",
-        "result": "end"
-    },
-    {
-        "id": 9270004,
-        "log_time": "2026-07-24 09:31:03",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-23] 排行分析完成，共 565 檔",
-        "result": "success"
-    },
-    {
-        "id": 9270003,
-        "log_time": "2026-07-24 09:30:59",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-23] 篩選分析完成，共 1 檔",
-        "result": "success"
-    },
-    {
-        "id": 9270002,
-        "log_time": "2026-07-24 09:29:14",
-        "log_type": "generateDailyDashboard",
-        "content": "TiDB記憶體不足，5分鐘後重試",
-        "result": "retry"
-    },
-    {
-        "id": 9270001,
-        "log_time": "2026-07-24 09:29:11",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-07-23] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "id": 9690001,
+        "log_time": "2026-07-27 09:56:22",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
         "result": "start"
     }
 ]
