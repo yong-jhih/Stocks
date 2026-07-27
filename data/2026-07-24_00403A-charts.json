@@ -1,0 +1,555 @@
+{
+    "date": "2026-07-24",
+    "stocks": {
+        "2330": {
+            "stockId": "2330",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2330",
+                    "price": 2350,
+                    "amount": 11600
+                }
+            ]
+        },
+        "2303": {
+            "stockId": "2303",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2303",
+                    "price": 128,
+                    "amount": 76000
+                }
+            ]
+        },
+        "3017": {
+            "stockId": "3017",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3017",
+                    "price": 2380,
+                    "amount": 3450
+                }
+            ]
+        },
+        "2454": {
+            "stockId": "2454",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2454",
+                    "price": 3750,
+                    "amount": 1730
+                }
+            ]
+        },
+        "3037": {
+            "stockId": "3037",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3037",
+                    "price": 839,
+                    "amount": 7600
+                }
+            ]
+        },
+        "2383": {
+            "stockId": "2383",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2383",
+                    "price": 4755,
+                    "amount": 1330
+                }
+            ]
+        },
+        "2344": {
+            "stockId": "2344",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2344",
+                    "price": 154.5,
+                    "amount": 40000
+                }
+            ]
+        },
+        "6223": {
+            "stockId": "6223",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6223",
+                    "price": 5705,
+                    "amount": 1000
+                }
+            ]
+        },
+        "2308": {
+            "stockId": "2308",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2308",
+                    "price": 1785,
+                    "amount": 3040
+                }
+            ]
+        },
+        "2345": {
+            "stockId": "2345",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2345",
+                    "price": 2220,
+                    "amount": 2260
+                }
+            ]
+        },
+        "3711": {
+            "stockId": "3711",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3711",
+                    "price": 613,
+                    "amount": 6400
+                }
+            ]
+        },
+        "2327": {
+            "stockId": "2327",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2327",
+                    "price": 642,
+                    "amount": 6000
+                }
+            ]
+        },
+        "6669": {
+            "stockId": "6669",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6669",
+                    "price": 5730,
+                    "amount": 600
+                }
+            ]
+        },
+        "3653": {
+            "stockId": "3653",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3653",
+                    "price": 3430,
+                    "amount": 931
+                }
+            ]
+        },
+        "4958": {
+            "stockId": "4958",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "4958",
+                    "price": 482,
+                    "amount": 6154
+                }
+            ]
+        },
+        "3533": {
+            "stockId": "3533",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3533",
+                    "price": 1970,
+                    "amount": 1240
+                }
+            ]
+        },
+        "6488": {
+            "stockId": "6488",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6488",
+                    "price": 1030,
+                    "amount": 2350
+                }
+            ]
+        },
+        "3189": {
+            "stockId": "3189",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3189",
+                    "price": 711,
+                    "amount": 3217
+                }
+            ]
+        },
+        "6274": {
+            "stockId": "6274",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6274",
+                    "price": 1250,
+                    "amount": 1680
+                }
+            ]
+        },
+        "3443": {
+            "stockId": "3443",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3443",
+                    "price": 4070,
+                    "amount": 510
+                }
+            ]
+        },
+        "8046": {
+            "stockId": "8046",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "8046",
+                    "price": 1110,
+                    "amount": 1750
+                }
+            ]
+        },
+        "1303": {
+            "stockId": "1303",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "1303",
+                    "price": 177.5,
+                    "amount": 10700
+                }
+            ]
+        },
+        "5274": {
+            "stockId": "5274",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "5274",
+                    "price": 14730,
+                    "amount": 124.5
+                }
+            ]
+        },
+        "7769": {
+            "stockId": "7769",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "7769",
+                    "price": 6055,
+                    "amount": 300
+                }
+            ]
+        },
+        "2368": {
+            "stockId": "2368",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2368",
+                    "price": 901,
+                    "amount": 1800
+                }
+            ]
+        },
+        "8996": {
+            "stockId": "8996",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "8996",
+                    "price": 1005,
+                    "amount": 1600
+                }
+            ]
+        },
+        "2360": {
+            "stockId": "2360",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2360",
+                    "price": 2080,
+                    "amount": 760
+                }
+            ]
+        },
+        "3665": {
+            "stockId": "3665",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3665",
+                    "price": 2205,
+                    "amount": 680
+                }
+            ]
+        },
+        "2337": {
+            "stockId": "2337",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2337",
+                    "price": 124,
+                    "amount": 10000
+                }
+            ]
+        },
+        "6805": {
+            "stockId": "6805",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6805",
+                    "price": 1410,
+                    "amount": 700
+                }
+            ]
+        },
+        "6515": {
+            "stockId": "6515",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6515",
+                    "price": 6295,
+                    "amount": 149
+                }
+            ]
+        },
+        "2317": {
+            "stockId": "2317",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2317",
+                    "price": 252.5,
+                    "amount": 3200
+                }
+            ]
+        },
+        "3211": {
+            "stockId": "3211",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3211",
+                    "price": 382,
+                    "amount": 2000
+                }
+            ]
+        },
+        "6239": {
+            "stockId": "6239",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6239",
+                    "price": 279.5,
+                    "amount": 2600
+                }
+            ]
+        },
+        "8358": {
+            "stockId": "8358",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "8358",
+                    "price": 367,
+                    "amount": 1750
+                }
+            ]
+        },
+        "3583": {
+            "stockId": "3583",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3583",
+                    "price": 715,
+                    "amount": 900
+                }
+            ]
+        },
+        "1560": {
+            "stockId": "1560",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "1560",
+                    "price": 672,
+                    "amount": 750
+                }
+            ]
+        },
+        "4966": {
+            "stockId": "4966",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "4966",
+                    "price": 611,
+                    "amount": 800
+                }
+            ]
+        },
+        "6415": {
+            "stockId": "6415",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6415",
+                    "price": 467.5,
+                    "amount": 900
+                }
+            ]
+        },
+        "2049": {
+            "stockId": "2049",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2049",
+                    "price": 313,
+                    "amount": 1010
+                }
+            ]
+        },
+        "6442": {
+            "stockId": "6442",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6442",
+                    "price": 1325,
+                    "amount": 225
+                }
+            ]
+        },
+        "3008": {
+            "stockId": "3008",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3008",
+                    "price": 3920,
+                    "amount": 60
+                }
+            ]
+        },
+        "2404": {
+            "stockId": "2404",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2404",
+                    "price": 1120,
+                    "amount": 180
+                }
+            ]
+        },
+        "3264": {
+            "stockId": "3264",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "3264",
+                    "price": 209.5,
+                    "amount": 600
+                }
+            ]
+        },
+        "2455": {
+            "stockId": "2455",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "2455",
+                    "price": 333,
+                    "amount": 336
+                }
+            ]
+        },
+        "6285": {
+            "stockId": "6285",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6285",
+                    "price": 249.5,
+                    "amount": 250
+                }
+            ]
+        },
+        "5347": {
+            "stockId": "5347",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "5347",
+                    "price": 157,
+                    "amount": 1
+                }
+            ]
+        },
+        "6147": {
+            "stockId": "6147",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6147",
+                    "price": 158,
+                    "amount": 1
+                }
+            ]
+        },
+        "6196": {
+            "stockId": "6196",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "6196",
+                    "price": 526,
+                    "amount": 1
+                }
+            ]
+        },
+        "8299": {
+            "stockId": "8299",
+            "series": [
+                {
+                    "date": "2026-07-24",
+                    "stock_id": "8299",
+                    "price": 1825,
+                    "amount": 1
+                }
+            ]
+        }
+    }
+}

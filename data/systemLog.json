@@ -1,5 +1,222 @@
 [
     {
+        "id": 9420009,
+        "log_time": "2026-07-24 21:56:30",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成,共耗時 7.03 秒",
+        "result": "end"
+    },
+    {
+        "id": 9420008,
+        "log_time": "2026-07-24 21:56:23",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-07-24], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9420007,
+        "log_time": "2026-07-24 21:56:23",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成,共耗時 6.96 秒",
+        "result": "end"
+    },
+    {
+        "id": 9420006,
+        "log_time": "2026-07-24 21:56:16",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-07-24], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9420005,
+        "log_time": "2026-07-24 21:56:16",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 7.44 秒",
+        "result": "end"
+    },
+    {
+        "id": 9420004,
+        "log_time": "2026-07-24 21:56:08",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-24], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 9420003,
+        "log_time": "2026-07-24 21:56:08",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-24] 盤後篩選及評分排行已完成, 共耗時 95.06 秒",
+        "result": "end"
+    },
+    {
+        "id": 9420002,
+        "log_time": "2026-07-24 21:54:45",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-24] 排行分析完成，共 564 檔",
+        "result": "success"
+    },
+    {
+        "id": 9420001,
+        "log_time": "2026-07-24 21:54:39",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
+        "result": "success"
+    },
+    {
+        "id": 9390001,
+        "log_time": "2026-07-24 21:48:54",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 9360002,
+        "log_time": "2026-07-24 21:42:44",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 9360001,
+        "log_time": "2026-07-24 21:42:41",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
+        "result": "success"
+    },
+    {
+        "id": 9330003,
+        "log_time": "2026-07-24 21:36:59",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，5分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 9330002,
+        "log_time": "2026-07-24 21:36:56",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-24] 篩選分析完成，共 2 檔",
+        "result": "success"
+    },
+    {
+        "id": 9330001,
+        "log_time": "2026-07-24 21:36:52",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-24] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 9300016,
+        "log_time": "2026-07-24 21:25:16",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 9300015,
+        "log_time": "2026-07-24 21:25:16",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時   482.72   秒",
+        "result": "end"
+    },
+    {
+        "id": 9300014,
+        "log_time": "2026-07-24 21:25:16",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-24 上櫃公司 借券賣出餘額 更新完成,共新增 811 筆,耗時 91.44 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300013,
+        "log_time": "2026-07-24 21:23:44",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-07-24 上櫃公司 借券餘額 更新完成,共新增 727 筆,耗時 82.07 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300012,
+        "log_time": "2026-07-24 21:22:22",
+        "log_type": "insertMargin",
+        "content": "2026-07-24 上櫃公司 融資融券彙總 更新完成,共新增 797 筆,耗時 90.1 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300011,
+        "log_time": "2026-07-24 21:20:51",
+        "log_type": "insertTPExInsti",
+        "content": "2026-07-24 上櫃公司 三大法人買賣超 更新完成,共新增 776 筆,耗時 87.61 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300010,
+        "log_time": "2026-07-24 21:19:24",
+        "log_type": "insertTPExHistory",
+        "content": "2026-07-24 上櫃個股日成交 更新完成,共新增 889 筆,耗時 100.47 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300009,
+        "log_time": "2026-07-24 21:17:13",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-07-24] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 9300008,
+        "log_time": "2026-07-24 21:17:13",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時   624.27   秒",
+        "result": "end"
+    },
+    {
+        "id": 9300007,
+        "log_time": "2026-07-24 21:17:13",
+        "log_type": "insertSBLSold",
+        "content": "2026-07-24 借券賣出餘額 更新完成,共新增 1059 筆,耗時 120.41 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300006,
+        "log_time": "2026-07-24 21:15:12",
+        "log_type": "insertSBLTotal",
+        "content": "2026-07-24 借券餘額 更新完成,共新增 996 筆,耗時 113.29 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300005,
+        "log_time": "2026-07-24 21:13:19",
+        "log_type": "insertMargin",
+        "content": "2026-07-24 融資融券彙總 更新完成,共新增 1055 筆,耗時 120.09 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300004,
+        "log_time": "2026-07-24 21:11:18",
+        "log_type": "insertInsti",
+        "content": "2026-07-24 三大法人買賣超 更新完成,共新增 1076 筆,耗時 122.39 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300003,
+        "log_time": "2026-07-24 21:09:16",
+        "log_type": "insertHistory",
+        "content": "2026-07-24 上市個股日成交 更新完成,共新增 1084 筆,耗時 123.34 秒",
+        "result": "success"
+    },
+    {
+        "id": 9300002,
+        "log_time": "2026-07-24 21:06:49",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-07-24] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 9300001,
+        "log_time": "2026-07-24 21:06:49",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-07-24] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 9270007,
         "log_time": "2026-07-24 09:32:49",
         "log_type": "update00981A",

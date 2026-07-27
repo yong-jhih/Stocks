@@ -2254,7 +2254,7 @@ function updateConcept(PDO $pdo, array $stocks): void
                 $allParams[] = $stock_id;
                 $allParams[] = $v['concept_name'];
             }
-            if ($k > 0 && $k % 10 == 0) sleep(1);
+            if ($k > 0 && $k % 8 == 0) sleep(2);
         }
         if (!empty($allValues)) {
             $sql = "INSERT IGNORE INTO stock_concept(stock_id, concept)VALUES " . implode(',', $allValues);

@@ -1,0 +1,186 @@
+[
+    {
+        "stock_id": "5876",
+        "stock_name": "上海商銀",
+        "stock_type": "TSE",
+        "industry": "金融保險",
+        "subIndustry": [
+            " 金控業\/銀行業\/保險業"
+        ],
+        "concept": [
+            "ESG",
+            "傳產內需股",
+            "基金減碼股",
+            "基金重押股",
+            "臺灣中型100指數成分股",
+            "臺灣高股息指數成分股"
+        ],
+        "score": 61,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 0,
+        "chip_score": 30,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 46.15,
+        "yesterday_high": 45.1,
+        "yesterday_low": 44.3,
+        "vol": 21688,
+        "vol_ratio": 1.24,
+        "rank10": 89.55,
+        "rank20": 93.14,
+        "amp10": 7.76,
+        "amp20": 12.32,
+        "ma5": 45.24,
+        "ma10": 44.74,
+        "ma20": 43.51,
+        "ma60": 41.45,
+        "vma5": 18978,
+        "vma10": 17446,
+        "vma20": 13914,
+        "bia5": 2.01,
+        "bia10": 3.15,
+        "bia20": 6.07,
+        "con1": 29.99,
+        "con5": 20.25,
+        "con10": 31.75,
+        "con20": 23.24,
+        "foreign_buy_sell": 5005537,
+        "trust_buy_sell": 1639000,
+        "foreign_sum5": 22355,
+        "foreign_sum10": 54990,
+        "foreign_sum20": 29716,
+        "trust_sum5": -5855,
+        "trust_sum10": -3492,
+        "trust_sum20": 24445,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 1,
+        "margin_balance": 561,
+        "margin_balance_diff": 42,
+        "squeeze": 11.64,
+        "bullet": 1.88,
+        "net_sbl": 248,
+        "net_sbl_sum5": -7063,
+        "sbl_total": 188124,
+        "sbl_sold_balance": 161911,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "土洋合力": 15
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "土洋合力"
+        ],
+        "trigger_reasons": [
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "2606",
+        "stock_name": "裕民",
+        "stock_type": "TSE",
+        "industry": "航運業",
+        "subIndustry": [
+            " 散裝航運"
+        ],
+        "concept": [
+            "ESG",
+            "傳產原物料股"
+        ],
+        "score": 52,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.33,
+        "trend_score": 4,
+        "momentum_score": 0,
+        "chip_score": 40,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 64,
+        "yesterday_high": 65.2,
+        "yesterday_low": 63.1,
+        "vol": 4458,
+        "vol_ratio": 1.23,
+        "rank10": 74.47,
+        "rank20": 80.33,
+        "amp10": 7.77,
+        "amp20": 10.32,
+        "ma5": 62.54,
+        "ma10": 63,
+        "ma20": 62.02,
+        "ma60": 64.49,
+        "vma5": 4114,
+        "vma10": 3681,
+        "vma20": 3533,
+        "bia5": 2.33,
+        "bia10": 1.59,
+        "bia20": 3.19,
+        "con1": 58.8,
+        "con5": 40.57,
+        "con10": 28.13,
+        "con20": 17.64,
+        "foreign_buy_sell": 2470965,
+        "trust_buy_sell": 2000,
+        "foreign_sum5": 11427,
+        "foreign_sum10": 15091,
+        "foreign_sum20": 18575,
+        "trust_sum5": -2828,
+        "trust_sum10": -4158,
+        "trust_sum20": -5835,
+        "foreign_streak_days": 6,
+        "trust_streak_days": 1,
+        "margin_balance": 2912,
+        "margin_balance_diff": -44,
+        "squeeze": 1.22,
+        "bullet": 6.38,
+        "net_sbl": -82,
+        "net_sbl_sum5": -753,
+        "sbl_total": 26858,
+        "sbl_sold_balance": 4313,
+        "signals": {
+            "trend": {
+                "站上月線": 4
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "土洋合力": 15,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "法人集中",
+            "外資連買",
+            "土洋合力",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 6 日",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "洗盤完成"
+        ]
+    }
+]
