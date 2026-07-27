@@ -2237,10 +2237,17 @@ function updateConcept(PDO $pdo, array $stocks): void
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             $html = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
             curl_close($ch);
-            if ($html === false) {
-                throw new RuntimeException("無法取得分類成分股，分類：{$v['concept_name']}");
+            if ($html === false || $httpCode != 200) {
+                throw new RuntimeException(
+                    "HTTP={$httpCode} Error={$error} 無法取得分類成分股，分類：{$v['concept_name']}"
+                );
             }
+            // if ($html === false) {
+            //     throw new RuntimeException("無法取得分類成分股，分類：{$v['concept_name']}");
+            // }
             $c = [];
             $a = explode("GenLink2stk('AS", $html);
             foreach ($a as $i => $b) {
