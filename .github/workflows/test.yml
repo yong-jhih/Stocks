@@ -36,23 +36,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Install Chrome for Puppeteer
-      #   run: npx puppeteer browsers install chrome
-  
-      # - name: Run Puppeteer to Fetch HTML(00981A)
-      #   run: node fetch_00991A.js
-
-      # - name: Run Puppeteer to Fetch HTML(00403A)
-      #   run: node fetch_00403A.js
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
