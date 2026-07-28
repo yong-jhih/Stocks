@@ -1528,7 +1528,10 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 
 function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $name, int $displayDays = 20): void
 {
-    $results = [];
+    $allData = [
+        'date' => $targetDate,
+        'stocks' => []
+    ];
     foreach ($data as $v) {
         $fetchLimit = $displayDays + 10;
         if ($v['stock_type'] == 'TPEx') {
@@ -1624,11 +1627,8 @@ function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $n
                 'line_sbl5'    => $sblNet5
             ];
         }
+        $allData['stocks'][$v['stock_id']] = $v;
     }
-    $allData = [
-        'date' => $targetDate,
-        'stocks' => $results
-    ];
     createJsonFile($pdo, $targetDate . '_' . $name, $allData);
 }
 
