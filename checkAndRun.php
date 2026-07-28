@@ -36,10 +36,9 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
     try {
         $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
         $results = generateDailyDashboard($pdo, $targetDate, $table);
+        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
         createJsonFile($pdo, $targetDate . '_filter', $results);
         renewCharts($pdo, $targetDate, 'filter', 'charts');
-
-        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
@@ -49,7 +48,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             'action' => 'triggersSelfSelect',
             'after' => 180
         ]);
-
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
@@ -81,7 +79,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         insertComponentOf00403A($pdo, $targetDate, $results);
         $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, '00403A');
         $analysis = $analyzeMultiPeriodChanges[0];
-        // $lineNotifyStr = $analyzeMultiPeriodChanges[1] . "\n";
+        $lineNotifyStr .= $analyzeMultiPeriodChanges[1] . "\n";
         createJsonFile($pdo, $targetDate . '_componentOf00403A', $analysis, 'data');
         $stockIds = [];
         $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00403A.json"), true);
@@ -101,7 +99,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         insertComponentOf00991A($pdo, $targetDate, $results);
         $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, '00991A');
         $analysis = $analyzeMultiPeriodChanges[0];
-        // $lineNotifyStr = $analyzeMultiPeriodChanges[1] . "\n";
+        $lineNotifyStr .= $analyzeMultiPeriodChanges[1] . "\n";
         createJsonFile($pdo, $targetDate . '_componentOf00991A', $analysis, 'data');
         $stockIds = [];
         $a = json_decode(file_get_contents("data/{$targetDate}_componentOf00991A.json"), true);
