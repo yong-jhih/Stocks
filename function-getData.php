@@ -1526,53 +1526,55 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
-function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $name, int $displayDays = 20): void
+function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $filename, int $displayDays = 20): void
 {
     $results = [];
+    $fetchLimit = $displayDays + 10;
     $allData = [
         'date' => $targetDate,
         'stocks' => []
     ];
-    $fetchLimit = $displayDays + 10;
     foreach ($data as $v) {
+        $sql = "";
         if ($v['stock_type'] == 'TPEx') {
             $sql = "
-            SELECT 
-                h.trade_date,
-                h.close_price,
-                h.trade_volume,
-                i.total_buy_sell as inst_diff,
-                m.margin_balance,
-                s.sbl_sold,
-                s.sbl_return
-            FROM TPEx_stock_history h
-            LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
-            LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
-            LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
-            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
-            ORDER BY h.trade_date DESC
-            LIMIT :limit
-        ";
-        } else {
+                SELECT 
+                    h.trade_date,
+                    h.close_price,
+                    h.trade_volume,
+                    i.total_buy_sell as inst_diff,
+                    m.margin_balance,
+                    s.sbl_sold,
+                    s.sbl_return
+                FROM TPEx_stock_history h
+                LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+                LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+                LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+                WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+                ORDER BY h.trade_date DESC
+                LIMIT :limit
+            ";
+        } elseif ($v['stock_type'] == 'TSE') {
             $sql = "
-            SELECT 
-                h.trade_date,
-                h.close_price,
-                h.trade_volume,
-                i.total_buy_sell as inst_diff,
-                m.margin_balance,
-                s.sbl_sold,
-                s.sbl_return
-            FROM stock_history h
-            LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
-            LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
-            LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
-            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
-            ORDER BY h.trade_date DESC
-            LIMIT :limit
-        ";
+                SELECT 
+                    h.trade_date,
+                    h.close_price,
+                    h.trade_volume,
+                    i.total_buy_sell as inst_diff,
+                    m.margin_balance,
+                    s.sbl_sold,
+                    s.sbl_return
+                FROM stock_history h
+                LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+                LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+                LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+                WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+                ORDER BY h.trade_date DESC
+                LIMIT :limit
+            ";
+        } else {
+            continue;
         }
-
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':stockId', $v['stock_id']);
         $stmt->bindValue(':targetDate', $targetDate);
@@ -1628,9 +1630,10 @@ function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $n
                 'line_sbl5'    => $sblNet5
             ];
         }
-        $allData['stocks'][$v['stock_id']] = $results;
+        $allData['stocks'][$v['stock_id']]['stockId'] = $v['stock_id'];
+        $allData['stocks'][$v['stock_id']]['series'] = $results;
     }
-    createJsonFile($pdo, $targetDate . '_' . $name, $allData);
+    createJsonFile($pdo, $targetDate . '_' . $filename, $allData);
 }
 
 // 00981A
