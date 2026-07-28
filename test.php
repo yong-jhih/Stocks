@@ -13,6 +13,15 @@ echo "TWSE:" . count($resultsTWSE) . "\n";
 echo "TPEx:" . count($resultsTPEx) . "\n";
 echo "Mix:" . count($a) . "\n";
 
-// $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
+$allData = [
+    'date' => $targetDate,
+    'stocks' => []
+];
+foreach ($a as $stock) {
+    $data = getStockAnalysisChart_test($pdo, $stock['stock_type'], $stock['stock_id'], $targetDate);
+    if ($data) {
+        $allData['stocks'][$stock['stock_id']] = $data;
+    }
+}
 createJsonFile($pdo, $targetDate . '_test', $a);
-// renewCharts($pdo, $targetDate, 'test', 'test-charts');
+createJsonFile($pdo, $targetDate . '_test-charts', $allData);
