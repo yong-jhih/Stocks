@@ -1,33 +1,5 @@
 [
     {
-        "id": 9960002,
-        "log_time": "2026-07-28 13:21:39",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-27] 排行分析完成，共 216 檔",
-        "result": "success"
-    },
-    {
-        "id": 9960001,
-        "log_time": "2026-07-28 13:21:37",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-27] 排行分析完成，共 568 檔",
-        "result": "success"
-    },
-    {
-        "id": 9930002,
-        "log_time": "2026-07-28 13:11:01",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-27] 排行分析完成，共 216 檔",
-        "result": "success"
-    },
-    {
-        "id": 9930001,
-        "log_time": "2026-07-28 13:11:00",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-07-27] 排行分析完成，共 568 檔",
-        "result": "success"
-    },
-    {
         "id": 9750031,
         "log_time": "2026-07-27 21:38:59",
         "log_type": "update00991A",
