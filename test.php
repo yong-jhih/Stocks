@@ -11,3 +11,4 @@ $a = array_merge($resultsTWSE, $resultsTPEx);
 
 createJsonFile($pdo, $targetDate . '_test', $a);
 stockAnalysisChart($pdo, $targetDate, $a, 'test-chart');
+
