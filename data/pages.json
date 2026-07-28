@@ -1440,7 +1440,7 @@
         "useDate": true,
         "dataSource": {
             "table": "test.json",
-            "chart": "charts.json"
+            "chart": "test-charts.json"
         },
         "chart": {
             "title": "籌碼分析",
