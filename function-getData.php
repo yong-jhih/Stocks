@@ -1549,6 +1549,85 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
+function getComponent(string $targetDate, string $etf_id): array
+{
+    $jsonFile = "etf_componet_{$etf_id}.json";
+    if (file_exists($jsonFile)) {
+        $jsonStr = file_get_contents($jsonFile);
+        $details = [];
+        $amount = 0;
+        $totalAmount = 0;
+        if (in_array($etf_id, ['00981A', '00403A'])) {
+            $data = json_decode($jsonStr, true);
+            foreach ($data as $item) {
+                if ($item['AssetName'] === '股票') {
+                    $details = $item['Details'];
+                    $value = (int)$item['Value'];
+                }
+            }
+            foreach ($details as $detail) {
+                $itemDate = substr($detail['EditTime'], 0, 10);
+                if ($itemDate !== $targetDate) {
+                    throw new RuntimeException("{$etf_id}資料未完全更新");
+                }
+                $totalAmount += (int)$detail['Amount'];
+            }
+            if (isset($value) && $value !== $totalAmount) {
+                throw new RuntimeException("{$etf_id}總市值不符");
+            }
+            return $details;
+        } elseif (in_array($etf_id, ['00991A'])) {
+            $data = json_decode($jsonStr, true)['result'][0];
+            if ($data['dDate'] !== str_replace("-", "/", $targetDate)) {
+                throw new RuntimeException("{$etf_id}資料未完全更新");
+            }
+            foreach ($data['detail'] as $item) {
+                if ($item['ftype'] === '股票') {
+                    $details[] = $item;
+                    $totalAmount += (int)str_replace(",", "", $item['mvalue']);
+                }
+            }
+            foreach ($data['result'] as $item) {
+                if ($item['ftype'] === '股票') {
+                    $amount = (int)str_replace(",", "", $item['tot_mvalue']);
+                    if ($amount !== $totalAmount) {
+                        throw new RuntimeException("{$etf_id}總市值不符");
+                    }
+                }
+            }
+            return $details;
+        }
+    }
+    throw new RuntimeException("查詢不到{$etf_id}成分股資料");
+}
+
+function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $data): void
+{
+    try {
+        $sql = "INSERT INTO etf_component 
+                (trade_date, etf_id, stock_id, amount, weight)
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                amount = VALUES(amount),
+                weight = VALUES(weight)";
+        $stmt = $pdo->prepare($sql);
+        $pdo->beginTransaction();
+        foreach ($data as $row) {
+            $stmt->execute([
+                $targetDate,
+                $etf_id,
+                $row['DetailCode'] ?? $row['stockid'],
+                (int)$row['Share'] ?? (int)str_replace(",", "", $row['qshare']),
+                $row['NavRate'] ?? (float)str_replace("%", "", $row['prate_addaccint'])
+            ]);
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw new RuntimeException($targetDate . " {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
+    }
+}
+
 // 00981A
 function getComponentOf00981A_FromLocal(string $targetDate): array
 {
