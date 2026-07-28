@@ -1533,8 +1533,8 @@ function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $n
         'date' => $targetDate,
         'stocks' => []
     ];
+    $fetchLimit = $displayDays + 10;
     foreach ($data as $v) {
-        $fetchLimit = $displayDays + 10;
         if ($v['stock_type'] == 'TPEx') {
             $sql = "
             SELECT 

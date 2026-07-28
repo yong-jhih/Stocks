@@ -9,6 +9,8 @@ $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TP
 $resultsTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
 $a = array_merge($resultsTWSE, $resultsTPEx);
 
-createJsonFile($pdo, $targetDate . '_test', $a);
-stockAnalysisChart($pdo, $targetDate, $a, 'test-chart');
+// createJsonFile($pdo, $targetDate . '_test', $a);
+// stockAnalysisChart($pdo, $targetDate, $a, 'test-chart');
 
+stockAnalysisChart($pdo, $targetDate, $resultsTWSE, 'test-chartTWSE');
+stockAnalysisChart($pdo, $targetDate, $resultsTPEx, 'test-chartTPEx');
