@@ -997,7 +997,7 @@
     },
     {
         "page": "00981A_component",
-        "title": "跟著瑤姐走",
+        "title": "00981A 主動統一台股增長",
         "enableChart": true,
         "enableTag": false,
         "useDate": true,
@@ -1066,7 +1066,7 @@
             ],
             "fixedColumns": 2
         },
-        "illustrate_main": "※ 核心規則：僅00981A納入之成分股，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容",
+        "illustrate_main": "※ 核心規則：主動型市值第一，00981A 主動統一台股增長1/5/10/20/60日持股變動，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容",
         "illustrate": [],
         "columns": [
             {
@@ -1124,7 +1124,7 @@
     },
     {
         "page": "00403A_component",
-        "title": "00403A",
+        "title": "00403A 主動統一升級50",
         "enableChart": true,
         "enableTag": false,
         "useDate": true,
@@ -1193,7 +1193,7 @@
             ],
             "fixedColumns": 2
         },
-        "illustrate_main": "※ 核心規則：僅00403A納入之成分股，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容",
+        "illustrate_main": "※ 核心規則：主動型市值第二，00403A 主動統一升級50 1/5/10/20/60日持股變動，每日盤後晚間7~8點爬取統一證券官網公告之成分股內容(7/24開始資料累積,不足部分請先略過)",
         "illustrate": [],
         "columns": [
             {
@@ -1251,7 +1251,7 @@
     },
     {
         "page": "00991A_component",
-        "title": "00991A",
+        "title": "00991A 主動復華未來50",
         "enableChart": true,
         "enableTag": false,
         "useDate": true,
@@ -1320,7 +1320,7 @@
             ],
             "fixedColumns": 2
         },
-        "illustrate_main": "※ 核心規則：僅00991A納入之成分股，每日盤後晚間7~8點爬取復華投顧官網公告之成分股內容",
+        "illustrate_main": "※ 核心規則：主動型市值第三，00991A 主動復華未來50 1/5/10/20/60日持股變動，每日盤後晚間7~8點爬取復華投顧官網公告之成分股內容(7/24開始資料累積,不足部分請先略過)",
         "illustrate": [],
         "columns": [
             {
