@@ -1449,24 +1449,47 @@ function outputModel(PDO $pdo, array $sqlFetch): array
 
 function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, int $displayDays = 20): array
 {
+    $stocksMap = getStocksMap();
     $fetchLimit = $displayDays + 10;
-    $sql = "
-        SELECT 
-            h.trade_date,
-            h.close_price,
-            h.trade_volume,
-            i.total_buy_sell as inst_diff,
-            m.margin_balance,
-            s.sbl_sold,
-            s.sbl_return
-        FROM stock_history h
-        LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
-        LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
-        LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
-        WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
-        ORDER BY h.trade_date DESC
-        LIMIT :limit
-    ";
+    if ($stocksMap[$stockId]['stock_type'] == 'TPEx') {
+        $sql = "
+                SELECT 
+                    h.trade_date,
+                    h.close_price,
+                    h.trade_volume,
+                    i.total_buy_sell as inst_diff,
+                    m.margin_balance,
+                    s.sbl_sold,
+                    s.sbl_return
+                FROM TPEx_stock_history h
+                LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+                LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+                LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+                WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+                ORDER BY h.trade_date DESC
+                LIMIT :limit
+            ";
+    } elseif ($stocksMap[$stockId]['stock_type'] == 'TSE') {
+        $sql = "
+            SELECT 
+                h.trade_date,
+                h.close_price,
+                h.trade_volume,
+                i.total_buy_sell as inst_diff,
+                m.margin_balance,
+                s.sbl_sold,
+                s.sbl_return
+            FROM stock_history h
+            LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+            LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+            LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+            ORDER BY h.trade_date DESC
+            LIMIT :limit
+        ";
+    } else {
+        $sql = '';
+    }
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':stockId', $stockId);

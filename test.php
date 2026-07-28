@@ -9,4 +9,5 @@ $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TP
 $resultsTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
 $a = [...$resultsTWSE, ...$resultsTPEx];
 
-stockAnalysisChart($pdo, $targetDate, $a, 'test-charts');
+createJsonFile($pdo, $targetDate . '_test', $a);
+renewCharts($pdo, $targetDate, 'test', 'test-charts');
