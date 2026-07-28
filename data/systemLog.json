@@ -1,5 +1,68 @@
 [
     {
+        "id": 10110020,
+        "log_time": "2026-07-28 21:59:49",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成,共耗時 7.8 秒",
+        "result": "end"
+    },
+    {
+        "id": 10110019,
+        "log_time": "2026-07-28 21:59:42",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-07-28], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 10110018,
+        "log_time": "2026-07-28 21:59:41",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成,共耗時 7.75 秒",
+        "result": "end"
+    },
+    {
+        "id": 10110017,
+        "log_time": "2026-07-28 21:59:34",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-07-28], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 10110016,
+        "log_time": "2026-07-28 21:59:34",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成,共耗時 8.1 秒",
+        "result": "end"
+    },
+    {
+        "id": 10110015,
+        "log_time": "2026-07-28 21:59:25",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-07-28], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 10110014,
+        "log_time": "2026-07-28 21:59:25",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-28] 盤後篩選及評分排行已完成, 共耗時 97.96 秒",
+        "result": "end"
+    },
+    {
+        "id": 10110013,
+        "log_time": "2026-07-28 21:57:55",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-28] 排行分析完成，共 562 檔",
+        "result": "success"
+    },
+    {
+        "id": 10110012,
+        "log_time": "2026-07-28 21:57:51",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-28] 篩選分析完成，共 2 檔",
+        "result": "success"
+    },
+    {
         "id": 10110011,
         "log_time": "2026-07-28 21:51:57",
         "log_type": "generateDailyDashboard",
