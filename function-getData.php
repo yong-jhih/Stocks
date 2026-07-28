@@ -1526,11 +1526,13 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
-function getStockAnalysisChart_test(PDO $pdo, string $market, string $stockId, string $targetDate, int $displayDays = 20): array
+function stockAnalysisChart(PDO $pdo, string $targetDate, array $data, string $name, int $displayDays = 20): void
 {
-    $fetchLimit = $displayDays + 10;
-    if ($market == 'TPEx') {
-        $sql = "
+    $results = [];
+    foreach ($data as $v) {
+        $fetchLimit = $displayDays + 10;
+        if ($v['stock_type'] == 'TPEx') {
+            $sql = "
             SELECT 
                 h.trade_date,
                 h.close_price,
@@ -1547,8 +1549,8 @@ function getStockAnalysisChart_test(PDO $pdo, string $market, string $stockId, s
             ORDER BY h.trade_date DESC
             LIMIT :limit
         ";
-    } else {
-        $sql = "
+        } else {
+            $sql = "
             SELECT 
                 h.trade_date,
                 h.close_price,
@@ -1565,64 +1567,69 @@ function getStockAnalysisChart_test(PDO $pdo, string $market, string $stockId, s
             ORDER BY h.trade_date DESC
             LIMIT :limit
         ";
-    }
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':stockId', $stockId);
-    $stmt->bindValue(':targetDate', $targetDate);
-    $stmt->bindValue(':limit', (int)$fetchLimit, PDO::PARAM_INT);
-    $stmt->execute();
-    $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
-    $count = count($rows);
-    $results = [];
-    for ($i = 0; $i < $count; $i++) {
-        if ($i < ($count - $displayDays)) continue;
-        $curr = $rows[$i];
-        $prev = $rows[$i - 1] ?? $curr;
-
-        // --- 1. 法人 (Institutional) ---
-        $instDiff = round(($curr['inst_diff'] ?? 0) / 1000); // 今日張數
-        $instCum5 = 0;
-        for ($j = max(0, $i - 4); $j <= $i; $j++) {
-            $instCum5 += ($rows[$j]['inst_diff'] ?? 0);
         }
-        $instCum5 = round($instCum5 / 1000);
 
-        // --- 2. 融資 (Margin) ---
-        $marginToday = $curr['margin_balance'] ?? 0;
-        $marginPrev = $prev['margin_balance'] ?? $marginToday;
-        $marginDiff = round(($marginToday - $marginPrev) / 1000); // 今日增減張數
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':stockId', $v['stock_id']);
+        $stmt->bindValue(':targetDate', $targetDate);
+        $stmt->bindValue(':limit', (int)$fetchLimit, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
+        $count = count($rows);
 
-        $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
-        $marginCum5 = round(($marginToday - $refMargin5) / 1000);
+        for ($i = 0; $i < $count; $i++) {
+            if ($i < ($count - $displayDays)) continue;
+            $curr = $rows[$i];
+            $prev = $rows[$i - 1] ?? $curr;
 
-        // --- 3. 借券賣出 (SBL) ---
-        $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
-        $sblNetDiffIdx = round($sblNetDiff / 1000); // 今日淨張數
+            // --- 1. 法人 (Institutional) ---
+            $instDiff = round(($curr['inst_diff'] ?? 0) / 1000); // 今日張數
+            $instCum5 = 0;
+            for ($j = max(0, $i - 4); $j <= $i; $j++) {
+                $instCum5 += ($rows[$j]['inst_diff'] ?? 0);
+            }
+            $instCum5 = round($instCum5 / 1000);
 
-        $sblNet5 = 0;
-        for ($k = max(0, $i - 4); $k <= $i; $k++) {
-            $sblNet5 += (($rows[$k]['sbl_sold'] ?? 0) - ($rows[$k]['sbl_return'] ?? 0));
+            // --- 2. 融資 (Margin) ---
+            $marginToday = $curr['margin_balance'] ?? 0;
+            $marginPrev = $prev['margin_balance'] ?? $marginToday;
+            $marginDiff = round(($marginToday - $marginPrev) / 1000); // 今日增減張數
+
+            $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
+            $marginCum5 = round(($marginToday - $refMargin5) / 1000);
+
+            // --- 3. 借券賣出 (SBL) ---
+            $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
+            $sblNetDiffIdx = round($sblNetDiff / 1000); // 今日淨張數
+
+            $sblNet5 = 0;
+            for ($k = max(0, $i - 4); $k <= $i; $k++) {
+                $sblNet5 += (($rows[$k]['sbl_sold'] ?? 0) - ($rows[$k]['sbl_return'] ?? 0));
+            }
+            $sblNet5 = round($sblNet5 / 1000);
+
+            // --- 4. 組合資料 ---
+            $results[] = [
+                'date'  => date('m/d', strtotime($curr['trade_date'])),
+                'price' => (float)$curr['close_price'], // json夠20日js換讀d.close (目前維持d.price)
+                'close' => (float)$curr['close_price'],
+                'volume' => round($curr['trade_volume'] / 1000),
+                // 柱狀圖用 (Bars)
+                'bar_inst'   => $instDiff,
+                'bar_margin' => $marginDiff,
+                'bar_sbl'    => $sblNetDiffIdx,
+                // 折線圖用 (Lines)
+                'line_inst5'   => $instCum5,
+                'line_margin5' => $marginCum5,
+                'line_sbl5'    => $sblNet5
+            ];
         }
-        $sblNet5 = round($sblNet5 / 1000);
-
-        // --- 4. 組合資料 ---
-        $results[] = [
-            'date'  => date('m/d', strtotime($curr['trade_date'])),
-            'price' => (float)$curr['close_price'], // json夠20日js換讀d.close (目前維持d.price)
-            'close' => (float)$curr['close_price'],
-            'volume' => round($curr['trade_volume'] / 1000),
-            // 柱狀圖用 (Bars)
-            'bar_inst'   => $instDiff,
-            'bar_margin' => $marginDiff,
-            'bar_sbl'    => $sblNetDiffIdx,
-            // 折線圖用 (Lines)
-            'line_inst5'   => $instCum5,
-            'line_margin5' => $marginCum5,
-            'line_sbl5'    => $sblNet5
-        ];
     }
-    return ['stockId' => $stockId, 'series'  => $results];
+    $allData = [
+        'date' => $targetDate,
+        'stocks' => $results
+    ];
+    createJsonFile($pdo, $targetDate . '_' . $name, $allData);
 }
 
 // 00981A
