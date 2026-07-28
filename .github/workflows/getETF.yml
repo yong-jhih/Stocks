@@ -1,8 +1,8 @@
-name: 00981A
+name: getETF
 
 on:
   repository_dispatch:
-    types: [00981A]
+    types: [getETF]
   workflow_dispatch:
 
 concurrency:
@@ -53,15 +53,6 @@ jobs:
 
       - name: Run Puppeteer to Fetch HTML(00403A)
         run: node fetch_00403A.js
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: pdo, pdo_mysql
-
-      # - name: Run Update
-      #   run: php update00981A.php
 
       - name: Commit And Push JSON files
         if: always()
