@@ -54,9 +54,6 @@ jobs:
       - name: Run Puppeteer to Fetch HTML(00403A)
         run: node fetch_00403A.js
 
-      - name: Run Puppeteer to Fetch HTML(00991A_test)
-        run: node fetch_00991A_test.js
-
       - name: Commit And Push JSON files
         if: always()
         run: |
