@@ -1,0 +1,257 @@
+[
+    {
+        "stock_id": "2330",
+        "amount": 10740000,
+        "weight": 9.71
+    },
+    {
+        "stock_id": "2383",
+        "amount": 4653000,
+        "weight": 8.14
+    },
+    {
+        "stock_id": "2454",
+        "amount": 5131000,
+        "weight": 6.75
+    },
+    {
+        "stock_id": "2327",
+        "amount": 25098000,
+        "weight": 5.61
+    },
+    {
+        "stock_id": "3037",
+        "amount": 16971000,
+        "weight": 5.14
+    },
+    {
+        "stock_id": "2345",
+        "amount": 6334000,
+        "weight": 5.13
+    },
+    {
+        "stock_id": "6669",
+        "amount": 2417000,
+        "weight": 5.1
+    },
+    {
+        "stock_id": "6223",
+        "amount": 2443000,
+        "weight": 5.01
+    },
+    {
+        "stock_id": "3017",
+        "amount": 5423000,
+        "weight": 4.82
+    },
+    {
+        "stock_id": "3665",
+        "amount": 4833848,
+        "weight": 4.25
+    },
+    {
+        "stock_id": "2303",
+        "amount": 86550000,
+        "weight": 3.9
+    },
+    {
+        "stock_id": "8046",
+        "amount": 9519000,
+        "weight": 3.69
+    },
+    {
+        "stock_id": "3711",
+        "amount": 16327000,
+        "weight": 3.59
+    },
+    {
+        "stock_id": "2308",
+        "amount": 5567000,
+        "weight": 3.49
+    },
+    {
+        "stock_id": "3653",
+        "amount": 2267000,
+        "weight": 3.03
+    },
+    {
+        "stock_id": "2368",
+        "amount": 7478000,
+        "weight": 2.4
+    },
+    {
+        "stock_id": "5274",
+        "amount": 448900,
+        "weight": 2.36
+    },
+    {
+        "stock_id": "6274",
+        "amount": 5160000,
+        "weight": 2.31
+    },
+    {
+        "stock_id": "6805",
+        "amount": 1931000,
+        "weight": 1.03
+    },
+    {
+        "stock_id": "8210",
+        "amount": 2267000,
+        "weight": 0.92
+    },
+    {
+        "stock_id": "2449",
+        "amount": 7443450,
+        "weight": 0.7
+    },
+    {
+        "stock_id": "6187",
+        "amount": 1334000,
+        "weight": 0.51
+    },
+    {
+        "stock_id": "6510",
+        "amount": 349000,
+        "weight": 0.34
+    },
+    {
+        "stock_id": "4979",
+        "amount": 1874000,
+        "weight": 0.32
+    },
+    {
+        "stock_id": "1590",
+        "amount": 528000,
+        "weight": 0.29
+    },
+    {
+        "stock_id": "4958",
+        "amount": 1682000,
+        "weight": 0.29
+    },
+    {
+        "stock_id": "6147",
+        "amount": 4706000,
+        "weight": 0.26
+    },
+    {
+        "stock_id": "6278",
+        "amount": 4334000,
+        "weight": 0.25
+    },
+    {
+        "stock_id": "6515",
+        "amount": 93000,
+        "weight": 0.22
+    },
+    {
+        "stock_id": "6271",
+        "amount": 2966000,
+        "weight": 0.19
+    },
+    {
+        "stock_id": "2408",
+        "amount": 940000,
+        "weight": 0.15
+    },
+    {
+        "stock_id": "5439",
+        "amount": 1586000,
+        "weight": 0.13
+    },
+    {
+        "stock_id": "6191",
+        "amount": 3988000,
+        "weight": 0.13
+    },
+    {
+        "stock_id": "3376",
+        "amount": 1741000,
+        "weight": 0.12
+    },
+    {
+        "stock_id": "3264",
+        "amount": 1508000,
+        "weight": 0.11
+    },
+    {
+        "stock_id": "2002",
+        "amount": 5163000,
+        "weight": 0.04
+    },
+    {
+        "stock_id": "4966",
+        "amount": 140000,
+        "weight": 0.03
+    },
+    {
+        "stock_id": "8996",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "8358",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "3661",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "3443",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "2439",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "3008",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "2382",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "3533",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "6488",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "2313",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "8150",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "2317",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "5347",
+        "amount": 1000,
+        "weight": 0
+    },
+    {
+        "stock_id": "2481",
+        "amount": 5000,
+        "weight": 0
+    }
+]
