@@ -1,5 +1,26 @@
 [
     {
+        "id": 10260021,
+        "log_time": "2026-07-29 22:06:18",
+        "log_type": "checkAndRun",
+        "content": "PDO::prepare(): Argument #1 ($query) cannot be empty",
+        "result": "error"
+    },
+    {
+        "id": 10260020,
+        "log_time": "2026-07-29 22:05:59",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-07-29] 排行分析完成，共 564 檔",
+        "result": "success"
+    },
+    {
+        "id": 10260019,
+        "log_time": "2026-07-29 22:05:53",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-29] 篩選分析完成，共 10 檔",
+        "result": "success"
+    },
+    {
         "id": 10260018,
         "log_time": "2026-07-29 22:04:32",
         "log_type": "generateDailyDashboard",
