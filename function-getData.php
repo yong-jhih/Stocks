@@ -1617,7 +1617,7 @@ function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $da
                 $targetDate,
                 $etf_id,
                 $row['DetailCode'] ?? $row['stockid'],
-                (int)$row['Share'] ?? (int)str_replace(",", "", $row['qshare']),
+                $row['Share'] ?? (int)str_replace(",", "", $row['qshare']),
                 $row['NavRate'] ?? (float)str_replace("%", "", $row['prate_addaccint'])
             ]);
         }
