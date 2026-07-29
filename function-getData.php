@@ -1604,7 +1604,7 @@ function getComponent(string $targetDate, string $etf_id): array
 function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $data): void
 {
     try {
-        $sql = "INSERT INTO etf_component 
+        $sql = "INSERT INTO etf_component_test 
                 (trade_date, etf_id, stock_id, amount, weight)
                 VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
