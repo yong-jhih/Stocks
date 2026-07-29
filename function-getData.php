@@ -1620,7 +1620,7 @@ function getComponent(string $targetDate, string $etf_id): array
 function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $data): void
 {
     try {
-        $sql = "INSERT INTO etf_component_test 
+        $sql = "INSERT INTO etf_component
                 (trade_date, etf_id, stock_id, amount, weight)
                 VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
@@ -1830,7 +1830,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
         $intervals = [1, 5, 10, 20, 60];
         $compareDates = [];
         foreach ($intervals as $days) {
-            $dateSql = "SELECT DISTINCT trade_date FROM etf_component_test 
+            $dateSql = "SELECT DISTINCT trade_date FROM etf_component
                         WHERE trade_date < :targetDate AND etf_id = :etf_id ORDER BY trade_date DESC LIMIT :offset, 1";
             $dateStmt = $pdo->prepare($dateSql);
             $dateStmt->bindValue(':targetDate', $targetDate, PDO::PARAM_STR);
@@ -1943,7 +1943,7 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
     // 步驟 1：先抓出該 ETF 在 $targetDate 之前（含）的最近 60 個實際交易日
     $dateSql = "
         SELECT DISTINCT trade_date 
-        FROM etf_component_test 
+        FROM etf_component
         WHERE etf_id = ? AND trade_date <= ? 
         ORDER BY trade_date DESC 
         LIMIT 60
