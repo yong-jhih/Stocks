@@ -1575,7 +1575,15 @@ function getComponent(string $targetDate, string $etf_id): array
             if (isset($value) && $value !== $totalAmount) {
                 throw new RuntimeException("{$etf_id}總市值不符");
             }
-            return $details;
+            $results = [];
+            foreach ($details as $stock) {
+                $results[] = [
+                    'stock_id' => (string)$stock->DetailCode,
+                    'amount' => (int)$stock->Share,
+                    'weight' => (float)$stock->NavRate,
+                ];
+            }
+            return $results;
         } elseif (in_array($etf_id, ['00991A'])) {
             $data = json_decode($jsonStr, true)['result'][0];
             if ($data['dDate'] !== str_replace("-", "/", $targetDate)) {
@@ -1595,7 +1603,15 @@ function getComponent(string $targetDate, string $etf_id): array
                     }
                 }
             }
-            return $details;
+            $results = [];
+            foreach ($details as $stock) {
+                $results[] = [
+                    'stock_id' => (string)$stock->stockid,
+                    'amount' => (int)str_replace(",", "", $stock->qshare),
+                    'weight' => (float)str_replace("%", "", $stock->prate_addaccint),
+                ];
+            }
+            return $results;
         }
     }
     throw new RuntimeException("查詢不到{$etf_id}成分股資料");

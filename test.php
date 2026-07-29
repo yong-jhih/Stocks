@@ -13,12 +13,13 @@ $targetDate = '2026-07-28';
 // renewCharts($pdo, $targetDate, 'test', 'test-charts');
 
 try {
-    $etfid = ['00991A'];
+    $etfid = ['00981A', '00991A'];
     foreach ($etfid as $etf_id) {
         // $start_time = microtime(true);
         // writeLog($pdo, "update{$etf_id}", "取得交易日期 [{$targetDate}], 開始更新 {$etf_id} 成分股資料", 'start');
         $results = getComponent($targetDate, $etf_id);
-        insertComponent($pdo, $targetDate, $etf_id, $results);
+        createJsonFile($pdo, $targetDate . "_test{$etf_id}", $results, 'data');
+        // insertComponent($pdo, $targetDate, $etf_id, $results);
         // $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, $etf_id);
         // $analysis = $analyzeMultiPeriodChanges[0];
         // $lineNotifyStr = $analyzeMultiPeriodChanges[1] . "\n";
