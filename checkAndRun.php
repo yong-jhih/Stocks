@@ -8,7 +8,7 @@ if (
     file_exists("data/" . $targetDate . "_topPerforming-charts.json")
 ) {
     echo '分析資料已存在';
-    exit(0);
+  //  exit(0);
 }
 
 $SBLSoldData = getSBLSold($pdo, $targetDate);
@@ -113,7 +113,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         writeLog($pdo, 'update00991A', '00991A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
 
         updateSystemLog($pdo);
-        lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+       // lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
