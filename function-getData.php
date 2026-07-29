@@ -1909,7 +1909,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
         $notificationStr = "{$etf_id}成分股今日變動-https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n"
             . "增持共 {$incCount} 檔: " . implode(', ', $increase) . "\n"
             . "減持共 {$decCount} 檔: " . implode(', ', $decrease) . "\n"
-            . "無變動共 {$conCount} 檔: " . implode(', ', $increase) . "\n";
+            . "無變動共 {$conCount} 檔\n";
         if (count($eliminate) > 0) $notificationStr .= sprintf("剔除共 %d 檔: %s\n", count($eliminate), implode(', ', $eliminate));
         if (count($new) > 0) $notificationStr .= sprintf("新納入共 %d 檔: %s\n", count($new), implode(', ', $new));
         return [$finalData, $notificationStr];

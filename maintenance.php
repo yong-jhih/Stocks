@@ -1,7 +1,7 @@
 <?php
 require_once("init.php");
 
-updateStockProfile($pdo);
+if (date('N') == 5) updateStockProfile($pdo);
 writeLog($pdo, 'dbClean', '開始進行資料庫維護', 'start');
 dbClean($pdo, 'stock_history', 'trade_date', 110);
 dbClean($pdo, 'stock_insti', 'trade_date', 110);
