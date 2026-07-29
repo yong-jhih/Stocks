@@ -1451,7 +1451,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 {
     $stocksMap = getStocksMap();
     $fetchLimit = $displayDays + 10;
-    if ($stocksMap[$stockId]['stock_type'] == 'TPEx') {
+    if ($stocksMap[$stockId]['stock_type'] == 'TPEx' || $stocksMap[$stockId]['stock_type'] == 'ESM') {
         $sql = "
                 SELECT 
                     h.trade_date,
@@ -1488,17 +1488,15 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
             LIMIT :limit
         ";
     } else {
-        $sql = '';
         $type = $stocksMap[$stockId]['stock_type'] ?? '';
-
-if (!in_array($type, ['TSE', 'TPEx'], true)) {
-    return [
-        'stockId' => $stockId,
-        'series' => []
-    ];
-}
+        if (!in_array($type, ['TSE', 'TPEx', 'ESM'], true)) {
+            return [
+              'stockId' => $stockId,
+              'series' => []
+            ];
+        }
     }
-
+    
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':stockId', $stockId);
     $stmt->bindValue(':targetDate', $targetDate);
