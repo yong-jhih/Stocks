@@ -1578,9 +1578,9 @@ function getComponent(string $targetDate, string $etf_id): array
             $results = [];
             foreach ($details as $stock) {
                 $results[] = [
-                    'stock_id' => (string)$stock->DetailCode,
-                    'amount' => (int)$stock->Share,
-                    'weight' => (float)$stock->NavRate,
+                    'stock_id' => (string)$stock['DetailCode'],
+                    'amount' => (int)$stock['Share'],
+                    'weight' => (float)$stock['NavRate'],
                 ];
             }
             return $results;
@@ -1606,9 +1606,9 @@ function getComponent(string $targetDate, string $etf_id): array
             $results = [];
             foreach ($details as $stock) {
                 $results[] = [
-                    'stock_id' => (string)$stock->stockid,
-                    'amount' => (int)str_replace(",", "", $stock->qshare),
-                    'weight' => (float)str_replace("%", "", $stock->prate_addaccint),
+                    'stock_id' => (string)$stock['stockid'],
+                    'amount' => (int)str_replace(",", "", $stock['qshare']),
+                    'weight' => (float)str_replace("%", "", $stock['prate_addaccint']),
                 ];
             }
             return $results;
