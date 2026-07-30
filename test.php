@@ -46,9 +46,13 @@ if (!empty($a)) {
     $institutional = [];
     foreach ($a as $item) {
         $institutional[$item['name']] = [
-            'buy' => $item['buy'],
-            'sell' => $item['sell']
+            'buy' => round($item['buy'] / 1e8, 2),
+            'sell' => round($item['sell'] / 1e8, 2),
+            'total' => round(($item['buy'] - $item['sell']) / 1e8, 2)
         ];
     }
     echo json_encode($institutional);
+    // $institutionalStr = "
+    //     外資共買超 {$institutional['Foreign_Investor']}億
+    // ";
 }
