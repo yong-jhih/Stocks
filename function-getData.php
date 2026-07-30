@@ -1655,6 +1655,7 @@ function getComponent(string $targetDate, string $etf_id): array
 function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $data): void
 {
     try {
+        $pdo->beginTransaction();
         $sql = "INSERT INTO etf_component
                 (trade_date, etf_id, stock_id, amount, weight)
                 VALUES (?, ?, ?, ?, ?)
@@ -1662,7 +1663,6 @@ function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $da
                 amount = VALUES(amount),
                 weight = VALUES(weight)";
         $stmt = $pdo->prepare($sql);
-        $pdo->beginTransaction();
         foreach ($data as $row) {
             $stmt->execute([
                 $targetDate,
@@ -1675,7 +1675,7 @@ function insertComponent(PDO $pdo, string $targetDate, string $etf_id, array $da
         $pdo->commit();
     } catch (Throwable $e) {
         $pdo->rollBack();
-        throw new RuntimeException($targetDate . " {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
+        throw new RuntimeException("{$targetDate} {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
     }
 }
 
