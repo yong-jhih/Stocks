@@ -50,9 +50,8 @@ $token = getenv('FINMIND_TOKEN');
 // API 參數
 $params = [
     'dataset' => 'TaiwanStockTotalInstitutionalInvestors',
-    'data_id' => '2330',
-    'start_date' => '2026-07-01',
-    'end_date' => '2026-07-29',
+    'start_date' => $targetDate,
+    'end_date' => $targetDate,
     'token' => $token
 ];
 
