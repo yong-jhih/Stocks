@@ -1491,12 +1491,12 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         $type = $stocksMap[$stockId]['stock_type'] ?? '';
         if (!in_array($type, ['TSE', 'TPEx', 'ESM'], true)) {
             return [
-              'stockId' => $stockId,
-              'series' => []
+                'stockId' => $stockId,
+                'series' => []
             ];
         }
     }
-    
+
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':stockId', $stockId);
     $stmt->bindValue(':targetDate', $targetDate);
