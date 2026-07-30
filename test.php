@@ -42,4 +42,13 @@ require_once("init.php");
 
 $targetDate = '2026-07-29';
 $a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
-echo json_encode($a);
+if (!empty($a)) {
+    $institutional = [];
+    foreach ($a as $item) {
+        $institutional[$item['name']] = [
+            'buy' => $item['buy'],
+            'sell' => $item['sell']
+        ];
+    }
+    echo json_encode($institutional);
+}
