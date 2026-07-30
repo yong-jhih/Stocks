@@ -17,7 +17,7 @@ try {
     $lineNotifyStr = '';
     foreach ($etfid as $etf_id) {
         $start_time = microtime(true);
-        // writeLog($pdo, "update{$etf_id}", "取得交易日期 [{$targetDate}], 開始更新 {$etf_id} 成分股資料", 'start');
+        writeLog($pdo, "update{$etf_id}", "取得交易日期 [{$targetDate}], 開始更新 {$etf_id} 成分股資料", 'start');
         $results = getComponent($targetDate, $etf_id);
         insertComponent($pdo, $targetDate, $etf_id, $results);
         $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, $etf_id);
@@ -33,7 +33,7 @@ try {
         createJsonFile($pdo, $targetDate . "_{$etf_id}-charts", $result);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        // writeLog($pdo, "update{$etf_id}", "{$etf_id}成分股資料更新完成,共耗時{$execution_time}秒", 'end');
+        writeLog($pdo, "update{$etf_id}", "{$etf_id}成分股資料更新完成,共耗時{$execution_time}秒", 'end');
     }
 } catch (Throwable $e) {
     echo $e->getMessage();

@@ -1453,22 +1453,22 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     $fetchLimit = $displayDays + 10;
     if ($stocksMap[$stockId]['stock_type'] == 'TPEx' || $stocksMap[$stockId]['stock_type'] == 'ESM') {
         $sql = "
-                SELECT 
-                    h.trade_date,
-                    h.close_price,
-                    h.trade_volume,
-                    i.total_buy_sell as inst_diff,
-                    m.margin_balance,
-                    s.sbl_sold,
-                    s.sbl_return
-                FROM TPEx_stock_history h
-                LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
-                LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
-                LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
-                WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
-                ORDER BY h.trade_date DESC
-                LIMIT :limit
-            ";
+            SELECT 
+                h.trade_date,
+                h.close_price,
+                h.trade_volume,
+                i.total_buy_sell as inst_diff,
+                m.margin_balance,
+                s.sbl_sold,
+                s.sbl_return
+            FROM TPEx_stock_history h
+            LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+            LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+            LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
+            ORDER BY h.trade_date DESC
+            LIMIT :limit
+        ";
     } elseif ($stocksMap[$stockId]['stock_type'] == 'TSE') {
         $sql = "
             SELECT 
@@ -1488,13 +1488,10 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
             LIMIT :limit
         ";
     } else {
-        $type = $stocksMap[$stockId]['stock_type'] ?? '';
-        if (!in_array($type, ['TSE', 'TPEx', 'ESM'], true)) {
-            return [
-                'stockId' => $stockId,
-                'series' => []
-            ];
-        }
+        return [
+            'stockId' => $stockId,
+            'series' => []
+        ];
     }
 
     $stmt = $pdo->prepare($sql);
