@@ -112,8 +112,29 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'update00991A', '00991A 成分股資料更新完成,共耗時 ' . $execution_time . ' 秒', 'end');
 
+        // 大盤法人買賣超
+        $institutionalBuySell = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
+        if (!empty($institutionalBuySell)) {
+            $institutional = [];
+            foreach ($institutionalBuySell as $item) {
+                $institutional[$item['name']] = [
+                    'buy' => round($item['buy'] / 1e8, 1),
+                    'sell' => round($item['sell'] / 1e8, 1),
+                    'total' => round(($item['buy'] - $item['sell']) / 1e8, 1)
+                ];
+            }
+            $institutionalStr =
+                "{$targetDate} 盤後\n" .
+                "三大法人共 " . $institutional['total']['total'] . "億 (買進 " . $institutional['total']['buy'] . "億/賣出 " . $institutional['total']['sell'] . "億)\n" .
+                "外資共 " . $institutional['Foreign_Investor']['total'] . "億 (買進 " . $institutional['Foreign_Investor']['buy'] . "億/賣出 " . $institutional['Foreign_Investor']['sell'] . "億)\n" .
+                "投信共 " . $institutional['Investment_Trust']['total'] . "億 (買進 " . $institutional['Investment_Trust']['buy'] . "億/賣出 " . $institutional['Investment_Trust']['sell'] . "億)\n" .
+                "自營商共 " . $institutional['Dealer_self']['total'] . "億 (買進 " . $institutional['Dealer_self']['buy'] . "億/賣出 " . $institutional['Dealer_self']['sell'] . "億)\n" .
+                "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n\n";
+            $lineNotifyStr = $institutionalStr . $lineNotifyStr;
+        }
+
         updateSystemLog($pdo);
-        lineNotification($pdo, getenv('LINE_TARGET'), $lineNotifyStr . '今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/');
+        lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
             writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
