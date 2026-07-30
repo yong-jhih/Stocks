@@ -40,59 +40,6 @@ require_once("init.php");
 //     exit(1);
 // }
 
-
-// FinMind API URL (自行填寫)
-$url = "https://api.finmindtrade.com/api/v4/data";
-
-// FinMind Token (自行填寫)
-$token = getenv('FINMIND_TOKEN');
-
-// API 參數
-$params = [
-    'dataset' => 'TaiwanStockTotalInstitutionalInvestors',
-    'start_date' => $targetDate,
-    'end_date' => $targetDate,
-    'token' => $token
-];
-
-// 組成完整 URL
-$apiUrl = $url . '?' . http_build_query($params);
-
-// 初始化 cURL
-$ch = curl_init($apiUrl);
-
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTPHEADER => [
-        'Content-Type: application/json'
-    ]
-]);
-
-// 執行請求
-$response = curl_exec($ch);
-
-// 檢查錯誤
-if (curl_errno($ch)) {
-    die('cURL Error: ' . curl_error($ch));
-}
-
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
-
-// HTTP 狀態檢查
-if ($httpCode !== 200) {
-    die("HTTP Error: {$httpCode}");
-}
-
-// JSON 解析
-$result = json_decode($response, true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    die('JSON Error: ' . json_last_error_msg());
-}
-
-// 顯示結果
-echo '<pre>';
-print_r($result);
-echo '</pre>';
+$targetDate = '2026-07-29';
+$a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
+echo json_encode($a);
