@@ -7,12 +7,12 @@ const fs = require('fs');
     const dd = String(today.getDate()).padStart(2, '0');
     const date = `${yyyy}/${mm}/${dd}`;
     const url = `https://www.fhtrust.com.tw/api/assets?fundID=ETF23&qDate=${date}`;
-    console.log(url);
+    console.log(`正在開啟網頁: ${url}`);
     const res = await fetch(url);
     if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
     }
     const json = await res.json();
     fs.writeFileSync('etf_componet_00991A.json', JSON.stringify(json, null, 2), 'utf8');
-    console.log('完成');
+    console.log('成功產出標準 JSON：etf_componet_00991A.json');
 })();

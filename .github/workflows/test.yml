@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   TiDB_Host: ${{ secrets.TiDB_Host }}
   TiDB_User: ${{ secrets.TiDB_User }}
   TIDB_PASS: ${{ secrets.TIDB_PASS }}
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
