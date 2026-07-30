@@ -46,13 +46,16 @@ if (!empty($a)) {
     $institutional = [];
     foreach ($a as $item) {
         $institutional[$item['name']] = [
-            'buy' => round($item['buy'] / 1e8, 2),
-            'sell' => round($item['sell'] / 1e8, 2),
-            'total' => round(($item['buy'] - $item['sell']) / 1e8, 2)
+            'buy' => round($item['buy'] / 1e8, 1),
+            'sell' => round($item['sell'] / 1e8, 1),
+            'total' => round(($item['buy'] - $item['sell']) / 1e8, 1)
         ];
     }
-    echo json_encode($institutional);
-    // $institutionalStr = "
-    //     外資共買超 {$institutional['Foreign_Investor']}億
-    // ";
+    $institutionalStr =
+        "三大法人共 " . $institutional['total']['total'] . "億 (買進 " . $institutional['total']['buy'] . "億/賣出 " . $institutional['total']['sell'] . "億)\n" .
+        "外資共 " . $institutional['Foreign_Investor']['total'] . "億 (買進 " . $institutional['Foreign_Investor']['buy'] . "億/賣出 " . $institutional['Foreign_Investor']['sell'] . "億)\n" .
+        "投信共 " . $institutional['Investment_Trust']['total'] . "億 (買進 " . $institutional['Investment_Trust']['buy'] . "億/賣出 " . $institutional['Investment_Trust']['sell'] . "億)\n" .
+        "自營商共 " . $institutional['Dealer_self']['total'] . "億 (買進 " . $institutional['Dealer_self']['buy'] . "億/賣出 " . $institutional['Dealer_self']['sell'] . "億)\n" .
+        "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n";
+    echo $institutionalStr;
 }
