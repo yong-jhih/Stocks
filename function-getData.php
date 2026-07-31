@@ -702,7 +702,7 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
         "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
     ]);
     $dashboardResults = outputModel($pdo, $stocks);
-    writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    // writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 
@@ -714,7 +714,7 @@ function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate, array
         "ma60 IS NOT NULL"
     ]);
     $dashboardResults = outputModel($pdo, $stocks);
-    writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
+    // writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
     return $dashboardResults;
 }
 

@@ -43,6 +43,9 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
+        writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($results) . " 檔", 'success');
+        writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTop) . " 檔", 'success');
+
         updateDateList($targetDate);
         callGAS([
             'date' => $targetDate,
@@ -99,12 +102,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
         if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
-            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，5分鐘後重試', 'retry');
+            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，2分鐘後重試', 'retry');
             callGAS([
                 'date' => $targetDate,
                 'action' => 'retry',
                 'target' => 'CheckAndRun',
-                'after' => 300
+                'after' => 120
             ]);
             updateSystemLog($pdo);
             exit(0);
