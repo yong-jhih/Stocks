@@ -41,7 +41,7 @@ if (
         callGAS([
             'date' => $targetDate,
             'action' => 'upload',
-            'after' => 300
+            'after' => 600
         ]);
         cleanData(20);
         updateSystemLog($pdo);

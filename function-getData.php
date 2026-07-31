@@ -7,38 +7,6 @@ function getStocksMap(): array
     return $stock;
 }
 
-function getInstitutionalBuySellWithFinmind(PDO $pdo, string $targetDate): ?array
-{
-    $params = [
-        'dataset' => 'TaiwanStockTotalInstitutionalInvestors',
-        'start_date' => $targetDate,
-        'end_date' => $targetDate,
-        'token' => getenv('FINMIND_TOKEN')
-    ];
-    $apiUrl = "https://api.finmindtrade.com/api/v4/data?" . http_build_query($params);
-    try {
-        $ch = curl_init($apiUrl);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json'
-            ]
-        ]);
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        if (curl_errno($ch)) throw new RuntimeException("錯誤 無法取得 Finmind 大盤三大法人買賣超");
-        if ($httpCode !== 200) throw new RuntimeException("http {$httpCode} 無法取得 Finmind 大盤三大法人買賣超");
-        $result = json_decode($response, true)['data'];
-        if (json_last_error() !== JSON_ERROR_NONE) throw new RuntimeException('JSON Error: ' . json_last_error_msg());
-        return $result;
-    } catch (Throwable $e) {
-        writeLog($pdo, 'getInstitutionalBuySellWithFinmind', $e->getMessage(), 'Warnning');
-        return null;
-    }
-}
-
 function getDataWithFinmind(PDO $pdo, string $start_date, string $end_date, string $dataset): ?array
 {
     $params = [
