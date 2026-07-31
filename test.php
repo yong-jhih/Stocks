@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate = '2026-07-29';
+$targetDate = '2026-07-31';
 
 // $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
 // $resultsTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
