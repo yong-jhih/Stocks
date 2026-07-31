@@ -5759,12 +5759,6 @@
         "stock_type": "TSE",
         "industry": "其他電子業"
     },
-    "7689": {
-        "stock_id": "7689",
-        "stock_name": "大鵬科CLMX",
-        "stock_type": "TSE",
-        "industry": "通信網路業"
-    },
     "7705": {
         "stock_id": "7705",
         "stock_name": "三商餐飲",
@@ -8060,6 +8054,12 @@
     "4129": {
         "stock_id": "4129",
         "stock_name": "聯合",
+        "stock_type": "TPEx",
+        "industry": "生技醫療業"
+    },
+    "4130": {
+        "stock_id": "4130",
+        "stock_name": "健亞",
         "stock_type": "TPEx",
         "industry": "生技醫療業"
     },
@@ -12053,12 +12053,6 @@
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
-    "3194": {
-        "stock_id": "3194",
-        "stock_name": "圓方科技",
-        "stock_type": "ESM",
-        "industry": "資訊服務業"
-    },
     "3473": {
         "stock_id": "3473",
         "stock_name": "智通聯網",
@@ -13205,6 +13199,12 @@
         "stock_type": "ESM",
         "industry": "半導體業"
     },
+    "7689": {
+        "stock_id": "7689",
+        "stock_name": "大鵬科CLMX",
+        "stock_type": "ESM",
+        "industry": "通信網路業"
+    },
     "7702": {
         "stock_id": "7702",
         "stock_name": "前端風電",
@@ -13895,12 +13895,6 @@
         "stock_type": "ESM",
         "industry": "通信網路業"
     },
-    "7917": {
-        "stock_id": "7917",
-        "stock_name": "源傑科技",
-        "stock_type": "ESM",
-        "industry": "通信網路業"
-    },
     "7918": {
         "stock_id": "7918",
         "stock_name": "創鉅材料",
@@ -13990,12 +13984,6 @@
         "stock_name": "寰聖",
         "stock_type": "ESM",
         "industry": "電子零組件業"
-    },
-    "7939": {
-        "stock_id": "7939",
-        "stock_name": "技宸",
-        "stock_type": "ESM",
-        "industry": "電腦及週邊設備業"
     },
     "8058": {
         "stock_id": "8058",
