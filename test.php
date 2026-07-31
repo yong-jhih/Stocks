@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-// $targetDate = '2026-07-29';
+$targetDate = '2026-07-30';
 
 // $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
 // $resultsTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
@@ -40,22 +40,30 @@ require_once("init.php");
 //     exit(1);
 // }
 
-$targetDate = '2026-07-29';
+// $targetDate = '2026-07-29';
+// $a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
+// if (!empty($a)) {
+//     $institutional = [];
+//     foreach ($a as $item) {
+//         $institutional[$item['name']] = [
+//             'buy' => round($item['buy'] / 1e8, 1),
+//             'sell' => round($item['sell'] / 1e8, 1),
+//             'total' => round(($item['buy'] - $item['sell']) / 1e8, 1)
+//         ];
+//     }
+//     $institutionalStr =
+//         "三大法人共 " . $institutional['total']['total'] . "億 (買進 " . $institutional['total']['buy'] . "億/賣出 " . $institutional['total']['sell'] . "億)\n" .
+//         "外資共 " . $institutional['Foreign_Investor']['total'] . "億 (買進 " . $institutional['Foreign_Investor']['buy'] . "億/賣出 " . $institutional['Foreign_Investor']['sell'] . "億)\n" .
+//         "投信共 " . $institutional['Investment_Trust']['total'] . "億 (買進 " . $institutional['Investment_Trust']['buy'] . "億/賣出 " . $institutional['Investment_Trust']['sell'] . "億)\n" .
+//         "自營商共 " . $institutional['Dealer_self']['total'] . "億 (買進 " . $institutional['Dealer_self']['buy'] . "億/賣出 " . $institutional['Dealer_self']['sell'] . "億)\n" .
+//         "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n";
+//     echo $institutionalStr;
+// }
+
+
+
 $a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
-if (!empty($a)) {
-    $institutional = [];
-    foreach ($a as $item) {
-        $institutional[$item['name']] = [
-            'buy' => round($item['buy'] / 1e8, 1),
-            'sell' => round($item['sell'] / 1e8, 1),
-            'total' => round(($item['buy'] - $item['sell']) / 1e8, 1)
-        ];
-    }
-    $institutionalStr =
-        "三大法人共 " . $institutional['total']['total'] . "億 (買進 " . $institutional['total']['buy'] . "億/賣出 " . $institutional['total']['sell'] . "億)\n" .
-        "外資共 " . $institutional['Foreign_Investor']['total'] . "億 (買進 " . $institutional['Foreign_Investor']['buy'] . "億/賣出 " . $institutional['Foreign_Investor']['sell'] . "億)\n" .
-        "投信共 " . $institutional['Investment_Trust']['total'] . "億 (買進 " . $institutional['Investment_Trust']['buy'] . "億/賣出 " . $institutional['Investment_Trust']['sell'] . "億)\n" .
-        "自營商共 " . $institutional['Dealer_self']['total'] . "億 (買進 " . $institutional['Dealer_self']['buy'] . "億/賣出 " . $institutional['Dealer_self']['sell'] . "億)\n" .
-        "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n";
-    echo $institutionalStr;
-}
+$b = getDataWithFinmind($pdo, $targetDate, $targetDate, 'TaiwanStockTotalInstitutionalInvestors');
+
+echo json_encode($a)."\n";
+echo json_encode($b)."\n";

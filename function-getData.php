@@ -39,6 +39,37 @@ function getInstitutionalBuySellWithFinmind(PDO $pdo, string $targetDate): ?arra
     }
 }
 
+function getDataWithFinmind(PDO $pdo, string $start_date, string $end_date, string $dataset): ?array
+{
+    $params = [
+        'dataset' => $dataset,
+        'start_date' => $start_date,
+        'end_date' => $end_date,
+        'token' => getenv('FINMIND_TOKEN')
+    ];
+    $apiUrl = "https://api.finmindtrade.com/api/v4/data?" . http_build_query($params);
+    try {
+        $ch = curl_init($apiUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json'
+            ]
+        ]);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if (curl_errno($ch)) throw new RuntimeException("錯誤 無法取得 Finmind {$dataset}");
+        if ($httpCode !== 200) throw new RuntimeException("http {$httpCode} 無法取得 Finmind {$dataset}");
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) throw new RuntimeException('JSON Error: ' . json_last_error_msg());
+        return $result;
+    } catch (Throwable $e) {
+        writeLog($pdo, "getDataWithFinmind_{$dataset}", $e->getMessage(), 'Warnning');
+        return null;
+    }
+}
+
 // TSE歷史資料更新
 function updateAllHistory(PDO $pdo, string $targetDate): void
 {
