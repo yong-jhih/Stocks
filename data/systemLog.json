@@ -1,5 +1,47 @@
 [
     {
+        "id": 10650013,
+        "log_time": "2026-07-31 21:56:19",
+        "log_type": "generateDailyDashboard",
+        "content": "TiDB記憶體不足，2分鐘後重試",
+        "result": "retry"
+    },
+    {
+        "id": 10650012,
+        "log_time": "2026-07-31 21:56:13",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-07-31] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
+        "id": 10650011,
+        "log_time": "2026-07-31 21:53:28",
+        "log_type": "getSBLSold",
+        "content": "取得 信用額度總量管制餘額 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 10650010,
+        "log_time": "2026-07-31 21:53:18",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 10650009,
+        "log_time": "2026-07-31 21:53:03",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 10650008,
+        "log_time": "2026-07-31 21:52:49",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
         "id": 10650007,
         "log_time": "2026-07-31 21:49:23",
         "log_type": "generateDailyDashboard",
