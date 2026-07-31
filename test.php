@@ -11,3 +11,20 @@ $targetDate = '2026-07-30';
 
 // createJsonFile($pdo, $targetDate . '_test', $a);
 // renewCharts($pdo, $targetDate, 'test', 'test-charts');
+
+$tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+$tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
+
+$resultsTWSE = generateDailyDashboard($pdo, $targetDate, $tableTWSE);
+$resultsTPEx = generateDailyDashboard($pdo, $targetDate, $tableTPEx);
+$resultsMix = [...$resultsTWSE, ...$resultsTPEx];
+
+$resultsTopTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
+$resultsTopTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
+$resultsTopMix = [...$resultsTopTWSE, ...$resultsTopTPEx];
+
+createJsonFile($pdo, $targetDate . '_testA', $resultsMix);
+renewCharts($pdo, $targetDate, 'testA', 'testA-charts');
+
+createJsonFile($pdo, $targetDate . '_testB', $resultsTopMix);
+renewCharts($pdo, $targetDate, 'testB', 'testB-charts');

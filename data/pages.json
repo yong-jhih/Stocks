@@ -1433,14 +1433,362 @@
         ]
     },
     {
-        "page": "test",
-        "title": "test",
+        "page": "testA",
+        "title": "testA",
         "enableChart": true,
         "enableTag": true,
         "useDate": true,
         "dataSource": {
-            "table": "test.json",
-            "chart": "test-charts.json"
+            "table": "testA.json",
+            "chart": "testA-charts.json"
+        },
+        "chart": {
+            "title": "籌碼分析",
+            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "showVolume": true,
+            "yAxis": [
+                {
+                    "name": "股價",
+                    "color": "#facc15"
+                },
+                {
+                    "name": "籌碼",
+                    "color": "#38bdf8"
+                }
+            ],
+            "series": [
+                {
+                    "field": "price",
+                    "name": "股價",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "circle",
+                    "symbolSize": 6,
+                    "lineWidth": 3,
+                    "color": "#facc15"
+                },
+                {
+                    "field": "bar_inst",
+                    "name": "法人買賣超",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#ef4444",
+                    "negativeColor": "#22c55e"
+                },
+                {
+                    "field": "bar_margin",
+                    "name": "融資增減",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#fb923c",
+                    "negativeColor": "#38bdf8"
+                },
+                {
+                    "field": "bar_sbl",
+                    "name": "借券淨賣還",
+                    "type": "bar",
+                    "yAxisIndex": 1,
+                    "positiveColor": "#a855f7",
+                    "negativeColor": "#64748b"
+                },
+                {
+                    "field": "line_inst5",
+                    "name": "法人5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 3,
+                    "color": "#f87171"
+                },
+                {
+                    "field": "line_margin5",
+                    "name": "融資5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#38bdf8"
+                },
+                {
+                    "field": "line_sbl5",
+                    "name": "借券5日累計",
+                    "type": "line",
+                    "yAxisIndex": 1,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 2,
+                    "lineType": "dashed",
+                    "color": "#c084fc"
+                }
+            ]
+        },
+        "illustrate_main": "※ 核心規則：僅上市個股，需同時滿足以下條件，較為嚴苛可能多日無資料。建議短線觀測週期約 2 週。",
+        "illustrate": [
+            {
+                "condition": "基礎量能門檻",
+                "content": "20日均量 > 700,000(股)。確保流動性充足，排除成交量過低的殭屍股。"
+            },
+            {
+                "condition": "攻擊量能確認",
+                "content": "今日量 > 5日均量 且 5日均量 > 20日均量（量增趨勢），或 今日量 > 20日均量 1.3 倍(爆量趨勢)。"
+            },
+            {
+                "condition": "極致洗盤確認 (重要)",
+                "content": "昨日成交量 < 5日均量，且昨日震幅 < 3.5%。代表發動前籌碼經過極度壓抑與洗盤。"
+            },
+            {
+                "condition": "價穩冷靜型態",
+                "content": "昨日 K 線實體 < 3% 且收盤高於 20日線。確認股價在生命線之上進行「窄幅整理」，而非破位大跌。"
+            },
+            {
+                "condition": "籌碼集中強度",
+                "content": "今日法人集中度：若未放量需 > 6%，若放量需 > 8%。代表當日籌碼主要由大戶收購。"
+            },
+            {
+                "condition": "波段位階保護",
+                "content": "10日位階處於 20%~90% 之間。避開絕對高檔噴發末端，也避開剛破底的弱勢股。"
+            },
+            {
+                "condition": "短期籌碼積累",
+                "content": "5日累計法人集中度 > 3%。確保法人不是只買一天（隔日沖），而是具備連續佈局。"
+            }
+        ],
+        "datatable": {
+            "order": [
+                5,
+                "desc"
+            ],
+            "columnDefs": [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    "width": "80px",
+                    "targets": [
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": "num",
+                    "targets": 5
+                }
+            ],
+            "fixedColumns": 2
+        },
+        "columns": [
+            {
+                "title": "代號",
+                "field": "stock_id",
+                "format": ""
+            },
+            {
+                "class": "text-blue-300 font-bold",
+                "title": "名稱",
+                "field": "stock_name",
+                "format": ""
+            },
+            {
+                "title": "策略分類",
+                "field": "strategy_type",
+                "format": ""
+            },
+            {
+                "title": "標籤",
+                "field": "tags",
+                "format": ""
+            },
+            {
+                "title": "信心度",
+                "field": "confidence",
+                "format": "number"
+            },
+            {
+                "title": "綜合評分",
+                "field": "score",
+                "format": "number"
+            },
+            {
+                "title": "趨勢分數",
+                "field": "trend_score",
+                "format": "number"
+            },
+            {
+                "title": "動能分數",
+                "field": "momentum_score",
+                "format": "number"
+            },
+            {
+                "title": "籌碼分數",
+                "field": "chip_score",
+                "format": "number"
+            },
+            {
+                "title": "結構分數",
+                "field": "structure_score",
+                "format": "number"
+            },
+            {
+                "title": "風險分數",
+                "field": "risk_score",
+                "format": "number"
+            },
+            {
+                "title": "收盤",
+                "field": "close",
+                "format": "number"
+            },
+            {
+                "title": "成交量",
+                "field": "vol",
+                "format": "number"
+            },
+            {
+                "title": "昨量比",
+                "field": "vol_ratio",
+                "format": "ratio"
+            },
+            {
+                "title": "5日均量",
+                "field": "vma5",
+                "format": "number"
+            },
+            {
+                "title": "10日均量",
+                "field": "vma10",
+                "format": "number"
+            },
+            {
+                "title": "20日均量",
+                "field": "vma20",
+                "format": "number"
+            },
+            {
+                "title": "5日乖離率",
+                "field": "bia5",
+                "format": "percent"
+            },
+            {
+                "title": "10日乖離率",
+                "field": "bia10",
+                "format": "percent"
+            },
+            {
+                "title": "20日乖離率",
+                "field": "bia20",
+                "format": "percent"
+            },
+            {
+                "title": "10日位階",
+                "field": "rank10",
+                "format": "percent"
+            },
+            {
+                "title": "20日位階",
+                "field": "rank20",
+                "format": "percent"
+            },
+            {
+                "title": "10日振幅",
+                "field": "amp10",
+                "format": "percent"
+            },
+            {
+                "title": "20日振幅",
+                "field": "amp20",
+                "format": "percent"
+            },
+            {
+                "title": "1日集中度",
+                "field": "con1",
+                "format": "percent"
+            },
+            {
+                "title": "5日集中度",
+                "field": "con5",
+                "format": "percent"
+            },
+            {
+                "title": "10日集中度",
+                "field": "con10",
+                "format": "percent"
+            },
+            {
+                "title": "20日集中度",
+                "field": "con20",
+                "format": "percent"
+            },
+            {
+                "title": "外資5日",
+                "field": "foreign_sum5",
+                "format": "number"
+            },
+            {
+                "title": "投信5日",
+                "field": "trust_sum5",
+                "format": "number"
+            },
+            {
+                "title": "外資連買",
+                "field": "foreign_streak_days",
+                "format": "number"
+            },
+            {
+                "title": "投信連買",
+                "field": "trust_streak_days",
+                "format": "number"
+            },
+            {
+                "title": "券補力",
+                "field": "squeeze",
+                "format": "ratio"
+            },
+            {
+                "title": "券砸力",
+                "field": "bullet",
+                "format": "ratio"
+            },
+            {
+                "title": "券淨賣還",
+                "field": "net_sbl",
+                "format": "number"
+            },
+            {
+                "title": "券淨賣還5日",
+                "field": "net_sbl_sum5",
+                "format": "number"
+            },
+            {
+                "title": "融資餘額",
+                "field": "margin_balance",
+                "format": "number"
+            },
+            {
+                "title": "借券餘額",
+                "field": "sbl_total",
+                "format": "number"
+            },
+            {
+                "title": "券賣餘額",
+                "field": "sbl_sold_balance",
+                "format": "number"
+            }
+        ]
+    },
+    {
+        "page": "testB",
+        "title": "testB",
+        "enableChart": true,
+        "enableTag": true,
+        "useDate": true,
+        "dataSource": {
+            "table": "testB.json",
+            "chart": "testB-charts.json"
         },
         "chart": {
             "title": "籌碼分析",
