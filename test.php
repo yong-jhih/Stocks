@@ -63,9 +63,9 @@ $targetDate = '2026-07-30';
 
 
 $a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
-$b = getDataWithFinmind($pdo, $targetDate, $targetDate, 'TaiwanStockTotalInstitutionalInvestors');
+$b = getDataWithFinmind($pdo, $targetDate, $targetDate, 'TaiwanStockTotalInstitutionalInvestors')['data'];
 
 
-if($a === $b['data']){
-    echo 'same';
+if ($a === $b) {
+    echo 'all same';
 }
