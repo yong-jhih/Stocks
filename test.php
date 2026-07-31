@@ -65,5 +65,7 @@ $targetDate = '2026-07-30';
 $a = getInstitutionalBuySellWithFinmind($pdo, $targetDate);
 $b = getDataWithFinmind($pdo, $targetDate, $targetDate, 'TaiwanStockTotalInstitutionalInvestors');
 
-echo json_encode($a)."\n";
-echo json_encode($b)."\n";
+
+if($a === $b['data']){
+    echo 'same';
+}
