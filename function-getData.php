@@ -689,33 +689,55 @@ function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): vo
 // 分析篩選
 function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): array
 {
-    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
-        "vma20 > 700000",
-        "((trade_volume > vma5 AND vma5 >= vma20) OR (trade_volume > vma20 * 1.3))",
-        "yesterday_vol < vma5",
-        "ABS(yesterday_close - yesterday_open) / NULLIF(yesterday_open, 0) < 0.03",
-        "(yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035",
-        "yesterday_close > ma20",
-        "((trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06) OR (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08))",
-        "((high10 - low10) / NULLIF(low10, 0)) > 0.01",
-        "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
-        "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
-    ]);
-    $dashboardResults = outputModel($pdo, $stocks);
-    // writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
-    return $dashboardResults;
+    $stocks = null;
+    for ($i = 1; $i <= 100; $i++) {
+        if ($i !== 1) sleep(60);
+        if ($stocks === null) {
+            $stocks = returnSqlFetch($pdo, $targetDate, $table, [
+                "vma20 > 700000",
+                "((trade_volume > vma5 AND vma5 >= vma20) OR (trade_volume > vma20 * 1.3))",
+                "yesterday_vol < vma5",
+                "ABS(yesterday_close - yesterday_open) / NULLIF(yesterday_open, 0) < 0.03",
+                "(yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035",
+                "yesterday_close > ma20",
+                "((trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06) OR (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08))",
+                "((high10 - low10) / NULLIF(low10, 0)) > 0.01",
+                "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
+                "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
+            ]);
+        } else {
+            break;
+        }
+    }
+    if ($stocks === null) {
+        throw new RuntimeException("篩選分析失敗");
+    } else {
+        $dashboardResults = outputModel($pdo, $stocks);
+        return $dashboardResults;
+    }
 }
 
 function topPerformingGenerateDailyDashboard(PDO $pdo, string $targetDate, array $table): array
 {
-    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
-        "vma20 > 700000",
-        "ma20 IS NOT NULL",
-        "ma60 IS NOT NULL"
-    ]);
-    $dashboardResults = outputModel($pdo, $stocks);
-    // writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($dashboardResults) . " 檔", 'success');
-    return $dashboardResults;
+    $stocks = null;
+    for ($i = 1; $i <= 100; $i++) {
+        if ($i !== 1) sleep(60);
+        if ($stocks === null) {
+            $stocks = returnSqlFetch($pdo, $targetDate, $table, [
+                "vma20 > 700000",
+                "ma20 IS NOT NULL",
+                "ma60 IS NOT NULL"
+            ]);
+        } else {
+            break;
+        }
+    }
+    if ($stocks === null) {
+        throw new RuntimeException("排行分析失敗");
+    } else {
+        $dashboardResults = outputModel($pdo, $stocks);
+        return $dashboardResults;
+    }
 }
 
 function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $table, array $code_array = []): array
@@ -725,15 +747,27 @@ function selfSelectGenerateDailyDashboard(PDO $pdo, string $targetDate, array $t
         return $pdo->quote($code);
     }, $code_array);
     $inClause = implode(",", $safeCodes);
-    $stocks = returnSqlFetch($pdo, $targetDate, $table, [
-        "stock_id IN({$inClause})"
-    ]);
-    $dashboardResults = outputModel($pdo, $stocks);
-    // writeLog($pdo, 'selfSelectGenerateDailyDashboard', "{$targetDate} 自選分析完成，共 " . count($dashboardResults) . " 檔", 'success');
-    return $dashboardResults;
+
+    $stocks = null;
+    for ($i = 1; $i <= 100; $i++) {
+        if ($i !== 1) sleep(60);
+        if ($stocks === null) {
+            $stocks = returnSqlFetch($pdo, $targetDate, $table, [
+                "stock_id IN({$inClause})"
+            ]);
+        } else {
+            break;
+        }
+    }
+    if ($stocks === null) {
+        throw new RuntimeException("自選分析失敗");
+    } else {
+        $dashboardResults = outputModel($pdo, $stocks);
+        return $dashboardResults;
+    }
 }
 
-function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where): array
+function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where): ?array
 {
     $cutoffDate = date('Y-m-d', strtotime($targetDate . ' - 108 days'));
     $sql = "
@@ -863,15 +897,20 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
         WHERE trade_date >= :cutoffDate AND trade_date = :targetDatereplaceHere;";
     $replaceStr = "";
     foreach ($where as $whereStr) {
-        $replaceStr .= " AND " . $whereStr;
+        $replaceStr .= " AND {$whereStr}";
     }
     $sql = str_replace('replaceHere', $replaceStr, $sql);
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'cutoffDate' => $cutoffDate,
-        'targetDate' => $targetDate
-    ]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'cutoffDate' => $cutoffDate,
+            'targetDate' => $targetDate
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+        return null;
+    }
 }
 
 function outputModel(PDO $pdo, array $sqlFetch): array

@@ -35,16 +35,32 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
     }
 
     try {
-        $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
-        $results = generateDailyDashboard($pdo, $targetDate, $table);
-        $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
-        createJsonFile($pdo, $targetDate . '_filter', $results);
-        renewCharts($pdo, $targetDate, 'filter', 'charts');
-        createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
-        renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
+        $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+        $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
+        $resultsTWSE = generateDailyDashboard($pdo, $targetDate, $tableTWSE);
+        $resultsTPEx = generateDailyDashboard($pdo, $targetDate, $tableTPEx);
+        $resultsTopTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
+        $resultsTopTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
 
-        writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($results) . " 檔", 'success');
-        writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTop) . " 檔", 'success');
+        $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
+        createJsonFile($pdo, $targetDate . '_filter', $resultsMix);
+        renewCharts($pdo, $targetDate, 'filter', 'charts');
+        $resultsTopMix = [...$resultsTopTWSE, ...$resultsTopTPEx];
+        createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTopMix);
+        renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
+        writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($resultsMix) . " 檔", 'success');
+        writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTopMix) . " 檔", 'success');
+
+        // $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+        // $results = generateDailyDashboard($pdo, $targetDate, $table);
+        // $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
+        // createJsonFile($pdo, $targetDate . '_filter', $results);
+        // renewCharts($pdo, $targetDate, 'filter', 'charts');
+        // createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
+        // renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
+
+        // writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($results) . " 檔", 'success');
+        // writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTop) . " 檔", 'success');
 
         updateDateList($targetDate);
         callGAS([

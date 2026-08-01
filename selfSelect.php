@@ -34,9 +34,12 @@ if (
 ) {
     echo '資料數量正常, 開始進行自選分析';
     try {
-        $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
-        $resultsSelf = selfSelectGenerateDailyDashboard($pdo, $targetDate, $table, $stockList);
-        createJsonFile($pdo, $targetDate . '_self-select', $resultsSelf);
+        $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+        $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
+        $resultsTWSE = selfSelectGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
+        $resultsTPEx = selfSelectGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
+        $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
+        createJsonFile($pdo, $targetDate . '_self-select', $resultsMix);
         renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
         callGAS([
             'date' => $targetDate,
