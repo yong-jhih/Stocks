@@ -1,5 +1,20 @@
 <?php
-// require_once("init.php");
+ require_once("init.php");
+
+$tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
+        $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
+        $resultsTWSE = generateDailyDashboard($pdo, $targetDate, $tableTWSE);
+        $resultsTPEx = generateDailyDashboard($pdo, $targetDate, $tableTPEx);
+        // $resultsTopTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
+        // $resultsTopTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
+echo "TSE:".count($resultsTWSE)."\n";
+echo "TPEx:".count($resultsTPEx)."\n";
+        // $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
+       // createJsonFile($pdo, $targetDate . '_filter', $resultsMix);
+     //   renewCharts($pdo, $targetDate, 'filter', 'charts');
+     //   $resultsTopMix = [...$resultsTopTWSE, ...$resultsTopTPEx];
+     //   createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTopMix);
+      //  renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
 
 // $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
 // $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
