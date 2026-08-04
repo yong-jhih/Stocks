@@ -1,5 +1,103 @@
 [
     {
+        "id": 10800014,
+        "log_time": "2026-08-04 17:21:14",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 10800013,
+        "log_time": "2026-08-04 17:21:14",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800012,
+        "log_time": "2026-08-04 17:21:14",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800011,
+        "log_time": "2026-08-04 17:21:14",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800010,
+        "log_time": "2026-08-04 17:21:13",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800009,
+        "log_time": "2026-08-04 17:21:13",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800008,
+        "log_time": "2026-08-04 17:21:13",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800007,
+        "log_time": "2026-08-04 17:21:12",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800006,
+        "log_time": "2026-08-04 17:21:12",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1047 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800005,
+        "log_time": "2026-08-04 17:21:12",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 985 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800004,
+        "log_time": "2026-08-04 17:21:11",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1040 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800003,
+        "log_time": "2026-08-04 17:21:11",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1068 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800002,
+        "log_time": "2026-08-04 17:21:10",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1074 筆",
+        "result": "success"
+    },
+    {
+        "id": 10800001,
+        "log_time": "2026-08-04 17:21:10",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
         "id": 10770010,
         "log_time": "2026-08-03 21:42:50",
         "log_type": "update00403A",
