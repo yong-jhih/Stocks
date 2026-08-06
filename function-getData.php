@@ -1784,7 +1784,8 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
             $currAmount = (int)$item['amount'];
             $prevAmount = (int)$item['prev_amount'];
             $diff1 = (int)$item['diff1'];
-            $stockName = " " . $stocksMap[$item['stock_id']]['stock_name'] ?? '未知股票';
+            $stockName = ' ' . ($stocksMap[$item['stock_id']]['stock_name'] ?? '未知股票');
+            $note = '';
             if ($prevAmount == 0 && $currAmount > 0) {
                 $note = "新增";
                 $new[] = (string)$item['stock_id'] . (string)$stockName;
@@ -1797,22 +1798,24 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
             } elseif ($diff1 < 0) {
                 $note = "減持";
                 $decrease[] = (string)$item['stock_id'] . (string)$stockName;
-            } else {
+            } elseif ($diff1 == 0) {
                 $note = "無變動";
                 $constant[] = (string)$item['stock_id'] . (string)$stockName;
             }
-            $finalData[] = [
-                'stock_id'   => (string)$item['stock_id'],
-                'stock_name' => (string)$stockName,
-                'note'       => $note,
-                'amount'     => (float)($currAmount / 1000),
-                'weight'     => (float)$item['weight'],
-                'diff1'      => (float)($diff1 / 1000),
-                'diff5'      => (float)((int)$item['diff5'] / 1000),
-                'diff10'     => (float)((int)$item['diff10'] / 1000),
-                'diff20'     => (float)((int)$item['diff20'] / 1000),
-                'diff60'     => (float)((int)$item['diff60'] / 1000)
-            ];
+            if ($prevAmount != 0 || $currAmount != 0) {
+                $finalData[] = [
+                    'stock_id'   => (string)$item['stock_id'],
+                    'stock_name' => (string)$stockName,
+                    'note'       => $note,
+                    'amount'     => (float)($currAmount / 1000),
+                    'weight'     => (float)$item['weight'],
+                    'diff1'      => (float)($diff1 / 1000),
+                    'diff5'      => (float)((int)$item['diff5'] / 1000),
+                    'diff10'     => (float)((int)$item['diff10'] / 1000),
+                    'diff20'     => (float)((int)$item['diff20'] / 1000),
+                    'diff60'     => (float)((int)$item['diff60'] / 1000)
+                ];
+            }
         }
         $incCount = count($increase);
         $decCount = count($decrease);
