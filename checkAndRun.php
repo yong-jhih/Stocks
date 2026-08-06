@@ -2,10 +2,10 @@
 require_once("init.php");
 
 if (
-    file_exists("data/" . $targetDate . "_filter.json") &&
-    file_exists("data/" . $targetDate . "_charts.json") &&
-    file_exists("data/" . $targetDate . "_topPerforming.json") &&
-    file_exists("data/" . $targetDate . "_topPerforming-charts.json")
+    file_exists("data/{$targetDate}_filter.json") &&
+    file_exists("data/{$targetDate}_charts.json") &&
+    file_exists("data/{$targetDate}_topPerforming.json") &&
+    file_exists("data/{$targetDate}_topPerforming-charts.json")
 ) {
     echo '分析資料已存在';
     exit(0);
@@ -35,13 +35,13 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
     }
 
     try {
+        // 篩選 排行
         $tableTWSE = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
         $tableTPEx = ['TPEx_stock_history', 'TPEx_stock_insti', 'TPEx_stock_margin', 'TPEx_stock_sbl_total', 'TPEx_stock_sbl_sold'];
         $resultsTWSE = generateDailyDashboard($pdo, $targetDate, $tableTWSE);
         $resultsTPEx = generateDailyDashboard($pdo, $targetDate, $tableTPEx);
         $resultsTopTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
         $resultsTopTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
-
         $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
         createJsonFile($pdo, $targetDate . '_filter', $resultsMix);
         renewCharts($pdo, $targetDate, 'filter', 'charts');
@@ -50,18 +50,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($resultsMix) . " 檔", 'success');
         writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTopMix) . " 檔", 'success');
-
-        // $table = ['stock_history', 'stock_insti', 'stock_margin', 'stock_sbl_total', 'stock_sbl_sold'];
-        // $results = generateDailyDashboard($pdo, $targetDate, $table);
-        // $resultsTop = topPerformingGenerateDailyDashboard($pdo, $targetDate, $table);
-        // createJsonFile($pdo, $targetDate . '_filter', $results);
-        // renewCharts($pdo, $targetDate, 'filter', 'charts');
-        // createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTop);
-        // renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
-
-        // writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($results) . " 檔", 'success');
-        // writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTop) . " 檔", 'success');
-
         updateDateList($targetDate);
         callGAS([
             'date' => $targetDate,
@@ -111,27 +99,15 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                 "投信共 " . $institutional['Investment_Trust']['total'] . "億 (買進 " . $institutional['Investment_Trust']['buy'] . "億/賣出 " . $institutional['Investment_Trust']['sell'] . "億)\n" .
                 "自營商共 " . $institutional['Dealer_self']['total'] . "億 (買進 " . $institutional['Dealer_self']['buy'] . "億/賣出 " . $institutional['Dealer_self']['sell'] . "億)\n" .
                 "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n\n";
-            $lineNotifyStr = $institutionalStr . $lineNotifyStr;
+            $lineNotifyStr = "{$institutionalStr}{$lineNotifyStr}";
         }
 
         updateSystemLog($pdo);
         lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
-        if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
-            writeLog($pdo, 'generateDailyDashboard', 'TiDB記憶體不足，2分鐘後重試', 'retry');
-            callGAS([
-                'date' => $targetDate,
-                'action' => 'retry',
-                'target' => 'CheckAndRun',
-                'after' => 120
-            ]);
-            updateSystemLog($pdo);
-            exit(0);
-        } else {
-            writeLog($pdo, 'checkAndRun', $e->getMessage(), 'error');
-            updateSystemLog($pdo);
-            exit(1);
-        }
+        writeLog($pdo, 'checkAndRun', $e->getMessage(), 'error');
+        updateSystemLog($pdo);
+        exit(1);
     }
 } else { // 已公布 資料量不足 則更新資料
     writeLog($pdo, 'updateAllHistory', "偵測 [{$targetDate}] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料", 'waitting');
