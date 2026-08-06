@@ -1,0 +1,250 @@
+{
+    "date": "2026-08-06",
+    "stocks": {
+        "2027": {
+            "stockId": "2027",
+            "series": [
+                {
+                    "date": "07\/09",
+                    "price": 40,
+                    "close": 40,
+                    "volume": 10877,
+                    "bar_inst": -3496,
+                    "bar_margin": 0,
+                    "bar_sbl": 534,
+                    "line_inst5": 528,
+                    "line_margin5": -0,
+                    "line_sbl5": -1383
+                },
+                {
+                    "date": "07\/13",
+                    "price": 39.5,
+                    "close": 39.5,
+                    "volume": 20528,
+                    "bar_inst": -2714,
+                    "bar_margin": -1,
+                    "bar_sbl": 1048,
+                    "line_inst5": -4946,
+                    "line_margin5": -1,
+                    "line_sbl5": 1391
+                },
+                {
+                    "date": "07\/14",
+                    "price": 39.1,
+                    "close": 39.1,
+                    "volume": 17215,
+                    "bar_inst": 7892,
+                    "bar_margin": -3,
+                    "bar_sbl": -4375,
+                    "line_inst5": -4,
+                    "line_margin5": -4,
+                    "line_sbl5": -2978
+                },
+                {
+                    "date": "07\/15",
+                    "price": 41.3,
+                    "close": 41.3,
+                    "volume": 23958,
+                    "bar_inst": 11852,
+                    "bar_margin": -1,
+                    "bar_sbl": 10,
+                    "line_inst5": 10819,
+                    "line_margin5": -4,
+                    "line_sbl5": -2806
+                },
+                {
+                    "date": "07\/16",
+                    "price": 41,
+                    "close": 41,
+                    "volume": 9244,
+                    "bar_inst": -601,
+                    "bar_margin": -0,
+                    "bar_sbl": -6837,
+                    "line_inst5": 12934,
+                    "line_margin5": -4,
+                    "line_sbl5": -9620
+                },
+                {
+                    "date": "07\/17",
+                    "price": 40.65,
+                    "close": 40.65,
+                    "volume": 15766,
+                    "bar_inst": 5751,
+                    "bar_margin": -0,
+                    "bar_sbl": -149,
+                    "line_inst5": 22181,
+                    "line_margin5": -5,
+                    "line_sbl5": -10303
+                },
+                {
+                    "date": "07\/20",
+                    "price": 40.45,
+                    "close": 40.45,
+                    "volume": 10955,
+                    "bar_inst": -582,
+                    "bar_margin": -0,
+                    "bar_sbl": 237,
+                    "line_inst5": 24313,
+                    "line_margin5": -4,
+                    "line_sbl5": -11114
+                },
+                {
+                    "date": "07\/21",
+                    "price": 41.15,
+                    "close": 41.15,
+                    "volume": 10093,
+                    "bar_inst": 4625,
+                    "bar_margin": 0,
+                    "bar_sbl": -2144,
+                    "line_inst5": 21046,
+                    "line_margin5": -1,
+                    "line_sbl5": -8883
+                },
+                {
+                    "date": "07\/22",
+                    "price": 43.75,
+                    "close": 43.75,
+                    "volume": 50852,
+                    "bar_inst": 29083,
+                    "bar_margin": -0,
+                    "bar_sbl": 114,
+                    "line_inst5": 38277,
+                    "line_margin5": -1,
+                    "line_sbl5": -8779
+                },
+                {
+                    "date": "07\/23",
+                    "price": 44.4,
+                    "close": 44.4,
+                    "volume": 26273,
+                    "bar_inst": 570,
+                    "bar_margin": 0,
+                    "bar_sbl": -251,
+                    "line_inst5": 39447,
+                    "line_margin5": -1,
+                    "line_sbl5": -2193
+                },
+                {
+                    "date": "07\/24",
+                    "price": 43.55,
+                    "close": 43.55,
+                    "volume": 9449,
+                    "bar_inst": -475,
+                    "bar_margin": 0,
+                    "bar_sbl": -224,
+                    "line_inst5": 33221,
+                    "line_margin5": -0,
+                    "line_sbl5": -2268
+                },
+                {
+                    "date": "07\/27",
+                    "price": 44.55,
+                    "close": 44.55,
+                    "volume": 22634,
+                    "bar_inst": 2728,
+                    "bar_margin": -0,
+                    "bar_sbl": -2726,
+                    "line_inst5": 36531,
+                    "line_margin5": -0,
+                    "line_sbl5": -5231
+                },
+                {
+                    "date": "07\/28",
+                    "price": 42.2,
+                    "close": 42.2,
+                    "volume": 18885,
+                    "bar_inst": -3599,
+                    "bar_margin": -0,
+                    "bar_sbl": -697,
+                    "line_inst5": 28307,
+                    "line_margin5": -1,
+                    "line_sbl5": -3784
+                },
+                {
+                    "date": "07\/29",
+                    "price": 43.25,
+                    "close": 43.25,
+                    "volume": 25417,
+                    "bar_inst": 10198,
+                    "bar_margin": -1,
+                    "bar_sbl": -600,
+                    "line_inst5": 9422,
+                    "line_margin5": -2,
+                    "line_sbl5": -4498
+                },
+                {
+                    "date": "07\/30",
+                    "price": 43.7,
+                    "close": 43.7,
+                    "volume": 24042,
+                    "bar_inst": -153,
+                    "bar_margin": -0,
+                    "bar_sbl": 215,
+                    "line_inst5": 8700,
+                    "line_margin5": -2,
+                    "line_sbl5": -4032
+                },
+                {
+                    "date": "07\/31",
+                    "price": 43.2,
+                    "close": 43.2,
+                    "volume": 19110,
+                    "bar_inst": -2474,
+                    "bar_margin": 0,
+                    "bar_sbl": -181,
+                    "line_inst5": 6700,
+                    "line_margin5": -1,
+                    "line_sbl5": -3989
+                },
+                {
+                    "date": "08\/03",
+                    "price": 44.45,
+                    "close": 44.45,
+                    "volume": 20853,
+                    "bar_inst": 3802,
+                    "bar_margin": 2,
+                    "bar_sbl": -338,
+                    "line_inst5": 7774,
+                    "line_margin5": 1,
+                    "line_sbl5": -1601
+                },
+                {
+                    "date": "08\/04",
+                    "price": 44.25,
+                    "close": 44.25,
+                    "volume": 12225,
+                    "bar_inst": -956,
+                    "bar_margin": 0,
+                    "bar_sbl": 42,
+                    "line_inst5": 10417,
+                    "line_margin5": 1,
+                    "line_sbl5": -862
+                },
+                {
+                    "date": "08\/05",
+                    "price": 44.35,
+                    "close": 44.35,
+                    "volume": 14192,
+                    "bar_inst": 4192,
+                    "bar_margin": 0,
+                    "bar_sbl": -764,
+                    "line_inst5": 4410,
+                    "line_margin5": 2,
+                    "line_sbl5": -1026
+                },
+                {
+                    "date": "08\/06",
+                    "price": 46.1,
+                    "close": 46.1,
+                    "volume": 39617,
+                    "bar_inst": 13840,
+                    "bar_margin": 1,
+                    "bar_sbl": -488,
+                    "line_inst5": 18403,
+                    "line_margin5": 4,
+                    "line_sbl5": -1729
+                }
+            ]
+        }
+    }
+}
