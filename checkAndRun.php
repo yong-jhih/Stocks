@@ -8,7 +8,7 @@ if (
     file_exists("data/{$targetDate}_topPerforming-charts.json")
 ) {
     echo '分析資料已存在';
-    exit(0);
+  //  exit(0);
 }
 
 $SBLSoldData = getSBLSold($pdo, $targetDate);
