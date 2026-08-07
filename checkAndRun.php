@@ -82,7 +82,11 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         }
 
         // 大盤法人買賣超
-        $institutionalBuySell = getDataWithFinmind($pdo, $targetDate, $targetDate, 'TaiwanStockTotalInstitutionalInvestors')['data'];
+        $institutionalBuySell = getDataWithFinmind($pdo, [
+            'dataset' => "TaiwanStockTotalInstitutionalInvestors",
+            'start_date' => $targetDate,
+            'end_date' => $targetDate,
+        ])['data'];
         if (!empty($institutionalBuySell)) {
             $institutional = [];
             foreach ($institutionalBuySell as $item) {

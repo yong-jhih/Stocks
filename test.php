@@ -8,5 +8,5 @@ $params = [
     'start_date' => $targetDate,
     'end_date' => $targetDate,
 ];
-$a = getDataWithFinmind_test($pdo, $params);
+$a = getDataWithFinmind($pdo, $params);
 echo json_encode($a);
