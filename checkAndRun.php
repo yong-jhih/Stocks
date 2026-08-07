@@ -56,6 +56,11 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             'action' => 'triggersSelfSelect',
             'after' => 180
         ]);
+        callGAS([
+            'date' => $targetDate,
+            'action' => 'addSelfSelect',
+            'data' => $resultsMix
+        ]);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
