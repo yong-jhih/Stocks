@@ -1,8 +1,6 @@
 name: test
 
 on:
-  # schedule:
-  #   - cron: '3,23,43 12-15 * * 1-5'
   repository_dispatch:
     types: [test]
   workflow_dispatch:
@@ -35,16 +33,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: '20'
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v5
+      #   with:
+      #     node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
-      - name: Install Chrome for Puppeteer
-        run: npx puppeteer browsers install chrome
+      # - name: Install Chrome for Puppeteer
+      #   run: npx puppeteer browsers install chrome
   
       # - name: Run Puppeteer to Fetch HTML(TX)
       #   run: node fetch_TX.js
@@ -55,7 +53,7 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      - name: Check And Update ETF
+      - name: Test
         run: php test.php
 
       - name: Commit And Push JSON files

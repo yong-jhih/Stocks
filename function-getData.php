@@ -33,7 +33,7 @@ function getDataWithFinmind(PDO $pdo, string $start_date, string $end_date, stri
         if (json_last_error() !== JSON_ERROR_NONE) throw new RuntimeException('JSON Error: ' . json_last_error_msg());
         return $result;
     } catch (Throwable $e) {
-        writeLog($pdo, "getDataWithFinmind_{$dataset}", $e->getMessage(), 'Warnning');
+        writeLog($pdo, $dataset, $e->getMessage(), 'Warnning');
         return null;
     }
 }
