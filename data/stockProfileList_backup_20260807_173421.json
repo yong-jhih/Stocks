@@ -13163,6 +13163,12 @@
         "stock_type": "ESM",
         "industry": "觀光餐旅"
     },
+    "7575": {
+        "stock_id": "7575",
+        "stock_name": "安美得",
+        "stock_type": "ESM",
+        "industry": "生技醫療業"
+    },
     "7578": {
         "stock_id": "7578",
         "stock_name": "利百景",
@@ -13931,12 +13937,6 @@
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
-    "7925": {
-        "stock_id": "7925",
-        "stock_name": "健生",
-        "stock_type": "ESM",
-        "industry": "電機機械"
-    },
     "7926": {
         "stock_id": "7926",
         "stock_name": "中華立鼎",
@@ -13996,12 +13996,6 @@
         "stock_name": "技宸",
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
-    },
-    "7942": {
-        "stock_id": "7942",
-        "stock_name": "東佑達",
-        "stock_type": "ESM",
-        "industry": "電機機械"
     },
     "8058": {
         "stock_id": "8058",

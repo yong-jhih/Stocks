@@ -1457,12 +1457,6 @@
         "stock_type": "ETF",
         "industry": ""
     },
-    "009826": {
-        "stock_id": "009826",
-        "stock_name": "貝萊德世界股票",
-        "stock_type": "ETF",
-        "industry": ""
-    },
     "00982A": {
         "stock_id": "00982A",
         "stock_name": "主動群益台灣強棒",
@@ -1550,12 +1544,6 @@
     "00991A": {
         "stock_id": "00991A",
         "stock_name": "主動復華未來50",
-        "stock_type": "ETF",
-        "industry": ""
-    },
-    "00991B": {
-        "stock_id": "00991B",
-        "stock_name": "貝萊德A級公司債",
         "stock_type": "ETF",
         "industry": ""
     },

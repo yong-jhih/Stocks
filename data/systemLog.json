@@ -1,5 +1,145 @@
 [
     {
+        "id": 11130020,
+        "log_time": "2026-08-07 17:34:25",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 11130019,
+        "log_time": "2026-08-07 17:34:25",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130018,
+        "log_time": "2026-08-07 17:34:24",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130017,
+        "log_time": "2026-08-07 17:34:24",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130016,
+        "log_time": "2026-08-07 17:34:24",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130015,
+        "log_time": "2026-08-07 17:34:23",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130014,
+        "log_time": "2026-08-07 17:34:23",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130013,
+        "log_time": "2026-08-07 17:34:23",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130012,
+        "log_time": "2026-08-07 17:34:22",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130011,
+        "log_time": "2026-08-07 17:34:22",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130010,
+        "log_time": "2026-08-07 17:34:22",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130009,
+        "log_time": "2026-08-07 17:34:21",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130008,
+        "log_time": "2026-08-07 17:34:21",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130007,
+        "log_time": "2026-08-07 17:34:21",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
+        "id": 11130006,
+        "log_time": "2026-08-07 17:34:21",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 798.24 秒",
+        "result": "end"
+    },
+    {
+        "id": 11130005,
+        "log_time": "2026-08-07 17:34:20",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 6535 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130004,
+        "log_time": "2026-08-07 17:30:35",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6691 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130003,
+        "log_time": "2026-08-07 17:24:17",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2611 筆",
+        "result": "success"
+    },
+    {
+        "id": 11130002,
+        "log_time": "2026-08-07 17:23:32",
+        "log_type": "getStockProfileETF",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11130001,
+        "log_time": "2026-08-07 17:21:02",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 11010026,
         "log_time": "2026-08-06 21:38:45",
         "log_type": "update00403A",
