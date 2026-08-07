@@ -61,7 +61,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
 
         // ETF
-        $etfid = ['00981A', '00991A', '00403A'];
+        $etfid = ['00981A', '00403A', '00991A'];
         foreach ($etfid as $etf_id) {
             $start_time = microtime(true);
             writeLog($pdo, "update{$etf_id}", "取得交易日期 [{$targetDate}], 開始更新 {$etf_id} 成分股資料", 'start');
