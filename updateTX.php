@@ -2,11 +2,15 @@
 require_once("init.php");
 
 try {
+    $data = [];
     $prefutures = json_decode(file_get_contents("TX.json"), true);
     foreach ($prefutures as $item) {
         if ($item['Date'] !== str_replace("-", "", $targetDate)) throw new RuntimeException("三大法人-區分各期貨契約-依日期 資料未更新完全");
-        
+        if ($item['Item'] === "外資及陸資" && in_array($item['ContractCode'], ["臺股期貨", "小型臺指期貨", "微型臺指期貨"])) {
+            $data[] = $item;
+        }
     }
+    
 } catch (Throwable $e) {
     // callGAS([
     //     'date' => $targetDate,

@@ -46,8 +46,8 @@ jobs:
       - name: Install Chrome for Puppeteer
         run: npx puppeteer browsers install chrome
   
-      - name: Run Puppeteer to Fetch HTML(TX)
-        run: node fetch_TX.js
+      # - name: Run Puppeteer to Fetch HTML(TX)
+      #   run: node fetch_TX.js
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -55,8 +55,8 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      # - name: Check And Update ETF
-      #   run: php test.php
+      - name: Check And Update ETF
+        run: php test.php
 
       - name: Commit And Push JSON files
         if: always()
