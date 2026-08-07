@@ -2,5 +2,11 @@
 require_once("init.php");
 
 $targetDate = "2026-08-06";
-$a = getDataWithFinmind($pdo, $targetDate, $targetDate, "TaiwanFuturesInstitutionalInvestors");
+$params = [
+    'dataset' => "TaiwanFuturesInstitutionalInvestors",
+    'data_id' => "TX",
+    'start_date' => $targetDate,
+    'end_date' => $targetDate,
+];
+$a = getDataWithFinmind_test($pdo, $params);
 echo json_encode($a);
