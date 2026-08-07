@@ -1,15 +1,6 @@
 <?php
 require_once("init.php");
 
-// 期貨未平倉
-// $prefutures = json_decode(file_get_contents("TX.json"), true);
-
-// $url = "https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate";
-// $data = fetchUrl($url);
-// foreach ($data as $row) {
-// }
-
-// 期貨
 function updateTX(PDO $pdo, string $targetDate): void
 {
     $start_time = microtime(true);
@@ -91,3 +82,5 @@ function insertTX(PDO $pdo, string $targetDate, array $historyData): void
         writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 寫入失敗：' . $e->getMessage(), 'error');
     }
 }
+
+
