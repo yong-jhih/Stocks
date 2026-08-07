@@ -1617,6 +1617,27 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     return ['stockId' => $stockId, 'series'  => $results];
 }
 
+// 大盤
+function getTAIEX(PDO $pdo, string $date): ?array
+{
+    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+    for ($i = 0; $i < 3; $i++) {
+        $response = fetchUrl($url);
+        if (isset($response['stat']) && $response['stat'] === 'error') {
+            continue;
+        } else {
+            foreach ($response as $v) {
+                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $date)) {
+                    return $v;
+                }
+            }
+        }
+    }
+    writeLog($pdo, 'getTAIEX', '取得 加權指數收盤 執行 3 次失敗,跳過', 'warning');
+    return null;
+}
+
+
 // ETF
 function getComponent(string $targetDate, string $etf_id): array
 {

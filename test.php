@@ -1,7 +1,8 @@
 <?php
 require_once("init.php");
-
 $targetDate = "2026-08-06";
+
+
 $params = [
     'dataset' => "TaiwanFuturesInstitutionalInvestors",
     'data_id' => "TX",
@@ -9,4 +10,6 @@ $params = [
     'end_date' => $targetDate,
 ];
 $a = getDataWithFinmind($pdo, $params);
-echo json_encode($a);
+
+$b = getTAIEX($pdo, $targetDate);
+echo json_encode($b);
