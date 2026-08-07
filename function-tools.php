@@ -68,9 +68,7 @@ function convertTaiwanDateToWestern(string $dateStr): ?string
         $day = $matches[3];
         $westernYear = $taiwanYear + 1911;
         $result = "{$westernYear}-{$month}-{$day}";
-        if (checkdate((int)$month, (int)$day, $westernYear)) {
-            return $result;
-        }
+        if (checkdate((int)$month, (int)$day, $westernYear)) return $result;
     }
     return null;
 }
@@ -90,21 +88,20 @@ function fetchUrl(string $url): array
         $result = json_decode($response, true) ?? ["status" => "error", "msg" => "JSON 解析失敗"];
         return $result;
     } catch (Exception $e) {
-        return ["status" => "error", "msg" => "錯誤：" . $e->getMessage()];
+        return ["status" => "error", "msg" => "錯誤：{$e->getMessage()}"];
     }
 }
 
 function writeLog(PDO $pdo, string $type, string $content, string $result): void
 {
-    $sql = "INSERT INTO system_logs (log_time, log_type, content, result) 
-            VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO system_logs (log_time, log_type, content, result) VALUES (?, ?, ?, ?)";
     try {
         $stmt = $pdo->prepare($sql);
         $currentTime = date('Y-m-d H:i:s');
         $stmt->execute([$currentTime, $type, $content, $result]);
     } catch (Exception $e) {
-        echo "Critical Error: Unable to write to system_logs. " . $e->getMessage();
-        writeLog($pdo, 'writeLog', "Critical Error: Unable to write to system_logs. " . $e->getMessage(), 'error');
+        echo "Critical Error: Unable to write to system_logs. {$e->getMessage()}";
+        writeLog($pdo, 'writeLog', "Critical Error: Unable to write to system_logs. {$e->getMessage()}", 'error');
     }
 }
 
@@ -131,8 +128,8 @@ function checkIfDataPublished(PDO $pdo, string $date, string $table, int $count 
 function lineNotification(PDO $pdo, string $target, string $message = 'testLine'): void
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-    $url = 'https://api.line.me/v2/bot/message/push';
-    $messageText = "系統通知：\n" . $message;
+    $url = "https://api.line.me/v2/bot/message/push";
+    $messageText = "系統通知：\n{$message}";
     $payload = [
         'to' => $target,
         'messages' => [
@@ -152,20 +149,18 @@ function lineNotification(PDO $pdo, string $target, string $message = 'testLine'
         'Content-Type: application/json',
         'Authorization: Bearer ' . $channelAccessToken
     ]);
-    $result = curl_exec($ch);
     $errno = curl_errno($ch);
     $error_msg = curl_error($ch);
-    curl_close($ch);
     if ($errno) {
         writeLog($pdo, 'lineNotification', $error_msg, 'error');
-        echo "cURL Error: " . $error_msg;
+        echo "cURL Error: {$error_msg}";
     }
 }
 
 function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model = 'gemini-2.5-flash'): string
 {
     if (!isset($apikey)) return 'api key 不存在';
-    $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/" . $model . ":generateContent?key=" . $apikey;
+    $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apikey}";
     $payload = [
         "contents" => [
             [
@@ -194,7 +189,7 @@ function callGeminiAI(string $apikey, string $prompt = 'say hi', string $model =
         }
         return "AI 無法識別內容";
     } catch (Exception $e) {
-        return "程式執行失敗: " . $e->getMessage();
+        return "程式執行失敗:{$e->getMessage()}";
     }
 }
 
@@ -217,15 +212,14 @@ function callGAS($data = []): void
     ]);
     $response = curl_exec($ch);
     if (curl_errno($ch)) {
-        if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
-            echo 'GAS 執行完成' . "發送請求成功:" . json_encode($data);
+        if (curl_errno($ch) === CURLE_OPERATION_TIMEDOUT) {
+            echo "GAS 執行完成 發送請求成功: " . json_encode($data);
         } else {
-            echo "發送請求失敗 cURL 錯誤:" . curl_error($ch);
+            echo "發送請求失敗 cURL 錯誤: " . curl_error($ch);
         }
     } else {
-        echo 'GAS 回應: ' . $response;
+        echo "GAS 回應: {$response}";
     }
-    curl_close($ch);
 }
 
 function updateDateList(string $date, string $folder = 'data')
@@ -328,15 +322,15 @@ function dbClean(PDO $pdo, string $table, string $dateColumn, int $days): void
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':days' => $days]);
-        writeLog($pdo, 'dbClean', $table . " 資料清理成功: 共刪除 " . $stmt->rowCount() . " 筆", 'success');
+        writeLog($pdo, 'dbClean', "{$table} 資料清理成功: 共刪除 " . $stmt->rowCount() . " 筆", 'success');
     } catch (PDOException $e) {
-        writeLog($pdo, 'dbClean', "資料清理失敗: " . $e->getMessage(), 'error');
+        writeLog($pdo, 'dbClean', "資料清理失敗: {$e->getMessage()}", 'error');
     }
 }
 
 function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name): void
 {
-    $stockList = json_decode(file_get_contents("data/" . $targetDate . "_" . $getCode . ".json"), true);
+    $stockList = json_decode(file_get_contents("data/{$targetDate}_{$getCode}.json"), true);
     $allData = [
         'date' => $targetDate,
         'stocks' => []
@@ -347,7 +341,7 @@ function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name
             $allData['stocks'][$stock['stock_id']] = $data;
         }
     }
-    createJsonFile($pdo, $targetDate . '_' . $name, $allData);
+    createJsonFile($pdo, "{$targetDate}_{$name}", $allData);
 }
 
 function testRetry(PDO $pdo): array

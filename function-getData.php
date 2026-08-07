@@ -68,7 +68,7 @@ function updateAllHistory(PDO $pdo, string $targetDate): void
         if (!checkIfDataPublished($pdo, $targetDate, 'stock_sbl_sold', 700) && !empty($SBLSoldData)) insertSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateAllHistory', "更新上市盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+        writeLog($pdo, 'updateAllHistory', "更新上市盤後資料結束, 共耗時 {$execution_time} 秒", 'end');
     } catch (Throwable $e) {
         writeLog($pdo, 'updateAllHistory', "上市歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
         throw new RuntimeException("上市歷史資料更新失敗，原因：{$e->getMessage()}");
@@ -194,6 +194,7 @@ function getSBLSold(PDO $pdo, string $date): ?array
 
 function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
 {
+    $countHistoryData = count($historyData);
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_history 
             (trade_date, stock_id, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
@@ -226,15 +227,16 @@ function insertHistory(PDO $pdo, string $targetDate, array $historyData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertHistory', "{$targetDate} 上市個股日成交 更新完成,共新增 {$countHistoryData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertHistory', $targetDate . ' 上市個股日成交 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertHistory', "{$targetDate} 上市個股日成交 寫入失敗： {$e->getMessage()}", 'error');
     }
 }
 
 function insertInsti(PDO $pdo, string $targetDate, array $instiData): void
 {
+    $countInstiData = count($instiData);
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_insti 
             (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
@@ -263,15 +265,16 @@ function insertInsti(PDO $pdo, string $targetDate, array $instiData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertInsti', "{$targetDate} 三大法人買賣超 更新完成,共新增 {$countInstiData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertInsti', $targetDate . ' 三大法人買賣超 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertInsti', "{$targetDate} 三大法人買賣超 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertMargin(PDO $pdo, string $targetDate, array $marginData): void
 {
+    $countMarginData = count($marginData);
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_margin 
             (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
@@ -300,15 +303,16 @@ function insertMargin(PDO $pdo, string $targetDate, array $marginData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertMargin', "{$targetDate} 融資融券彙總 更新完成,共新增 {$countMarginData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertMargin', $targetDate . ' 融資融券彙總 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertMargin', "{$targetDate} 融資融券彙總 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
 {
+    $countSBLTotalData = count($SBLTotalData);
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_total (trade_date, stock_id, sbl_balance) 
             VALUES (?, ?, ?)
@@ -322,15 +326,16 @@ function insertSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2); // 取小數點後兩位
-        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLTotal', "{$targetDate} 借券餘額 更新完成,共新增 {$countSBLTotalData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLTotal', $targetDate . ' 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLTotal', "{$targetDate} 借券餘額 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
 {
+    $countSBLSoldData = count($SBLSoldData);
     $start_time = microtime(true);
     $sql = "INSERT INTO stock_sbl_sold 
             (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
@@ -357,10 +362,10 @@ function insertSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLSold', "{$targetDate} 借券賣出餘額 更新完成,共新增 {$countSBLSoldData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 借券賣出餘額 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLSold', "{$targetDate} 借券賣出餘額 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
@@ -399,7 +404,7 @@ function updateAllTPExHistory(PDO $pdo, string $targetDate): void
         if (!checkIfDataPublished($pdo, $targetDate, 'TPEx_stock_sbl_sold', 500) && !empty($SBLSoldData)) insertTPExSBLSold($pdo, $targetDate, $SBLSoldData);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'updateAllTPExHistory', "更新上櫃盤後資料結束, 共耗時   {$execution_time}   秒", 'end');
+        writeLog($pdo, 'updateAllTPExHistory', "更新上櫃盤後資料結束, 共耗時 {$execution_time} 秒", 'end');
     } catch (Throwable $e) {
         writeLog($pdo, 'updateAllTPExHistory', "上櫃歷史資料更新失敗，原因：{$e->getMessage()}", 'error');
         throw new RuntimeException("上櫃歷史資料更新失敗，原因：{$e->getMessage()}");
@@ -511,6 +516,7 @@ function getTPExSBLSold(PDO $pdo): ?array
 
 function insertTPExHistory(PDO $pdo, string $targetDate, array $historyData): void
 {
+    $countHistoryData = count($historyData);
     $start_time = microtime(true);
     $sql = "INSERT INTO TPEx_stock_history 
             (trade_date, stock_id, open_price, high_price, low_price, close_price, trade_volume, trade_value) 
@@ -543,15 +549,16 @@ function insertTPExHistory(PDO $pdo, string $targetDate, array $historyData): vo
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertTPExHistory', $targetDate . ' 上櫃個股日成交 更新完成,共新增 ' . count($historyData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertTPExHistory', "{$targetDate} 上櫃個股日成交 更新完成,共新增 {$countHistoryData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertTPExHistory', $targetDate . ' 上櫃個股日成交 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertTPExHistory', "{$targetDate} 上櫃個股日成交 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertTPExInsti(PDO $pdo, string $targetDate, array $instiData): void
 {
+    $countInstiData = count($instiData);
     $start_time = microtime(true);
     $sql = "INSERT INTO TPEx_stock_insti 
             (trade_date, stock_id, foreign_buy_sell, trust_buy_sell, dealer_buy_sell, total_buy_sell) 
@@ -580,15 +587,16 @@ function insertTPExInsti(PDO $pdo, string $targetDate, array $instiData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertTPExInsti', $targetDate . ' 上櫃公司 三大法人買賣超 更新完成,共新增 ' . count($instiData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertTPExInsti', "{$targetDate} 上櫃公司 三大法人買賣超 更新完成,共新增 {$countInstiData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertTPExInsti', $targetDate . ' 上櫃公司 三大法人買賣超 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertTPExInsti', "{$targetDate} 上櫃公司 三大法人買賣超 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertTPExMargin(PDO $pdo, string $targetDate, array $marginData): void
 {
+    $countMarginData = count($marginData);
     $start_time = microtime(true);
     $sql = "INSERT INTO TPEx_stock_margin 
             (trade_date, stock_id, margin_balance, margin_balance_diff, short_balance, short_balance_diff) 
@@ -617,15 +625,16 @@ function insertTPExMargin(PDO $pdo, string $targetDate, array $marginData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertMargin', $targetDate . ' 上櫃公司 融資融券彙總 更新完成,共新增 ' . count($marginData) . ' 筆,耗時 ' . $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertMargin', "{$targetDate} 上櫃公司 融資融券彙總 更新完成,共新增 {$countMarginData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertMargin', $targetDate . '上櫃公司 融資融券彙總 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertMargin', "{$targetDate} 上櫃公司 融資融券彙總 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertTPExSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): void
 {
+    $countSBLTotalData = count($SBLTotalData);
     $start_time = microtime(true);
     $sql = "INSERT INTO TPEx_stock_sbl_total (trade_date, stock_id, sbl_balance) 
             VALUES (?, ?, ?)
@@ -639,15 +648,16 @@ function insertTPExSBLTotal(PDO $pdo, string $targetDate, array $SBLTotalData): 
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 上櫃公司 借券餘額 更新完成,共新增 ' . count($SBLTotalData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertTPExSBLTotal', "{$targetDate} 上櫃公司 借券餘額 更新完成,共新增 {$countSBLTotalData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertTPExSBLTotal', $targetDate . ' 上櫃公司 借券餘額 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertTPExSBLTotal', "{$targetDate} 上櫃公司 借券餘額 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
 function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): void
 {
+    $countSBLSoldData = count($SBLSoldData);
     $start_time = microtime(true);
     $sql = "INSERT INTO TPEx_stock_sbl_sold 
             (trade_date, stock_id, sbl_sold_balance, sbl_sold, sbl_return) 
@@ -674,10 +684,10 @@ function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): vo
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 上櫃公司 借券賣出餘額 更新完成,共新增 ' . count($SBLSoldData) . ' 筆,耗時 ' .  $execution_time . ' 秒', 'success');
+        writeLog($pdo, 'insertSBLSold', "{$targetDate} 上櫃公司 借券賣出餘額 更新完成,共新增 {$countSBLSoldData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLSold', $targetDate . ' 上櫃公司 借券賣出餘額 寫入失敗：' . $e->getMessage(), 'error');
+        writeLog($pdo, 'insertSBLSold', "{$targetDate} 上櫃公司 借券賣出餘額 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
@@ -1637,7 +1647,6 @@ function getTAIEX(PDO $pdo, string $date): ?array
     return null;
 }
 
-
 // ETF
 function getComponent(string $targetDate, string $etf_id): array
 {
@@ -1850,9 +1859,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
 
 function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, array $stockIds): array
 {
-    if (empty($stockIds)) {
-        return ['date' => $targetDate, 'stocks' => []];
-    }
+    if (empty($stockIds)) return ['date' => $targetDate, 'stocks' => []];
 
     // 步驟 1：先抓出該 ETF 在 $targetDate 之前（含）的最近 60 個實際交易日
     $dateSql = "
@@ -1864,20 +1871,13 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
     ";
     $stmt = $pdo->prepare($dateSql);
     $stmt->execute([$etfId, $targetDate]);
-    $recentDates = $stmt->fetchAll(PDO::FETCH_COLUMN); // 取得 [ 2026-06-30, 2026-06-29, ... ]
-
-    // 如果連一個日期都沒有，直接回傳
-    if (empty($recentDates)) {
-        return ['date' => $targetDate, 'stocks' => []];
-    }
-
-    // 為了讓圖表從過去畫到現在，將日期反轉成正序（舊 -> 新）
+    $recentDates = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (empty($recentDates)) return ['date' => $targetDate, 'stocks' => []];
     $recentDates = array_reverse($recentDates);
 
     // 步驟 2：利用剛才找出的精準 60 個交易日，去撈取股票資料
     $stockPlaceholders = implode(',', array_fill(0, count($stockIds), '?'));
     $datePlaceholders = implode(',', array_fill(0, count($recentDates), '?'));
-
     $sql = "
         SELECT
             ec.stock_id stock_id,
@@ -1899,12 +1899,9 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
     ";
 
     $stmt = $pdo->prepare($sql);
-    // 參數順序：所有 stockId -> 所有限定日期 -> etfId
     $params = array_merge($stockIds, $recentDates, [$etfId]);
     $stmt->execute($params);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // 將資料庫撈出來的結果，先整理成以 [stock_id][trade_date] 為 Key 的雙層陣列，方便等一下快速比對
     $dbData = [];
     foreach ($rows as $row) {
         $dbData[$row['stock_id']][$row['trade_date']] = $row;
@@ -1917,8 +1914,6 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
             'stockId' => $stockId,
             'series' => []
         ];
-
-        // 哪怕某天沒資料，也硬塞一個帶有 date、但 price 為 null 的物件，確保時間軸完美對齊
         foreach ($recentDates as $date) {
             if (isset($dbData[$stockId][$date])) {
                 $row = $dbData[$stockId][$date];
@@ -1929,7 +1924,6 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
                     "amount" => $row['amount'] !== null ? $row['amount'] / 1000 : 0
                 ];
             } else {
-                // 如果這天該股票在資料庫沒紀錄（被剔除或尚未納入）
                 $stocks[$stockId]['series'][] = [
                     "date"   => $date,
                     "stock_id" => $stockId,
@@ -1939,7 +1933,6 @@ function getEtfComponentChartData(PDO $pdo, string $etfId, string $targetDate, a
             }
         }
     }
-
     return [
         'date' => $targetDate,
         'stocks' => $stocks
@@ -1985,7 +1978,6 @@ function getStockProfileTSE(PDO $pdo): ?array
         return $stocksTSE;
     }
     writeLog($pdo, 'getStockProfileTSE', "執行 3 次失敗,退出", 'error');
-    // throw new RuntimeException('取得上市公司基本資料, 執行 3 次失敗,退出');
     return null;
 }
 
@@ -2018,7 +2010,6 @@ function getStockProfileTPEx(PDO $pdo): ?array
         return $stocksOTC;
     }
     writeLog($pdo, 'getStockProfileTPEx', "執行 3 次失敗,退出", 'error');
-    // throw new RuntimeException('取得上櫃公司基本資料, 執行 3 次失敗,退出');
     return null;
 }
 
@@ -2051,7 +2042,6 @@ function getStockProfileESM(PDO $pdo): ?array
         return $stocksESM;
     }
     writeLog($pdo, 'getStockProfileESM', "執行 3 次失敗,退出", 'error');
-    // throw new RuntimeException('取得興櫃公司基本資料, 執行 3 次失敗,退出');
     return null;
 }
 
@@ -2083,7 +2073,6 @@ function getStockProfileETF(PDO $pdo): ?array
         return $stocksETF;
     }
     writeLog($pdo, 'getStockProfileETF', "執行 3 次失敗,退出", 'error');
-    // throw new RuntimeException('取得上市ETF基本資料, 執行 3 次失敗,退出');
     return null;
 }
 
@@ -2350,7 +2339,7 @@ function updateStockProfile(PDO $pdo): void
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新完成,共耗時 {$execution_time} 秒", 'end');
     } catch (Throwable $e) {
-        writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新失敗，原因：" . $e->getMessage(), 'error');
+        writeLog($pdo, 'updateStockProfile', "基本資料及產業別及次產業概念更新失敗，原因：{$e->getMessage()}", 'error');
         throw $e;
     }
 }

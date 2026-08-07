@@ -2,8 +2,8 @@
 require_once("init.php");
 
 if (
-    file_exists("data/" . $targetDate . "_self-select.json") &&
-    file_exists("data/" . $targetDate . "_self-charts.json")
+    file_exists("data/{$targetDate}_self-select.json") &&
+    file_exists("data/{$targetDate}_self-charts.json")
 ) {
     echo '分析資料已存在';
     exit(0);
@@ -39,7 +39,7 @@ if (
         $resultsTWSE = selfSelectGenerateDailyDashboard($pdo, $targetDate, $tableTWSE, $stockList);
         $resultsTPEx = selfSelectGenerateDailyDashboard($pdo, $targetDate, $tableTPEx, $stockList);
         $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
-        createJsonFile($pdo, $targetDate . '_self-select', $resultsMix);
+        createJsonFile($pdo, "{$targetDate}_self-select", $resultsMix);
         renewCharts($pdo, $targetDate, 'self-select', 'self-charts');
         callGAS([
             'date' => $targetDate,
