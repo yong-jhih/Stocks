@@ -204,3 +204,16 @@ CREATE TABLE IF NOT EXISTS TPEx_stock_sbl_sold (
     PRIMARY KEY (trade_date, stock_id),
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================================
+-- TX
+-- =========================================================
+-- CREATE TABLE IF NOT EXISTS chip_data (
+--     date TEXT PRIMARY KEY,               -- 日期 (格式: YYYY-MM-DD)
+--     taiex_close REAL,                    -- 加權指數收盤價
+--     tx_foreign_net INTEGER,              -- 外資大台指淨部位 (口數)
+--     mtx_retail_ratio REAL,               -- 小台散戶多空比 (%)
+--     pc_ratio REAL,                       -- 選擇權 Put/Call Ratio (%)
+--     foreign_stock_buy REAL,              -- 外资現貨買賣超金額 (億元)
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 資料記錄時間
+-- );
