@@ -119,9 +119,9 @@ if ( // 已公布 檢查資料量 足夠 直接進行分析
         }
         // echo "大盤法人買賣超結束:" . $lineNotifyStr . "\n";
 
-        echo "\n" . "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/" . "\n";
+        // echo "\n" . "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/" . "\n";
         // updateSystemLog($pdo);
-        // lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
+        lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
         writeLog($pdo, 'checkAndRun', $e->getMessage(), 'error');
         updateSystemLog($pdo);
