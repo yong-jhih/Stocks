@@ -5,7 +5,7 @@ $targetDate = "2026-08-07";
 try {
     $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
     $data = fetchUrl($url);
-    if (convertTaiwanDateToWestern(end($data['Date'])) === str_replace("-", "", $targetDate)) {
+    if (convertTaiwanDateToWestern(end($data)['Date']) === str_replace("-", "", $targetDate)) {
         echo json_encode(end($data));
     }
     // $params = [
