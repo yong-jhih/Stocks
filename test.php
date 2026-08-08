@@ -69,7 +69,7 @@ if ( // 已公布 檢查資料量 足夠 直接進行分析
         // $end_time = microtime(true);
         // $execution_time = round($end_time - $start_time, 2);
         // writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
-        echo "\n" . "分析結束:" . $lineNotifyStr . "\n";
+        // echo "\n" . "分析結束:" . $lineNotifyStr . "\n";
 
         // ETF
         $etfid = ['00981A', '00403A', '00991A'];
@@ -91,7 +91,7 @@ if ( // 已公布 檢查資料量 足夠 直接進行分析
             // $execution_time = round($end_time - $start_time, 2);
             // writeLog($pdo, "update{$etf_id}", "{$etf_id} 成分股資料更新完成, 共耗時 {$execution_time} 秒", 'end');
         }
-        echo "ETF結束:" . $lineNotifyStr . "\n";
+        // echo "ETF結束:" . $lineNotifyStr . "\n";
 
         // 大盤法人買賣超
         $institutionalBuySell = getDataWithFinmind($pdo, [
@@ -117,8 +117,9 @@ if ( // 已公布 檢查資料量 足夠 直接進行分析
                 "自營商避險共 " . $institutional['Dealer_Hedging']['total'] . "億 (買進 " . $institutional['Dealer_Hedging']['buy'] . "億/賣出 " . $institutional['Dealer_Hedging']['sell'] . "億)\n\n";
             $lineNotifyStr = "{$institutionalStr}{$lineNotifyStr}";
         }
-        echo "大盤法人買賣超結束:" . $lineNotifyStr . "\n";
+        // echo "大盤法人買賣超結束:" . $lineNotifyStr . "\n";
 
+        echo "\n" . "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/" . "\n";
         // updateSystemLog($pdo);
         // lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
