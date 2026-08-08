@@ -3,7 +3,9 @@ require_once("init.php");
 $targetDate = "2026-08-07";
 
 try {
-    $response = fetchUrl("https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK");
+    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+    $data = fetchUrl($url);
+
     // $params = [
     //     'dataset' => "TaiwanFuturesInstitutionalInvestors",
     //     'data_id' => "TX",
@@ -12,7 +14,7 @@ try {
     // ];
     // $a = getDataWithFinmind($pdo, $params);
     // $b = getTAIEX($targetDate);
-    echo json_encode($response);
+    echo json_encode($data);
 } catch (Throwable $e) {
     // callGAS([
     //     'date' => $targetDate,
