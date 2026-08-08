@@ -1628,7 +1628,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 大盤
-function getTAIEX(PDO $pdo, string $date): ?array
+function getTAIEX(string $date): ?array
 {
     $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
     for ($i = 0; $i < 3; $i++) {
@@ -1638,12 +1638,11 @@ function getTAIEX(PDO $pdo, string $date): ?array
         } else {
             foreach ($response as $v) {
                 if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $date)) {
-                    return $v;
+                    return $v['TAIEX'];
                 }
             }
         }
     }
-    writeLog($pdo, 'getTAIEX', '取得 加權指數收盤 執行 3 次失敗,跳過', 'warning');
     return null;
 }
 
