@@ -128,10 +128,8 @@ function checkIfDataPublished(PDO $pdo, string $date, string $table, int $count 
 function lineNotification(PDO $pdo, string $target, string $message = 'testLine'): void
 {
     $channelAccessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-    // $url = "https://api.line.me/v2/bot/message/push";
     $url = 'https://api.line.me/v2/bot/message/push';
-    // $messageText = "系統通知：\n{$message}";
-    $messageText = "系統通知：\n" . $message;
+    $messageText = "系統通知：\n{$message}";
     $payload = [
         'to' => $target,
         'messages' => [
@@ -157,8 +155,7 @@ function lineNotification(PDO $pdo, string $target, string $message = 'testLine'
     curl_close($ch);
     if ($errno) {
         writeLog($pdo, 'lineNotification', $error_msg, 'error');
-        // echo "cURL Error: {$error_msg}";
-        echo "cURL Error: " . $error_msg;
+        echo "cURL Error: {$error_msg}";
     }
 }
 
