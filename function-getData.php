@@ -1638,7 +1638,7 @@ function getTAIEX(string $date): ?array
         } else {
             foreach ($response as $v) {
                 if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $date)) {
-                    return $v['TAIEX'];
+                    return $v;
                 }
             }
         }

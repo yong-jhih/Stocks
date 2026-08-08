@@ -11,7 +11,7 @@ try {
     ];
     $a = getDataWithFinmind($pdo, $params);
     $b = getTAIEX($targetDate);
-    echo $b . "\n";
+    echo json_encode($b) . "\n";
     echo json_encode($a);
 } catch (Throwable $e) {
     // callGAS([
