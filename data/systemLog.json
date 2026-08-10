@@ -1,72 +1,100 @@
 [
     {
-        "id": 11190010,
-        "log_time": "2026-08-07 22:29:13",
-        "log_type": "update00991A",
-        "content": "00991A 成分股資料更新完成, 共耗時 1.47 秒",
+        "id": 11220014,
+        "log_time": "2026-08-10 17:21:15",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
         "result": "end"
     },
     {
-        "id": 11190009,
-        "log_time": "2026-08-07 22:29:12",
-        "log_type": "update00991A",
-        "content": "取得交易日期 [2026-08-07], 開始更新 00991A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 11190008,
-        "log_time": "2026-08-07 22:29:12",
-        "log_type": "update00403A",
-        "content": "00403A 成分股資料更新完成, 共耗時 1.47 秒",
-        "result": "end"
-    },
-    {
-        "id": 11190007,
-        "log_time": "2026-08-07 22:29:10",
-        "log_type": "update00403A",
-        "content": "取得交易日期 [2026-08-07], 開始更新 00403A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 11190006,
-        "log_time": "2026-08-07 22:29:10",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成, 共耗時 1.69 秒",
-        "result": "end"
-    },
-    {
-        "id": 11190005,
-        "log_time": "2026-08-07 22:29:08",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-08-07], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 11190004,
-        "log_time": "2026-08-07 22:29:08",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-08-07] 盤後篩選及評分排行已完成, 共耗時 464.64 秒",
-        "result": "end"
-    },
-    {
-        "id": 11190003,
-        "log_time": "2026-08-07 22:28:38",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-08-07] 排行分析完成，共 730 檔",
+        "id": 11220013,
+        "log_time": "2026-08-10 17:21:15",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
         "result": "success"
     },
     {
-        "id": 11190002,
-        "log_time": "2026-08-07 22:28:38",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-08-07] 篩選分析完成，共 1 檔",
+        "id": 11220012,
+        "log_time": "2026-08-10 17:21:14",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
         "result": "success"
     },
     {
-        "id": 11190001,
-        "log_time": "2026-08-07 22:21:24",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-08-07] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "id": 11220011,
+        "log_time": "2026-08-10 17:21:14",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220010,
+        "log_time": "2026-08-10 17:21:14",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220009,
+        "log_time": "2026-08-10 17:21:14",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220008,
+        "log_time": "2026-08-10 17:21:13",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220007,
+        "log_time": "2026-08-10 17:21:13",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220006,
+        "log_time": "2026-08-10 17:21:13",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 2094 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220005,
+        "log_time": "2026-08-10 17:21:13",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 1970 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220004,
+        "log_time": "2026-08-10 17:21:12",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 2080 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220003,
+        "log_time": "2026-08-10 17:21:12",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 2133 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220002,
+        "log_time": "2026-08-10 17:21:12",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 2150 筆",
+        "result": "success"
+    },
+    {
+        "id": 11220001,
+        "log_time": "2026-08-10 17:21:11",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
         "result": "start"
     },
     {
