@@ -1,5 +1,803 @@
 [
     {
+        "id": 11250114,
+        "log_time": "2026-08-10 21:54:17",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 11250113,
+        "log_time": "2026-08-10 21:54:17",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時 779.12 秒",
+        "result": "end"
+    },
+    {
+        "id": 11250112,
+        "log_time": "2026-08-10 21:54:17",
+        "log_type": "insertSBLSold",
+        "content": "2026-08-10 上櫃公司 借券賣出餘額 更新完成,共新增 812 筆,耗時 125.01 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250111,
+        "log_time": "2026-08-10 21:52:11",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-08-10 上櫃公司 借券餘額 更新完成,共新增 733 筆,耗時 112.8 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250110,
+        "log_time": "2026-08-10 21:50:18",
+        "log_type": "insertMargin",
+        "content": "2026-08-10 上櫃公司 融資融券彙總 更新完成,共新增 800 筆,耗時 123.2 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250109,
+        "log_time": "2026-08-10 21:48:15",
+        "log_type": "insertTPExInsti",
+        "content": "2026-08-10 上櫃公司 三大法人買賣超 更新完成,共新增 801 筆,耗時 122.98 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250108,
+        "log_time": "2026-08-10 21:46:11",
+        "log_type": "insertTPExHistory",
+        "content": "2026-08-10 上櫃個股日成交 更新完成,共新增 889 筆,耗時 136.77 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250107,
+        "log_time": "2026-08-10 21:43:28",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250106,
+        "log_time": "2026-08-10 21:42:13",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250105,
+        "log_time": "2026-08-10 21:41:35",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250104,
+        "log_time": "2026-08-10 21:41:18",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-08-10] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 11250103,
+        "log_time": "2026-08-10 21:41:17",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 30.25 秒",
+        "result": "end"
+    },
+    {
+        "id": 11250102,
+        "log_time": "2026-08-10 21:40:47",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-08-10] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 11250101,
+        "log_time": "2026-08-10 21:40:47",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-08-10] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
+        "id": 11250100,
+        "log_time": "2026-08-10 21:38:40",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250099,
+        "log_time": "2026-08-10 21:38:23",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250098,
+        "log_time": "2026-08-10 21:38:13",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250097,
+        "log_time": "2026-08-10 21:38:03",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250096,
+        "log_time": "2026-08-10 21:37:45",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250095,
+        "log_time": "2026-08-10 21:37:27",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250094,
+        "log_time": "2026-08-10 21:36:10",
+        "log_type": "updateAllTPExHistory",
+        "content": "第 5\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250093,
+        "log_time": "2026-08-10 21:36:10",
+        "log_type": "getTPExSBLSold",
+        "content": "取得 上櫃借券賣出餘額 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250092,
+        "log_time": "2026-08-10 21:36:00",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250091,
+        "log_time": "2026-08-10 21:35:42",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250090,
+        "log_time": "2026-08-10 21:35:23",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250089,
+        "log_time": "2026-08-10 21:35:15",
+        "log_type": "getTPExMargin",
+        "content": "取得 上櫃融資融券 執行3次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250088,
+        "log_time": "2026-08-10 21:35:05",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250087,
+        "log_time": "2026-08-10 21:34:48",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250086,
+        "log_time": "2026-08-10 21:34:30",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250085,
+        "log_time": "2026-08-10 21:34:22",
+        "log_type": "getTPExInsti",
+        "content": "取得 上櫃三大法人買賣超 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250084,
+        "log_time": "2026-08-10 21:34:12",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250083,
+        "log_time": "2026-08-10 21:33:54",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250082,
+        "log_time": "2026-08-10 21:33:36",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250081,
+        "log_time": "2026-08-10 21:33:28",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250080,
+        "log_time": "2026-08-10 21:33:18",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250079,
+        "log_time": "2026-08-10 21:32:58",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250078,
+        "log_time": "2026-08-10 21:32:40",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250077,
+        "log_time": "2026-08-10 21:31:33",
+        "log_type": "updateAllTPExHistory",
+        "content": "第 4\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250076,
+        "log_time": "2026-08-10 21:31:32",
+        "log_type": "getTPExSBLSold",
+        "content": "取得 上櫃借券賣出餘額 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250075,
+        "log_time": "2026-08-10 21:31:22",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250074,
+        "log_time": "2026-08-10 21:31:05",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250073,
+        "log_time": "2026-08-10 21:30:47",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250072,
+        "log_time": "2026-08-10 21:30:39",
+        "log_type": "getTPExMargin",
+        "content": "取得 上櫃融資融券 執行3次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250071,
+        "log_time": "2026-08-10 21:30:29",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250070,
+        "log_time": "2026-08-10 21:30:11",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250069,
+        "log_time": "2026-08-10 21:29:53",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250068,
+        "log_time": "2026-08-10 21:29:45",
+        "log_type": "getTPExInsti",
+        "content": "取得 上櫃三大法人買賣超 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250067,
+        "log_time": "2026-08-10 21:29:35",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250066,
+        "log_time": "2026-08-10 21:29:18",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250065,
+        "log_time": "2026-08-10 21:28:33",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250064,
+        "log_time": "2026-08-10 21:28:25",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250063,
+        "log_time": "2026-08-10 21:28:15",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250062,
+        "log_time": "2026-08-10 21:27:57",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250061,
+        "log_time": "2026-08-10 21:27:36",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250060,
+        "log_time": "2026-08-10 21:26:28",
+        "log_type": "updateAllTPExHistory",
+        "content": "第 3\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250059,
+        "log_time": "2026-08-10 21:26:28",
+        "log_type": "getTPExSBLSold",
+        "content": "取得 上櫃借券賣出餘額 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250058,
+        "log_time": "2026-08-10 21:26:18",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250057,
+        "log_time": "2026-08-10 21:26:00",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250056,
+        "log_time": "2026-08-10 21:25:43",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250055,
+        "log_time": "2026-08-10 21:25:35",
+        "log_type": "getTPExMargin",
+        "content": "取得 上櫃融資融券 執行3次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250054,
+        "log_time": "2026-08-10 21:25:25",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250053,
+        "log_time": "2026-08-10 21:25:06",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250052,
+        "log_time": "2026-08-10 21:24:48",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250051,
+        "log_time": "2026-08-10 21:24:40",
+        "log_type": "getTPExInsti",
+        "content": "取得 上櫃三大法人買賣超 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250050,
+        "log_time": "2026-08-10 21:24:30",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250049,
+        "log_time": "2026-08-10 21:24:12",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250048,
+        "log_time": "2026-08-10 21:23:53",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250047,
+        "log_time": "2026-08-10 21:23:45",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250046,
+        "log_time": "2026-08-10 21:23:35",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250045,
+        "log_time": "2026-08-10 21:23:18",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250044,
+        "log_time": "2026-08-10 21:23:00",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250043,
+        "log_time": "2026-08-10 21:21:52",
+        "log_type": "updateAllTPExHistory",
+        "content": "第 2\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250042,
+        "log_time": "2026-08-10 21:21:52",
+        "log_type": "getTPExSBLSold",
+        "content": "取得 上櫃借券賣出餘額 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250041,
+        "log_time": "2026-08-10 21:21:42",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250040,
+        "log_time": "2026-08-10 21:21:24",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250039,
+        "log_time": "2026-08-10 21:21:07",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250038,
+        "log_time": "2026-08-10 21:20:58",
+        "log_type": "getTPExMargin",
+        "content": "取得 上櫃融資融券 執行3次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250037,
+        "log_time": "2026-08-10 21:20:48",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250036,
+        "log_time": "2026-08-10 21:20:31",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250035,
+        "log_time": "2026-08-10 21:20:13",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250034,
+        "log_time": "2026-08-10 21:20:05",
+        "log_type": "getTPExInsti",
+        "content": "取得 上櫃三大法人買賣超 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250033,
+        "log_time": "2026-08-10 21:19:55",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250032,
+        "log_time": "2026-08-10 21:19:37",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250031,
+        "log_time": "2026-08-10 21:19:19",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250030,
+        "log_time": "2026-08-10 21:19:12",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250029,
+        "log_time": "2026-08-10 21:19:02",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250028,
+        "log_time": "2026-08-10 21:18:43",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250027,
+        "log_time": "2026-08-10 21:18:25",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250026,
+        "log_time": "2026-08-10 21:17:13",
+        "log_type": "updateAllTPExHistory",
+        "content": "第 1\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250025,
+        "log_time": "2026-08-10 21:17:13",
+        "log_type": "getTPExSBLSold",
+        "content": "取得 上櫃借券賣出餘額 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250024,
+        "log_time": "2026-08-10 21:17:03",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250023,
+        "log_time": "2026-08-10 21:16:40",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250022,
+        "log_time": "2026-08-10 21:16:22",
+        "log_type": "getTPExSBLSold",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250021,
+        "log_time": "2026-08-10 21:16:09",
+        "log_type": "getTPExMargin",
+        "content": "取得 上櫃融資融券 執行3次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250020,
+        "log_time": "2026-08-10 21:15:58",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250019,
+        "log_time": "2026-08-10 21:15:41",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250018,
+        "log_time": "2026-08-10 21:15:23",
+        "log_type": "getTPExMargin",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250017,
+        "log_time": "2026-08-10 21:15:15",
+        "log_type": "getTPExInsti",
+        "content": "取得 上櫃三大法人買賣超 重試 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250016,
+        "log_time": "2026-08-10 21:15:05",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250015,
+        "log_time": "2026-08-10 21:14:47",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250014,
+        "log_time": "2026-08-10 21:14:29",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250013,
+        "log_time": "2026-08-10 21:14:21",
+        "log_type": "getTPExHistory",
+        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
+        "result": "warning"
+    },
+    {
+        "id": 11250012,
+        "log_time": "2026-08-10 21:14:11",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250011,
+        "log_time": "2026-08-10 21:13:53",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250010,
+        "log_time": "2026-08-10 21:13:36",
+        "log_type": "getTPExHistory",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 11250009,
+        "log_time": "2026-08-10 21:13:28",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-08-10] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 11250008,
+        "log_time": "2026-08-10 21:13:28",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 626.9 秒",
+        "result": "end"
+    },
+    {
+        "id": 11250007,
+        "log_time": "2026-08-10 21:13:28",
+        "log_type": "insertSBLSold",
+        "content": "2026-08-10 借券賣出餘額 更新完成,共新增 1060 筆,耗時 118.92 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250006,
+        "log_time": "2026-08-10 21:11:28",
+        "log_type": "insertSBLTotal",
+        "content": "2026-08-10 借券餘額 更新完成,共新增 998 筆,耗時 112.03 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250005,
+        "log_time": "2026-08-10 21:09:36",
+        "log_type": "insertMargin",
+        "content": "2026-08-10 融資融券彙總 更新完成,共新增 1057 筆,耗時 118.52 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250004,
+        "log_time": "2026-08-10 21:07:37",
+        "log_type": "insertInsti",
+        "content": "2026-08-10 三大法人買賣超 更新完成,共新增 1079 筆,耗時 121.01 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250003,
+        "log_time": "2026-08-10 21:05:36",
+        "log_type": "insertHistory",
+        "content": "2026-08-10 上市個股日成交 更新完成,共新增 1087 筆,耗時 122.13 秒",
+        "result": "success"
+    },
+    {
+        "id": 11250002,
+        "log_time": "2026-08-10 21:03:01",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-08-10] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 11250001,
+        "log_time": "2026-08-10 21:03:01",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-08-10] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 11220014,
         "log_time": "2026-08-10 17:21:15",
         "log_type": "dbClean",
