@@ -1655,7 +1655,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
         return null;
     } else {
         foreach ($response as $item) {
-            if ($item['item'] === "外資及陸資" && in_array($item['item'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Date'] === str_replace("-", "", $targetDate)) {
+            if ($item['Item'] === "外資及陸資" && in_array($item['item'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Date'] === str_replace("-", "", $targetDate)) {
                 $return[] = $item;
             }
         }
