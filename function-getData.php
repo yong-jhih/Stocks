@@ -1646,6 +1646,27 @@ function getTAIEX(PDO $pdo, string $targetDate): ?float
     }
 }
 
+function getOpenInterest(PDO $pdo, string $targetDate): ?array
+{
+    $openInterest = getDataWithFinmind($pdo, [
+        'dataset' => "TaiwanFuturesInstitutionalInvestors",
+        'start_date' => $targetDate,
+        'end_date' => $targetDate
+    ]);
+    if (!empty($openInterest)) {
+        return $openInterest;
+    }
+    return null;
+    // else {
+    //     $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+    //     $response = fetchUrl($url);
+    //     if (isset($response['stat']) && $response['stat'] === 'error') {
+    //         return null;
+    //     }
+    //     // return (float)end($response)['TAIEX'];
+    // }
+}
+
 function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
     $taiex = null;
