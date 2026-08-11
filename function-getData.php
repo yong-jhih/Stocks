@@ -1700,15 +1700,15 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
     }
     $data = [
         "twii_close" => $taiex,
-        "txf_foreign_long" => $openInterest,
-        "txf_foreign_short" => $openInterest,
-        "txf_foreign_net" => $openInterest,
-        "mxf_foreign_long" => $openInterest,
-        "mxf_foreign_short" => $openInterest,
-        "mxf_foreign_net" => $openInterest,
-        "tmf_foreign_long" => $openInterest,
-        "tmf_foreign_short" => $openInterest,
-        "tmf_foreign_net" => $openInterest
+        "txf_foreign_long" => $openInterest['txf_foreign_long'],
+        "txf_foreign_short" => $openInterest['txf_foreign_short'],
+        "txf_foreign_net" => $openInterest['txf_foreign_net'],
+        "mxf_foreign_long" => $openInterest['mxf_foreign_long'],
+        "mxf_foreign_short" => $openInterest['mxf_foreign_short'],
+        "mxf_foreign_net" => $openInterest['mxf_foreign_net'],
+        "tmf_foreign_long" => $openInterest['tmf_foreign_long'],
+        "tmf_foreign_short" => $openInterest['tmf_foreign_short'],
+        "tmf_foreign_net" => $openInterest['tmf_foreign_net']
     ];
     return $data;
 }
