@@ -1628,7 +1628,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 大盤
-function getTAIEX(PDO $pdo, string $targetDate): ?int
+function getTAIEX(PDO $pdo, string $targetDate): ?float
 {
     $taiex = getDataWithFinmind($pdo, [
         'dataset' => "TaiwanVariousIndicators5Seconds",
