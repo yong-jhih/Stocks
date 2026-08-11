@@ -1654,12 +1654,12 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     if (isset($response['stat']) && $response['stat'] === 'error') {
         return null;
     } else {
-        // foreach ($response as $item) {
-        //     if ($item['Item'] === "外資及陸資" && in_array($item['item'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Date'] === str_replace("-", "", $targetDate)) {
-        //         $return[] = $item;
-        //     }
-        // }
-        return $response;
+        foreach ($response as $item) {
+            if (in_array($item['ContractCode'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Date'] === str_replace("-", "", $targetDate)) {
+                $return[] = $item;
+            }
+        }
+        return $return;
     }
 }
 
