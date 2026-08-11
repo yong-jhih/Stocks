@@ -1628,21 +1628,21 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 大盤
-function getTAIEX(PDO $pdo, string $targetDate): ?string
+function getTAIEX(PDO $pdo, string $targetDate): ?int
 {
     $taiex = getDataWithFinmind($pdo, [
         'dataset' => "TaiwanVariousIndicators5Seconds",
         'start_date' => $targetDate,
     ]);
-    if ($taiex['msg'] === "success" && $taiex['msg'] === 200) {
-        return end($taiex['data'])['TAIEX'];
+    if (!empty($taiex) && str_starts_with(end($taiex['data'])['date'], $targetDate)) {
+        return (float)end($taiex['data'])['TAIEX'];
     } else {
         $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
         $response = fetchUrl($url);
         if (isset($response['stat']) && $response['stat'] === 'error') {
             return null;
         }
-        return end($response)['TAIEX'];
+        return (float)end($response)['TAIEX'];
     }
 }
 
