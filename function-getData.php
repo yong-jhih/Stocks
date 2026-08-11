@@ -1656,7 +1656,23 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     } else {
         foreach ($response as $item) {
             if (in_array($item['ContractCode'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Item'] == "外資及陸資") {
-                $return[] = $item;
+                switch ($item['ContractCode']) {
+                    case '臺股期貨':
+                        $return['txf_foreign_long'] = $item['OpenInterest(Long)'];
+                        $return['txf_foreign_short'] = $item['OpenInterest(Short)'];
+                        $return['txf_foreign_net'] = $item['OpenInterest(Net)'];
+                        break;
+                    case '小型臺指期貨':
+                        $return['mxf_foreign_long'] = $item['OpenInterest(Long)'];
+                        $return['mxf_foreign_short'] = $item['OpenInterest(Short)'];
+                        $return['mxf_foreign_net'] = $item['OpenInterest(Net)'];
+                        break;
+                    case '微型臺指期貨':
+                        $return['tmf_foreign_long'] = $item['OpenInterest(Long)'];
+                        $return['tmf_foreign_short'] = $item['OpenInterest(Short)'];
+                        $return['tmf_foreign_net'] = $item['OpenInterest(Net)'];
+                        break;
+                }
             }
         }
         return $return;
@@ -1683,8 +1699,16 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
         }
     }
     $data = [
-        "taiex" => $taiex,
-        "openInterest" => $openInterest
+        "twii_close" => $taiex,
+        "txf_foreign_long" => $openInterest,
+        "txf_foreign_short" => $openInterest,
+        "txf_foreign_net" => $openInterest,
+        "mxf_foreign_long" => $openInterest,
+        "mxf_foreign_short" => $openInterest,
+        "mxf_foreign_net" => $openInterest,
+        "tmf_foreign_long" => $openInterest,
+        "tmf_foreign_short" => $openInterest,
+        "tmf_foreign_net" => $openInterest
     ];
     return $data;
 }
