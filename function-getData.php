@@ -1651,6 +1651,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     $openInterestTX = null;
     $openInterestMTX = null;
     $openInterestTMF = null;
+    $return = [];
     for ($i = 1; $i <= 10; $i++) {
         if (empty($openInterestTX)) {
             $openInterestTX = getDataWithFinmind($pdo, [
@@ -1688,13 +1689,28 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
             }
         }
     }
-    return [...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']];
-
-
-
-
-
-
+    foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
+        if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['Item'] == "外資") {
+            switch ($item['futures_id']) {
+                case 'TX':
+                    $return['txf_foreign_long'] = $item['long_open_interest_balance_volume'];
+                    $return['txf_foreign_short'] = $item['short_open_interest_balance_volume'];
+                    $return['txf_foreign_net'] = $item['long_open_interest_balance_volume'] - $item['short_open_interest_balance_volume'];
+                    break;
+                case 'MTX':
+                    $return['mxf_foreign_long'] = $item['long_open_interest_balance_volume'];
+                    $return['mxf_foreign_short'] = $item['short_open_interest_balance_volume'];
+                    $return['mxf_foreign_net'] = $item['long_open_interest_balance_volume'] - $item['short_open_interest_balance_volume'];
+                    break;
+                case 'TMF':
+                    $return['tmf_foreign_long'] = $item['long_open_interest_balance_volume'];
+                    $return['tmf_foreign_short'] = $item['short_open_interest_balance_volume'];
+                    $return['tmf_foreign_net'] = $item['long_open_interest_balance_volume'] - $item['short_open_interest_balance_volume'];
+                    break;
+            }
+        }
+    }
+    return $return;
 
     // $url = "https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate";
     // $response = fetchUrl($url);
