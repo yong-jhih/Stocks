@@ -24,5 +24,5 @@ for ($i = 0; $i < 3; $i++) {
 }
 
 
-echo $a . "\n";
-echo $taiex;
+echo json_encode($a) . "\n";
+echo json_encode($taiex);
