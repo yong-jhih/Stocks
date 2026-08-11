@@ -1650,6 +1650,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
 {
     $openInterest = getDataWithFinmind($pdo, [
         'dataset' => "TaiwanFuturesInstitutionalInvestors",
+        'data_id' => "TX",
         'start_date' => $targetDate,
         'end_date' => $targetDate
     ]);
