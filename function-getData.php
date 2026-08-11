@@ -1628,58 +1628,45 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 大盤
-function getTAIEX(PDO $pdo, string $targetDate): ?array
+function getTAIEX(PDO $pdo, string $targetDate): ?string
 {
-    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-    for ($i = 0; $i < 3; $i++) {
+    $taiex = getDataWithFinmind($pdo, [
+        'dataset' => "TaiwanVariousIndicators5Seconds",
+        'start_date' => $targetDate,
+    ]);
+    if ($taiex['msg'] === "success" && $taiex['msg'] === 200) {
+        return end($taiex['data'])['TAIEX'];
+    } else {
+        $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
         $response = fetchUrl($url);
         if (isset($response['stat']) && $response['stat'] === 'error') {
-            continue;
-        } else {
-            foreach ($response as $v) {
-                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $targetDate)) {
-                    return $v;
-                }
-            }
+            return null;
         }
+        return end($response)['TAIEX'];
     }
-    return null;
 }
 
-function getMarketDailyData(PDO $pdo, string $targetDate): ?array
+function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
-    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-    for ($i = 0; $i < 3; $i++) {
-        $response = fetchUrl($url);
-        if (isset($response['stat']) && $response['stat'] === 'error') {
-            continue;
+    $taiex = null;
+    for ($i = 1; $i <= 10; $i++) {
+        if (empty($taiex)) $taiex = getTAIEX($pdo, $targetDate);
+        if (!empty($taiex)) {
+            break;
         } else {
-            foreach ($response as $v) {
-                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $targetDate)) {
-                    return $v;
-                }
+            if ($i <= 9) {
+                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                sleep(60);
+            } else {
+                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
+                exit(1);
             }
         }
     }
-    return null;
-}
-
-function insertMarketDailyData(string $date): ?array
-{
-    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-    for ($i = 0; $i < 3; $i++) {
-        $response = fetchUrl($url);
-        if (isset($response['stat']) && $response['stat'] === 'error') {
-            continue;
-        } else {
-            foreach ($response as $v) {
-                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $date)) {
-                    return $v;
-                }
-            }
-        }
-    }
-    return null;
+    $data = [
+        "taiex" => $taiex
+    ];
+    return $data;
 }
 
 // ETF
