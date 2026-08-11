@@ -8,7 +8,7 @@ $taiex = getDataWithFinmind($pdo, [
     'date' => $targetDate,
 ])['data'];
 
-
+$a = '';
 $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
 for ($i = 0; $i < 3; $i++) {
     $response = fetchUrl($url);
