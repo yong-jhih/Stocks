@@ -5,7 +5,7 @@ $targetDate = "2026-08-10";
 
 $taiex = getDataWithFinmind($pdo, [
     'dataset' => "TaiwanVariousIndicators5Seconds",
-    'date' => $targetDate,
+    'start_date' => $targetDate,
 ])['data'];
 
 $a = '';
