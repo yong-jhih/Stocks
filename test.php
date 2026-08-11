@@ -6,7 +6,7 @@ $targetDate = "2026-08-10";
 $taiex = end(getDataWithFinmind($pdo, [
     'dataset' => "TaiwanVariousIndicators5Seconds",
     'start_date' => $targetDate,
-])['data']);
+])['data'])['TAIEX'];
 
 // $a = '';
 // $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
@@ -25,4 +25,4 @@ $taiex = end(getDataWithFinmind($pdo, [
 
 
 // echo json_encode($a) . "\n";
-echo json_encode($taiex);
+echo ($taiex);
