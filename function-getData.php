@@ -1690,7 +1690,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
         }
     }
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
-        if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['Item'] == "外資") {
+        if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['institutional_investors'] == "外資") {
             switch ($item['futures_id']) {
                 case 'TX':
                     $return['txf_foreign_long'] = $item['long_open_interest_balance_volume'];
