@@ -1648,32 +1648,29 @@ function getTAIEX(PDO $pdo, string $targetDate): ?float
 
 function getOpenInterest(PDO $pdo, string $targetDate): ?array
 {
-    $openInterest = getDataWithFinmind($pdo, [
-        'dataset' => "TaiwanFuturesInstitutionalInvestors",
-        'data_id' => "TX",
-        'start_date' => $targetDate,
-        'end_date' => $targetDate
-    ]);
-    if (!empty($openInterest)) {
-        return $openInterest;
+    $url = "https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate";
+    $response = fetchUrl($url);
+    $return = [];
+    if (isset($response['stat']) && $response['stat'] === 'error') {
+        return null;
+    } else {
+        foreach ($response as $item) {
+            if ($item['item'] === "外資及陸資" && in_array($item['item'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Date'] === str_replace("-", "", $targetDate)) {
+                $return[] = $item;
+            }
+        }
+        return $return;
     }
-    return null;
-    // else {
-    //     $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-    //     $response = fetchUrl($url);
-    //     if (isset($response['stat']) && $response['stat'] === 'error') {
-    //         return null;
-    //     }
-    //     // return (float)end($response)['TAIEX'];
-    // }
 }
 
 function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
     $taiex = null;
+    $openInterest = null;
     for ($i = 1; $i <= 10; $i++) {
         if (empty($taiex)) $taiex = getTAIEX($pdo, $targetDate);
-        if (!empty($taiex)) {
+        if (empty($openInterest)) $openInterest = getOpenInterest($pdo, $targetDate);
+        if (!empty($taiex) && !empty($openInterest)) {
             break;
         } else {
             if ($i <= 9) {
@@ -1686,7 +1683,8 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
         }
     }
     $data = [
-        "taiex" => $taiex
+        "taiex" => $taiex,
+        "openInterest" => $openInterest
     ];
     return $data;
 }
