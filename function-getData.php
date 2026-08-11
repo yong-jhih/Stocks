@@ -1628,7 +1628,43 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 }
 
 // 大盤
-function getTAIEX(string $date): ?array
+function getTAIEX(PDO $pdo, string $targetDate): ?array
+{
+    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+    for ($i = 0; $i < 3; $i++) {
+        $response = fetchUrl($url);
+        if (isset($response['stat']) && $response['stat'] === 'error') {
+            continue;
+        } else {
+            foreach ($response as $v) {
+                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $targetDate)) {
+                    return $v;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+function getMarketDailyData(PDO $pdo, string $targetDate): ?array
+{
+    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+    for ($i = 0; $i < 3; $i++) {
+        $response = fetchUrl($url);
+        if (isset($response['stat']) && $response['stat'] === 'error') {
+            continue;
+        } else {
+            foreach ($response as $v) {
+                if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $targetDate)) {
+                    return $v;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+function insertMarketDailyData(string $date): ?array
 {
     $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
     for ($i = 0; $i < 3; $i++) {

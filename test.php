@@ -1,12 +1,28 @@
 <?php
 require_once("init.php");
-$targetDate = "2026-08-07";
+$targetDate = "2026-08-10";
 
-try {
-    $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-    $data = fetchUrl($url);
-    if (convertTaiwanDateToWestern(end($data)['Date']) === $targetDate) {
-        echo end($data)['TAIEX'];
+
+$taiex = getDataWithFinmind($pdo, [
+    'dataset' => "TaiwanVariousIndicators5Seconds",
+    'date' => $targetDate,
+])['data'];
+
+
+$url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+for ($i = 0; $i < 3; $i++) {
+    $response = fetchUrl($url);
+    if (isset($response['stat']) && $response['stat'] === 'error') {
+        continue;
+    } else {
+        foreach ($response as $v) {
+            if (convertTaiwanDateToWestern($v['Date']) === str_replace("-", "", $targetDate)) {
+                $a = $v['TAIEX'];
+            }
+        }
     }
-} catch (Throwable $e) {
 }
+
+
+echo $a . "\n";
+echo $taiex;
