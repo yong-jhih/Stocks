@@ -205,15 +205,23 @@ CREATE TABLE IF NOT EXISTS TPEx_stock_sbl_sold (
     INDEX idx_stock (stock_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 -- =========================================================
--- TX
+-- 每日大盤
 -- =========================================================
--- CREATE TABLE IF NOT EXISTS chip_data (
---     date TEXT PRIMARY KEY,               -- 日期 (格式: YYYY-MM-DD)
---     taiex_close REAL,                    -- 加權指數收盤價
---     tx_foreign_net INTEGER,              -- 外資大台指淨部位 (口數)
---     mtx_retail_ratio REAL,               -- 小台散戶多空比 (%)
---     pc_ratio REAL,                       -- 選擇權 Put/Call Ratio (%)
---     foreign_stock_buy REAL,              -- 外资現貨買賣超金額 (億元)
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 資料記錄時間
--- );
+CREATE TABLE market_daily (
+    trade_date DATE NOT NULL COMMENT '日期',
+    twii_close DECIMAL(10,2) DEFAULT 0.00 COMMENT '加權指數',
+    txf_foreign_long INT DEFAULT 0 COMMENT '大台外資未平倉多方口數',
+    txf_foreign_short INT DEFAULT 0 COMMENT '大台外資未平倉空方口數',
+    txf_foreign_net INT DEFAULT 0 COMMENT '大台外資未平倉淨口數',
+    mxf_foreign_long INT DEFAULT 0 COMMENT '小台外資未平倉多方口數',
+    mxf_foreign_short INT DEFAULT 0 COMMENT '小台外資未平倉空方口數',
+    mxf_foreign_net INT DEFAULT 0 COMMENT '小台外資未平倉淨口數',
+    tmf_foreign_long INT DEFAULT 0 COMMENT '微台外資未平倉多方口數',
+    tmf_foreign_short INT DEFAULT 0 COMMENT '微台外資未平倉空方口數',
+    tmf_foreign_net INT DEFAULT 0 COMMENT '微台外資未平倉淨口數',
+    mxf_retail_ratio DECIMAL(8,2) DEFAULT 0.00 COMMENT '小台散戶多空比',
+    txo_put_call_ratio DECIMAL(8,2) DEFAULT 0.00 COMMENT '台指選擇權Put/Call Ratio',
+    PRIMARY KEY (trade_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
