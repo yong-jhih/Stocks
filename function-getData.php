@@ -1665,11 +1665,11 @@ function getTAIEX(PDO $pdo, string $targetDate): ?float
 
 function getOpenInterest(PDO $pdo, string $targetDate): ?array
 {
+    $return = [];
     $openInterestTX = null;
     $openInterestMTX = null;
     $openInterestTMF = null;
     $OI = null;
-    $return = [];
     for ($i = 1; $i <= 10; $i++) {
         if (empty($openInterestTX)) {
             $openInterestTX = getDataWithFinmind($pdo, [
@@ -1718,17 +1718,16 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
 
     // 小台指散戶多空比
     $totalOI = 0;
+    $totalNetLongInsti = 0;
+    $totalNetShortInsti = 0;
     foreach ($OI['data'] as $v) {
         $totalOI += $v['open_interest'];
     }
-    $totalNetLong = 0;
-    $totalNetShort = 0;
     foreach ($openInterestMTX['data'] as $item) {
-        $totalNetLong += $item['long_open_interest_balance_volume'];
-        $totalNetShort += $item['short_open_interest_balance_volume'];
+        $totalNetLongInsti += $item['long_open_interest_balance_volume'];
+        $totalNetShortInsti += $item['short_open_interest_balance_volume'];
     }
-    $net = $totalNetLong - $totalNetShort;
-    $MTXlongShortRatio = $net / $totalOI;
+    $return['mxf_retail_ratio'] = ($totalNetShortInsti - $totalNetLongInsti) / $totalOI;
 
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
         if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['institutional_investors'] == "外資") {
@@ -1768,7 +1767,8 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
         "mxf_foreign_net" => $openInterest['mxf_foreign_net'],
         "tmf_foreign_long" => $openInterest['tmf_foreign_long'],
         "tmf_foreign_short" => $openInterest['tmf_foreign_short'],
-        "tmf_foreign_net" => $openInterest['tmf_foreign_net']
+        "tmf_foreign_net" => $openInterest['tmf_foreign_net'],
+        "mxf_retail_ratio" => $openInterest['mxf_retail_ratio']
     ];
     return $data;
 }
