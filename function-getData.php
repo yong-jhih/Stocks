@@ -1651,6 +1651,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     $openInterestTX = null;
     $openInterestMTX = null;
     $openInterestTMF = null;
+    $totalOI=null;
     $return = [];
     for ($i = 1; $i <= 10; $i++) {
         if (empty($openInterestTX)) {
@@ -1677,14 +1678,22 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
+        if (empty($totalOI)) {
+            $totalOI = getDataWithFinmind($pdo, [
+                'dataset' => "TaiwanFuturesDaily",
+                'data_id' => 'MTX',
+                'start_date' => $targetDate,
+                'end_date' => $targetDate
+            ]);
+        }
         if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF)) {
             break;
         } else {
             if ($i <= 9) {
-                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
                 sleep(60);
             } else {
-                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
+                writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
                 exit(1);
             }
         }
