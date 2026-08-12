@@ -1715,10 +1715,20 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
             }
         }
     }
+
+    // 小台指散戶多空比
     $totalOI = 0;
     foreach ($OI['data'] as $v) {
         $totalOI += $v['open_interest'];
     }
+    $totalNetLong = 0;
+    $totalNetShort = 0;
+    foreach ($openInterestMTX['data'] as $item) {
+        $totalNetLong += $item['long_open_interest_balance_volume'];
+        $totalNetShort += $item['short_open_interest_balance_volume'];
+    }
+    $net = $totalNetLong - $totalNetShort;
+    $MTXlongShortRatio = $net / $totalOI;
 
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
         if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['institutional_investors'] == "外資") {
@@ -1742,36 +1752,6 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
         }
     }
     return $return;
-
-    // $url = "https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate";
-    // $response = fetchUrl($url);
-    // $return = [];
-    // if (isset($response['stat']) && $response['stat'] === 'error') {
-    //     return null;
-    // } else {
-    //     foreach ($response as $item) {
-    //         if (in_array($item['ContractCode'], ['臺股期貨', '小型臺指期貨', '微型臺指期貨']) && $item['Item'] == "外資及陸資") {
-    //             switch ($item['ContractCode']) {
-    //                 case '臺股期貨':
-    //                     $return['txf_foreign_long'] = $item['OpenInterest(Long)'];
-    //                     $return['txf_foreign_short'] = $item['OpenInterest(Short)'];
-    //                     $return['txf_foreign_net'] = $item['OpenInterest(Net)'];
-    //                     break;
-    //                 case '小型臺指期貨':
-    //                     $return['mxf_foreign_long'] = $item['OpenInterest(Long)'];
-    //                     $return['mxf_foreign_short'] = $item['OpenInterest(Short)'];
-    //                     $return['mxf_foreign_net'] = $item['OpenInterest(Net)'];
-    //                     break;
-    //                 case '微型臺指期貨':
-    //                     $return['tmf_foreign_long'] = $item['OpenInterest(Long)'];
-    //                     $return['tmf_foreign_short'] = $item['OpenInterest(Short)'];
-    //                     $return['tmf_foreign_net'] = $item['OpenInterest(Net)'];
-    //                     break;
-    //             }
-    //         }
-    //     }
-    //     return $return;
-    // }
 }
 
 function updateMarketDailyData(PDO $pdo, string $targetDate): array

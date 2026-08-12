@@ -62,9 +62,9 @@ foreach ($openInterestMTX['data'] as $item) {
     $totalNetLong += $item['long_open_interest_balance_volume'];
     $totalNetShort += $item['short_open_interest_balance_volume'];
 }
-$net = $totalNetLong - $totalNetShort;
-
-$MTXlongShortRatio = $net / $totalOI;
+$netlong = $totalOI - $totalNetLong;
+$netshort = $totalOI - $totalNetShort;
+$MTXlongShortRatio = ($netlong - $netshort) / $totalOI;
 
 echo "\n";
 echo $MTXlongShortRatio;
