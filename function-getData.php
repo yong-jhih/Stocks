@@ -1630,20 +1630,37 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 // 大盤
 function getTAIEX(PDO $pdo, string $targetDate): ?float
 {
-    $taiex = getDataWithFinmind($pdo, [
-        'dataset' => "TaiwanVariousIndicators5Seconds",
-        'start_date' => $targetDate,
-    ]);
-    if (!empty($taiex) && str_starts_with(end($taiex['data'])['date'], $targetDate)) {
-        return (float)end($taiex['data'])['TAIEX'];
-    } else {
-        $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
-        $response = fetchUrl($url);
-        if (isset($response['stat']) && $response['stat'] === 'error') {
-            return null;
+    $taiex = null;
+    for ($i = 1; $i <= 10; $i++) {
+        if (empty($taiex)) {
+            $taiex = getDataWithFinmind($pdo, [
+                'dataset' => "TaiwanVariousIndicators5Seconds",
+                'start_date' => $targetDate,
+            ]);
+            if (!empty($taiex) && str_starts_with(end($taiex['data'])['date'], $targetDate)) {
+                $taiex = (float)end($taiex['data'])['TAIEX'];
+            } else {
+                $url = "https://openapi.twse.com.tw/v1/exchangeReport/FMTQIK";
+                $response = fetchUrl($url);
+                if (isset($response['stat']) && $response['stat'] === 'error') {
+                    $taiex = null;
+                }
+                $taiex = (float)end($response)['TAIEX'];
+            }
         }
-        return (float)end($response)['TAIEX'];
+        if (!empty($taiex)) {
+            break;
+        } else {
+            if ($i <= 9) {
+                writeLog($pdo, 'getTAIEX', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                sleep(60);
+            } else {
+                writeLog($pdo, 'getTAIEX', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新基本資料", 'error');
+                exit(1);
+            }
+        }
     }
+    return $taiex;
 }
 
 function getOpenInterest(PDO $pdo, string $targetDate): ?array
@@ -1700,6 +1717,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     }
     $totalOI = 0;
     foreach ($OI['data'] as $v) {
+        $totalOI += $v['open_interest'];
     }
 
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
@@ -1758,23 +1776,8 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
 
 function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
-    $taiex = null;
-    $openInterest = null;
-    for ($i = 1; $i <= 10; $i++) {
-        if (empty($taiex)) $taiex = getTAIEX($pdo, $targetDate);
-        if (empty($openInterest)) $openInterest = getOpenInterest($pdo, $targetDate);
-        if (!empty($taiex) && !empty($openInterest)) {
-            break;
-        } else {
-            if ($i <= 9) {
-                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
-                sleep(60);
-            } else {
-                writeLog($pdo, 'updateMarketDailyData', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
-                exit(1);
-            }
-        }
-    }
+    $taiex = getTAIEX($pdo, $targetDate);
+    $openInterest = getOpenInterest($pdo, $targetDate);
     $data = [
         "twii_close" => $taiex,
         "txf_foreign_long" => $openInterest['txf_foreign_long'],

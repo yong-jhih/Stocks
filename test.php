@@ -1,20 +1,62 @@
 <?php
 require_once("init.php");
-
-// $a = getOpenInterest($pdo, $targetDate);
-// echo json_encode($a);
 $targetDate = '2026-08-11';
 
-$OI = getDataWithFinmind($pdo, [
-    'dataset' => "TaiwanFuturesDaily",
-    'data_id' => 'MTX',
-    'start_date' => $targetDate,
-    'end_date' => $targetDate
-]);
-$totalOI = 0;
-if (!empty($OI)) {
-    foreach ($OI['data'] as $v) {
-        $totalOI += $v['open_interest'];
+$openInterestTX = null;
+$openInterestMTX = null;
+$openInterestTMF = null;
+$OI = null;
+$return = [];
+for ($i = 1; $i <= 10; $i++) {
+    // if (empty($openInterestTX)) {
+    //     $openInterestTX = getDataWithFinmind($pdo, [
+    //         'dataset' => "TaiwanFuturesInstitutionalInvestors",
+    //         'data_id' => 'TX',
+    //         'start_date' => $targetDate,
+    //         'end_date' => $targetDate
+    //     ]);
+    // }
+    if (empty($openInterestMTX)) {
+        $openInterestMTX = getDataWithFinmind($pdo, [
+            'dataset' => "TaiwanFuturesInstitutionalInvestors",
+            'data_id' => 'MTX',
+            'start_date' => $targetDate,
+            'end_date' => $targetDate
+        ]);
+    }
+    // if (empty($openInterestTMF)) {
+    //     $openInterestTMF = getDataWithFinmind($pdo, [
+    //         'dataset' => "TaiwanFuturesInstitutionalInvestors",
+    //         'data_id' => 'TMF',
+    //         'start_date' => $targetDate,
+    //         'end_date' => $targetDate
+    //     ]);
+    // }
+    if (empty($OI)) {
+        $OI = getDataWithFinmind($pdo, [
+            'dataset' => "TaiwanFuturesDaily",
+            'data_id' => 'MTX',
+            'start_date' => $targetDate,
+            'end_date' => $targetDate
+        ]);
+    }
+    if (!empty($openInterestMTX) && !empty($OI)) {
+        break;
+    } else {
+        if ($i <= 9) {
+            writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+            sleep(60);
+        } else {
+            writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
+            exit(1);
+        }
     }
 }
-echo $totalOI;
+$totalOI = 0;
+foreach ($OI['data'] as $v) {
+    $totalOI += $v['open_interest'];
+}
+
+echo "\n";
+echo json_encode($openInterestMTX) . "\n";
+echo json_encode($totalOI) . "\n";
