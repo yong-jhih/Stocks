@@ -1788,20 +1788,6 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
     $taiex = getTAIEX($pdo, $targetDate);
     $openInterest = getOpenInterest($pdo, $targetDate);
     $PutCallRatio = getPutCallRatio($pdo, $targetDate);
-    $data = [
-        "twii_close" => $taiex,
-        "txf_foreign_long" => $openInterest['txf_foreign_long'],
-        "txf_foreign_short" => $openInterest['txf_foreign_short'],
-        "txf_foreign_net" => $openInterest['txf_foreign_net'],
-        "mxf_foreign_long" => $openInterest['mxf_foreign_long'],
-        "mxf_foreign_short" => $openInterest['mxf_foreign_short'],
-        "mxf_foreign_net" => $openInterest['mxf_foreign_net'],
-        "tmf_foreign_long" => $openInterest['tmf_foreign_long'],
-        "tmf_foreign_short" => $openInterest['tmf_foreign_short'],
-        "tmf_foreign_net" => $openInterest['tmf_foreign_net'],
-        "mxf_retail_ratio" => $openInterest['mxf_retail_ratio'],
-        "txo_put_call_ratio" => $PutCallRatio
-    ];
     try {
         $pdo->beginTransaction();
         $sql = "INSERT INTO market_daily(
@@ -1835,18 +1821,18 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             $targetDate,
-            $data['twii_close'],
-            $data['txf_foreign_long'],
-            $data['txf_foreign_short'],
-            $data['txf_foreign_net'],
-            $data['mxf_foreign_long'],
-            $data['mxf_foreign_short'],
-            $data['mxf_foreign_net'],
-            $data['tmf_foreign_long'],
-            $data['tmf_foreign_short'],
-            $data['tmf_foreign_net'],
-            $data['mxf_retail_ratio'],
-            $data['txo_put_call_ratio']
+            $taiex,
+            $openInterest['txf_foreign_long'],
+            $openInterest['txf_foreign_short'],
+            $openInterest['txf_foreign_net'],
+            $openInterest['mxf_foreign_long'],
+            $openInterest['mxf_foreign_short'],
+            $openInterest['mxf_foreign_net'],
+            $openInterest['tmf_foreign_long'],
+            $openInterest['tmf_foreign_short'],
+            $openInterest['tmf_foreign_net'],
+            $openInterest['mxf_retail_ratio'],
+            $PutCallRatio
         ]);
         $pdo->commit();
     } catch (Throwable $e) {
