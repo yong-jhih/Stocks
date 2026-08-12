@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 大盤趨勢分析</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+body{background:#111827;color:#f3f4f6}
+.card{background:#1f2937;border:1px solid #374151;border-radius:12px}
+.chart{width:100%;height:320px}
+.signal{border-left:4px solid;background:#111827;border-radius:6px;padding:10px 12px}
+.score-ring{width:145px;height:145px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+@media(max-width:640px){.chart{height:280px}.score-ring{width:125px;height:125px}}
+</style>
+</head>
+<body>
+<div class="max-w-7xl mx-auto px-3 sm:px-5 py-5">
+
+<header class="mb-5">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold">📊 大盤趨勢分析</h1>
+      <p class="text-gray-400 mt-1">台股指數、外資期貨未平倉與市場情緒</p>
+    </div>
+    <div class="text-sm text-gray-400">資料日期：<span id="dataDate" class="text-gray-200 font-semibold">--</span></div>
+  </div>
+</header>
+
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+  <div class="card p-5 flex flex-col items-center justify-center">
+    <div class="text-gray-400 text-sm mb-3">大盤環境評分</div>
+    <div id="scoreRing" class="score-ring">
+      <div class="text-center"><div id="marketScore" class="text-4xl font-bold">--</div><div class="text-xs text-gray-400">/ 100</div></div>
+    </div>
+    <div id="marketTrend" class="mt-3 text-lg font-bold">等待資料</div>
+  </div>
+
+  <div class="card p-5">
+    <div class="text-gray-400 text-sm">加權指數</div>
+    <div class="flex items-end gap-3 mt-2">
+      <div id="twiiClose" class="text-3xl font-bold">--</div>
+      <div id="twiiChange" class="text-sm text-gray-400 pb-1">--</div>
+    </div>
+    <div class="grid grid-cols-3 gap-2 mt-5 text-center">
+      <div class="bg-gray-800 rounded-lg p-3"><div class="text-xs text-gray-500">5日</div><div id="index5d" class="font-semibold mt-1">--</div></div>
+      <div class="bg-gray-800 rounded-lg p-3"><div class="text-xs text-gray-500">20日</div><div id="index20d" class="font-semibold mt-1">--</div></div>
+      <div class="bg-gray-800 rounded-lg p-3"><div class="text-xs text-gray-500">60日</div><div id="index60d" class="font-semibold mt-1">--</div></div>
+    </div>
+  </div>
+
+  <div class="card p-5">
+    <div class="text-gray-400 text-sm">市場情緒</div>
+    <div class="grid grid-cols-2 gap-3 mt-4">
+      <div class="bg-gray-800 rounded-lg p-3"><div class="text-xs text-gray-500">小台散戶多空比</div><div id="retailRatio" class="text-xl font-bold mt-1">--</div></div>
+      <div class="bg-gray-800 rounded-lg p-3"><div class="text-xs text-gray-500">P/C OI Ratio</div><div id="putCallRatio" class="text-xl font-bold mt-1">--</div></div>
+    </div>
+    <div class="mt-4 text-sm"><span class="text-gray-500">情緒判斷：</span><span id="sentimentTrend" class="font-semibold">等待資料</span></div>
+  </div>
+</section>
+
+<section class="card p-5 mb-5">
+  <div class="mb-4">
+    <h2 class="text-lg font-bold">🏦 外資期貨未平倉</h2>
+    <p class="text-xs text-gray-500 mt-1">淨部位 = 外資多單未平倉 − 外資空單未平倉</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div class="bg-gray-800 rounded-lg p-4"><div class="text-gray-400 text-sm">大台 TXF</div><div id="txfNet" class="text-2xl font-bold mt-1">--</div><div class="text-xs text-gray-500 mt-2">多 <span id="txfLong">--</span> ／ 空 <span id="txfShort">--</span></div></div>
+    <div class="bg-gray-800 rounded-lg p-4"><div class="text-gray-400 text-sm">小台 MXF</div><div id="mxfNet" class="text-2xl font-bold mt-1">--</div><div class="text-xs text-gray-500 mt-2">多 <span id="mxfLong">--</span> ／ 空 <span id="mxfShort">--</span></div></div>
+    <div class="bg-gray-800 rounded-lg p-4"><div class="text-gray-400 text-sm">微台 TMF</div><div id="tmfNet" class="text-2xl font-bold mt-1">--</div><div class="text-xs text-gray-500 mt-2">多 <span id="tmfLong">--</span> ／ 空 <span id="tmfShort">--</span></div></div>
+  </div>
+</section>
+
+<section class="card p-4 sm:p-5 mb-5"><h2 class="text-lg font-bold mb-1">📈 加權指數趨勢</h2><p class="text-xs text-gray-500 mb-3">最近交易日</p><div id="indexChart" class="chart"></div></section>
+<section class="card p-4 sm:p-5 mb-5"><h2 class="text-lg font-bold mb-1">🏦 外資期貨淨未平倉趨勢</h2><p class="text-xs text-gray-500 mb-3">觀察外資期貨部位方向與變化</p><div id="futuresChart" class="chart"></div></section>
+<section class="card p-4 sm:p-5 mb-5"><h2 class="text-lg font-bold mb-1">🧠 市場情緒</h2><p class="text-xs text-gray-500 mb-3">小台散戶多空比與選擇權 P/C OI Ratio</p><div id="sentimentChart" class="chart"></div></section>
+
+<section class="card p-4 sm:p-5">
+  <h2 class="text-lg font-bold mb-4">🔎 今日市場訊號</h2>
+  <div id="signals" class="space-y-2"><div class="signal border-gray-600 text-gray-400">等待分析資料</div></div>
+</section>
+</div>
+
+<script>
+async function loadMarketData(){
+  try{
+    const r=await fetch('./data/marketTrend.json',{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    renderMarket(await r.json());
+  }catch(e){
+    console.warn('marketTrend.json 尚未存在，使用預覽資料',e);
+    renderMarket(demoData());
+  }
+}
+
+function renderMarket(d){
+  text('dataDate',d.date||'--');
+  const score=Number(d.score||0);
+  text('marketScore',Number.isFinite(score)?score:'--');
+  text('marketTrend',d.trend||'等待資料');
+  const s=Math.max(0,Math.min(100,score));
+  document.getElementById('scoreRing').style.background=`radial-gradient(circle,#1f2937 56%,transparent 57%),conic-gradient(#22c55e ${s}%,#374151 ${s}%)`;
+
+  if(d.index){
+    text('twiiClose',num(d.index.close));
+    text('twiiChange',d.index.changePercent==null?'--':signed(d.index.changePercent)+'%');
+    text('index5d',d.index.change5d==null?'--':signed(d.index.change5d)+'%');
+    text('index20d',d.index.change20d==null?'--':signed(d.index.change20d)+'%');
+    text('index60d',d.index.change60d==null?'--':signed(d.index.change60d)+'%');
+  }
+
+  future('txf',d.futures?.txf); future('mxf',d.futures?.mxf); future('tmf',d.futures?.tmf);
+
+  if(d.sentiment){
+    text('retailRatio',d.sentiment.retailRatio==null?'--':signed(d.sentiment.retailRatio)+'%');
+    text('putCallRatio',d.sentiment.putCallRatio==null?'--':num(d.sentiment.putCallRatio)+'%');
+    text('sentimentTrend',d.sentiment.trend||'等待資料');
+  }
+
+  const box=document.getElementById('signals');
+  box.innerHTML=(d.signals||[]).length ? d.signals.map(x=>{
+    const c=x.type==='bullish'?'border-green-500 text-green-300':x.type==='bearish'?'border-red-500 text-red-300':x.type==='warning'?'border-yellow-500 text-yellow-300':'border-gray-500 text-gray-200';
+    return `<div class="signal ${c}">${esc(x.text||'')}</div>`;
+  }).join('') : '<div class="signal border-gray-600 text-gray-400">今日暫無市場訊號</div>';
+
+  chartIndex(d.index?.history||[]);
+  chartFutures(d.futures?.history||[]);
+  chartSentiment(d.sentiment?.history||[]);
+}
+
+function future(t,d){
+  if(!d)return;
+  text(t+'Net',signedNum(d.net)); text(t+'Long',num(d.long)); text(t+'Short',num(d.short));
+  const e=document.getElementById(t+'Net');
+  e.className='text-2xl font-bold mt-1 '+(Number(d.net)>0?'text-green-400':Number(d.net)<0?'text-red-400':'text-gray-300');
+}
+function chartIndex(h){
+  const c=echarts.init(document.getElementById('indexChart'));
+  c.setOption(baseChart(h.map(x=>x.date),[{name:'加權指數',data:h.map(x=>x.value)}]));
+  window.addEventListener('resize',()=>c.resize());
+}
+function chartFutures(h){
+  const c=echarts.init(document.getElementById('futuresChart'));
+  c.setOption(baseChart(h.map(x=>x.date),[
+    {name:'TXF',data:h.map(x=>x.txf??null)},{name:'MXF',data:h.map(x=>x.mxf??null)},{name:'TMF',data:h.map(x=>x.tmf??null)}
+  ],true));
+  window.addEventListener('resize',()=>c.resize());
+}
+function chartSentiment(h){
+  const c=echarts.init(document.getElementById('sentimentChart'));
+  c.setOption(baseChart(h.map(x=>x.date),[
+    {name:'小台散戶多空比',data:h.map(x=>x.retailRatio??null)},
+    {name:'P/C OI Ratio',data:h.map(x=>x.putCallRatio??null)}
+  ],true));
+  window.addEventListener('resize',()=>c.resize());
+}
+function baseChart(x,series,legend=false){
+  return {tooltip:{trigger:'axis'},legend:legend?{textStyle:{color:'#9ca3af'}}:undefined,
+    grid:{left:55,right:20,top:legend?45:20,bottom:35},
+    xAxis:{type:'category',data:x,axisLabel:{color:'#9ca3af'}},
+    yAxis:{type:'value',scale:true,axisLabel:{color:'#9ca3af'},splitLine:{lineStyle:{color:'#374151'}}},
+    series:series.map(s=>({name:s.name,type:'line',smooth:true,data:s.data,symbol:'none'}))};
+}
+function text(id,v){document.getElementById(id).textContent=v}
+function num(v){return v==null?'--':Number(v).toLocaleString('zh-TW',{maximumFractionDigits:2})}
+function signed(v){const n=Number(v);return Number.isFinite(n)?(n>0?'+':'')+n.toFixed(2):'--'}
+function signedNum(v){const n=Number(v);return Number.isFinite(n)?(n>0?'+':'')+n.toLocaleString('zh-TW'):'--'}
+function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
+
+function demoData(){
+  const dates=['08/01','08/03','08/04','08/05','08/06','08/07','08/10','08/11','08/12'];
+  return {
+    date:'2026-08-12',score:72,trend:'🟢 偏多',
+    index:{close:24500,changePercent:.49,change5d:1.82,change20d:4.35,change60d:8.72,
+      history:dates.map((d,i)=>({date:d,value:[24010,24180,24090,24220,24380,24290,24380,24420,24500][i]}))},
+    futures:{
+      txf:{long:100000,short:87500,net:12500},mxf:{long:80000,short:71700,net:8300},tmf:{long:30000,short:27900,net:2100},
+      history:dates.map((d,i)=>({date:d,txf:[6500,7200,9000,10000,9500,11000,11800,12000,12500][i],mxf:[4500,4800,6100,7000,6800,7600,8000,8100,8300][i],tmf:[1200,1100,1500,1800,1700,1900,2000,2050,2100][i]}))
+    },
+    sentiment:{retailRatio:18.2,putCallRatio:123.5,trend:'🟡 中性偏多',
+      history:dates.map((d,i)=>({date:d,retailRatio:[7,10,9,12,13,15,17,18,18.2][i],putCallRatio:[105,111,109,114,116,119,121,122,123.5][i]}))},
+    signals:[
+      {type:'bullish',text:'加權指數維持短中期上升結構'},
+      {type:'bullish',text:'外資期貨淨未平倉維持正值'},
+      {type:'warning',text:'小台散戶多方部位持續增加，需觀察是否進入過熱區'},
+      {type:'warning',text:'P/C OI Ratio 位於相對高檔，列為情緒觀察訊號'}
+    ]
+  };
+}
+loadMarketData();
+</script>
+</body>
+</html>
