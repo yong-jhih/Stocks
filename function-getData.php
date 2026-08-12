@@ -1841,6 +1841,149 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
     }
 }
 
+function analyzeMarketTrend(PDO $pdo): array
+{
+    $sql = "SELECT * FROM market_daily ORDER BY trade_date DESC LIMIT 60";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($rows)) {
+        throw new RuntimeException('查詢不到大盤歷史資料');
+    }
+    $latest = $rows[0];
+    return [
+        'date' => $latest['trade_date'],
+        'index' => analyzeMarketIndex($rows),
+        'futures' => analyzeMarketFutures($rows),
+        'sentiment' => analyzeMarketSentiment($rows),
+        'institutional' => analyzeMarketInstitutional($pdo, $latest['trade_date']),
+        'signals' => [],
+        'score' => 0,
+        'trend' => '等待分析'
+    ];
+}
+
+function analyzeMarketIndex(array $rows): array
+{
+    $latest = $rows[0];
+    $close = (float)$latest['twii_close'];
+    $history = [];
+    foreach (array_reverse($rows) as $row) {
+        $history[] = [
+            'date' => date('m/d', strtotime($row['trade_date'])),
+            'value' => (float)$row['twii_close']
+        ];
+    }
+    $result = [
+        'close' => $close,
+        'changePercent' => null,
+        'change5d' => null,
+        'change20d' => null,
+        'change60d' => null,
+        'history' => $history
+    ];
+
+    // 前一交易日
+    if (isset($rows[1]) && (float)$rows[1]['twii_close'] != 0) {
+        $prev = (float)$rows[1]['twii_close'];
+        $result['changePercent'] = (($close - $prev) / $prev) * 100;
+    }
+
+    // 5 / 20 / 60 日
+    foreach ([5, 20, 60] as $days) {
+        if (!isset($rows[$days])) continue;
+        $base = (float)$rows[$days]['twii_close'];
+        if ($base == 0) continue;
+        $result["change{$days}d"] = (($close - $base) / $base) * 100;
+    }
+    return $result;
+}
+
+function analyzeMarketFutures(array $rows): array
+{
+    $latest = $rows[0];
+    $futures = [];
+    foreach (['txf' => 'txf_foreign', 'mxf' => 'mxf_foreign', 'tmf' => 'tmf_foreign'] as $key => $prefix) {
+        $long = (int)$latest[$prefix . '_long'];
+        $short = (int)$latest[$prefix . '_short'];
+        $net = (int)$latest[$prefix . '_net'];
+        $futures[$key] = [
+            'long' => $long,
+            'short' => $short,
+            'net' => $net
+        ];
+    }
+    $history = [];
+    foreach (array_reverse($rows) as $row) {
+        $history[] = [
+            'date' => date('m/d', strtotime($row['trade_date'])),
+            'txf' => (int)$row['txf_foreign_net'],
+            'mxf' => (int)$row['mxf_foreign_net'],
+            'tmf' => (int)$row['tmf_foreign_net']
+        ];
+    }
+    return [
+        ...$futures,
+        'history' => $history
+    ];
+}
+
+function analyzeMarketSentiment(array $rows): array
+{
+    $latest = $rows[0];
+    $retailRatio = $latest['mxf_retail_ratio'] !== null ? (float)$latest['mxf_retail_ratio'] : null;
+    $putCallRatio = $latest['txo_put_call_ratio'] !== null ? (float)$latest['txo_put_call_ratio'] : null;
+    $history = [];
+    foreach (array_reverse($rows) as $row) {
+        $history[] = [
+            'date' => date('m/d', strtotime($row['trade_date'])),
+            'retailRatio' => $row['mxf_retail_ratio'] !== null ? (float)$row['mxf_retail_ratio'] : null,
+            'putCallRatio' => $row['txo_put_call_ratio'] !== null ? (float)$row['txo_put_call_ratio'] : null
+        ];
+    }
+    return [
+        'retailRatio' => $retailRatio,
+        'putCallRatio' => $putCallRatio,
+        'trend' => analyzeSentimentTrend($retailRatio, $putCallRatio),
+        'history' => $history
+    ];
+}
+
+function analyzeSentimentTrend(?float $retailRatio, ?float $putCallRatio): string
+{
+    if ($retailRatio === null || $putCallRatio === null) return '資料不足';
+    $score = 0;
+    if ($retailRatio < 0) $score += 1;  // 小台散戶偏空
+    if ($retailRatio > 0) $score -= 1;  // 小台散戶偏多
+    if ($putCallRatio >= 120) $score += 1;  // P/C OI 偏高
+    if ($putCallRatio <= 90) $score -= 1;   // P/C OI 偏低
+    if ($score >= 2) return '偏多';
+    if ($score <= -2) return '偏空';
+    return '中性';
+}
+
+function analyzeMarketInstitutional(PDO $pdo, string $targetDate): array
+{
+    // 這裡沿用你原本篩選分析使用的法人資料來源
+    // 第一版先抓當日法人買賣超
+    $sql = "
+        SELECT
+            SUM(COALESCE(i.total_buy_sell, 0)) AS total_buy_sell
+        FROM stock_history h
+        LEFT JOIN stock_insti i
+            ON h.stock_id = i.stock_id
+            AND h.trade_date = i.trade_date
+        WHERE h.trade_date = :targetDate
+    ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':targetDate', $targetDate);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return [
+        'buySell' => (int)($row['total_buy_sell'] ?? 0)
+    ];
+}
+
 // ETF
 function getComponent(string $targetDate, string $etf_id): array
 {
