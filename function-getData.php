@@ -1651,7 +1651,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     $openInterestTX = null;
     $openInterestMTX = null;
     $openInterestTMF = null;
-    $totalOI=null;
+    $OI = null;
     $return = [];
     for ($i = 1; $i <= 10; $i++) {
         if (empty($openInterestTX)) {
@@ -1678,15 +1678,15 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (empty($totalOI)) {
-            $totalOI = getDataWithFinmind($pdo, [
+        if (empty($OI)) {
+            $OI = getDataWithFinmind($pdo, [
                 'dataset' => "TaiwanFuturesDaily",
                 'data_id' => 'MTX',
                 'start_date' => $targetDate,
                 'end_date' => $targetDate
             ]);
         }
-        if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF)) {
+        if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF && !empty($OI))) {
             break;
         } else {
             if ($i <= 9) {
@@ -1698,6 +1698,10 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
             }
         }
     }
+    $totalOI = 0;
+    foreach ($OI['data'] as $v) {
+    }
+
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
         if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['institutional_investors'] == "外資") {
             switch ($item['futures_id']) {
