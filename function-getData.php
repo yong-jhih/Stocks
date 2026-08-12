@@ -1644,8 +1644,9 @@ function getTAIEX(PDO $pdo, string $targetDate): ?float
                 $response = fetchUrl($url);
                 if (isset($response['stat']) && $response['stat'] === 'error') {
                     $taiex = null;
+                } else {
+                    $taiex = (float)end($response)['TAIEX'];
                 }
-                $taiex = (float)end($response)['TAIEX'];
             }
         }
         if (!empty($taiex)) {
@@ -1759,18 +1760,9 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
     $url = "https://openapi.taifex.com.tw/v1/PutCallRatio";
     for ($i = 1; $i <= 10; $i++) {
         $data = fetchUrl($url);
-        if (isset($data['status']) && $data['status'] === 'error') {
-            $errorMsg = $data['msg'] ?? '未知錯誤';
-            writeLog($pdo, 'getPutCallRatio', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
-            continue;
-        }
-        if (!is_array($data) || empty($data)) {
-            writeLog($pdo, 'getPutCallRatio', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
-            continue;
-        }
-        if (reset($data)['Date'] == str_replace("-", "", $targetDate)) {
-            $PutCallRatio = reset($data)['PutCallOIRatio%'];
-        }
+        if (isset($data['status']) && $data['status'] === 'error') continue;
+        if (!is_array($data) || empty($data)) continue;
+        if (reset($data)['Date'] == str_replace("-", "", $targetDate)) $PutCallRatio = reset($data)['PutCallOIRatio%'];
         if (!empty($PutCallRatio)) {
             break;
         } else {
@@ -1790,6 +1782,7 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
     $taiex = getTAIEX($pdo, $targetDate);
     $openInterest = getOpenInterest($pdo, $targetDate);
+    $PutCallRatio = getPutCallRatio($pdo, $targetDate);
     $data = [
         "twii_close" => $taiex,
         "txf_foreign_long" => $openInterest['txf_foreign_long'],
@@ -1801,7 +1794,8 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
         "tmf_foreign_long" => $openInterest['tmf_foreign_long'],
         "tmf_foreign_short" => $openInterest['tmf_foreign_short'],
         "tmf_foreign_net" => $openInterest['tmf_foreign_net'],
-        "mxf_retail_ratio" => $openInterest['mxf_retail_ratio']
+        "mxf_retail_ratio" => $openInterest['mxf_retail_ratio'],
+        "txo_put_call_ratio" => $PutCallRatio
     ];
     return $data;
 }
