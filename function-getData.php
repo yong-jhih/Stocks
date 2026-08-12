@@ -1753,6 +1753,39 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     return $return;
 }
 
+function getPutCallRatio(PDO $pdo, string $targetDate): ?float
+{
+    $PutCallRatio = null;
+    $url = "https://openapi.taifex.com.tw/v1/PutCallRatio";
+    for ($i = 1; $i <= 10; $i++) {
+        $data = fetchUrl($url);
+        if (isset($data['status']) && $data['status'] === 'error') {
+            $errorMsg = $data['msg'] ?? '未知錯誤';
+            writeLog($pdo, 'getPutCallRatio', "證交所回傳錯誤訊息：{$errorMsg}, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (!is_array($data) || empty($data)) {
+            writeLog($pdo, 'getPutCallRatio', "證交所回傳資料格式異常或無資料, 準備執行第 {$i} 次重試", 'warning');
+            continue;
+        }
+        if (reset($data)['Date'] == str_replace("-", "", $targetDate)) {
+            $PutCallRatio = reset($data)['PutCallOIRatio%'];
+        }
+        if (!empty($PutCallRatio)) {
+            break;
+        } else {
+            if ($i <= 9) {
+                writeLog($pdo, 'getPutCallRatio', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
+                sleep(60);
+            } else {
+                writeLog($pdo, 'getPutCallRatio', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新基本資料", 'error');
+                exit(1);
+            }
+        }
+    }
+    return $PutCallRatio;
+}
+
 function updateMarketDailyData(PDO $pdo, string $targetDate): array
 {
     $taiex = getTAIEX($pdo, $targetDate);
