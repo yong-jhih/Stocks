@@ -62,8 +62,8 @@ jobs:
       - name: Check And Update ETF
         run: php updateETFcomponent.php
 
-      - name: Check And Update Market
-        run: php updateDailyMarket.php
+      #- name: Check And Update Market
+       # run: php updateDailyMarket.php
 
       - name: Commit And Push JSON files
         if: always()
