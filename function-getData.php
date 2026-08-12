@@ -1704,7 +1704,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF && !empty($OI))) {
+        if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF) && !empty($OI)) {
             break;
         } else {
             if ($i <= 9) {
@@ -1762,7 +1762,12 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
         $data = fetchUrl($url);
         if (isset($data['status']) && $data['status'] === 'error') continue;
         if (!is_array($data) || empty($data)) continue;
-        if (reset($data)['Date'] == str_replace("-", "", $targetDate)) $PutCallRatio = reset($data)['PutCallOIRatio%'];
+        foreach ($data as $item) {
+            if (($item['Date'] ?? '') === str_replace("-", "", $targetDate)) {
+                $PutCallRatio = (float)$item['PutCallOIRatio%'];
+                break;
+            }
+        }
         if (!empty($PutCallRatio)) {
             break;
         } else {
