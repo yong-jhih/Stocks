@@ -56,7 +56,15 @@ $totalOI = 0;
 foreach ($OI['data'] as $v) {
     $totalOI += $v['open_interest'];
 }
+$totalNetLong = 0;
+$totalNetShort = 0;
+foreach ($openInterestMTX['data'] as $item) {
+    $totalNetLong += $item['long_open_interest_balance_volume'];
+    $totalNetShort += $item['short_open_interest_balance_volume'];
+}
+$net = $totalNetLong - $totalNetShort;
+
+$MTXlongShortRatio = $net / $totalOI;
 
 echo "\n";
-echo json_encode($openInterestMTX) . "\n";
-echo json_encode($totalOI) . "\n";
+echo $MTXlongShortRatio;
