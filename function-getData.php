@@ -1728,7 +1728,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
         $totalNetLongInsti += $item['long_open_interest_balance_volume'];
         $totalNetShortInsti += $item['short_open_interest_balance_volume'];
     }
-    $return['mxf_retail_ratio'] = ($totalNetShortInsti - $totalNetLongInsti) / $totalOI;
+    $return['mxf_retail_ratio'] = ($totalNetShortInsti - $totalNetLongInsti) * 100 / $totalOI;
 
     foreach ([...$openInterestTX['data'], ...$openInterestMTX['data'], ...$openInterestTMF['data']] as $item) {
         if (in_array($item['futures_id'], ['TX', 'MTX', 'TMF']) && $item['institutional_investors'] == "外資") {
@@ -1778,7 +1778,7 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
     return $PutCallRatio;
 }
 
-function updateMarketDailyData(PDO $pdo, string $targetDate): array
+function updateMarketDailyData(PDO $pdo, string $targetDate): void
 {
     $taiex = getTAIEX($pdo, $targetDate);
     $openInterest = getOpenInterest($pdo, $targetDate);
@@ -1797,7 +1797,57 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): array
         "mxf_retail_ratio" => $openInterest['mxf_retail_ratio'],
         "txo_put_call_ratio" => $PutCallRatio
     ];
-    return $data;
+    try {
+        $pdo->beginTransaction();
+        $sql = "INSERT INTO market_daily(
+                    trade_date,
+                    twii_close,
+                    txf_foreign_long,
+                    txf_foreign_short,
+                    txf_foreign_net,
+                    mxf_foreign_long,
+                    mxf_foreign_short,
+                    mxf_foreign_net,
+                    tmf_foreign_long,
+                    tmf_foreign_short,
+                    tmf_foreign_net,
+                    mxf_retail_ratio,
+                    txo_put_call_ratio)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                twii_close = VALUES(twii_close),
+                txf_foreign_long = VALUES(txf_foreign_long),
+                txf_foreign_short = VALUES(txf_foreign_short),
+                txf_foreign_net = VALUES(txf_foreign_net),
+                mxf_foreign_long = VALUES(mxf_foreign_long),
+                mxf_foreign_short = VALUES(mxf_foreign_short),
+                mxf_foreign_net = VALUES(mxf_foreign_net),
+                tmf_foreign_long = VALUES(tmf_foreign_long),
+                tmf_foreign_short = VALUES(tmf_foreign_short),
+                tmf_foreign_net = VALUES(tmf_foreign_net),
+                mxf_retail_ratio = VALUES(mxf_retail_ratio),
+                txo_put_call_ratio = VALUES(txo_put_call_ratio)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            $targetDate,
+            $data['twii_close'],
+            $data['txf_foreign_long'],
+            $data['txf_foreign_short'],
+            $data['txf_foreign_net'],
+            $data['mxf_foreign_long'],
+            $data['mxf_foreign_short'],
+            $data['mxf_foreign_net'],
+            $data['tmf_foreign_long'],
+            $data['tmf_foreign_short'],
+            $data['tmf_foreign_net'],
+            $data['mxf_retail_ratio'],
+            $data['txo_put_call_ratio']
+        ]);
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw new RuntimeException("{$targetDate} 大盤資料新增失敗: " . $e->getMessage());
+    }
 }
 
 // ETF
