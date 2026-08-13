@@ -1949,19 +1949,6 @@ function analyzeMarketSentiment(array $rows): array
     ];
 }
 
-function analyzeSentimentTrend(?float $retailRatio, ?float $putCallRatio): string
-{
-    if ($retailRatio === null || $putCallRatio === null) return '資料不足';
-    $score = 0;
-    if ($retailRatio < 0) $score += 1;  // 小台散戶偏空
-    if ($retailRatio > 0) $score -= 1;  // 小台散戶偏多
-    if ($putCallRatio >= 120) $score += 1;  // P/C OI 偏高
-    if ($putCallRatio <= 90) $score -= 1;   // P/C OI 偏低
-    if ($score >= 2) return '偏多';
-    if ($score <= -2) return '偏空';
-    return '中性';
-}
-
 function analyzeMarketInstitutional(PDO $pdo, string $targetDate): array
 {
     // 這裡沿用你原本篩選分析使用的法人資料來源
@@ -1982,6 +1969,19 @@ function analyzeMarketInstitutional(PDO $pdo, string $targetDate): array
     return [
         'buySell' => (int)($row['total_buy_sell'] ?? 0)
     ];
+}
+
+function analyzeSentimentTrend(?float $retailRatio, ?float $putCallRatio): string
+{
+    if ($retailRatio === null || $putCallRatio === null) return '資料不足';
+    $score = 0;
+    if ($retailRatio < 0) $score += 1;  // 小台散戶偏空
+    if ($retailRatio > 0) $score -= 1;  // 小台散戶偏多
+    if ($putCallRatio >= 120) $score += 1;  // P/C OI 偏高
+    if ($putCallRatio <= 90) $score -= 1;   // P/C OI 偏低
+    if ($score >= 2) return '偏多';
+    if ($score <= -2) return '偏空';
+    return '中性';
 }
 
 // ETF
