@@ -1843,145 +1843,295 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
 
 function analyzeMarketTrend(PDO $pdo): array
 {
+    // =========================================================
+    // 1. 60日大盤資料
+    // =========================================================
     $sql = "SELECT * FROM market_daily ORDER BY trade_date DESC LIMIT 60";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if (empty($rows)) {
-        throw new RuntimeException('查詢不到大盤歷史資料');
-    }
+    if (empty($rows)) throw new RuntimeException('查詢不到大盤歷史資料');
     $latest = $rows[0];
-    return [
-        'date' => $latest['trade_date'],
-        'index' => analyzeMarketIndex($rows),
-        'futures' => analyzeMarketFutures($rows),
-        'sentiment' => analyzeMarketSentiment($rows),
-        'institutional' => analyzeMarketInstitutional($pdo, $latest['trade_date']),
-        'signals' => [],
-        'score' => 0,
-        'trend' => '等待分析'
-    ];
-}
+    $targetDate = $latest['trade_date'];
 
-function analyzeMarketIndex(array $rows): array
-{
-    $latest = $rows[0];
+    // =========================================================
+    // 2. 加權指數
+    // =========================================================
     $close = (float)$latest['twii_close'];
-    $history = [];
-    foreach (array_reverse($rows) as $row) {
-        $history[] = [
-            'date' => date('m/d', strtotime($row['trade_date'])),
-            'value' => (float)$row['twii_close']
-        ];
+    $changePercent = null;
+    $change5d = null;
+    $change20d = null;
+    $change60d = null;
+    if (isset($rows[1])) {
+        $prevClose = (float)$rows[1]['twii_close'];
+        if ($prevClose != 0) $changePercent = (($close - $prevClose) / $prevClose) * 100;
     }
-    $result = [
-        'close' => $close,
-        'changePercent' => null,
-        'change5d' => null,
-        'change20d' => null,
-        'change60d' => null,
-        'history' => $history
-    ];
-
-    // 前一交易日
-    if (isset($rows[1]) && (float)$rows[1]['twii_close'] != 0) {
-        $prev = (float)$rows[1]['twii_close'];
-        $result['changePercent'] = (($close - $prev) / $prev) * 100;
-    }
-
-    // 5 / 20 / 60 日
     foreach ([5, 20, 60] as $days) {
         if (!isset($rows[$days])) continue;
         $base = (float)$rows[$days]['twii_close'];
         if ($base == 0) continue;
-        $result["change{$days}d"] = (($close - $base) / $base) * 100;
+        ${"change{$days}d"} = (($close - $base) / $base) * 100;
     }
-    return $result;
-}
-
-function analyzeMarketFutures(array $rows): array
-{
-    $latest = $rows[0];
-    $futures = [];
-    foreach (['txf' => 'txf_foreign', 'mxf' => 'mxf_foreign', 'tmf' => 'tmf_foreign'] as $key => $prefix) {
-        $long = (int)$latest[$prefix . '_long'];
-        $short = (int)$latest[$prefix . '_short'];
-        $net = (int)$latest[$prefix . '_net'];
-        $futures[$key] = [
-            'long' => $long,
-            'short' => $short,
-            'net' => $net
+    $indexHistory = [];
+    foreach (array_reverse($rows) as $row) {
+        $indexHistory[] = [
+            'date' => date('m/d', strtotime($row['trade_date'])),
+            'value' => (float)$row['twii_close']
         ];
     }
-    $history = [];
+
+    // =========================================================
+    // 3. 外資期貨未平倉
+    // =========================================================
+    $futures = [];
+    foreach (['txf' => 'txf_foreign', 'mxf' => 'mxf_foreign', 'tmf' => 'tmf_foreign'] as $key => $prefix) {
+        $futures[$key] = [
+            'long' => (int)$latest[$prefix . '_long'],
+            'short' => (int)$latest[$prefix . '_short'],
+            'net' => (int)$latest[$prefix . '_net']
+        ];
+    }
+    $futuresHistory = [];
     foreach (array_reverse($rows) as $row) {
-        $history[] = [
+        $futuresHistory[] = [
             'date' => date('m/d', strtotime($row['trade_date'])),
             'txf' => (int)$row['txf_foreign_net'],
             'mxf' => (int)$row['mxf_foreign_net'],
             'tmf' => (int)$row['tmf_foreign_net']
         ];
     }
-    return [
-        ...$futures,
-        'history' => $history
-    ];
-}
+    $futures['history'] = $futuresHistory;
 
-function analyzeMarketSentiment(array $rows): array
-{
-    $latest = $rows[0];
+    // =========================================================
+    // 4. 市場情緒
+    // =========================================================
     $retailRatio = $latest['mxf_retail_ratio'] !== null ? (float)$latest['mxf_retail_ratio'] : null;
     $putCallRatio = $latest['txo_put_call_ratio'] !== null ? (float)$latest['txo_put_call_ratio'] : null;
-    $history = [];
+    $sentimentHistory = [];
     foreach (array_reverse($rows) as $row) {
-        $history[] = [
+        $sentimentHistory[] = [
             'date' => date('m/d', strtotime($row['trade_date'])),
             'retailRatio' => $row['mxf_retail_ratio'] !== null ? (float)$row['mxf_retail_ratio'] : null,
             'putCallRatio' => $row['txo_put_call_ratio'] !== null ? (float)$row['txo_put_call_ratio'] : null
         ];
     }
-    return [
-        'retailRatio' => $retailRatio,
-        'putCallRatio' => $putCallRatio,
-        'trend' => analyzeSentimentTrend($retailRatio, $putCallRatio),
-        'history' => $history
-    ];
-}
 
-function analyzeMarketInstitutional(PDO $pdo, string $targetDate): array
-{
-    // 這裡沿用你原本篩選分析使用的法人資料來源
-    // 第一版先抓當日法人買賣超
-    $sql = "
-        SELECT
-            SUM(COALESCE(i.total_buy_sell, 0)) AS total_buy_sell
-        FROM stock_history h
-        LEFT JOIN stock_insti i
-            ON h.stock_id = i.stock_id
-            AND h.trade_date = i.trade_date
-        WHERE h.trade_date = :targetDate
-    ";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':targetDate', $targetDate);
-    $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    return [
-        'buySell' => (int)($row['total_buy_sell'] ?? 0)
-    ];
-}
+    // =========================================================
+    // 5. 市場情緒連續性
+    // =========================================================
+    $sentimentScore = 0;
+    if ($retailRatio !== null) {
+        if ($retailRatio < 0) { // 散戶偏空
+            $sentimentScore += 1;
+        } elseif ($retailRatio > 0) { // 散戶偏多
+            $sentimentScore -= 1;
+        }
+    }
 
-function analyzeSentimentTrend(?float $retailRatio, ?float $putCallRatio): string
-{
-    if ($retailRatio === null || $putCallRatio === null) return '資料不足';
-    $score = 0;
-    if ($retailRatio < 0) $score += 1;  // 小台散戶偏空
-    if ($retailRatio > 0) $score -= 1;  // 小台散戶偏多
-    if ($putCallRatio >= 120) $score += 1;  // P/C OI 偏高
-    if ($putCallRatio <= 90) $score -= 1;   // P/C OI 偏低
-    if ($score >= 2) return '偏多';
-    if ($score <= -2) return '偏空';
-    return '中性';
+    if ($putCallRatio !== null) {
+        if ($putCallRatio >= 120) {
+            $sentimentScore += 1;
+        } elseif ($putCallRatio <= 90) {
+            $sentimentScore -= 1;
+        }
+    }
+    if ($sentimentScore >= 2) {
+        $sentimentTrend = '🟢 偏多';
+    } elseif ($sentimentScore <= -2) {
+        $sentimentTrend = '🔴 偏空';
+    } else {
+        $sentimentTrend = '🟡 中性';
+    }
+
+    // =========================================================
+    // 6. 法人買賣超
+    // 沿用目前 checkAndRun.php 的 FinMind 資料來源
+    // 單位：億元
+    // =========================================================
+    $institutional = [];
+    $institutionalData = getDataWithFinmind($pdo, [
+        'dataset' => 'TaiwanStockTotalInstitutionalInvestors',
+        'start_date' => $targetDate,
+        'end_date' => $targetDate,
+    ]);
+    if (!empty($institutionalData['data'])) {
+        foreach ($institutionalData['data'] as $item) {
+            $name = $item['name'];
+            $buy = (float)$item['buy'];
+            $sell = (float)$item['sell'];
+            $institutional[$name] = [
+                'buy' => round($buy / 1e8, 1),
+                'sell' => round($sell / 1e8, 1),
+                'net' => round(($buy - $sell) / 1e8, 1)
+            ];
+        }
+    }
+    // 三大法人合計
+    if (isset($institutional['total'])) {
+        $institutionalTotal = [
+            'buy' => $institutional['total']['buy'],
+            'sell' => $institutional['total']['sell'],
+            'net' => $institutional['total']['net']
+        ];
+    } else {
+        $institutionalTotal = [
+            'buy' => 0,
+            'sell' => 0,
+            'net' => 0
+        ];
+    }
+
+    // =========================================================
+    // 7. 今日市場訊號
+    // =========================================================
+    $signals = [];
+    // 指數
+    if ($change20d !== null) {
+        if ($change20d > 3) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '加權指數維持中期上升趨勢'
+            ];
+        } elseif ($change20d < -3) {
+
+            $signals[] = [
+                'type' => 'bearish',
+                'text' => '加權指數中期走勢偏弱'
+            ];
+        }
+    }
+    // 外資期貨
+    if ($futures['txf']['net'] > 0) {
+        $signals[] = [
+            'type' => 'bullish',
+            'text' => '外資大台期貨維持淨多單'
+        ];
+    } elseif ($futures['txf']['net'] < 0) {
+        $signals[] = [
+            'type' => 'bearish',
+            'text' => '外資大台期貨維持淨空單'
+        ];
+    }
+    // 小台散戶
+    if ($retailRatio !== null) {
+        if ($retailRatio > 20) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '小台散戶多方部位偏高，需留意市場過熱'
+            ];
+        } elseif ($retailRatio < -20) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '小台散戶偏空，市場籌碼相對有利多方'
+            ];
+        }
+    }
+    // P/C
+    if ($putCallRatio !== null) {
+        if ($putCallRatio >= 120) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '選擇權 P/C OI Ratio 位於偏高區'
+            ];
+        } elseif ($putCallRatio <= 90) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '選擇權 P/C OI Ratio 位於偏低區'
+            ];
+        }
+    }
+
+    // =========================================================
+    // 8. 大盤環境評分
+    // 第一版先採簡單規則
+    // 後續有足夠歷史資料再調整權重
+    // =========================================================
+    $score = 50;
+    // 指數中期方向
+    if ($change20d !== null) {
+        if ($change20d > 3) {
+            $score += 15;
+        } elseif ($change20d > 0) {
+            $score += 8;
+        } elseif ($change20d < -3) {
+            $score -= 15;
+        } elseif ($change20d < 0) {
+            $score -= 8;
+        }
+    }
+    // 外資期貨
+    if ($futures['txf']['net'] > 0) {
+        $score += 10;
+    } elseif ($futures['txf']['net'] < 0) {
+        $score -= 10;
+    }
+    // 散戶反向指標
+    if ($retailRatio !== null) {
+        if ($retailRatio < 0) {
+            $score += 5;
+        } elseif ($retailRatio > 20) {
+            $score -= 5;
+        }
+    }
+    // P/C
+    if ($putCallRatio !== null) {
+        if ($putCallRatio >= 120) {
+            $score += 5;
+        } elseif ($putCallRatio <= 90) {
+            $score -= 5;
+        }
+    }
+    $score = max(0, min(100, $score));
+    if ($score >= 65) {
+        $trend = '🟢 偏多';
+    } elseif ($score >= 45) {
+        $trend = '🟡 中性';
+    } else {
+        $trend = '🔴 偏空';
+    }
+
+    // =========================================================
+    // 9. 統一回傳前端 JSON
+    // =========================================================
+    return [
+        'date' => $targetDate,
+        'score' => $score,
+        'trend' => $trend,
+        'index' => [
+            'close' => $close,
+            'changePercent' => $changePercent,
+            'change5d' => $change5d,
+            'change20d' => $change20d,
+            'change60d' => $change60d,
+            'history' => $indexHistory
+        ],
+        'futures' => $futures,
+        'sentiment' => [
+            'retailRatio' => $retailRatio,
+            'putCallRatio' => $putCallRatio,
+            'trend' => $sentimentTrend,
+            'history' => $sentimentHistory
+        ],
+        'institutional' => [
+            'total' => $institutionalTotal,
+            'foreign' => $institutional['Foreign_Investor'] ?? [
+                'buy' => 0,
+                'sell' => 0,
+                'net' => 0
+            ],
+            'trust' => $institutional['Investment_Trust'] ?? [
+                'buy' => 0,
+                'sell' => 0,
+                'net' => 0
+            ],
+            'dealer' => [
+                'buy' => round(($institutional['Dealer_self']['buy'] ?? 0) + ($institutional['Dealer_Hedging']['buy'] ?? 0), 1),
+                'sell' => round(($institutional['Dealer_self']['sell'] ?? 0) + ($institutional['Dealer_Hedging']['sell'] ?? 0), 1),
+                'net' => round(($institutional['Dealer_self']['net'] ?? 0) + ($institutional['Dealer_Hedging']['net'] ?? 0), 1)
+            ]
+        ],
+        'signals' => $signals
+    ];
 }
 
 // ETF
