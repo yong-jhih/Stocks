@@ -1897,7 +1897,7 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
     }
 }
 
-function analyzeMarketTrend(PDO $pdo): array
+function analyzeMarketTrend(PDO $pdo): void
 {
     // =========================================================
     // 1. 60日大盤資料
@@ -2149,7 +2149,7 @@ function analyzeMarketTrend(PDO $pdo): array
     // =========================================================
     // 9. 統一回傳前端 JSON
     // =========================================================
-    return [
+    $return = [
         'date' => $targetDate,
         'score' => $score,
         'trend' => $trend,
@@ -2188,6 +2188,7 @@ function analyzeMarketTrend(PDO $pdo): array
         ],
         'signals' => $signals
     ];
+    createJsonFile($pdo, 'marketTrend', $return);
 }
 
 // ETF

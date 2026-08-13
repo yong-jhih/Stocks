@@ -111,6 +111,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             $lineNotifyStr = "{$institutionalStr}{$lineNotifyStr}";
         }
 
+        analyzeMarketTrend($pdo);
         updateSystemLog($pdo);
         lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {
