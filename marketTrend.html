@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 大盤趨勢分析(施工中)</title>
+    <title>盤後分析</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
@@ -62,21 +62,14 @@
                     <h1 class="text-2xl sm:text-3xl font-bold">📊 大盤趨勢分析(施工中)</h1>
                     <p class="text-gray-400 mt-1">台股指數、外資期貨未平倉與市場情緒</p>
                 </div>
-                <div class="text-sm text-gray-400">資料日期：<span id="dataDate"
-                        class="text-gray-200 font-semibold">--</span></div>
+                <div class="text-sm text-gray-400">資料日期：<span id="dataDate" class="text-gray-200 font-semibold">--</span></div>
             </div>
-            <!-- <div class="flex items-center gap-3" id="dateSelectDiv">
-                <label for="dateSelect">選擇日期：</label>
-                <select id="dateSelect" class="bg-gray-800 border border-gray-600 rounded px-4 py-2 text-white">
-                    <option value="">載入中...</option>
-                </select>
-            </div> -->
             <div class="flex flex-wrap gap-3">
                 <a href="marketTrend.html"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏠
                     大盤趨勢分析</a>
                 <a href="index.html?page=index"
-                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏠
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">📊
                     盤後分析篩選</a>
                 <a href="index.html?page=topPerforming"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏆
@@ -142,8 +135,7 @@
                         <div id="putCallRatio" class="text-xl font-bold mt-1">--</div>
                     </div>
                 </div>
-                <div class="mt-4 text-sm"><span class="text-gray-500">情緒判斷：</span><span id="sentimentTrend"
-                        class="font-semibold">等待資料</span></div>
+                <div class="mt-4 text-sm"><span class="text-gray-500">情緒判斷：</span><span id="sentimentTrend" class="font-semibold">等待資料</span></div>
             </div>
         </section>
 
