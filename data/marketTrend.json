@@ -1,0 +1,102 @@
+{
+    "date": "2026-08-12",
+    "score": 35,
+    "trend": "\ud83d\udd34 \u504f\u7a7a",
+    "index": {
+        "close": 45518.07,
+        "changePercent": 0.8806375430179272,
+        "change5d": null,
+        "change20d": null,
+        "change60d": null,
+        "history": [
+            {
+                "date": "08\/11",
+                "value": 45120.72
+            },
+            {
+                "date": "08\/12",
+                "value": 45518.07
+            }
+        ]
+    },
+    "futures": {
+        "txf": {
+            "long": 10937,
+            "short": 97570,
+            "net": -86633
+        },
+        "mxf": {
+            "long": 2320,
+            "short": 3673,
+            "net": -1353
+        },
+        "tmf": {
+            "long": 17503,
+            "short": 61,
+            "net": 17442
+        },
+        "history": [
+            {
+                "date": "08\/11",
+                "txf": -88924,
+                "mxf": -3835,
+                "tmf": 13362
+            },
+            {
+                "date": "08\/12",
+                "txf": -86633,
+                "mxf": -1353,
+                "tmf": 17442
+            }
+        ]
+    },
+    "sentiment": {
+        "retailRatio": 20.44,
+        "putCallRatio": 106.06,
+        "trend": "\ud83d\udfe1 \u4e2d\u6027",
+        "history": [
+            {
+                "date": "08\/11",
+                "retailRatio": 27.99,
+                "putCallRatio": 123.58
+            },
+            {
+                "date": "08\/12",
+                "retailRatio": 20.44,
+                "putCallRatio": 106.06
+            }
+        ]
+    },
+    "institutional": {
+        "total": {
+            "buy": 3813.6,
+            "sell": 3593.6,
+            "net": 220
+        },
+        "foreign": {
+            "buy": 3195.7,
+            "sell": 3085.4,
+            "net": 110.2
+        },
+        "trust": {
+            "buy": 211.7,
+            "sell": 189,
+            "net": 22.8
+        },
+        "dealer": {
+            "buy": 406.3,
+            "sell": 319.3,
+            "net": 87
+        }
+    },
+    "signals": [
+        {
+            "type": "bearish",
+            "text": "\u5916\u8cc7\u5927\u53f0\u671f\u8ca8\u7dad\u6301\u6de8\u7a7a\u55ae"
+        },
+        {
+            "type": "warning",
+            "text": "\u5c0f\u53f0\u6563\u6236\u591a\u65b9\u90e8\u4f4d\u504f\u9ad8\uff0c\u9700\u7559\u610f\u5e02\u5834\u904e\u71b1"
+        }
+    ]
+}
