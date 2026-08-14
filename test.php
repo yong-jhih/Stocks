@@ -9,7 +9,8 @@ $date = str_replace("-", "", $targetDate);
 $url = "https://www.twse.com.tw/rwd/zh/fund/TWT43U?date={$date}&response=json";
 $data = fetchUrl($url);
 if (isset($data['stat']) && $data['stat'] === 'OK') {
-    echo count($data['data']);
+    echo count($data['data'])."\n";
+    echo json_encode($data['data'][100]);
     // foreach ($data['data'] as $stock) {
     //     if (isset($stocksMap[$stock[0]]) && in_array($stocksMap[$stock[0]]['stock_type'], ['TSE', 'TPEx'])) {
     //         $stocks[] = $stock;
