@@ -1529,12 +1529,6 @@
         "stock_type": "TSE",
         "industry": "汽車工業"
     },
-    "2237": {
-        "stock_id": "2237",
-        "stock_name": "華德動能-創",
-        "stock_type": "TSE",
-        "industry": "汽車工業"
-    },
     "2239": {
         "stock_id": "2239",
         "stock_name": "英利-KY",
@@ -5933,12 +5927,6 @@
         "stock_type": "TSE",
         "industry": "數位雲端"
     },
-    "7855": {
-        "stock_id": "7855",
-        "stock_name": "和運租車",
-        "stock_type": "TSE",
-        "industry": "其他"
-    },
     "8011": {
         "stock_id": "8011",
         "stock_name": "台通",
@@ -9409,7 +9397,7 @@
     },
     "5904": {
         "stock_id": "5904",
-        "stock_name": "寶雅*",
+        "stock_name": "寶雅",
         "stock_type": "TPEx",
         "industry": "居家生活"
     },
@@ -11957,6 +11945,12 @@
         "stock_type": "ESM",
         "industry": "鋼鐵工業"
     },
+    "2237": {
+        "stock_id": "2237",
+        "stock_name": "華德動能",
+        "stock_type": "ESM",
+        "industry": "電機機械"
+    },
     "2245": {
         "stock_id": "2245",
         "stock_name": "詠勝昌*",
@@ -12176,6 +12170,12 @@
     "4544": {
         "stock_id": "4544",
         "stock_name": "春日",
+        "stock_type": "ESM",
+        "industry": "電機機械"
+    },
+    "4546": {
+        "stock_id": "4546",
+        "stock_name": "長亨",
         "stock_type": "ESM",
         "industry": "電機機械"
     },
@@ -13589,6 +13589,12 @@
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
     },
+    "7855": {
+        "stock_id": "7855",
+        "stock_name": "和運租車",
+        "stock_type": "ESM",
+        "industry": "其他"
+    },
     "7856": {
         "stock_id": "7856",
         "stock_name": "漢測",
@@ -13996,12 +14002,6 @@
         "stock_name": "東佑達",
         "stock_type": "ESM",
         "industry": "電機機械"
-    },
-    "7943": {
-        "stock_id": "7943",
-        "stock_name": "鴻璟科技",
-        "stock_type": "ESM",
-        "industry": "數位雲端"
     },
     "8058": {
         "stock_id": "8058",
