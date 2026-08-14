@@ -1,6 +1,7 @@
 <?php
 require_once("init.php");
-updateMarketDailyData($pdo, $targetDate);
+$targetDate = '2026-08-13';
+// updateMarketDailyData($pdo, $targetDate);
 
-// $a = analyzeMarketTrend($pdo);
-// echo "\n" . json_encode($a);
+$a = getInstiBuySell($pdo, $targetDate);
+echo "\n" . json_encode($a);
