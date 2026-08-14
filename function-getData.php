@@ -1841,6 +1841,7 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
 function getInstiBuySell(PDO $pdo, string $targetDate): ?array
 {
     $institutional = [];
+    $return = [];
     for ($i = 1; $i <= 10; $i++) {
         $institutionalBuySell = getDataWithFinmind($pdo, [
             'dataset' => "TaiwanStockTotalInstitutionalInvestors",
@@ -1855,8 +1856,20 @@ function getInstiBuySell(PDO $pdo, string $targetDate): ?array
                     'total' => round(($item['buy'] - $item['sell']) / 1e8, 1)
                 ];
             }
+            $return = [
+                "insti_total_buy" => $institutional['total']['buy'],
+                "insti_total_sell" => $institutional['total']['sell'],
+                "insti_foreign_buy" => $institutional['Foreign_Investor']['buy'],
+                "insti_foreign_sell" => $institutional['Foreign_Investor']['sell'],
+                "insti_trust_buy" => $institutional['Investment_Trust']['buy'],
+                "insti_trust_sell" => $institutional['Investment_Trust']['sell'],
+                "insti_dealer_buy" => $institutional['Dealer_self']['buy'],
+                "insti_dealer_sell" => $institutional['Dealer_self']['sell'],
+                "insti_dealer_risk_buy" => $institutional['Dealer_Hedging']['buy'],
+                "insti_dealer_risk_sell" => $institutional['Dealer_Hedging']['sell']
+            ];
         }
-        if (!empty($institutional)) {
+        if (!empty($return)) {
             break;
         } else {
             if ($i <= 9) {
@@ -1868,7 +1881,7 @@ function getInstiBuySell(PDO $pdo, string $targetDate): ?array
             }
         }
     }
-    return $institutional;
+    return $return;
 }
 
 function updateMarketDailyData(PDO $pdo, string $targetDate): void
@@ -1876,56 +1889,76 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
     $taiex = getTAIEX($pdo, $targetDate);
     $openInterest = getOpenInterest($pdo, $targetDate);
     $PutCallRatio = getPutCallRatio($pdo, $targetDate);
+    $instiBuySell = getInstiBuySell($pdo, $targetDate);
     try {
         $pdo->beginTransaction();
-        $sql = "INSERT INTO market_daily(
-                    trade_date,
-                    twii_close,
-                    txf_foreign_long,
-                    txf_foreign_short,
-                    txf_foreign_net,
-                    mxf_foreign_long,
-                    mxf_foreign_short,
-                    mxf_foreign_net,
-                    tmf_foreign_long,
-                    tmf_foreign_short,
-                    tmf_foreign_net,
-                    mxf_retail_ratio,
-                    txo_put_call_ratio)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        $sql = "INSERT INTO market_daily (
+                    trade_date, twii_close,
+                    txf_foreign_long, txf_foreign_short, txf_foreign_net,
+                    mxf_foreign_long, mxf_foreign_short, mxf_foreign_net,
+                    tmf_foreign_long, tmf_foreign_short, tmf_foreign_net,
+                    mxf_retail_ratio, txo_put_call_ratio,
+                    insti_total_buy, insti_total_sell,
+                    insti_foreign_buy, insti_foreign_sell,
+                    insti_trust_buy, insti_trust_sell,
+                    insti_dealer_buy, insti_dealer_sell,
+                    insti_dealer_risk_buy, insti_dealer_risk_sell
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS new
                 ON DUPLICATE KEY UPDATE
-                twii_close = VALUES(twii_close),
-                txf_foreign_long = VALUES(txf_foreign_long),
-                txf_foreign_short = VALUES(txf_foreign_short),
-                txf_foreign_net = VALUES(txf_foreign_net),
-                mxf_foreign_long = VALUES(mxf_foreign_long),
-                mxf_foreign_short = VALUES(mxf_foreign_short),
-                mxf_foreign_net = VALUES(mxf_foreign_net),
-                tmf_foreign_long = VALUES(tmf_foreign_long),
-                tmf_foreign_short = VALUES(tmf_foreign_short),
-                tmf_foreign_net = VALUES(tmf_foreign_net),
-                mxf_retail_ratio = VALUES(mxf_retail_ratio),
-                txo_put_call_ratio = VALUES(txo_put_call_ratio)";
+                    twii_close = new.twii_close,
+                    txf_foreign_long = new.txf_foreign_long,
+                    txf_foreign_short = new.txf_foreign_short,
+                    txf_foreign_net = new.txf_foreign_net,
+                    mxf_foreign_long = new.mxf_foreign_long,
+                    mxf_foreign_short = new.mxf_foreign_short,
+                    mxf_foreign_net = new.mxf_foreign_net,
+                    tmf_foreign_long = new.tmf_foreign_long,
+                    tmf_foreign_short = new.tmf_foreign_short,
+                    tmf_foreign_net = new.tmf_foreign_net,
+                    mxf_retail_ratio = new.mxf_retail_ratio,
+                    txo_put_call_ratio = new.txo_put_call_ratio,
+                    insti_total_buy = new.insti_total_buy,
+                    insti_total_sell = new.insti_total_sell,
+                    insti_foreign_buy = new.insti_foreign_buy,
+                    insti_foreign_sell = new.insti_foreign_sell,
+                    insti_trust_buy = new.insti_trust_buy,
+                    insti_trust_sell = new.insti_trust_sell,
+                    insti_dealer_buy = new.insti_dealer_buy,
+                    insti_dealer_sell = new.insti_dealer_sell,
+                    insti_dealer_risk_buy = new.insti_dealer_risk_buy,
+                    insti_dealer_risk_sell = new.insti_dealer_risk_sell";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             $targetDate,
             $taiex,
-            $openInterest['txf_foreign_long'],
-            $openInterest['txf_foreign_short'],
-            $openInterest['txf_foreign_net'],
-            $openInterest['mxf_foreign_long'],
-            $openInterest['mxf_foreign_short'],
-            $openInterest['mxf_foreign_net'],
-            $openInterest['tmf_foreign_long'],
-            $openInterest['tmf_foreign_short'],
-            $openInterest['tmf_foreign_net'],
-            $openInterest['mxf_retail_ratio'],
-            $PutCallRatio
+            $openInterest['txf_foreign_long'] ?? null,
+            $openInterest['txf_foreign_short'] ?? null,
+            $openInterest['txf_foreign_net'] ?? null,
+            $openInterest['mxf_foreign_long'] ?? null,
+            $openInterest['mxf_foreign_short'] ?? null,
+            $openInterest['mxf_foreign_net'] ?? null,
+            $openInterest['tmf_foreign_long'] ?? null,
+            $openInterest['tmf_foreign_short'] ?? null,
+            $openInterest['tmf_foreign_net'] ?? null,
+            $openInterest['mxf_retail_ratio'] ?? null,
+            $PutCallRatio,
+            $instiBuySell['insti_total_buy'] ?? null,
+            $instiBuySell['insti_total_sell'] ?? null,
+            $instiBuySell['insti_foreign_buy'] ?? null,
+            $instiBuySell['insti_foreign_sell'] ?? null,
+            $instiBuySell['insti_trust_buy'] ?? null,
+            $instiBuySell['insti_trust_sell'] ?? null,
+            $instiBuySell['insti_dealer_buy'] ?? null,
+            $instiBuySell['insti_dealer_sell'] ?? null,
+            $instiBuySell['insti_dealer_risk_buy'] ?? null,
+            $instiBuySell['insti_dealer_risk_sell'] ?? null,
         ]);
         $pdo->commit();
     } catch (Throwable $e) {
-        $pdo->rollBack();
-        throw new RuntimeException("{$targetDate} 大盤資料新增失敗: " . $e->getMessage());
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        throw new RuntimeException("{$targetDate} 大盤資料新增失敗: " . $e->getMessage(), 0, $e);
     }
 }
 
