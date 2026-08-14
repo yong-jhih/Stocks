@@ -9,13 +9,16 @@ $date = str_replace("-", "", $targetDate);
 $url = "https://www.twse.com.tw/rwd/zh/fund/TWT43U?date={$date}&response=json";
 $data = fetchUrl($url);
 if (isset($data['stat']) && $data['stat'] === 'OK') {
-    echo count($data['data'])."\n";
+    echo count($data['data']) . "\n";
     echo json_encode($data['data'][100]);
-    // foreach ($data['data'] as $stock) {
-    //     if (isset($stocksMap[$stock[0]]) && in_array($stocksMap[$stock[0]]['stock_type'], ['TSE', 'TPEx'])) {
-    //         $stocks[] = $stock;
-    //     }
-    // }
+    foreach ($data['data'] as $stock) {
+        // if (isset($stocksMap[$stock[0]]) && in_array($stocksMap[$stock[0]]['stock_type'], ['TSE', 'TPEx'])) {
+        //     $stocks[] = $stock;
+        // }
+        if (trim($stock[0]) === "00403A") {
+            echo json_encode($stock);
+        }
+    }
     // echo count($stocks);
 } else {
     echo "getLatestTradingDateWithTWSE 證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤') . "\n";
