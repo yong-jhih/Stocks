@@ -1840,7 +1840,6 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
 
 function getInstiBuySell(PDO $pdo, string $targetDate): ?array
 {
-    $institutionalBuySell = [];
     $institutional = [];
     for ($i = 1; $i <= 10; $i++) {
         $institutionalBuySell = getDataWithFinmind($pdo, [
@@ -1848,8 +1847,8 @@ function getInstiBuySell(PDO $pdo, string $targetDate): ?array
             'start_date' => $targetDate,
             'end_date' => $targetDate,
         ]);
-        if (!empty($institutionalBuySell)) {
-            foreach ($institutionalBuySell as $item) {
+        if ($institutionalBuySell['msg'] === "success" && $institutionalBuySell['status'] === 200 && !empty($institutionalBuySell['data'])) {
+            foreach ($institutionalBuySell['data'] as $item) {
                 $institutional[$item['name']] = [
                     'buy' => round($item['buy'] / 1e8, 1),
                     'sell' => round($item['sell'] / 1e8, 1),
