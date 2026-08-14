@@ -1797,13 +1797,9 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
                 $doc->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
                 libxml_clear_errors();
                 $xpath = new DOMXPath($doc);
-
-                // 1. 尋找 class 包含 table_f 的 <table> 標籤
                 $tables = $xpath->query('//table[contains(@class, "table_f")]');
                 if ($tables->length > 0) {
                     $tableNode = $tables->item(0);
-
-                    // 2. 延伸應用：直接將表格內容解析成 PHP 陣列（方便後續存庫或運算）
                     $rows = $xpath->query('.//tr', $tableNode);
                     $result = [];
                     foreach ($rows as $row) {
@@ -1820,7 +1816,10 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
                             ];
                         }
                     }
-                    if ($result[0]['date'] == str_replace("-", "/", $targetDate)) $PutCallRatio = (float)$result[0]['oi_ratio'];
+                    if (isset($result[0]) && $result[0]['date'] == str_replace("-", "/", $targetDate)) {
+                        echo json_encode($result);
+                        $PutCallRatio = (float)$result[0]['oi_ratio'];
+                    }
                 }
             }
         }

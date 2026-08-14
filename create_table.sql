@@ -223,5 +223,15 @@ CREATE TABLE market_daily (
     tmf_foreign_net INT DEFAULT 0 COMMENT '微台外資未平倉淨口數',
     mxf_retail_ratio DECIMAL(8,2) DEFAULT 0.00 COMMENT '小台散戶多空比',
     txo_put_call_ratio DECIMAL(8,2) DEFAULT 0.00 COMMENT '台指選擇權Put/Call Ratio',
+    insti_total_buy DECIMAL(8,1) DEFAULT 0.0 COMMENT '三大法人買超',
+    insti_total_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '三大法人賣超',
+    insti_foreign_buy DECIMAL(8,1) DEFAULT 0.0 COMMENT '外資買超',
+    insti_foreign_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '外資賣超',
+    insti_trust_buy DECIMAL(8,1) DEFAULT 0.0 COMMENT '投信買超',
+    insti_trust_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '投信賣超',
+    insti_dealer_buy DECIMAL(8,1) DEFAULT 0.0 COMMENT '自營商買超',
+    insti_dealer_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '自營商賣超',
+    insti_dealer_risk_buy DECIMAL(8,1) DEFAULT 0.0 COMMENT '自營商(避險)買超',
+    insti_dealer_risk_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '自營商(避險)賣超',
     PRIMARY KEY (trade_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
