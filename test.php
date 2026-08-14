@@ -14,10 +14,8 @@ if (isset($data['stat']) && $data['stat'] === 'OK') {
             $stocks[] = $stock;
         }
     }
+    echo count($stocks);
 } else {
     echo "getLatestTradingDateWithTWSE 證交所回傳錯誤訊息：" . ($data['stat'] ?? '未知錯誤') . "\n";
     return null;
 }
-
-echo count($stocks) . "\n";
-echo json_encode($stocks[20]);
