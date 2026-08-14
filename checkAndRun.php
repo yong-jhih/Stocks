@@ -56,10 +56,23 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             'action' => 'triggersSelfSelect',
             'after' => 180
         ]);
+        $filter = null;
+        if (count($resultsMix) > 0) {
+            foreach ($resultsMix as $item) {
+                if (
+                    ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&
+                    ($item['foreign_streak_days'] > 0 || $item['trust_streak_days'] > 0) &&
+                    $item['margin_balance_diff'] < 0 &&
+                    ($item['margin_balance'] < $item['sbl_sold_balance'])
+                ) {
+                    $filter[] = $item;
+                }
+            }
+        }
         callGAS([
             'date' => $targetDate,
             'action' => 'addSelfSelect',
-            'data' => $resultsMix
+            'data' => $filter ?? $resultsMix
         ]);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
