@@ -2066,39 +2066,45 @@ function analyzeMarketTrend(PDO $pdo): void
 
     // =========================================================
     // 6. 法人買賣超
-    // 沿用目前 checkAndRun.php 的 FinMind 資料來源
+    // 直接使用 market_daily 已儲存資料
     // 單位：億元
     // =========================================================
-    $institutional = [];
-    $institutionalData = getDataWithFinmind($pdo, [
-        'dataset' => 'TaiwanStockTotalInstitutionalInvestors',
-        'start_date' => $targetDate,
-        'end_date' => $targetDate,
-    ]);
-    if (!empty($institutionalData['data'])) {
-        foreach ($institutionalData['data'] as $item) {
-            $name = $item['name'];
-            $buy = (float)$item['buy'];
-            $sell = (float)$item['sell'];
-            $institutional[$name] = [
-                'buy' => round($buy / 1e8, 1),
-                'sell' => round($sell / 1e8, 1),
-                'net' => round(($buy - $sell) / 1e8, 1)
-            ];
-        }
-    }
-    // 三大法人合計
-    if (isset($institutional['total'])) {
-        $institutionalTotal = [
-            'buy' => $institutional['total']['buy'],
-            'sell' => $institutional['total']['sell'],
-            'net' => $institutional['total']['net']
-        ];
-    } else {
-        $institutionalTotal = [
-            'buy' => 0,
-            'sell' => 0,
-            'net' => 0
+    $institutional = [
+        'total' => [
+            'buy'  => (float)$latest['insti_total_buy'],
+            'sell' => (float)$latest['insti_total_sell'],
+            'net'  => round((float)$latest['insti_total_buy'] - (float)$latest['insti_total_sell'], 1)
+        ],
+        'foreign' => [
+            'buy'  => (float)$latest['insti_foreign_buy'],
+            'sell' => (float)$latest['insti_foreign_sell'],
+            'net'  => round((float)$latest['insti_foreign_buy'] - (float)$latest['insti_foreign_sell'], 1)
+        ],
+        'trust' => [
+            'buy'  => (float)$latest['insti_trust_buy'],
+            'sell' => (float)$latest['insti_trust_sell'],
+            'net'  => round((float)$latest['insti_trust_buy'] - (float)$latest['insti_trust_sell'], 1)
+        ],
+        'dealer' => [
+            'buy'  => (float)$latest['insti_dealer_buy'],
+            'sell' => (float)$latest['insti_dealer_sell'],
+            'net'  => round((float)$latest['insti_dealer_buy'] - (float)$latest['insti_dealer_sell'], 1)
+        ],
+        'dealerRisk' => [
+            'buy'  => (float)$latest['insti_dealer_risk_buy'],
+            'sell' => (float)$latest['insti_dealer_risk_sell'],
+            'net'  => round((float)$latest['insti_dealer_risk_buy'] - (float)$latest['insti_dealer_risk_sell'], 1)
+        ]
+    ];
+    $institutionalHistory = [];
+    foreach (array_reverse($rows) as $row) {
+        $institutionalHistory[] = [
+            'date' => date('m/d', strtotime($row['trade_date'])),
+            'total' => round((float)$row['insti_total_buy'] - (float)$row['insti_total_sell'], 1),
+            'foreign' => round((float)$row['insti_foreign_buy'] - (float)$row['insti_foreign_sell'], 1),
+            'trust' => round((float)$row['insti_trust_buy'] - (float)$row['insti_trust_sell'], 1),
+            'dealer' => round((float)$row['insti_dealer_buy'] - (float)$row['insti_dealer_sell'], 1),
+            'dealerRisk' => round((float)$row['insti_dealer_risk_buy'] - (float)$row['insti_dealer_risk_sell'], 1)
         ];
     }
 
@@ -2234,22 +2240,12 @@ function analyzeMarketTrend(PDO $pdo): void
             'history' => $sentimentHistory
         ],
         'institutional' => [
-            'total' => $institutionalTotal,
-            'foreign' => $institutional['Foreign_Investor'] ?? [
-                'buy' => 0,
-                'sell' => 0,
-                'net' => 0
-            ],
-            'trust' => $institutional['Investment_Trust'] ?? [
-                'buy' => 0,
-                'sell' => 0,
-                'net' => 0
-            ],
-            'dealer' => [
-                'buy' => round(($institutional['Dealer_self']['buy'] ?? 0) + ($institutional['Dealer_Hedging']['buy'] ?? 0), 1),
-                'sell' => round(($institutional['Dealer_self']['sell'] ?? 0) + ($institutional['Dealer_Hedging']['sell'] ?? 0), 1),
-                'net' => round(($institutional['Dealer_self']['net'] ?? 0) + ($institutional['Dealer_Hedging']['net'] ?? 0), 1)
-            ]
+            'total' => $institutional['total'],
+            'foreign' => $institutional['foreign'],
+            'trust' => $institutional['trust'],
+            'dealer' => $institutional['dealer'],
+            'dealerRisk' => $institutional['dealerRisk'],
+            'history' => $institutionalHistory
         ],
         'signals' => $signals
     ];
