@@ -1,10 +1,10 @@
 {
-    "date": "2026-08-13",
+    "date": "2026-08-14",
     "score": 35,
     "trend": "🔴 偏空",
     "index": {
-        "close": 46021.48,
-        "changePercent": 1.105956381718301,
+        "close": 45811.01,
+        "changePercent": -0.4573299250697742,
         "change5d": null,
         "change20d": null,
         "change60d": null,
@@ -20,24 +20,28 @@
             {
                 "date": "08\/13",
                 "value": 46021.48
+            },
+            {
+                "date": "08\/14",
+                "value": 45811.01
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 12073,
-            "short": 98322,
-            "net": -86249
+            "long": 12934,
+            "short": 98113,
+            "net": -85179
         },
         "mxf": {
-            "long": 2394,
-            "short": 4580,
-            "net": -2186
+            "long": 4037,
+            "short": 4772,
+            "net": -735
         },
         "tmf": {
-            "long": 14186,
-            "short": 276,
-            "net": 13910
+            "long": 11420,
+            "short": 76,
+            "net": 11344
         },
         "history": [
             {
@@ -57,12 +61,18 @@
                 "txf": -86249,
                 "mxf": -2186,
                 "tmf": 13910
+            },
+            {
+                "date": "08\/14",
+                "txf": -85179,
+                "mxf": -735,
+                "tmf": 11344
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 22.9,
-        "putCallRatio": 112.03,
+        "retailRatio": 20.01,
+        "putCallRatio": 115,
         "trend": "🟡 中性",
         "history": [
             {
@@ -79,30 +89,74 @@
                 "date": "08\/13",
                 "retailRatio": 22.9,
                 "putCallRatio": 112.03
+            },
+            {
+                "date": "08\/14",
+                "retailRatio": 20.01,
+                "putCallRatio": 115
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 5195.2,
-            "sell": 4302.7,
-            "net": 892.5
+            "buy": 5035.1,
+            "sell": 4526.2,
+            "net": 508.9
         },
         "foreign": {
-            "buy": 4354.6,
-            "sell": 3597.6,
-            "net": 756.9
+            "buy": 4278.8,
+            "sell": 3825.3,
+            "net": 453.5
         },
         "trust": {
-            "buy": 283.1,
-            "sell": 298.1,
-            "net": -15
+            "buy": 264.8,
+            "sell": 192.8,
+            "net": 72
         },
         "dealer": {
-            "buy": 557.6,
-            "sell": 407,
-            "net": 150.6
-        }
+            "buy": 111.6,
+            "sell": 139,
+            "net": -27.4
+        },
+        "dealerRisk": {
+            "buy": 379.9,
+            "sell": 369.1,
+            "net": 10.8
+        },
+        "history": [
+            {
+                "date": "08\/11",
+                "total": 280.1,
+                "foreign": 223.3,
+                "trust": 32.2,
+                "dealer": 10.6,
+                "dealerRisk": 14.1
+            },
+            {
+                "date": "08\/12",
+                "total": 220,
+                "foreign": 110.3,
+                "trust": 22.7,
+                "dealer": 11.2,
+                "dealerRisk": 75.8
+            },
+            {
+                "date": "08\/13",
+                "total": 892.5,
+                "foreign": 757,
+                "trust": -15,
+                "dealer": 32.6,
+                "dealerRisk": 118
+            },
+            {
+                "date": "08\/14",
+                "total": 508.9,
+                "foreign": 453.5,
+                "trust": 72,
+                "dealer": -27.4,
+                "dealerRisk": 10.8
+            }
+        ]
     },
     "signals": [
         {
