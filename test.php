@@ -28,6 +28,7 @@ for ($i = 1; $i <= 10; $i++) {
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($httpCode === 200) {
+            echo "321";
             $html = $response;
             $doc = new DOMDocument();
             libxml_use_internal_errors(true);
@@ -53,6 +54,7 @@ for ($i = 1; $i <= 10; $i++) {
                         ];
                     }
                 }
+                echo json_encode($result);
                 if (isset($result[0]) && $result[0]['date'] == str_replace("-", "/", $targetDate)) {
                     echo (float)$result[0]['oi_ratio'];
                     $PutCallRatio = (float)$result[0]['oi_ratio'];
