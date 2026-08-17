@@ -1758,7 +1758,7 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
 {
     $PutCallRatio = null;
     for ($i = 1; $i <= 10; $i++) {
-        if ($PutCallRatio) {
+        if (empty($PutCallRatio)) {
             $url = 'https://www.taifex.com.tw/cht/3/pcRatio';
             $postData = http_build_query([
                 'queryStartDate' => str_replace("-", "/", $targetDate),
@@ -1771,7 +1771,7 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
                 CURLOPT_POSTFIELDS     => $postData,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_TIMEOUT        => 15,
+                CURLOPT_TIMEOUT        => 30,
                 CURLOPT_HTTPHEADER     => [
                     'Content-Type: application/x-www-form-urlencoded',
                     'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -1807,7 +1807,6 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
                         }
                     }
                     if (isset($result[0]) && $result[0]['date'] == str_replace("-", "/", $targetDate)) {
-                        echo (float)$result[0]['oi_ratio'];
                         $PutCallRatio = (float)$result[0]['oi_ratio'];
                     }
                 }
