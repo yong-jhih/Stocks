@@ -1824,7 +1824,7 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
             }
         }
     }
-    return $PutCallRatio;
+    return $PutCallRatio ?? 0.00;
 }
 
 function getInstiBuySell(PDO $pdo, string $targetDate): ?array
