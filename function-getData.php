@@ -1758,16 +1758,6 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
 {
     $PutCallRatio = null;
     for ($i = 1; $i <= 10; $i++) {
-        // $url = "https://openapi.taifex.com.tw/v1/PutCallRatio";
-        // $data = fetchUrl($url);
-        // if (isset($data['status']) && $data['status'] === 'error') continue;
-        // if (!is_array($data) || empty($data)) continue;
-        // foreach ($data as $item) {
-        //     if (($item['Date'] ?? '') === str_replace("-", "", $targetDate)) {
-        //         $PutCallRatio = (float)$item['PutCallOIRatio%'];
-        //         break;
-        //     }
-        // }
         if (empty($PutCallRatio)) {
             $url = 'https://www.taifex.com.tw/cht/3/pcRatio';
             $postData = http_build_query([
@@ -1817,7 +1807,6 @@ function getPutCallRatio(PDO $pdo, string $targetDate): ?float
                         }
                     }
                     if (isset($result[0]) && $result[0]['date'] == str_replace("-", "/", $targetDate)) {
-                        echo json_encode($result);
                         $PutCallRatio = (float)$result[0]['oi_ratio'];
                     }
                 }
