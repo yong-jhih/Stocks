@@ -1,0 +1,414 @@
+[
+    {
+        "stock_id": "5608",
+        "stock_name": "四維航",
+        "stock_type": "TSE",
+        "industry": "航運業",
+        "subIndustry": [
+            " 散裝航運"
+        ],
+        "concept": [
+            "傳產原物料股"
+        ],
+        "score": 76,
+        "rating": "A",
+        "strategy_type": "觀察",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 16,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 14.5,
+        "yesterday_high": 14.2,
+        "yesterday_low": 13.85,
+        "vol": 2451,
+        "vol_ratio": 1.77,
+        "rank10": 85.29,
+        "rank20": 87.18,
+        "amp10": 13.03,
+        "amp20": 15.23,
+        "ma5": 14.09,
+        "ma10": 13.67,
+        "ma20": 13.57,
+        "ma60": 14.26,
+        "vma5": 1587,
+        "vma10": 1195,
+        "vma20": 1289,
+        "bia5": 2.91,
+        "bia10": 6.11,
+        "bia20": 6.89,
+        "con1": 44.38,
+        "con5": 13.62,
+        "con10": 16.51,
+        "con20": 11.56,
+        "foreign_buy_sell": 922703,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 798,
+        "foreign_sum10": 2054,
+        "foreign_sum20": 2813,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 3847,
+        "margin_balance_diff": -32,
+        "squeeze": 6.47,
+        "bullet": 2.88,
+        "net_sbl": -147,
+        "net_sbl_sum5": -794,
+        "sbl_total": 12054,
+        "sbl_sold_balance": 8335,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "首次站上季線": 15
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "首次站上季線",
+            "爆量突破",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 1.77 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "主升段啟動",
+            "洗盤完成"
+        ]
+    },
+    {
+        "stock_id": "3019",
+        "stock_name": "亞光",
+        "stock_type": "TSE",
+        "industry": "光電業",
+        "subIndustry": [
+            " 光學鏡片、鏡頭",
+            " 印表機、傳真機、掃瞄器、多功能事務機、投影機"
+        ],
+        "concept": [
+            "AI智慧眼鏡",
+            "Apple",
+            "LiDAR(光學雷達)",
+            "MWC",
+            "低軌衛星",
+            "元宇宙",
+            "台積電無人機",
+            "擴增實境(AR)",
+            "機器人",
+            "無人機",
+            "特斯拉",
+            "特斯拉人形機器人",
+            "穿戴式裝置",
+            "自動駕駛車",
+            "虛擬實境",
+            "超透鏡",
+            "車用電子"
+        ],
+        "score": 69,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "confidence": 0.9,
+        "trend_score": 29,
+        "momentum_score": 20,
+        "chip_score": 21,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 141,
+        "yesterday_high": 140,
+        "yesterday_low": 137,
+        "vol": 5172,
+        "vol_ratio": 3.36,
+        "rank10": 81.25,
+        "rank20": 88.46,
+        "amp10": 12.5,
+        "amp20": 22.03,
+        "ma5": 137.2,
+        "ma10": 134.5,
+        "ma20": 132.45,
+        "ma60": 143.86,
+        "vma5": 2803,
+        "vma10": 2825,
+        "vma20": 2992,
+        "bia5": 2.77,
+        "bia10": 4.83,
+        "bia20": 6.46,
+        "con1": 34.65,
+        "con5": 19.92,
+        "con10": 17.18,
+        "con20": 10.27,
+        "foreign_buy_sell": 1469586,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2853,
+        "foreign_sum10": 4890,
+        "foreign_sum20": 6375,
+        "trust_sum5": -3,
+        "trust_sum10": -3,
+        "trust_sum20": -3,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 10451,
+        "margin_balance_diff": -208,
+        "squeeze": 6.73,
+        "bullet": 0.75,
+        "net_sbl": 80,
+        "net_sbl_sum5": -813,
+        "sbl_total": 22383,
+        "sbl_sold_balance": 20148,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "融資減肥": 6
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "爆量突破",
+            "法人集中",
+            "融資減肥",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "成交量放大 3.36 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "3376",
+        "stock_name": "新日興",
+        "stock_type": "TSE",
+        "industry": "電子零組件業",
+        "subIndustry": [
+            " 機構樞紐"
+        ],
+        "concept": [
+            "AI PC",
+            "AI智慧眼鏡",
+            "Apple",
+            "Google",
+            "iPad系列",
+            "iPhone 系列",
+            "MacBook",
+            "Samsung",
+            "WWDC",
+            "台積電",
+            "折疊式手機",
+            "穿戴式裝置",
+            "聯想"
+        ],
+        "score": 57,
+        "rating": "B",
+        "strategy_type": "高風險",
+        "confidence": 0.6,
+        "trend_score": 29,
+        "momentum_score": 20,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 193,
+        "yesterday_high": 191,
+        "yesterday_low": 186.5,
+        "vol": 4301,
+        "vol_ratio": 3.32,
+        "rank10": 80,
+        "rank20": 88.31,
+        "amp10": 12.86,
+        "amp20": 24.21,
+        "ma5": 187.7,
+        "ma10": 185.6,
+        "ma20": 183.23,
+        "ma60": 198.21,
+        "vma5": 2573,
+        "vma10": 2242,
+        "vma20": 2534,
+        "bia5": 2.82,
+        "bia10": 3.99,
+        "bia20": 5.33,
+        "con1": 18.35,
+        "con5": 12.33,
+        "con10": 11.48,
+        "con20": 4.38,
+        "foreign_buy_sell": 512332,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1229,
+        "foreign_sum10": 2103,
+        "foreign_sum20": 2970,
+        "trust_sum5": -2,
+        "trust_sum10": 8,
+        "trust_sum20": -1485,
+        "foreign_streak_days": 9,
+        "trust_streak_days": 0,
+        "margin_balance": 11129,
+        "margin_balance_diff": 146,
+        "squeeze": 6.58,
+        "bullet": 0.63,
+        "net_sbl": 281,
+        "net_sbl_sum5": -330,
+        "sbl_total": 18269,
+        "sbl_sold_balance": 16671,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "爆量突破",
+            "外資連買",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "外資連買 9 日",
+            "成交量放大 3.32 倍",
+            "突破前高"
+        ],
+        "hint": [
+            "主升段啟動"
+        ]
+    },
+    {
+        "stock_id": "5392",
+        "stock_name": "能率",
+        "stock_type": "TPEx",
+        "industry": "光電業",
+        "subIndustry": [
+            " 機殼"
+        ],
+        "concept": [
+            "大陸收成股",
+            "機器人",
+            "資產股",
+            "都市更新"
+        ],
+        "score": 59,
+        "rating": "B",
+        "strategy_type": "觀察",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 20,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 46.5,
+        "yesterday_high": 46.4,
+        "yesterday_low": 45.2,
+        "vol": 3513,
+        "vol_ratio": 2.68,
+        "rank10": 80,
+        "rank20": 91.08,
+        "amp10": 14.39,
+        "amp20": 39.27,
+        "ma5": 45.79,
+        "ma10": 45.15,
+        "ma20": 42.37,
+        "ma60": 42.95,
+        "vma5": 1977,
+        "vma10": 3544,
+        "vma20": 2432,
+        "bia5": 1.55,
+        "bia10": 2.99,
+        "bia20": 9.75,
+        "con1": 14.92,
+        "con5": 3.81,
+        "con10": 5.6,
+        "con20": 6.47,
+        "foreign_buy_sell": 465079,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 336,
+        "foreign_sum10": 1943,
+        "foreign_sum20": 3277,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 8582,
+        "margin_balance_diff": 54,
+        "squeeze": 2.25,
+        "bullet": -0.04,
+        "net_sbl": -44,
+        "net_sbl_sum5": -113,
+        "sbl_total": 5359,
+        "sbl_sold_balance": 5468,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.68 倍",
+            "突破前高"
+        ],
+        "hint": [
+            "主升段啟動"
+        ]
+    }
+]
