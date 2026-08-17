@@ -33,19 +33,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: '20'
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v5
+      #   with:
+      #     node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
-      - name: Install Chrome for Puppeteer
-        run: npx puppeteer browsers install chrome
+      # - name: Install Chrome for Puppeteer
+      #   run: npx puppeteer browsers install chrome
   
-      - name: Run Puppeteer to Fetch HTML(TX)
-        run: node fetch_PutCallRatio.js
+      # - name: Run Puppeteer to Fetch HTML(TX)
+      #   run: node fetch_PutCallRatio.js
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -53,8 +53,8 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      # - name: Test
-      #   run: php test.php
+      - name: Test
+        run: php test.php
 
       - name: Commit And Push JSON files
         if: always()
