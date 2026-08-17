@@ -1593,10 +1593,10 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         // --- 2. 融資 (Margin) ---
         $marginToday = $curr['margin_balance'] ?? 0;
         $marginPrev = $prev['margin_balance'] ?? $marginToday;
-        $marginDiff = round(($marginToday - $marginPrev) / 1000); // 今日增減張數
+        $marginDiff = round($marginToday - $marginPrev); // 今日增減張數
 
         $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
-        $marginCum5 = round(($marginToday - $refMargin5) / 1000);
+        $marginCum5 = round($marginToday - $refMargin5);
 
         // --- 3. 借券賣出 (SBL) ---
         $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
