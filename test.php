@@ -56,7 +56,7 @@ if (empty($PutCallRatio)) {
             }
             // if (isset($result[0]) && $result[0]['date'] == str_replace("-", "/", $targetDate)) {
             echo json_encode($result);
-            //     $PutCallRatio = (float)$result[0]['oi_ratio'];
+            $PutCallRatio = (float)$result[0]['oi_ratio'];
             // }
         }
     }
