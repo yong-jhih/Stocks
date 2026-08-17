@@ -36,7 +36,7 @@ const fs = require('fs');
         return result;
     });
     await browser.close();
-    const outputFile = `pc_ratio_${yyyy}${mm}${dd}.json`;
+    const outputFile = `pc_ratio.json`;
     fs.writeFileSync(outputFile, JSON.stringify(data, null, 2), 'utf8');
     console.log(`成功產出 JSON：${outputFile}`);
 })();

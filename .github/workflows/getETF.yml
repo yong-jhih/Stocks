@@ -53,6 +53,9 @@ jobs:
       - name: Run Puppeteer to Fetch HTML(00403A)
         run: node fetch_00403A.js
 
+      - name: Run Puppeteer to Fetch Put/Call Ratio
+        run: node fetch_PutCallRatio.js
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
