@@ -1757,17 +1757,17 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
 function getPutCallRatio(PDO $pdo, string $targetDate): ?float
 {
     $PutCallRatio = null;
-    $url = "https://openapi.taifex.com.tw/v1/PutCallRatio";
     for ($i = 1; $i <= 10; $i++) {
-        $data = fetchUrl($url);
-        if (isset($data['status']) && $data['status'] === 'error') continue;
-        if (!is_array($data) || empty($data)) continue;
-        foreach ($data as $item) {
-            if (($item['Date'] ?? '') === str_replace("-", "", $targetDate)) {
-                $PutCallRatio = (float)$item['PutCallOIRatio%'];
-                break;
-            }
-        }
+        // $url = "https://openapi.taifex.com.tw/v1/PutCallRatio";
+        // $data = fetchUrl($url);
+        // if (isset($data['status']) && $data['status'] === 'error') continue;
+        // if (!is_array($data) || empty($data)) continue;
+        // foreach ($data as $item) {
+        //     if (($item['Date'] ?? '') === str_replace("-", "", $targetDate)) {
+        //         $PutCallRatio = (float)$item['PutCallOIRatio%'];
+        //         break;
+        //     }
+        // }
         if (empty($PutCallRatio)) {
             $url = 'https://www.taifex.com.tw/cht/3/pcRatio';
             $postData = http_build_query([
@@ -1892,7 +1892,6 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
     $instiBuySell = getInstiBuySell($pdo, $targetDate);
     try {
         $pdo->beginTransaction();
-
         $sql = "INSERT INTO market_daily (
                     trade_date, twii_close,
                     txf_foreign_long, txf_foreign_short, txf_foreign_net,
@@ -1954,7 +1953,6 @@ function updateMarketDailyData(PDO $pdo, string $targetDate): void
             $instiBuySell['insti_dealer_risk_buy'] ?? null,
             $instiBuySell['insti_dealer_risk_sell'] ?? null,
         ]);
-
         $pdo->commit();
     } catch (Throwable $e) {
         if ($pdo->inTransaction()) {
