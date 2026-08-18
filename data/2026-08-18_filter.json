@@ -1,0 +1,286 @@
+[
+    {
+        "stock_id": "2605",
+        "stock_name": "新興",
+        "stock_type": "TSE",
+        "industry": "航運業",
+        "subIndustry": [
+            " 散裝航運"
+        ],
+        "concept": [
+            "傳產原物料股"
+        ],
+        "score": 64,
+        "rating": "B",
+        "strategy_type": "觀察",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 35,
+        "chip_score": 0,
+        "structure_score": 0,
+        "risk_score": -18,
+        "close": 35.2,
+        "yesterday_high": 33,
+        "yesterday_low": 32.15,
+        "vol": 24206,
+        "vol_ratio": 4.44,
+        "rank10": 88.64,
+        "rank20": 91.74,
+        "amp10": 14.06,
+        "amp20": 20.4,
+        "ma5": 32.57,
+        "ma10": 32.38,
+        "ma20": 31.82,
+        "ma60": 31.32,
+        "vma5": 6388,
+        "vma10": 5405,
+        "vma20": 5970,
+        "bia5": 8.07,
+        "bia10": 8.73,
+        "bia20": 10.63,
+        "con1": 9.25,
+        "con5": 4.36,
+        "con10": 8.9,
+        "con20": 8.3,
+        "foreign_buy_sell": -60943,
+        "trust_buy_sell": -2000,
+        "foreign_sum5": 56,
+        "foreign_sum10": 3982,
+        "foreign_sum20": 10099,
+        "trust_sum5": -2,
+        "trust_sum10": -2,
+        "trust_sum20": 36,
+        "foreign_streak_days": 0,
+        "trust_streak_days": 0,
+        "margin_balance": 12964,
+        "margin_balance_diff": 697,
+        "squeeze": 0.91,
+        "bullet": 2.68,
+        "net_sbl": 6,
+        "net_sbl_sum5": -41,
+        "sbl_total": 21405,
+        "sbl_sold_balance": 5406,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": [],
+            "risk": {
+                "法人同步轉賣": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "法人同步轉賣"
+        ],
+        "trigger_reasons": [
+            "成交量放大 4.44 倍",
+            "突破前高"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "3680",
+        "stock_name": "家登",
+        "stock_type": "TPEx",
+        "industry": "半導體業",
+        "subIndustry": [
+            " 生產製程及檢測設備"
+        ],
+        "concept": [
+            "CoPoS",
+            "CoWoS",
+            "CSR(企業社會責任)",
+            "台積電",
+            "富櫃50指數成分股"
+        ],
+        "score": 65,
+        "rating": "A",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.6,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 473.5,
+        "yesterday_high": 476,
+        "yesterday_low": 463,
+        "vol": 1802,
+        "vol_ratio": 2.5,
+        "rank10": 63.71,
+        "rank20": 68.67,
+        "amp10": 14.29,
+        "amp20": 43.29,
+        "ma5": 460.8,
+        "ma10": 451.9,
+        "ma20": 443.43,
+        "ma60": 456.85,
+        "vma5": 979,
+        "vma10": 933,
+        "vma20": 1272,
+        "bia5": 2.76,
+        "bia10": 4.78,
+        "bia20": 6.78,
+        "con1": 16.25,
+        "con5": 16.08,
+        "con10": 9.64,
+        "con20": 3.32,
+        "foreign_buy_sell": 283920,
+        "trust_buy_sell": -98,
+        "foreign_sum5": 937,
+        "foreign_sum10": 1010,
+        "foreign_sum20": 1088,
+        "trust_sum5": -1,
+        "trust_sum10": -1,
+        "trust_sum20": 1,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 3118,
+        "margin_balance_diff": -8,
+        "squeeze": 1.24,
+        "bullet": 2.95,
+        "net_sbl": 18,
+        "net_sbl_sum5": 51,
+        "sbl_total": 5325,
+        "sbl_sold_balance": 1576,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "融資減肥",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.5 倍"
+        ],
+        "hint": [
+            "洗盤完成"
+        ]
+    },
+    {
+        "stock_id": "6547",
+        "stock_name": "高端疫苗",
+        "stock_type": "TPEx",
+        "industry": "生技醫療業",
+        "subIndustry": [
+            " 中、西藥製劑",
+            " 中藥材、西藥原料藥"
+        ],
+        "concept": [
+            "登革熱"
+        ],
+        "score": 57,
+        "rating": "B",
+        "strategy_type": "高風險",
+        "confidence": 0.6,
+        "trend_score": 25,
+        "momentum_score": 35,
+        "chip_score": 0,
+        "structure_score": 0,
+        "risk_score": -25,
+        "close": 52.2,
+        "yesterday_high": 51.8,
+        "yesterday_low": 50.3,
+        "vol": 4109,
+        "vol_ratio": 2.38,
+        "rank10": 63.36,
+        "rank20": 74.87,
+        "amp10": 13.63,
+        "amp20": 21.2,
+        "ma5": 51.34,
+        "ma10": 50.86,
+        "ma20": 48.73,
+        "ma60": 48.2,
+        "vma5": 2306,
+        "vma10": 3864,
+        "vma20": 2845,
+        "bia5": 1.68,
+        "bia10": 2.63,
+        "bia20": 7.13,
+        "con1": 34.57,
+        "con5": 6.12,
+        "con10": 6.49,
+        "con20": 2.35,
+        "foreign_buy_sell": 1802297,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1474,
+        "foreign_sum10": 4228,
+        "foreign_sum20": 3017,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 11708,
+        "margin_balance_diff": 50,
+        "squeeze": 4.77,
+        "bullet": 1.52,
+        "net_sbl": -97,
+        "net_sbl_sum5": -918,
+        "sbl_total": 17890,
+        "sbl_sold_balance": 13576,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": [],
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "高檔出貨"
+        ],
+        "trigger_reasons": [
+            "成交量放大 2.38 倍",
+            "突破前高"
+        ],
+        "hint": []
+    }
+]

@@ -1,11 +1,11 @@
 {
-    "date": "2026-08-18",
-    "score": 35,
+    "date": "2026-08-17",
+    "score": 40,
     "trend": "🔴 偏空",
     "index": {
-        "close": 45308.68,
-        "changePercent": -1.196298863844264,
-        "change5d": 0.416571366768968,
+        "close": 45857.27,
+        "changePercent": 0.10098009190365977,
+        "change5d": null,
         "change20d": null,
         "change60d": null,
         "history": [
@@ -28,28 +28,24 @@
             {
                 "date": "08\/17",
                 "value": 45857.27
-            },
-            {
-                "date": "08\/18",
-                "value": 45308.68
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 16996,
-            "short": 100074,
-            "net": -83078
+            "long": 14587,
+            "short": 98061,
+            "net": -83474
         },
         "mxf": {
-            "long": 4960,
-            "short": 5592,
-            "net": -632
+            "long": 4457,
+            "short": 4612,
+            "net": -155
         },
         "tmf": {
-            "long": 8122,
-            "short": 675,
-            "net": 7447
+            "long": 12988,
+            "short": 296,
+            "net": 12692
         },
         "history": [
             {
@@ -81,18 +77,12 @@
                 "txf": -83474,
                 "mxf": -155,
                 "tmf": 12692
-            },
-            {
-                "date": "08\/18",
-                "txf": -83078,
-                "mxf": -632,
-                "tmf": 7447
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 26.19,
-        "putCallRatio": 104.64,
+        "retailRatio": 19.97,
+        "putCallRatio": 117.16,
         "trend": "🟡 中性",
         "history": [
             {
@@ -119,39 +109,34 @@
                 "date": "08\/17",
                 "retailRatio": 19.97,
                 "putCallRatio": 117.16
-            },
-            {
-                "date": "08\/18",
-                "retailRatio": 26.19,
-                "putCallRatio": 104.64
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 4556.8,
-            "sell": 4814.4,
-            "net": -257.6
+            "buy": 4429.2,
+            "sell": 4138.4,
+            "net": 290.8
         },
         "foreign": {
-            "buy": 3807.2,
-            "sell": 3927,
-            "net": -119.8
+            "buy": 3696.6,
+            "sell": 3242.2,
+            "net": 454.4
         },
         "trust": {
-            "buy": 410.7,
-            "sell": 372.5,
-            "net": 38.2
+            "buy": 260.9,
+            "sell": 438.6,
+            "net": -177.7
         },
         "dealer": {
-            "buy": 80.9,
-            "sell": 102.7,
-            "net": -21.8
+            "buy": 114.1,
+            "sell": 78.7,
+            "net": 35.4
         },
         "dealerRisk": {
-            "buy": 257.9,
-            "sell": 412.3,
-            "net": -154.4
+            "buy": 357.6,
+            "sell": 379,
+            "net": -21.4
         },
         "history": [
             {
@@ -193,14 +178,6 @@
                 "trust": -177.7,
                 "dealer": 35.4,
                 "dealerRisk": -21.4
-            },
-            {
-                "date": "08\/18",
-                "total": -257.6,
-                "foreign": -119.8,
-                "trust": 38.2,
-                "dealer": -21.8,
-                "dealerRisk": -154.4
             }
         ]
     },
@@ -208,10 +185,6 @@
         {
             "type": "bearish",
             "text": "外資大台期貨維持淨空單"
-        },
-        {
-            "type": "warning",
-            "text": "小台散戶多方部位偏高，需留意市場過熱"
         }
     ]
 }
