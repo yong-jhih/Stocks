@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026/8/18",
+    "call_volume": "172,362",
+    "put_volume": "163,376",
+    "volume_pcr": "105.50",
+    "call_oi": "93,656",
+    "put_oi": "89,500",
+    "oi_pcr": "104.64"
+  },
+  {
     "date": "2026/8/17",
     "call_volume": "105,692",
     "put_volume": "83,656",
