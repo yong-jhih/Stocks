@@ -1,5 +1,369 @@
 [
     {
+        "id": 12090038,
+        "log_time": "2026-08-18 22:06:35",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 12090037,
+        "log_time": "2026-08-18 22:06:35",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時 273.35 秒",
+        "result": "end"
+    },
+    {
+        "id": 12090036,
+        "log_time": "2026-08-18 22:06:35",
+        "log_type": "insertSBLSold",
+        "content": "2026-08-18 上櫃公司 借券賣出餘額 更新完成,共新增 813 筆,耗時 107.99 秒",
+        "result": "success"
+    },
+    {
+        "id": 12090035,
+        "log_time": "2026-08-18 22:04:47",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-08-18 上櫃公司 借券餘額 更新完成,共新增 732 筆,耗時 97.26 秒",
+        "result": "success"
+    },
+    {
+        "id": 12090034,
+        "log_time": "2026-08-18 22:02:02",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-08-18] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 12090033,
+        "log_time": "2026-08-18 22:02:02",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 1744.37 秒",
+        "result": "end"
+    },
+    {
+        "id": 12090032,
+        "log_time": "2026-08-18 22:01:35",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090031,
+        "log_time": "2026-08-18 21:59:31",
+        "log_type": "updateAllHistory",
+        "content": "第 5\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090030,
+        "log_time": "2026-08-18 21:59:30",
+        "log_type": "getInsti",
+        "content": "取得 三大法人買賣超日報 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090029,
+        "log_time": "2026-08-18 21:59:20",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090028,
+        "log_time": "2026-08-18 21:58:06",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090027,
+        "log_time": "2026-08-18 21:56:53",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090026,
+        "log_time": "2026-08-18 21:54:48",
+        "log_type": "updateAllHistory",
+        "content": "第 4\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090025,
+        "log_time": "2026-08-18 21:54:48",
+        "log_type": "getInsti",
+        "content": "取得 三大法人買賣超日報 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090024,
+        "log_time": "2026-08-18 21:54:38",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090023,
+        "log_time": "2026-08-18 21:53:24",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090022,
+        "log_time": "2026-08-18 21:52:10",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090021,
+        "log_time": "2026-08-18 21:50:06",
+        "log_type": "updateAllHistory",
+        "content": "第 3\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090020,
+        "log_time": "2026-08-18 21:50:06",
+        "log_type": "getInsti",
+        "content": "取得 三大法人買賣超日報 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090019,
+        "log_time": "2026-08-18 21:49:56",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090018,
+        "log_time": "2026-08-18 21:48:41",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090017,
+        "log_time": "2026-08-18 21:47:27",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090016,
+        "log_time": "2026-08-18 21:45:23",
+        "log_type": "updateAllHistory",
+        "content": "第 2\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090015,
+        "log_time": "2026-08-18 21:45:18",
+        "log_type": "getInsti",
+        "content": "取得 三大法人買賣超日報 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090014,
+        "log_time": "2026-08-18 21:45:08",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090013,
+        "log_time": "2026-08-18 21:43:54",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090012,
+        "log_time": "2026-08-18 21:42:40",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090011,
+        "log_time": "2026-08-18 21:40:36",
+        "log_type": "updateAllHistory",
+        "content": "第 1\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090010,
+        "log_time": "2026-08-18 21:40:31",
+        "log_type": "getSBLTotal",
+        "content": "取得 借券餘額合計表 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090009,
+        "log_time": "2026-08-18 21:40:20",
+        "log_type": "getSBLTotal",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090008,
+        "log_time": "2026-08-18 21:39:07",
+        "log_type": "getSBLTotal",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090007,
+        "log_time": "2026-08-18 21:37:53",
+        "log_type": "getSBLTotal",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090006,
+        "log_time": "2026-08-18 21:36:44",
+        "log_type": "getInsti",
+        "content": "取得 三大法人買賣超日報 執行 3 次失敗,跳過",
+        "result": "warning"
+    },
+    {
+        "id": 12090005,
+        "log_time": "2026-08-18 21:36:34",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 3 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090004,
+        "log_time": "2026-08-18 21:35:20",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090003,
+        "log_time": "2026-08-18 21:34:06",
+        "log_type": "getInsti",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12090002,
+        "log_time": "2026-08-18 21:32:57",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-08-18] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 12090001,
+        "log_time": "2026-08-18 21:32:57",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-08-18] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
+        "id": 12060012,
+        "log_time": "2026-08-18 21:19:16",
+        "log_type": "insertMargin",
+        "content": "2026-08-18 上櫃公司 融資融券彙總 更新完成,共新增 802 筆,耗時 96.1 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060011,
+        "log_time": "2026-08-18 21:17:40",
+        "log_type": "insertTPExInsti",
+        "content": "2026-08-18 上櫃公司 三大法人買賣超 更新完成,共新增 796 筆,耗時 95.69 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060010,
+        "log_time": "2026-08-18 21:16:04",
+        "log_type": "insertTPExHistory",
+        "content": "2026-08-18 上櫃個股日成交 更新完成,共新增 888 筆,耗時 106.11 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060009,
+        "log_time": "2026-08-18 21:13:49",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-08-18] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 12060008,
+        "log_time": "2026-08-18 21:13:49",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 659.08 秒",
+        "result": "end"
+    },
+    {
+        "id": 12060007,
+        "log_time": "2026-08-18 21:13:49",
+        "log_type": "insertSBLSold",
+        "content": "2026-08-18 借券賣出餘額 更新完成,共新增 1062 筆,耗時 127.8 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060006,
+        "log_time": "2026-08-18 21:11:41",
+        "log_type": "insertSBLTotal",
+        "content": "2026-08-18 借券餘額 更新完成,共新增 999 筆,耗時 119.93 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060005,
+        "log_time": "2026-08-18 21:09:41",
+        "log_type": "insertMargin",
+        "content": "2026-08-18 融資融券彙總 更新完成,共新增 1059 筆,耗時 127.42 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060004,
+        "log_time": "2026-08-18 21:07:33",
+        "log_type": "insertInsti",
+        "content": "2026-08-18 三大法人買賣超 更新完成,共新增 1074 筆,耗時 128.48 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060003,
+        "log_time": "2026-08-18 21:05:24",
+        "log_type": "insertHistory",
+        "content": "2026-08-18 上市個股日成交 更新完成,共新增 1087 筆,耗時 130.56 秒",
+        "result": "success"
+    },
+    {
+        "id": 12060002,
+        "log_time": "2026-08-18 21:02:50",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-08-18] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 12060001,
+        "log_time": "2026-08-18 21:02:50",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-08-18] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
+        "id": 12030002,
+        "log_time": "2026-08-18 20:35:12",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 2 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 12030001,
+        "log_time": "2026-08-18 20:33:58",
+        "log_type": "getSBLSold",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
         "id": 12000014,
         "log_time": "2026-08-18 17:21:15",
         "log_type": "dbClean",
