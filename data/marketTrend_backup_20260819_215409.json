@@ -1,11 +1,11 @@
 {
-    "date": "2026-08-19",
+    "date": "2026-08-18",
     "score": 35,
     "trend": "🔴 偏空",
     "index": {
-        "close": 44719.35,
-        "changePercent": -1.300699998322621,
-        "change5d": -1.7547316922707865,
+        "close": 45308.68,
+        "changePercent": -1.196298863844264,
+        "change5d": 0.416571366768968,
         "change20d": null,
         "change60d": null,
         "history": [
@@ -32,28 +32,24 @@
             {
                 "date": "08\/18",
                 "value": 45308.68
-            },
-            {
-                "date": "08\/19",
-                "value": 44719.35
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 6692,
-            "short": 88193,
-            "net": -81501
+            "long": 16996,
+            "short": 100074,
+            "net": -83078
         },
         "mxf": {
-            "long": 2029,
-            "short": 3173,
-            "net": -1144
+            "long": 4960,
+            "short": 5592,
+            "net": -632
         },
         "tmf": {
-            "long": 712,
-            "short": 1236,
-            "net": -524
+            "long": 8122,
+            "short": 675,
+            "net": 7447
         },
         "history": [
             {
@@ -91,18 +87,12 @@
                 "txf": -83078,
                 "mxf": -632,
                 "tmf": 7447
-            },
-            {
-                "date": "08\/19",
-                "txf": -81501,
-                "mxf": -1144,
-                "tmf": -524
             }
         ]
     },
     "sentiment": {
         "retailRatio": 26.19,
-        "putCallRatio": 102.27,
+        "putCallRatio": 104.64,
         "trend": "🟡 中性",
         "history": [
             {
@@ -134,39 +124,34 @@
                 "date": "08\/18",
                 "retailRatio": 26.19,
                 "putCallRatio": 104.64
-            },
-            {
-                "date": "08\/19",
-                "retailRatio": 26.19,
-                "putCallRatio": 102.27
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 4078.9,
-            "sell": 4832.5,
-            "net": -753.6
+            "buy": 4556.8,
+            "sell": 4814.4,
+            "net": -257.6
         },
         "foreign": {
-            "buy": 3496.8,
-            "sell": 3913.2,
-            "net": -416.4
+            "buy": 3807.2,
+            "sell": 3927,
+            "net": -119.8
         },
         "trust": {
-            "buy": 202.8,
-            "sell": 368.8,
-            "net": -166
+            "buy": 410.7,
+            "sell": 372.5,
+            "net": 38.2
         },
         "dealer": {
-            "buy": 109.4,
-            "sell": 149.1,
-            "net": -39.7
+            "buy": 80.9,
+            "sell": 102.7,
+            "net": -21.8
         },
         "dealerRisk": {
-            "buy": 269.8,
-            "sell": 401.4,
-            "net": -131.6
+            "buy": 257.9,
+            "sell": 412.3,
+            "net": -154.4
         },
         "history": [
             {
@@ -216,14 +201,6 @@
                 "trust": 38.2,
                 "dealer": -21.8,
                 "dealerRisk": -154.4
-            },
-            {
-                "date": "08\/19",
-                "total": -753.6,
-                "foreign": -416.4,
-                "trust": -166,
-                "dealer": -39.7,
-                "dealerRisk": -131.6
             }
         ]
     },

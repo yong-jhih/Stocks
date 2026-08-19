@@ -1,0 +1,397 @@
+[
+    {
+        "stock_id": "1808",
+        "stock_name": "潤隆",
+        "stock_type": "TSE",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 建設業"
+        ],
+        "concept": [
+            "都市更新"
+        ],
+        "score": 100,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 31,
+        "structure_score": 8,
+        "risk_score": 0,
+        "close": 33.3,
+        "yesterday_high": 33.2,
+        "yesterday_low": 32.6,
+        "vol": 2331,
+        "vol_ratio": 4.51,
+        "rank10": 86.84,
+        "rank20": 82.54,
+        "amp10": 6,
+        "amp20": 10.26,
+        "ma5": 32.87,
+        "ma10": 32.75,
+        "ma20": 32.49,
+        "ma60": 31.3,
+        "vma5": 774,
+        "vma10": 1138,
+        "vma20": 1365,
+        "bia5": 1.31,
+        "bia10": 1.69,
+        "bia20": 2.49,
+        "con1": 47.99,
+        "con5": 40.98,
+        "con10": 23.26,
+        "con20": 12.48,
+        "foreign_buy_sell": 1072755,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2116,
+        "foreign_sum10": 2688,
+        "foreign_sum20": 3309,
+        "trust_sum5": 0,
+        "trust_sum10": -14,
+        "trust_sum20": -14,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 5597,
+        "margin_balance_diff": -43,
+        "squeeze": 9.18,
+        "bullet": 1.1,
+        "net_sbl": 85,
+        "net_sbl_sum5": -1621,
+        "sbl_total": 14031,
+        "sbl_sold_balance": 12528,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "外資連買",
+            "融資減肥",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 4.51 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "主升段啟動",
+            "洗盤完成"
+        ]
+    },
+    {
+        "stock_id": "2537",
+        "stock_name": "聯上發",
+        "stock_type": "TSE",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 建設業"
+        ],
+        "concept": [
+            "都市更新"
+        ],
+        "score": 100,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 35,
+        "chip_score": 31,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 11.55,
+        "yesterday_high": 11.25,
+        "yesterday_low": 11.05,
+        "vol": 2689,
+        "vol_ratio": 2.43,
+        "rank10": 89.47,
+        "rank20": 89.47,
+        "amp10": 8.88,
+        "amp20": 8.88,
+        "ma5": 11.08,
+        "ma10": 11.03,
+        "ma20": 11.02,
+        "ma60": 10.85,
+        "vma5": 1521,
+        "vma10": 1031,
+        "vma20": 1038,
+        "bia5": 4.24,
+        "bia10": 4.71,
+        "bia20": 4.83,
+        "con1": 19.83,
+        "con5": 17.34,
+        "con10": 15.47,
+        "con20": 16.51,
+        "foreign_buy_sell": 557095,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1712,
+        "foreign_sum10": 1974,
+        "foreign_sum20": 3843,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 3621,
+        "margin_balance_diff": -81,
+        "squeeze": 4.98,
+        "bullet": 0.71,
+        "net_sbl": -96,
+        "net_sbl_sum5": -571,
+        "sbl_total": 5910,
+        "sbl_sold_balance": 5172,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "法人集中",
+            "外資連買",
+            "融資減肥"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.43 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "主升段啟動",
+            "洗盤完成"
+        ]
+    },
+    {
+        "stock_id": "9921",
+        "stock_name": "巨大",
+        "stock_type": "TSE",
+        "industry": "運動休閒",
+        "subIndustry": [
+            " 休閒車業"
+        ],
+        "concept": [
+            "人工智慧AI",
+            "奧運",
+            "會員經濟",
+            "機器人",
+            "自行車",
+            "輝達AI",
+            "運動休閒"
+        ],
+        "score": 64,
+        "rating": "B",
+        "strategy_type": "觀察",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 35,
+        "chip_score": 0,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 104,
+        "yesterday_high": 98.4,
+        "yesterday_low": 95.2,
+        "vol": 5510,
+        "vol_ratio": 1.98,
+        "rank10": 66.55,
+        "rank20": 69.45,
+        "amp10": 33.37,
+        "amp20": 37.74,
+        "ma5": 101.96,
+        "ma10": 99.05,
+        "ma20": 92.29,
+        "ma60": 80.8,
+        "vma5": 6458,
+        "vma10": 6004,
+        "vma20": 4171,
+        "bia5": 2,
+        "bia10": 5,
+        "bia20": 12.69,
+        "con1": 16.11,
+        "con5": 4.08,
+        "con10": 21.32,
+        "con20": 17.16,
+        "foreign_buy_sell": 619380,
+        "trust_buy_sell": -2000,
+        "foreign_sum5": 915,
+        "foreign_sum10": 13135,
+        "foreign_sum20": 14424,
+        "trust_sum5": -2,
+        "trust_sum10": 117,
+        "trust_sum20": 175,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 1630,
+        "margin_balance_diff": 57,
+        "squeeze": 2.94,
+        "bullet": 0.76,
+        "net_sbl": -208,
+        "net_sbl_sum5": -235,
+        "sbl_total": 15414,
+        "sbl_sold_balance": 12256,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": [],
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "價量齊揚"
+        ],
+        "trigger_reasons": [
+            "成交量放大 1.98 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "6116",
+        "stock_name": "彩晶",
+        "stock_type": "TSE",
+        "industry": "光電業",
+        "subIndustry": [
+            " 面板",
+            " 顯示器模組"
+        ],
+        "concept": [
+            "Micro LED",
+            "內嵌式觸控面板",
+            "奧運"
+        ],
+        "score": 37,
+        "rating": "C",
+        "strategy_type": "短線轉強",
+        "confidence": 0.25,
+        "trend_score": 4,
+        "momentum_score": 35,
+        "chip_score": 6,
+        "structure_score": 0,
+        "risk_score": -43,
+        "close": 14.25,
+        "yesterday_high": 14.1,
+        "yesterday_low": 13.7,
+        "vol": 61603,
+        "vol_ratio": 4.7,
+        "rank10": 52.94,
+        "rank20": 77.14,
+        "amp10": 12.73,
+        "amp20": 30.3,
+        "ma5": 13.97,
+        "ma10": 14.07,
+        "ma20": 13.57,
+        "ma60": 16.02,
+        "vma5": 20344,
+        "vma10": 38255,
+        "vma20": 34403,
+        "bia5": 2,
+        "bia10": 1.28,
+        "bia20": 5.05,
+        "con1": 14,
+        "con5": 3.3,
+        "con10": -4.97,
+        "con20": -1.6,
+        "foreign_buy_sell": 8128183,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 4055,
+        "foreign_sum10": -20537,
+        "foreign_sum20": -11115,
+        "trust_sum5": 0,
+        "trust_sum10": 7,
+        "trust_sum20": 7,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 33629,
+        "margin_balance_diff": -996,
+        "squeeze": 4.93,
+        "bullet": 0.37,
+        "net_sbl": 114,
+        "net_sbl_sum5": 1279,
+        "sbl_total": 182539,
+        "sbl_sold_balance": 169660,
+        "signals": {
+            "trend": {
+                "站上月線": 4
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "融資減肥": 6
+            },
+            "risk": {
+                "高檔出貨": -25,
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "爆量突破",
+            "價量齊揚",
+            "融資減肥",
+            "高檔出貨",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "成交量放大 4.7 倍",
+            "突破前高"
+        ],
+        "hint": []
+    }
+]
