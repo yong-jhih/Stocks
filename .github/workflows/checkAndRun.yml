@@ -1,68 +1,56 @@
 name: checkAndRun
 
 on:
-  repository_dispatch:
-    types: [checkAndRun]
-  workflow_dispatch:
+  repository_dispatch:
+    types: [checkAndRun]
+  workflow_dispatch:
 
-# 移除原本的 concurrency 區塊
-# 改為加上 actions: write 權限以允許取消 Run
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
-  contents: write
-  actions: write
+  contents: write
 
 env:
-  TiDB_Host: ${{ secrets.TiDB_Host }}
-  TiDB_User: ${{ secrets.TiDB_User }}
-  TIDB_PASS: ${{ secrets.TIDB_PASS }}
-  TIDB_NAME: ${{ secrets.TIDB_NAME }}
-  FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
-  FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
-  GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
-  LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
-  LINE_TARGET: ${{ secrets.LINE_TARGET }}
-  GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
+  TiDB_Host: ${{ secrets.TiDB_Host }}
+  TiDB_User: ${{ secrets.TiDB_User }}
+  TIDB_PASS: ${{ secrets.TIDB_PASS }}
+  TIDB_NAME: ${{ secrets.TIDB_NAME }}
+  FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+  FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
+  GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+  LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+  LINE_TARGET: ${{ secrets.LINE_TARGET }}
+  GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check for running workflow and cancel if exists
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # 查詢同名稱 Workflow 目前狀態為 in_progress 的數量 (排除當前這筆 run_id)
-        RUNNING_COUNT=$(gh run list --workflow "${{ github.workflow }}" --status in_progress --json databaseId --jq "[.[] | select(.databaseId != ${{ github.run_id }})] | length")
-        
-        if [ "$RUNNING_COUNT" -gt 0 ]; then
-          echo "⚠️ 偵測到已有相同的 Workflow 正在執行中，取消本次（新的）觸發。"
-          gh run cancel ${{ github.run_id }}
-          sleep 10 # 稍微等待 GitHub 處理取消請求
-        fi
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Code
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
 
-    - name: Check Code
-      uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_mysql
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: pdo, pdo_mysql
+    - name: Run Update
+      run: php checkAndRun.php 
 
-    - name: Run Update
-      run: php checkAndRun.php 
-
-    - name: Commit And Push JSON files
-      if: always()
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add .
-        if git diff --quiet && git diff --staged --quiet; then
-          echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
-        else
-          git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
-          git push
-        fi
+    - name: Commit And Push JSON files
+      if: always()
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        if git diff --quiet && git diff --staged --quiet; then
+          echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
+        else
+          git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
+          git push
+        fi
