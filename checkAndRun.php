@@ -56,8 +56,8 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             'action' => 'triggersSelfSelect',
             'after' => 180
         ]);
-        $filter = null;
         if (count($resultsMix) > 0) {
+            $filter = [];
             foreach ($resultsMix as $item) {
                 if (
                     ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&
@@ -68,12 +68,14 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                     $filter[] = $item;
                 }
             }
+            if (count($filter) > 0) {
+                callGAS([
+                    'date' => $targetDate,
+                    'action' => 'addSelfSelect',
+                    'data' => $filter
+                ]);
+            }
         }
-        callGAS([
-            'date' => $targetDate,
-            'action' => 'addSelfSelect',
-            'data' => $filter ?? $resultsMix
-        ]);
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 盤後篩選及評分排行已完成, 共耗時 {$execution_time} 秒", 'end');
