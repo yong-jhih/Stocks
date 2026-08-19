@@ -5,12 +5,11 @@ on:
     types: [checkAndRun]
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
-
+# 移除原本的 concurrency 區塊
+# 改為加上 actions: write 權限以允許取消 Run
 permissions:
   contents: write
+  actions: write
 
 env:
   TiDB_Host: ${{ secrets.TiDB_Host }}
@@ -28,6 +27,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Check for running workflow and cancel if exists
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # 查詢同名稱 Workflow 目前狀態為 in_progress 的數量 (排除當前這筆 run_id)
+        RUNNING_COUNT=$(gh run list --workflow "${{ github.workflow }}" --status in_progress --json databaseId --jq "[.[] | select(.databaseId != ${{ github.run_id }})] | length")
+        
+        if [ "$RUNNING_COUNT" -gt 0 ]; then
+          echo "⚠️ 偵測到已有相同的 Workflow 正在執行中，取消本次（新的）觸發。"
+          gh run cancel ${{ github.run_id }}
+          sleep 10 # 稍微等待 GitHub 處理取消請求
+        fi
+
     - name: Check Code
       uses: actions/checkout@v5
       with:
