@@ -1,4 +1,4 @@
-name: getETF
+name: Prefetch Data
 
 on:
   repository_dispatch:
@@ -45,16 +45,16 @@ jobs:
         run: npx puppeteer browsers install chrome
   
       - name: Run Puppeteer to Fetch HTML(00981A)
-        run: node fetch_00981A.js
+        run: node prefetch_00981A.js
 
       - name: Run Puppeteer to Fetch HTML(00991A)
-        run: node fetch_00991A.js
+        run: node prefetch_00991A.js
 
       - name: Run Puppeteer to Fetch HTML(00403A)
-        run: node fetch_00403A.js
+        run: node prefetch_00403A.js
 
       - name: Run Puppeteer to Fetch Put/Call Ratio
-        run: node fetch_PutCallRatio.js
+        run: node prefetch_PutCallRatio.js
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -64,6 +64,9 @@ jobs:
 
       - name: Check And Update ETF
         run: php updateETFcomponent.php
+
+      - name: Check And Update Market
+        run: php updateDailyMarket.php
 
       - name: Commit And Push JSON files
         if: always()
