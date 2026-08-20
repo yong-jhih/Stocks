@@ -1499,6 +1499,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'trust_streak_days' => (int)$s['trust_streak_days'],
             'margin_balance' => (int)$s['margin_balance'],
             'margin_balance_diff' => (int)$s['margin_balance_diff'],
+            'margin_balance_diff_sum5' => (int)$s['margin_balance_diff_sum5'],
             'squeeze' => round($squeeze, 2),
             'bullet' => round($bullet, 2),
             'net_sbl' => round($s['net_sbl'] / 1000, 0),

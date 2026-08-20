@@ -25,35 +25,33 @@ env:
   GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
 
 jobs:
-  build:
+  stock_job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Code
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
+    - name: Check Code
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: pdo, pdo_mysql
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_mysql
 
-      - name: Run Update
-        run: php checkAndRun.php
+    - name: Run Update
+      run: php checkAndRun.php
 
-      - name: Commit And Push JSON files
-        if: always()
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-          git add .
-
-          if git diff --cached --quiet; then
-            echo "沒有偵測到新的檔案變更，略過提交。"
-          else
-            git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
-            git push
-          fi
+    - name: Commit And Push JSON files
+      if: always()
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        if git diff --cached --quiet; then
+          echo "沒有偵測到新的檔案變更，略過提交。"
+        else
+          git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
+          git push
+        fi
