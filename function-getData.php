@@ -1658,7 +1658,7 @@ function getTAIEX(PDO $pdo, string $targetDate): ?float
                 sleep(60);
             } else {
                 writeLog($pdo, 'getTAIEX', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新基本資料", 'error');
-                exit(1);
+                throw new RuntimeException("加權指數 取得失敗 退出");
             }
         }
     }
@@ -1673,7 +1673,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     $openInterestTMF = null;
     $OI = null;
     for ($i = 1; $i <= 10; $i++) {
-        if (empty($openInterestTX)) {
+        if (empty($openInterestTX) || !isset($openInterestTX['data'])) {
             $openInterestTX = getDataWithFinmind($pdo, [
                 'dataset' => "TaiwanFuturesInstitutionalInvestors",
                 'data_id' => 'TX',
@@ -1681,7 +1681,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (empty($openInterestMTX)) {
+        if (empty($openInterestMTX) || !isset($openInterestMTX['data'])) {
             $openInterestMTX = getDataWithFinmind($pdo, [
                 'dataset' => "TaiwanFuturesInstitutionalInvestors",
                 'data_id' => 'MTX',
@@ -1689,7 +1689,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (empty($openInterestTMF)) {
+        if (empty($openInterestTMF) || !isset($openInterestTMF['data'])) {
             $openInterestTMF = getDataWithFinmind($pdo, [
                 'dataset' => "TaiwanFuturesInstitutionalInvestors",
                 'data_id' => 'TMF',
@@ -1697,7 +1697,7 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (empty($OI)) {
+        if (empty($OI) || !isset($OI['data'])) {
             $OI = getDataWithFinmind($pdo, [
                 'dataset' => "TaiwanFuturesDaily",
                 'data_id' => 'MTX',
@@ -1705,15 +1705,20 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
                 'end_date' => $targetDate
             ]);
         }
-        if (!empty($openInterestTX) && !empty($openInterestMTX) && !empty($openInterestTMF) && !empty($OI)) {
+        if (
+            isset($openInterestTX['data']) && !empty($openInterestTX['data']) &&
+            isset($openInterestMTX['data']) && !empty($openInterestMTX['data']) &&
+            isset($openInterestTMF['data']) && !empty($openInterestTMF['data']) &&
+            isset($OI['data']) && !empty($OI['data'])
+        ) {
             break;
         } else {
             if ($i <= 9) {
                 writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
                 sleep(60);
             } else {
-                writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
-                exit(1);
+                writeLog($pdo, 'getOpenInterest', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新 外資台指期未平倉", 'error');
+                throw new RuntimeException("外資台指期未平倉 取得失敗 退出");
             }
         }
     }
@@ -1755,17 +1760,18 @@ function getOpenInterest(PDO $pdo, string $targetDate): ?array
     return $return;
 }
 
-function getPutCallRatio(PDO $pdo, string $targetDate): ?float
+function getPutCallRatio(string $targetDate): ?float
 {
-    $PutCallRatio = null;
-    $pc = json_decode(file_get_contents("pc_ratio.json"), true);
-    foreach ($pc as $item) {
-        if (strtotime($item['date']) === strtotime($targetDate)) {
-            $PutCallRatio = (float)$item['oi_pcr'];
-            break;
+    $jsonFile = "pc_ratio.json";
+    if (file_exists($jsonFile)) {
+        $pc = json_decode(file_get_contents($jsonFile), true);
+        if (!is_array($pc)) throw new RuntimeException("{$jsonFile} 資料格式錯誤");
+        foreach ($pc as $item) {
+            if (strtotime($item['date']) === strtotime($targetDate)) return (float)$item['oi_pcr'];
         }
+        throw new RuntimeException("{$jsonFile} 中未有符合日期資料 退出");
     }
-    return $PutCallRatio;
+    throw new RuntimeException("{$jsonFile} 檔案不存在 退出");
 }
 
 function getInstiBuySell(PDO $pdo, string $targetDate): ?array
@@ -1806,93 +1812,13 @@ function getInstiBuySell(PDO $pdo, string $targetDate): ?array
                 writeLog($pdo, 'getInstiBuySell', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 60秒後重試", 'warning');
                 sleep(60);
             } else {
-                writeLog($pdo, 'getInstiBuySell', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新大盤資料", 'error');
-                exit(1);
+                writeLog($pdo, 'getInstiBuySell', "第 {$i}/10 次抓取完成, 尚有缺漏資料, 停止重試, 退出更新三大法人買賣超", 'error');
+                throw new RuntimeException("三大法人買賣超 取得失敗 退出");
             }
         }
     }
     return $return;
 }
-
-function updateMarketDailyData(PDO $pdo, string $targetDate): void
-{
-    $taiex = getTAIEX($pdo, $targetDate);
-    $openInterest = getOpenInterest($pdo, $targetDate);
-    $PutCallRatio = getPutCallRatio($pdo, $targetDate);
-    $instiBuySell = getInstiBuySell($pdo, $targetDate);
-    try {
-        $pdo->beginTransaction();
-        $sql = "INSERT INTO market_daily (
-                    trade_date, twii_close,
-                    txf_foreign_long, txf_foreign_short, txf_foreign_net,
-                    mxf_foreign_long, mxf_foreign_short, mxf_foreign_net,
-                    tmf_foreign_long, tmf_foreign_short, tmf_foreign_net,
-                    mxf_retail_ratio, txo_put_call_ratio,
-                    insti_total_buy, insti_total_sell,
-                    insti_foreign_buy, insti_foreign_sell,
-                    insti_trust_buy, insti_trust_sell,
-                    insti_dealer_buy, insti_dealer_sell,
-                    insti_dealer_risk_buy, insti_dealer_risk_sell
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE
-                    twii_close = VALUES(twii_close),
-                    txf_foreign_long = VALUES(txf_foreign_long),
-                    txf_foreign_short = VALUES(txf_foreign_short),
-                    txf_foreign_net = VALUES(txf_foreign_net),
-                    mxf_foreign_long = VALUES(mxf_foreign_long),
-                    mxf_foreign_short = VALUES(mxf_foreign_short),
-                    mxf_foreign_net = VALUES(mxf_foreign_net),
-                    tmf_foreign_long = VALUES(tmf_foreign_long),
-                    tmf_foreign_short = VALUES(tmf_foreign_short),
-                    tmf_foreign_net = VALUES(tmf_foreign_net),
-                    mxf_retail_ratio = VALUES(mxf_retail_ratio),
-                    txo_put_call_ratio = VALUES(txo_put_call_ratio),
-                    insti_total_buy = VALUES(insti_total_buy),
-                    insti_total_sell = VALUES(insti_total_sell),
-                    insti_foreign_buy = VALUES(insti_foreign_buy),
-                    insti_foreign_sell = VALUES(insti_foreign_sell),
-                    insti_trust_buy = VALUES(insti_trust_buy),
-                    insti_trust_sell = VALUES(insti_trust_sell),
-                    insti_dealer_buy = VALUES(insti_dealer_buy),
-                    insti_dealer_sell = VALUES(insti_dealer_sell),
-                    insti_dealer_risk_buy = VALUES(insti_dealer_risk_buy),
-                    insti_dealer_risk_sell = VALUES(insti_dealer_risk_sell)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            $targetDate,
-            $taiex,
-            $openInterest['txf_foreign_long'] ?? null,
-            $openInterest['txf_foreign_short'] ?? null,
-            $openInterest['txf_foreign_net'] ?? null,
-            $openInterest['mxf_foreign_long'] ?? null,
-            $openInterest['mxf_foreign_short'] ?? null,
-            $openInterest['mxf_foreign_net'] ?? null,
-            $openInterest['tmf_foreign_long'] ?? null,
-            $openInterest['tmf_foreign_short'] ?? null,
-            $openInterest['tmf_foreign_net'] ?? null,
-            $openInterest['mxf_retail_ratio'] ?? null,
-            $PutCallRatio,
-            $instiBuySell['insti_total_buy'] ?? null,
-            $instiBuySell['insti_total_sell'] ?? null,
-            $instiBuySell['insti_foreign_buy'] ?? null,
-            $instiBuySell['insti_foreign_sell'] ?? null,
-            $instiBuySell['insti_trust_buy'] ?? null,
-            $instiBuySell['insti_trust_sell'] ?? null,
-            $instiBuySell['insti_dealer_buy'] ?? null,
-            $instiBuySell['insti_dealer_sell'] ?? null,
-            $instiBuySell['insti_dealer_risk_buy'] ?? null,
-            $instiBuySell['insti_dealer_risk_sell'] ?? null,
-        ]);
-        $pdo->commit();
-    } catch (Throwable $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        throw new RuntimeException("{$targetDate} 大盤資料新增失敗: " . $e->getMessage(), 0, $e);
-    }
-}
-
-
 
 function analyzeMarketTrend(PDO $pdo): void
 {

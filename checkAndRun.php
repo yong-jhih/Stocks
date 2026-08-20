@@ -90,8 +90,8 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             $lineNotifyStr .= $analyzeMultiPeriodChanges[1] . "\n";
             createJsonFile($pdo, $targetDate . "_componentOf{$etf_id}", $analysis);
             $stockIds = [];
-            $a = json_decode(file_get_contents("data/{$targetDate}_componentOf{$etf_id}.json"), true);
-            foreach ($a as $v) {
+            $stocks = json_decode(file_get_contents("data/{$targetDate}_componentOf{$etf_id}.json"), true);
+            foreach ($stocks as $v) {
                 $stockIds[] = $v['stock_id'];
             }
             $result = getEtfComponentChartData($pdo,  $etf_id,  $targetDate, $stockIds);
