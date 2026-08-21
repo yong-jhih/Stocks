@@ -62,7 +62,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                 if (
                     ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&
                     ($item['foreign_streak_days'] > 0 || $item['trust_streak_days'] > 0) &&
-                    $item['margin_balance_diff'] < 0 &&
+                    ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) &&
                     ($item['margin_balance'] < $item['sbl_sold_balance'])
                 ) {
                     $filter[] = $item;
