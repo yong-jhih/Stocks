@@ -4,31 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>盤後分析</title>
+    <title>大盤趨勢分析(施工中)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         body {
             background: #111827;
-            color: #f3f4f6
+            color: #f3f4f6;
         }
 
         .card {
             background: #1f2937;
             border: 1px solid #374151;
-            border-radius: 12px
+            border-radius: 12px;
         }
 
         .chart {
             width: 100%;
-            height: 320px
+            height: 320px;
         }
 
         .signal {
             border-left: 4px solid;
             background: #111827;
             border-radius: 6px;
-            padding: 10px 12px
+            padding: 10px 12px;
         }
 
         .score-ring {
@@ -37,17 +37,29 @@
             border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: center
+            justify-content: center;
+        }
+
+        .metric-positive {
+            color: #4ade80;
+        }
+
+        .metric-negative {
+            color: #f87171;
+        }
+
+        .metric-neutral {
+            color: #d1d5db;
         }
 
         @media(max-width:640px) {
             .chart {
-                height: 280px
+                height: 280px;
             }
 
             .score-ring {
                 width: 125px;
-                height: 125px
+                height: 125px;
             }
         }
     </style>
@@ -55,16 +67,17 @@
 
 <body>
     <div class="max-w-7xl mx-auto px-3 sm:px-5 py-5">
-
         <header class="mb-5">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold">📊 大盤趨勢分析(施工中)</h1>
-                    <p class="text-gray-400 mt-1">台股指數、外資期貨未平倉與市場情緒</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold">📊 大盤趨勢分析</h1>
+                    <p class="text-gray-400 mt-1">台股指數、法人籌碼、外資期貨與市場情緒</p>
                 </div>
-                <div class="text-sm text-gray-400">資料日期：<span id="dataDate" class="text-gray-200 font-semibold">--</span></div>
+                <div class="text-sm text-gray-400">資料日期：<span id="dataDate"
+                        class="text-gray-200 font-semibold">--</span></div>
             </div>
-            <div class="flex flex-wrap gap-3">
+            <!-- 導覽 -->
+            <div class="flex flex-wrap gap-3 mt-4">
                 <a href="marketTrend.html"
                     class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">🏠
                     大盤趨勢分析</a>
@@ -100,7 +113,6 @@
                 </div>
                 <div id="marketTrend" class="mt-3 text-lg font-bold">等待資料</div>
             </div>
-
             <div class="card p-5">
                 <div class="text-gray-400 text-sm">加權指數</div>
                 <div class="flex items-end gap-3 mt-2">
@@ -122,7 +134,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card p-5">
                 <div class="text-gray-400 text-sm">市場情緒</div>
                 <div class="grid grid-cols-2 gap-3 mt-4">
@@ -135,7 +146,54 @@
                         <div id="putCallRatio" class="text-xl font-bold mt-1">--</div>
                     </div>
                 </div>
-                <div class="mt-4 text-sm"><span class="text-gray-500">情緒判斷：</span><span id="sentimentTrend" class="font-semibold">等待資料</span></div>
+                <div class="mt-4 text-sm">
+                    <span class="text-gray-500">情緒判斷：</span>
+                    <span id="sentimentTrend" class="font-semibold">等待資料</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="card p-5 mb-5">
+            <div class="mb-4">
+                <h2 class="text-lg font-bold">🏦 三大法人買賣超</h2>
+                <p class="text-xs text-gray-500 mt-1">單位：億元</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                <div class="bg-gray-800 rounded-lg p-4 min-w-0">
+                    <div class="text-gray-400 text-sm whitespace-nowrap">三大法人</div>
+                    <div id="instiTotalNet" class="text-2xl font-bold mt-1">--</div>
+                    <div class="text-xs text-gray-500 mt-2 whitespace-nowrap">
+                        買<span id="instiTotalBuy">--</span>／賣<span id="instiTotalSell">--</span>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4 min-w-0">
+                    <div class="text-gray-400 text-sm whitespace-nowrap">外資</div>
+                    <div id="instiForeignNet" class="text-2xl font-bold mt-1">--</div>
+                    <div class="text-xs text-gray-500 mt-2 whitespace-nowrap">
+                        買<span id="instiForeignBuy">--</span>／賣<span id="instiForeignSell">--</span>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4 min-w-0">
+                    <div class="text-gray-400 text-sm whitespace-nowrap">投信</div>
+                    <div id="instiTrustNet" class="text-2xl font-bold mt-1">--</div>
+                    <div class="text-xs text-gray-500 mt-2 whitespace-nowrap">
+                        買<span id="instiTrustBuy">--</span>／賣<span id="instiTrustSell">--</span>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4 min-w-0">
+                    <div class="text-gray-400 text-sm whitespace-nowrap">自營商</div>
+                    <div id="instiDealerNet" class="text-2xl font-bold mt-1">--</div>
+                    <div class="text-xs text-gray-500 mt-2 whitespace-nowrap">
+                        買<span id="instiDealerBuy">--</span>／賣<span id="instiDealerSell">--</span>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4 min-w-0">
+                    <div class="text-gray-400 text-sm whitespace-nowrap">自營商－避險</div>
+                    <div id="instiDealerRiskNet" class="text-2xl font-bold mt-1">--</div>
+                    <div class="text-xs text-gray-500 mt-2 whitespace-nowrap">買<span
+                            id="instiDealerRiskBuy">--</span>／賣<span id="instiDealerRiskSell">--</span></div>
+                </div>
             </div>
         </section>
 
@@ -148,20 +206,20 @@
                 <div class="bg-gray-800 rounded-lg p-4">
                     <div class="text-gray-400 text-sm">大台 TXF</div>
                     <div id="txfNet" class="text-2xl font-bold mt-1">--</div>
-                    <div class="text-xs text-gray-500 mt-2">多 <span id="txfLong">--</span> ／ 空 <span
-                            id="txfShort">--</span></div>
+                    <div class="text-xs text-gray-500 mt-2">多<span id="txfLong">--</span>／空<span id="txfShort">--</span>
+                    </div>
                 </div>
                 <div class="bg-gray-800 rounded-lg p-4">
                     <div class="text-gray-400 text-sm">小台 MXF</div>
                     <div id="mxfNet" class="text-2xl font-bold mt-1">--</div>
-                    <div class="text-xs text-gray-500 mt-2">多 <span id="mxfLong">--</span> ／ 空 <span
-                            id="mxfShort">--</span></div>
+                    <div class="text-xs text-gray-500 mt-2">多<span id="mxfLong">--</span>／空<span id="mxfShort">--</span>
+                    </div>
                 </div>
                 <div class="bg-gray-800 rounded-lg p-4">
                     <div class="text-gray-400 text-sm">微台 TMF</div>
                     <div id="tmfNet" class="text-2xl font-bold mt-1">--</div>
-                    <div class="text-xs text-gray-500 mt-2">多 <span id="tmfLong">--</span> ／ 空 <span
-                            id="tmfShort">--</span></div>
+                    <div class="text-xs text-gray-500 mt-2">多<span id="tmfLong">--</span>／空<span id="tmfShort">--</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -171,11 +229,19 @@
             <p class="text-xs text-gray-500 mb-3">最近交易日</p>
             <div id="indexChart" class="chart"></div>
         </section>
+
         <section class="card p-4 sm:p-5 mb-5">
-            <h2 class="text-lg font-bold mb-1">🏦 外資期貨淨未平倉趨勢</h2>
+            <h2 class="text-lg font-bold mb-1">🏦 法人買賣超趨勢</h2>
+            <p class="text-xs text-gray-500 mb-3">買賣超淨額，單位：億元</p>
+            <div id="institutionalChart" class="chart"></div>
+        </section>
+
+        <section class="card p-4 sm:p-5 mb-5">
+            <h2 class="text-lg font-bold mb-1">📊 外資期貨淨未平倉趨勢</h2>
             <p class="text-xs text-gray-500 mb-3">觀察外資期貨部位方向與變化</p>
             <div id="futuresChart" class="chart"></div>
         </section>
+
         <section class="card p-4 sm:p-5 mb-5">
             <h2 class="text-lg font-bold mb-1">🧠 市場情緒</h2>
             <p class="text-xs text-gray-500 mb-3">小台散戶多空比與選擇權 P/C OI Ratio</p>
@@ -191,25 +257,39 @@
     </div>
 
     <script>
+
+        // =========================================================
+        // 載入 JSON
+        // =========================================================
         async function loadMarketData() {
             try {
                 const r = await fetch('./data/marketTrend.json', { cache: 'no-store' });
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 renderMarket(await r.json());
             } catch (e) {
-                console.warn('marketTrend.json 尚未存在，使用預覽資料', e);
+                console.warn('marketTrend.json 尚未存在', e);
                 renderMarket(demoData());
             }
         }
 
+        // =========================================================
+        // 主畫面
+        // =========================================================
         function renderMarket(d) {
             text('dataDate', d.date || '--');
+            // -----------------------------------------------------
+            // 評分
+            // -----------------------------------------------------
             const score = Number(d.score || 0);
+
             text('marketScore', Number.isFinite(score) ? score : '--');
             text('marketTrend', d.trend || '等待資料');
             const s = Math.max(0, Math.min(100, score));
-            document.getElementById('scoreRing').style.background = `radial-gradient(circle,#1f2937 56%,transparent 57%),conic-gradient(#22c55e ${s}%,#374151 ${s}%)`;
+            document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1f2937 56%, transparent 57%), conic-gradient(#22c55e ${s}%, #374151 ${s}%)`;
 
+            // -----------------------------------------------------
+            // 指數
+            // -----------------------------------------------------
             if (d.index) {
                 text('twiiClose', num(d.index.close));
                 text('twiiChange', d.index.changePercent == null ? '--' : signed(d.index.changePercent) + '%');
@@ -218,90 +298,314 @@
                 text('index60d', d.index.change60d == null ? '--' : signed(d.index.change60d) + '%');
             }
 
-            future('txf', d.futures?.txf); future('mxf', d.futures?.mxf); future('tmf', d.futures?.tmf);
+            // -----------------------------------------------------
+            // 外資期貨
+            // -----------------------------------------------------
+            future('txf', d.futures?.txf);
+            future('mxf', d.futures?.mxf);
+            future('tmf', d.futures?.tmf);
 
+            // -----------------------------------------------------
+            // 市場情緒
+            // -----------------------------------------------------
             if (d.sentiment) {
                 text('retailRatio', d.sentiment.retailRatio == null ? '--' : signed(d.sentiment.retailRatio) + '%');
                 text('putCallRatio', d.sentiment.putCallRatio == null ? '--' : num(d.sentiment.putCallRatio) + '%');
                 text('sentimentTrend', d.sentiment.trend || '等待資料');
             }
 
-            const box = document.getElementById('signals');
-            box.innerHTML = (d.signals || []).length ? d.signals.map(x => {
-                const c = x.type === 'bullish' ? 'border-green-500 text-green-300' : x.type === 'bearish' ? 'border-red-500 text-red-300' : x.type === 'warning' ? 'border-yellow-500 text-yellow-300' : 'border-gray-500 text-gray-200';
-                return `<div class="signal ${c}">${esc(x.text || '')}</div>`;
-            }).join('') : '<div class="signal border-gray-600 text-gray-400">今日暫無市場訊號</div>';
+            // -----------------------------------------------------
+            // 法人
+            // -----------------------------------------------------
+            renderInstitutional(d.institutional);
 
+            // -----------------------------------------------------
+            // 訊號
+            // -----------------------------------------------------
+            renderSignals(d.signals || []);
+
+            // -----------------------------------------------------
+            // 圖表
+            // -----------------------------------------------------
             chartIndex(d.index?.history || []);
+            chartInstitutional(d.institutional?.history || []);
             chartFutures(d.futures?.history || []);
             chartSentiment(d.sentiment?.history || []);
         }
 
-        function future(t, d) {
+        // =========================================================
+        // 法人資料
+        // =========================================================
+        function renderInstitutional(d) {
             if (!d) return;
-            text(t + 'Net', signedNum(d.net)); text(t + 'Long', num(d.long)); text(t + 'Short', num(d.short));
-            const e = document.getElementById(t + 'Net');
+            renderInstitutionalItem('instiTotal', d.total);
+            renderInstitutionalItem('instiForeign', d.foreign);
+            renderInstitutionalItem('instiTrust', d.trust);
+            renderInstitutionalItem('instiDealer', d.dealer);
+            renderInstitutionalItem('instiDealerRisk', d.dealerRisk);
+        }
+
+        function renderInstitutionalItem(prefix, d) {
+            if (!d) return;
+            text(prefix + 'Net', signedDecimal(d.net));
+            text(prefix + 'Buy', decimal(d.buy));
+            text(prefix + 'Sell', decimal(d.sell));
+            const e = document.getElementById(prefix + 'Net');
+            if (!e) return;
+            const value = Number(d.net);
+            e.className = 'text-2xl font-bold mt-1 ' + (value > 0 ? 'text-green-400' : value < 0 ? 'text-red-400' : 'text-gray-300');
+        }
+
+        // =========================================================
+        // 訊號
+        // =========================================================
+        function renderSignals(signals) {
+            const box = document.getElementById('signals');
+            box.innerHTML = signals.length ? signals
+                .map(x => {
+                    const c =
+                        x.type === 'bullish'
+                            ? 'border-green-500 text-green-300'
+                            : x.type === 'bearish'
+                                ? 'border-red-500 text-red-300'
+                                : x.type === 'warning'
+                                    ? 'border-yellow-500 text-yellow-300'
+                                    : 'border-gray-500 text-gray-200';
+                    return `<div class="signal ${c}">${esc(x.text || '')}</div>`;
+                })
+                .join('') : `<div class="signal border-gray-600 text-gray-400">今日暫無市場訊號</div>`;
+        }
+
+        // =========================================================
+        // 期貨
+        // =========================================================
+        function future(type, d) {
+            if (!d) return;
+            text(type + 'Net', signedNum(d.net));
+            text(type + 'Long', num(d.long));
+            text(type + 'Short', num(d.short));
+            const e = document.getElementById(type + 'Net');
             e.className = 'text-2xl font-bold mt-1 ' + (Number(d.net) > 0 ? 'text-green-400' : Number(d.net) < 0 ? 'text-red-400' : 'text-gray-300');
         }
+
+        // =========================================================
+        // 加權指數圖
+        // =========================================================
         function chartIndex(h) {
             const c = echarts.init(document.getElementById('indexChart'));
             c.setOption(baseChart(h.map(x => x.date), [{ name: '加權指數', data: h.map(x => x.value) }]));
             window.addEventListener('resize', () => c.resize());
         }
+
+        // =========================================================
+        // 法人圖
+        // =========================================================
+        function chartInstitutional(h) {
+            const c = echarts.init(document.getElementById('institutionalChart'));
+            const hasData = Array.isArray(h) && h.length > 0;
+
+
+            c.setOption({
+                tooltip: { trigger: 'axis' },
+                legend: { textStyle: { color: '#9ca3af' } },
+                grid: {
+                    left: 55,
+                    right: 20,
+                    top: 45,
+                    bottom: 35
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hasData ? h.map(x => x.date) : [],
+                    axisLabel: { color: '#9ca3af' }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: { color: '#9ca3af' },
+                    splitLine: { lineStyle: { color: '#374151' } }
+                },
+                series: [
+                    {
+                        name: '三大法人',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.total ?? null) : [],
+                        symbol: 'none'
+                    },
+                    {
+                        name: '外資',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.foreign ?? null) : [],
+                        symbol: 'none'
+                    },
+                    {
+                        name: '投信',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.trust ?? null) : [],
+                        symbol: 'none'
+                    },
+                    {
+                        name: '自營商',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.dealer ?? null) : [],
+                        symbol: 'none'
+                    },
+                    {
+                        name: '自營商避險',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.dealerRisk ?? null) : [],
+                        symbol: 'none'
+                    }
+                ]
+            });
+            window.addEventListener('resize', () => c.resize());
+        }
+
+        // =========================================================
+        // 期貨圖
+        // =========================================================
         function chartFutures(h) {
             const c = echarts.init(document.getElementById('futuresChart'));
-            c.setOption(baseChart(h.map(x => x.date), [
-                { name: 'TXF', data: h.map(x => x.txf ?? null) }, { name: 'MXF', data: h.map(x => x.mxf ?? null) }, { name: 'TMF', data: h.map(x => x.tmf ?? null) }
-            ], true));
+            c.setOption(
+                baseChart(
+                    h.map(x => x.date),
+                    [
+                        { name: 'TXF', data: h.map(x => x.txf ?? null) },
+                        { name: 'MXF', data: h.map(x => x.mxf ?? null) },
+                        { name: 'TMF', data: h.map(x => x.tmf ?? null) }
+                    ], true
+                )
+            );
             window.addEventListener('resize', () => c.resize());
         }
+
+        // =========================================================
+        // 情緒圖
+        // =========================================================
         function chartSentiment(h) {
             const c = echarts.init(document.getElementById('sentimentChart'));
-            c.setOption(baseChart(h.map(x => x.date), [
-                { name: '小台散戶多空比', data: h.map(x => x.retailRatio ?? null) },
-                { name: 'P/C OI Ratio', data: h.map(x => x.putCallRatio ?? null) }
-            ], true));
+            c.setOption(
+                baseChart(
+                    h.map(x => x.date),
+                    [
+                        { name: '小台散戶多空比', data: h.map(x => x.retailRatio ?? null) },
+                        { name: 'P/C OI Ratio', data: h.map(x => x.putCallRatio ?? null) }
+                    ], true
+                )
+            );
             window.addEventListener('resize', () => c.resize());
         }
+
+        // =========================================================
+        // 共用圖表設定
+        // =========================================================
         function baseChart(x, series, legend = false) {
             return {
-                tooltip: { trigger: 'axis' }, legend: legend ? { textStyle: { color: '#9ca3af' } } : undefined,
-                grid: { left: 55, right: 20, top: legend ? 45 : 20, bottom: 35 },
-                xAxis: { type: 'category', data: x, axisLabel: { color: '#9ca3af' } },
-                yAxis: { type: 'value', scale: true, axisLabel: { color: '#9ca3af' }, splitLine: { lineStyle: { color: '#374151' } } },
-                series: series.map(s => ({ name: s.name, type: 'line', smooth: true, data: s.data, symbol: 'none' }))
+                tooltip: { trigger: 'axis' },
+                legend: legend ? { textStyle: { color: '#9ca3af' } } : undefined,
+                grid: {
+                    left: 55,
+                    right: 20,
+                    top: legend ? 45 : 20,
+                    bottom: 35
+                },
+                xAxis: {
+                    type: 'category',
+                    data: x,
+                    axisLabel: { color: '#9ca3af' }
+                },
+                yAxis: {
+                    type: 'value',
+                    scale: true,
+                    axisLabel: { color: '#9ca3af' },
+                    splitLine: { lineStyle: { color: '#374151' } }
+                },
+                series:
+                    series.map(
+                        s => ({
+                            name: s.name,
+                            type: 'line',
+                            smooth: true,
+                            data: s.data,
+                            symbol: 'none'
+                        })
+                    )
             };
         }
-        function text(id, v) { document.getElementById(id).textContent = v }
-        function num(v) { return v == null ? '--' : Number(v).toLocaleString('zh-TW', { maximumFractionDigits: 2 }) }
-        function signed(v) { const n = Number(v); return Number.isFinite(n) ? (n > 0 ? '+' : '') + n.toFixed(2) : '--' }
-        function signedNum(v) { const n = Number(v); return Number.isFinite(n) ? (n > 0 ? '+' : '') + n.toLocaleString('zh-TW') : '--' }
-        function esc(v) { return String(v).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", "&#039;") }
 
-        function demoData() {
-            const dates = ['08/01', '08/03', '08/04', '08/05', '08/06', '08/07', '08/10', '08/11', '08/12'];
-            return {
-                date: '2026-08-12', score: 72, trend: '🟢 偏多',
-                index: {
-                    close: 24500, changePercent: .49, change5d: 1.82, change20d: 4.35, change60d: 8.72,
-                    history: dates.map((d, i) => ({ date: d, value: [24010, 24180, 24090, 24220, 24380, 24290, 24380, 24420, 24500][i] }))
-                },
-                futures: {
-                    txf: { long: 100000, short: 87500, net: 12500 }, mxf: { long: 80000, short: 71700, net: 8300 }, tmf: { long: 30000, short: 27900, net: 2100 },
-                    history: dates.map((d, i) => ({ date: d, txf: [6500, 7200, 9000, 10000, 9500, 11000, 11800, 12000, 12500][i], mxf: [4500, 4800, 6100, 7000, 6800, 7600, 8000, 8100, 8300][i], tmf: [1200, 1100, 1500, 1800, 1700, 1900, 2000, 2050, 2100][i] }))
-                },
-                sentiment: {
-                    retailRatio: 18.2, putCallRatio: 123.5, trend: '🟡 中性偏多',
-                    history: dates.map((d, i) => ({ date: d, retailRatio: [7, 10, 9, 12, 13, 15, 17, 18, 18.2][i], putCallRatio: [105, 111, 109, 114, 116, 119, 121, 122, 123.5][i] }))
-                },
-                signals: [
-                    { type: 'bullish', text: '加權指數維持短中期上升結構' },
-                    { type: 'bullish', text: '外資期貨淨未平倉維持正值' },
-                    { type: 'warning', text: '小台散戶多方部位持續增加，需觀察是否進入過熱區' },
-                    { type: 'warning', text: 'P/C OI Ratio 位於相對高檔，列為情緒觀察訊號' }
-                ]
-            };
+        // =========================================================
+        // DOM
+        // =========================================================
+        function text(id, value) {
+            const e = document.getElementById(id);
+            if (e) { e.textContent = value; }
         }
+
+        // =========================================================
+        // 數字格式
+        // =========================================================
+        function num(v) {
+            if (v === null || v === undefined) return '--';
+            return Number(v).toLocaleString('zh-TW', { maximumFractionDigits: 2 });
+        }
+
+        function decimal(v) {
+            if (v === null || v === undefined) return '--';
+            return Number(v).toLocaleString('zh-TW', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        }
+
+        function signed(v) {
+            const n = Number(v);
+            if (!Number.isFinite(n)) return '--';
+            return (n > 0 ? '+' : '') + n.toFixed(2);
+        }
+
+        function signedNum(v) {
+            const n = Number(v);
+            if (!Number.isFinite(n)) return '--';
+            return (n > 0 ? '+' : '') + n.toLocaleString('zh-TW');
+        }
+
+        function signedDecimal(v) {
+            const n = Number(v);
+            if (!Number.isFinite(n)) return '--';
+            return (n > 0 ? '+' : '') + n.toLocaleString('zh-TW', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        }
+
+        // =========================================================
+        // HTML escape
+        // =========================================================
+        function esc(v) {
+            return String(v)
+                .replaceAll(
+                    '&',
+                    '&amp;'
+                )
+                .replaceAll(
+                    '<',
+                    '&lt;'
+                )
+                .replaceAll(
+                    '>',
+                    '&gt;'
+                )
+                .replaceAll(
+                    '"',
+                    '&quot;'
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+        }
+
+        // =========================================================
+        // 啟動
+        // =========================================================
         loadMarketData();
     </script>
 </body>

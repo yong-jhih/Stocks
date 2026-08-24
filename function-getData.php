@@ -2107,7 +2107,7 @@ function analyzeMarketTrend(PDO $pdo): void
         ],
         'signals' => $signals
     ];
-    createJsonFile($pdo, 'marketTrend', $return);
+    createJsonFile($pdo, 'marketTrend', $return, 'data', false);
 }
 
 // ETF

@@ -240,7 +240,7 @@ function updateDateList(string $date, string $folder = 'data')
     return file_put_contents($listPath, $jsonString) !== false;
 }
 
-function createJsonFile(PDO $pdo, string $filename, array $data, string $folder = 'data'): ?string
+function createJsonFile(PDO $pdo, string $filename, array $data, string $folder = 'data', bool $backup = true): ?string
 {
     $fullPath = $folder . DIRECTORY_SEPARATOR . $filename . '.json';
     if (!is_dir($folder)) {
@@ -249,7 +249,7 @@ function createJsonFile(PDO $pdo, string $filename, array $data, string $folder 
             return null;
         }
     }
-    if (file_exists($fullPath)) {
+    if (file_exists($fullPath) && $backup) {
         $timestamp = date('Ymd_His');
         $backupFileName = "{$filename}_backup_{$timestamp}.json";
         $backupFullPath = $folder . DIRECTORY_SEPARATOR . $backupFileName;
