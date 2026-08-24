@@ -1,0 +1,194 @@
+[
+    {
+        "stock_id": "3094",
+        "stock_name": "聯傑",
+        "stock_type": "TSE",
+        "industry": "半導體業",
+        "subIndustry": [
+            " 網路通訊IC"
+        ],
+        "concept": [
+            "大陸收成股",
+            "穿戴式裝置",
+            "車用電子",
+            "電子商務(電商)"
+        ],
+        "score": 65,
+        "rating": "A",
+        "strategy_type": "發動前夕",
+        "confidence": 0.67,
+        "trend_score": 19,
+        "momentum_score": 35,
+        "chip_score": 6,
+        "structure_score": 0,
+        "risk_score": -18,
+        "close": 38,
+        "yesterday_high": 36.1,
+        "yesterday_low": 35.4,
+        "vol": 2589,
+        "vol_ratio": 5.66,
+        "rank10": 62.65,
+        "rank20": 84.42,
+        "amp10": 11.72,
+        "amp20": 33.61,
+        "ma5": 36.28,
+        "ma10": 36.92,
+        "ma20": 35.6,
+        "ma60": 36.62,
+        "vma5": 897,
+        "vma10": 1734,
+        "vma20": 1847,
+        "bia5": 4.74,
+        "bia10": 2.93,
+        "bia20": 6.76,
+        "con1": 30.02,
+        "con5": 14.33,
+        "con10": -2.95,
+        "con20": 1.56,
+        "foreign_buy_sell": 774356,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 771,
+        "foreign_sum10": -546,
+        "foreign_sum20": 604,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 2,
+        "trust_streak_days": 0,
+        "margin_balance": 2862,
+        "margin_balance_diff": -53,
+        "margin_balance_diff_sum5": -165,
+        "squeeze": 1.39,
+        "bullet": 0.09,
+        "net_sbl": -3,
+        "net_sbl_sum5": -4,
+        "sbl_total": 2740,
+        "sbl_sold_balance": 2571,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "首次站上季線": 15
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 15
+            },
+            "chip": {
+                "融資減肥": 6
+            },
+            "risk": {
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "首次站上季線",
+            "爆量突破",
+            "價量齊揚",
+            "融資減肥",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "成交量放大 5.66 倍",
+            "突破前高"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "5607",
+        "stock_name": "遠雄港",
+        "stock_type": "TSE",
+        "industry": "航運業",
+        "subIndustry": [
+            " 貨櫃運輸集散及倉儲"
+        ],
+        "concept": [
+            "物流",
+            "資產股",
+            "都市更新"
+        ],
+        "score": 59,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.6,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": -20,
+        "close": 55.5,
+        "yesterday_high": 56.4,
+        "yesterday_low": 55,
+        "vol": 2416,
+        "vol_ratio": 1.31,
+        "rank10": 70.05,
+        "rank20": 76.07,
+        "amp10": 19.1,
+        "amp20": 25.11,
+        "ma5": 54.26,
+        "ma10": 52.61,
+        "ma20": 50.52,
+        "ma60": 50.98,
+        "vma5": 1859,
+        "vma10": 1310,
+        "vma20": 868,
+        "bia5": 2.29,
+        "bia10": 5.5,
+        "bia20": 9.87,
+        "con1": 19.05,
+        "con5": 30.48,
+        "con10": 36,
+        "con20": 25.24,
+        "foreign_buy_sell": 426302,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2520,
+        "foreign_sum10": 4498,
+        "foreign_sum20": 3961,
+        "trust_sum5": -2,
+        "trust_sum10": -2,
+        "trust_sum20": 5,
+        "foreign_streak_days": 10,
+        "trust_streak_days": 0,
+        "margin_balance": 2290,
+        "margin_balance_diff": -8,
+        "margin_balance_diff_sum5": 226,
+        "squeeze": 0.53,
+        "bullet": 1.24,
+        "net_sbl": 29,
+        "net_sbl_sum5": 15,
+        "sbl_total": 1528,
+        "sbl_sold_balance": 456,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": {
+                "假突破": -20
+            },
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "假突破"
+        ],
+        "trigger_reasons": [
+            "外資連買 10 日",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    }
+]
