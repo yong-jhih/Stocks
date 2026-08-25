@@ -1,11 +1,29 @@
 {
-    "date": "2026-08-24",
-    "score": 35,
-    "trend": "🔴 偏空",
+    "date": "2026-08-25",
+    "score": 47,
+    "trend": "🟡 中性",
+    "scoreDetail": {
+        "index": {
+            "score": 3,
+            "max": 35
+        },
+        "futures": {
+            "score": -10,
+            "max": 25
+        },
+        "sentiment": {
+            "score": 5,
+            "max": 20
+        },
+        "institutional": {
+            "score": -5,
+            "max": 20
+        }
+    },
     "index": {
-        "close": 44762.32,
-        "changePercent": -1.0215085742639656,
-        "change5d": -2.387734812822475,
+        "close": 45169.46,
+        "changePercent": 0.9095596474892262,
+        "change5d": -0.3072700418551173,
         "change20d": null,
         "change60d": null,
         "history": [
@@ -48,24 +66,28 @@
             {
                 "date": "08\/24",
                 "value": 44762.32
+            },
+            {
+                "date": "08\/25",
+                "value": 45169.46
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 6842,
-            "short": 89371,
-            "net": -82529
+            "long": 5030,
+            "short": 90410,
+            "net": -85380
         },
         "mxf": {
-            "long": 1655,
-            "short": 4382,
-            "net": -2727
+            "long": 2578,
+            "short": 1520,
+            "net": 1058
         },
         "tmf": {
-            "long": 3920,
-            "short": 1889,
-            "net": 2031
+            "long": 9030,
+            "short": 360,
+            "net": 8670
         },
         "history": [
             {
@@ -127,13 +149,19 @@
                 "txf": -82529,
                 "mxf": -2727,
                 "tmf": 2031
+            },
+            {
+                "date": "08\/25",
+                "txf": -85380,
+                "mxf": 1058,
+                "tmf": 8670
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 31.35,
-        "putCallRatio": 95.81,
-        "trend": "🟡 中性",
+        "retailRatio": 16.91,
+        "putCallRatio": 101.99,
+        "trend": "🟢 稍偏多",
         "history": [
             {
                 "date": "08\/11",
@@ -184,34 +212,39 @@
                 "date": "08\/24",
                 "retailRatio": 31.35,
                 "putCallRatio": 95.81
+            },
+            {
+                "date": "08\/25",
+                "retailRatio": 16.91,
+                "putCallRatio": 101.99
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 2738.5,
-            "sell": 2902.3,
-            "net": -163.8
+            "buy": 3387.1,
+            "sell": 3434.2,
+            "net": -47.1
         },
         "foreign": {
-            "buy": 2360.4,
-            "sell": 2517.9,
-            "net": -157.5
+            "buy": 2919.7,
+            "sell": 2927.6,
+            "net": -7.9
         },
         "trust": {
-            "buy": 138.3,
-            "sell": 101.3,
-            "net": 37
+            "buy": 145.6,
+            "sell": 185.4,
+            "net": -39.8
         },
         "dealer": {
-            "buy": 59.2,
-            "sell": 59.3,
-            "net": -0.1
+            "buy": 74.3,
+            "sell": 64.3,
+            "net": 10
         },
         "dealerRisk": {
-            "buy": 180.6,
-            "sell": 223.8,
-            "net": -43.2
+            "buy": 247.4,
+            "sell": 256.8,
+            "net": -9.4
         },
         "history": [
             {
@@ -293,17 +326,21 @@
                 "trust": 37,
                 "dealer": -0.1,
                 "dealerRisk": -43.2
+            },
+            {
+                "date": "08\/25",
+                "total": -47.1,
+                "foreign": -7.9,
+                "trust": -39.8,
+                "dealer": 10,
+                "dealerRisk": -9.4
             }
         ]
     },
     "signals": [
         {
             "type": "bearish",
-            "text": "外資大台期貨維持淨空單"
-        },
-        {
-            "type": "warning",
-            "text": "小台散戶多方部位偏高，需留意市場過熱"
+            "text": "外資大台期貨淨空單仍處高檔"
         }
     ]
 }
