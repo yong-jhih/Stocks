@@ -1898,26 +1898,84 @@ function analyzeMarketTrend(PDO $pdo): void
     // =========================================================
     // 5. 市場情緒連續性
     // =========================================================
-    $sentimentScore = 0;
-    if ($retailRatio !== null) {
-        if ($retailRatio < 0) { // 散戶偏空
-            $sentimentScore += 1;
-        } elseif ($retailRatio > 0) { // 散戶偏多
-            $sentimentScore -= 1;
-        }
-    }
+    // $sentimentScore = 0;
+    // if ($retailRatio !== null) {
+    //     if ($retailRatio < 0) { // 散戶偏空
+    //         $sentimentScore += 1;
+    //     } elseif ($retailRatio > 0) { // 散戶偏多
+    //         $sentimentScore -= 1;
+    //     }
+    // }
 
-    if ($putCallRatio !== null) {
-        if ($putCallRatio >= 120) {
+    // if ($putCallRatio !== null) {
+    //     if ($putCallRatio >= 120) {
+    //         $sentimentScore += 1;
+    //     } elseif ($putCallRatio <= 90) {
+    //         $sentimentScore -= 1;
+    //     }
+    // }
+    // if ($sentimentScore >= 2) {
+    //     $sentimentTrend = '🟢 偏多';
+    // } elseif ($sentimentScore <= -2) {
+    //     $sentimentTrend = '🔴 偏空';
+    // } else {
+    //     $sentimentTrend = '🟡 中性';
+    // }
+
+    // =========================================================
+    // 5. 市場情緒
+    // 小台散戶多空比：反向指標
+    //   正值 → 散戶偏空 → 對多方較有利
+    //   負值 → 散戶偏多 → 對多方較不利
+    //
+    // P/C OI Ratio：
+    //   高 → 市場避險/悲觀程度較高 → 反向偏多
+    //   低 → 市場樂觀程度較高 → 反向偏空
+    //
+    // 目前資料不足時，先依「當日狀態」判斷。
+    // 未來累積更多資料後，可進一步加入連續天數。
+    // =========================================================
+    $sentimentScore = 0;
+    // ---------------------------------------------------------
+    // 5-1. 小台散戶多空比
+    // ---------------------------------------------------------
+    if ($retailRatio !== null) {
+        if ($retailRatio >= 30) { // 散戶明顯偏空 → 反向偏多
+            $sentimentScore += 2;
+        } elseif ($retailRatio >= 15) { // 散戶偏空 → 反向偏多
             $sentimentScore += 1;
-        } elseif ($putCallRatio <= 90) {
+        } elseif ($retailRatio <= -30) { // 散戶明顯偏多 → 反向偏空
+            $sentimentScore -= 2;
+        } elseif ($retailRatio <= -15) { // 散戶偏多 → 反向偏空
             $sentimentScore -= 1;
         }
     }
-    if ($sentimentScore >= 2) {
+    // ---------------------------------------------------------
+    // 5-2. 選擇權 P/C OI Ratio
+    // ---------------------------------------------------------
+    if ($putCallRatio !== null) {
+        if ($putCallRatio >= 130) {
+            // Put OI 明顯高於 Call OI 市場避險/悲觀情緒偏高 → 反向偏多
+            $sentimentScore += 2;
+        } elseif ($putCallRatio >= 115) { // 偏保守
+            $sentimentScore += 1;
+        } elseif ($putCallRatio <= 80) { // 市場樂觀程度偏高 → 反向偏空
+            $sentimentScore -= 2;
+        } elseif ($putCallRatio <= 95) { // 偏樂觀
+            $sentimentScore -= 1;
+        }
+    }
+    // ---------------------------------------------------------
+    // 5-3. 情緒總體判斷
+    // ---------------------------------------------------------
+    if ($sentimentScore >= 3) {
         $sentimentTrend = '🟢 偏多';
-    } elseif ($sentimentScore <= -2) {
+    } elseif ($sentimentScore >= 1) {
+        $sentimentTrend = '🟢 稍偏多';
+    } elseif ($sentimentScore <= -3) {
         $sentimentTrend = '🔴 偏空';
+    } elseif ($sentimentScore <= -1) {
+        $sentimentTrend = '🔴 稍偏空';
     } else {
         $sentimentTrend = '🟡 中性';
     }
@@ -1969,61 +2027,214 @@ function analyzeMarketTrend(PDO $pdo): void
     // =========================================================
     // 7. 今日市場訊號
     // =========================================================
+    // $signals = [];
+    // // 指數
+    // if ($change20d !== null) {
+    //     if ($change20d > 3) {
+    //         $signals[] = [
+    //             'type' => 'bullish',
+    //             'text' => '加權指數維持中期上升趨勢'
+    //         ];
+    //     } elseif ($change20d < -3) {
+
+    //         $signals[] = [
+    //             'type' => 'bearish',
+    //             'text' => '加權指數中期走勢偏弱'
+    //         ];
+    //     }
+    // }
+    // // 外資期貨
+    // if ($futures['txf']['net'] > 0) {
+    //     $signals[] = [
+    //         'type' => 'bullish',
+    //         'text' => '外資大台期貨維持淨多單'
+    //     ];
+    // } elseif ($futures['txf']['net'] < 0) {
+    //     $signals[] = [
+    //         'type' => 'bearish',
+    //         'text' => '外資大台期貨維持淨空單'
+    //     ];
+    // }
+    // // 小台散戶
+    // if ($retailRatio !== null) {
+    //     if ($retailRatio > 20) {
+    //         $signals[] = [
+    //             'type' => 'warning',
+    //             'text' => '小台散戶多方部位偏高，需留意市場過熱'
+    //         ];
+    //     } elseif ($retailRatio < -20) {
+    //         $signals[] = [
+    //             'type' => 'bullish',
+    //             'text' => '小台散戶偏空，市場籌碼相對有利多方'
+    //         ];
+    //     }
+    // }
+    // // P/C
+    // if ($putCallRatio !== null) {
+    //     if ($putCallRatio >= 120) {
+    //         $signals[] = [
+    //             'type' => 'warning',
+    //             'text' => '選擇權 P/C OI Ratio 位於偏高區'
+    //         ];
+    //     } elseif ($putCallRatio <= 90) {
+    //         $signals[] = [
+    //             'type' => 'warning',
+    //             'text' => '選擇權 P/C OI Ratio 位於偏低區'
+    //         ];
+    //     }
+    // }
+
+    // =========================================================
+    // 7. 今日市場訊號
+    //
+    // 原則：
+    // 1. 只顯示具有判讀價值的訊號
+    // 2. 避免單純「有空單」這種每天重複出現的訊息
+    // 3. 同時保留指數、期貨、情緒、法人四大類
+    // =========================================================
     $signals = [];
-    // 指數
+    // ---------------------------------------------------------
+    // 7-1. 指數趨勢
+    // ---------------------------------------------------------
     if ($change20d !== null) {
-        if ($change20d > 3) {
+        if ($change20d >= 5) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '加權指數近20日漲幅明顯，大盤維持中期強勢'
+            ];
+        } elseif ($change20d >= 3) {
             $signals[] = [
                 'type' => 'bullish',
                 'text' => '加權指數維持中期上升趨勢'
             ];
-        } elseif ($change20d < -3) {
-
+        } elseif ($change20d <= -5) {
+            $signals[] = [
+                'type' => 'bearish',
+                'text' => '加權指數近20日跌幅明顯，中期趨勢偏弱'
+            ];
+        } elseif ($change20d <= -3) {
             $signals[] = [
                 'type' => 'bearish',
                 'text' => '加權指數中期走勢偏弱'
             ];
         }
     }
-    // 外資期貨
-    if ($futures['txf']['net'] > 0) {
+    // ---------------------------------------------------------
+    // 7-2. 外資大台期貨
+    // ---------------------------------------------------------
+    $txfNet = $futures['txf']['net'];
+    if ($txfNet >= 30000) {
+        $signals[] = [
+            'type' => 'bullish',
+            'text' => '外資大台期貨維持大量淨多單'
+        ];
+    } elseif ($txfNet >= 10000) {
         $signals[] = [
             'type' => 'bullish',
             'text' => '外資大台期貨維持淨多單'
         ];
-    } elseif ($futures['txf']['net'] < 0) {
+    } elseif ($txfNet <= -50000) {
+        $signals[] = [
+            'type' => 'bearish',
+            'text' => '外資大台期貨淨空單仍處高檔'
+        ];
+    } elseif ($txfNet <= -10000) {
         $signals[] = [
             'type' => 'bearish',
             'text' => '外資大台期貨維持淨空單'
         ];
     }
-    // 小台散戶
+
+    // ---------------------------------------------------------
+    // 7-3. 小台散戶
+    // ---------------------------------------------------------
     if ($retailRatio !== null) {
-        if ($retailRatio > 20) {
+        if ($retailRatio >= 30) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '小台散戶明顯偏空，籌碼面對多方較有利'
+            ];
+        } elseif ($retailRatio >= 20) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '小台散戶偏空，籌碼面對多方較有利'
+            ];
+        } elseif ($retailRatio <= -30) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '小台散戶多方部位明顯偏高，需留意市場過熱'
+            ];
+        } elseif ($retailRatio <= -20) {
             $signals[] = [
                 'type' => 'warning',
                 'text' => '小台散戶多方部位偏高，需留意市場過熱'
             ];
-        } elseif ($retailRatio < -20) {
+        }
+    }
+    // ---------------------------------------------------------
+    // 7-4. P/C OI Ratio
+    // ---------------------------------------------------------
+    if ($putCallRatio !== null) {
+        if ($putCallRatio >= 130) {
             $signals[] = [
                 'type' => 'bullish',
-                'text' => '小台散戶偏空，市場籌碼相對有利多方'
+                'text' => '選擇權 P/C OI Ratio 偏高，市場避險情緒明顯'
+            ];
+        } elseif ($putCallRatio >= 115) {
+            $signals[] = [
+                'type' => 'bullish',
+                'text' => '選擇權 P/C OI Ratio 偏高，市場情緒較為保守'
+            ];
+        } elseif ($putCallRatio <= 80) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '選擇權 P/C OI Ratio 偏低，市場樂觀程度偏高'
+            ];
+        } elseif ($putCallRatio <= 95) {
+            $signals[] = [
+                'type' => 'warning',
+                'text' => '選擇權 P/C OI Ratio 偏低，需留意市場過度樂觀'
             ];
         }
     }
-    // P/C
-    if ($putCallRatio !== null) {
-        if ($putCallRatio >= 120) {
-            $signals[] = [
-                'type' => 'warning',
-                'text' => '選擇權 P/C OI Ratio 位於偏高區'
-            ];
-        } elseif ($putCallRatio <= 90) {
-            $signals[] = [
-                'type' => 'warning',
-                'text' => '選擇權 P/C OI Ratio 位於偏低區'
-            ];
-        }
+    // ---------------------------------------------------------
+    // 7-5. 法人籌碼
+    // ---------------------------------------------------------
+    $totalInstiNet = $institutional['total']['net'];
+    $foreignInstiNet = $institutional['foreign']['net'];
+    $trustInstiNet = $institutional['trust']['net'];
+    if ($foreignInstiNet >= 300) {
+        $signals[] = [
+            'type' => 'bullish',
+            'text' => '外資現貨單日大幅買超，法人籌碼偏多'
+        ];
+    } elseif ($foreignInstiNet <= -300) {
+        $signals[] = [
+            'type' => 'bearish',
+            'text' => '外資現貨單日大幅賣超，法人籌碼偏空'
+        ];
+    }
+    if ($trustInstiNet >= 100) {
+        $signals[] = [
+            'type' => 'bullish',
+            'text' => '投信單日明顯買超'
+        ];
+    } elseif ($trustInstiNet <= -100) {
+        $signals[] = [
+            'type' => 'bearish',
+            'text' => '投信單日明顯賣超'
+        ];
+    }
+    if ($totalInstiNet >= 300) {
+        $signals[] = [
+            'type' => 'bullish',
+            'text' => '三大法人單日合計明顯買超'
+        ];
+    } elseif ($totalInstiNet <= -300) {
+        $signals[] = [
+            'type' => 'bearish',
+            'text' => '三大法人單日合計明顯賣超'
+        ];
     }
 
     // =========================================================
@@ -2031,49 +2242,310 @@ function analyzeMarketTrend(PDO $pdo): void
     // 第一版先採簡單規則
     // 後續有足夠歷史資料再調整權重
     // =========================================================
-    $score = 50;
-    // 指數中期方向
+    // $score = 50;
+    // // 指數中期方向
+    // if ($change20d !== null) {
+    //     if ($change20d > 3) {
+    //         $score += 15;
+    //     } elseif ($change20d > 0) {
+    //         $score += 8;
+    //     } elseif ($change20d < -3) {
+    //         $score -= 15;
+    //     } elseif ($change20d < 0) {
+    //         $score -= 8;
+    //     }
+    // }
+    // // 外資期貨
+    // if ($futures['txf']['net'] > 0) {
+    //     $score += 10;
+    // } elseif ($futures['txf']['net'] < 0) {
+    //     $score -= 10;
+    // }
+    // // 散戶反向指標
+    // if ($retailRatio !== null) {
+    //     if ($retailRatio < 0) {
+    //         $score += 5;
+    //     } elseif ($retailRatio > 20) {
+    //         $score -= 5;
+    //     }
+    // }
+    // // P/C
+    // if ($putCallRatio !== null) {
+    //     if ($putCallRatio >= 120) {
+    //         $score += 5;
+    //     } elseif ($putCallRatio <= 90) {
+    //         $score -= 5;
+    //     }
+    // }
+    // $score = max(0, min(100, $score));
+    // if ($score >= 65) {
+    //     $trend = '🟢 偏多';
+    // } elseif ($score >= 45) {
+    //     $trend = '🟡 中性';
+    // } else {
+    //     $trend = '🔴 偏空';
+    // }
+
+    // =========================================================
+    // 8. 大盤環境評分
+    //
+    // 總分 100
+    //
+    // 指數趨勢   35
+    // 外資期貨   25
+    // 市場情緒   20
+    // 法人籌碼   20
+    //
+    // 注意：
+    // 目前歷史資料尚少，因此只使用當下可可靠判斷的數值。
+    // 未來資料累積後，再加入「連續買超／連續淨空單」等因素。
+    // =========================================================
+    $indexScore = 0;
+    $futuresScore = 0;
+    $sentimentScoreFinal = 0;
+    $institutionalScore = 0;
+    // =========================================================
+    // 8-1. 指數趨勢：35分
+    // =========================================================
+    // 今日漲跌：5分
+    if ($changePercent !== null) {
+        if ($changePercent >= 1.0) {
+            $indexScore += 5;
+        } elseif ($changePercent >= 0.3) {
+            $indexScore += 3;
+        } elseif ($changePercent > -0.3) {
+            // 接近持平
+            $indexScore += 0;
+        } elseif ($changePercent > -1.0) {
+            $indexScore -= 3;
+        } else {
+            $indexScore -= 5;
+        }
+    }
+    // 5日趨勢：10分
+    if ($change5d !== null) {
+        if ($change5d >= 3) {
+            $indexScore += 10;
+        } elseif ($change5d >= 1) {
+            $indexScore += 6;
+        } elseif ($change5d > -1) {
+            $indexScore += 0;
+        } elseif ($change5d > -3) {
+            $indexScore -= 6;
+        } else {
+            $indexScore -= 10;
+        }
+    }
+    // 20日趨勢：20分
     if ($change20d !== null) {
-        if ($change20d > 3) {
-            $score += 15;
-        } elseif ($change20d > 0) {
-            $score += 8;
-        } elseif ($change20d < -3) {
-            $score -= 15;
-        } elseif ($change20d < 0) {
-            $score -= 8;
+        if ($change20d >= 5) {
+            $indexScore += 20;
+        } elseif ($change20d >= 3) {
+            $indexScore += 15;
+        } elseif ($change20d >= 0) {
+            $indexScore += 8;
+        } elseif ($change20d > -3) {
+            $indexScore -= 8;
+        } elseif ($change20d > -5) {
+            $indexScore -= 15;
+        } else {
+            $indexScore -= 20;
         }
     }
-    // 外資期貨
-    if ($futures['txf']['net'] > 0) {
-        $score += 10;
-    } elseif ($futures['txf']['net'] < 0) {
-        $score -= 10;
+    // 確保在 -35 ～ +35
+    $indexScore = max(-35, min(35, $indexScore));
+    // =========================================================
+    // 8-2. 外資期貨：25分
+    // TXF → 15
+    // MXF → 6
+    // TMF → 4
+    // =========================================================
+    // 大台 TXF：15分
+    if ($futures['txf']['net'] >= 30000) {
+        $futuresScore += 15;
+    } elseif ($futures['txf']['net'] >= 10000) {
+        $futuresScore += 10;
+    } elseif ($futures['txf']['net'] > 0) {
+        $futuresScore += 5;
+    } elseif ($futures['txf']['net'] <= -50000) {
+        $futuresScore -= 15;
+    } elseif ($futures['txf']['net'] <= -10000) {
+        $futuresScore -= 10;
+    } else {
+        $futuresScore -= 5;
     }
-    // 散戶反向指標
+    // 小台 MXF：6分
+    if ($futures['mxf']['net'] >= 3000) {
+        $futuresScore += 6;
+    } elseif ($futures['mxf']['net'] > 0) {
+        $futuresScore += 3;
+    } elseif ($futures['mxf']['net'] <= -3000) {
+        $futuresScore -= 6;
+    } else {
+        $futuresScore -= 3;
+    }
+    // 微台 TMF：4分
+    if ($futures['tmf']['net'] >= 10000) {
+        $futuresScore += 4;
+    } elseif ($futures['tmf']['net'] > 0) {
+        $futuresScore += 2;
+    } elseif ($futures['tmf']['net'] <= -10000) {
+        $futuresScore -= 4;
+    } else {
+        $futuresScore -= 2;
+    }
+    $futuresScore = max(-25, min(25, $futuresScore));
+    // =========================================================
+    // 8-3. 市場情緒：20分
+    // 小台散戶：10
+    // P/C：10
+    // =========================================================
+    // 小台散戶：10分
     if ($retailRatio !== null) {
-        if ($retailRatio < 0) {
-            $score += 5;
-        } elseif ($retailRatio > 20) {
-            $score -= 5;
+        if ($retailRatio >= 30) {
+            $sentimentScoreFinal += 10;
+        } elseif ($retailRatio >= 15) {
+            $sentimentScoreFinal += 5;
+        } elseif ($retailRatio > -15) {
+            $sentimentScoreFinal += 0;
+        } elseif ($retailRatio > -30) {
+            $sentimentScoreFinal -= 5;
+        } else {
+            $sentimentScoreFinal -= 10;
         }
     }
-    // P/C
+    // P/C OI：10分
     if ($putCallRatio !== null) {
-        if ($putCallRatio >= 120) {
-            $score += 5;
-        } elseif ($putCallRatio <= 90) {
-            $score -= 5;
+        if ($putCallRatio >= 130) {
+            $sentimentScoreFinal += 10;
+        } elseif ($putCallRatio >= 115) {
+            $sentimentScoreFinal += 5;
+        } elseif ($putCallRatio > 95) {
+            $sentimentScoreFinal += 0;
+        } elseif ($putCallRatio > 80) {
+            $sentimentScoreFinal -= 5;
+        } else {
+            $sentimentScoreFinal -= 10;
         }
     }
+    $sentimentScoreFinal = max(-20, min(20, $sentimentScoreFinal));
+    // =========================================================
+    // 8-4. 法人籌碼：20分
+    // 三大法人：3
+    // 外資：7
+    // 投信：4
+    // 自營商：3
+    // 避險：3
+    // =========================================================
+    // 三大法人：3分
+    if ($institutional['total']['net'] >= 200) {
+        $institutionalScore += 3;
+    } elseif ($institutional['total']['net'] >= 50) {
+        $institutionalScore += 2;
+    } elseif ($institutional['total']['net'] > 0) {
+        $institutionalScore += 1;
+    } elseif ($institutional['total']['net'] <= -200) {
+        $institutionalScore -= 3;
+    } elseif ($institutional['total']['net'] <= -50) {
+        $institutionalScore -= 2;
+    } else {
+        $institutionalScore -= 1;
+    }
+    // 外資：7分
+    if ($institutional['foreign']['net'] >= 300) {
+        $institutionalScore += 7;
+    } elseif ($institutional['foreign']['net'] >= 100) {
+        $institutionalScore += 4;
+    } elseif ($institutional['foreign']['net'] > 0) {
+        $institutionalScore += 2;
+    } elseif ($institutional['foreign']['net'] <= -300) {
+        $institutionalScore -= 7;
+    } elseif ($institutional['foreign']['net'] <= -100) {
+        $institutionalScore -= 4;
+    } else {
+        $institutionalScore -= 2;
+    }
+    // 投信：4分
+    if ($institutional['trust']['net'] >= 100) {
+        $institutionalScore += 4;
+    } elseif ($institutional['trust']['net'] > 0) {
+        $institutionalScore += 2;
+    } elseif ($institutional['trust']['net'] <= -100) {
+        $institutionalScore -= 4;
+    } else {
+        $institutionalScore -= 2;
+    }
+    // 自營商：3分
+    if ($institutional['dealer']['net'] >= 100) {
+        $institutionalScore += 3;
+    } elseif ($institutional['dealer']['net'] > 0) {
+        $institutionalScore += 1;
+    } elseif ($institutional['dealer']['net'] <= -100) {
+        $institutionalScore -= 3;
+    } else {
+        $institutionalScore -= 1;
+    }
+    // 自營商避險：3分
+    if ($institutional['dealerRisk']['net'] >= 100) {
+        $institutionalScore += 3;
+    } elseif ($institutional['dealerRisk']['net'] > 0) {
+        $institutionalScore += 1;
+    } elseif ($institutional['dealerRisk']['net'] <= -100) {
+        $institutionalScore -= 3;
+    } else {
+        $institutionalScore -= 1;
+    }
+    $institutionalScore = max(-20, min(20, $institutionalScore));
+    // =========================================================
+    // 8-5. 最終分數
+    // 各區間原本是 -35～+35、-25～+25...
+    // 轉成 0～100。
+    // =========================================================
+    $rawScore =
+        $indexScore +
+        $futuresScore +
+        $sentimentScoreFinal +
+        $institutionalScore;
+    // rawScore 範圍：-100 ～ +100
+    $score = round(($rawScore + 100) / 2);
     $score = max(0, min(100, $score));
-    if ($score >= 65) {
+    // =========================================================
+    // 8-6. 大盤趨勢
+    // =========================================================
+    if ($score >= 70) {
         $trend = '🟢 偏多';
+    } elseif ($score >= 55) {
+        $trend = '🟢 稍偏多';
     } elseif ($score >= 45) {
         $trend = '🟡 中性';
+    } elseif ($score >= 30) {
+        $trend = '🔴 稍偏空';
     } else {
         $trend = '🔴 偏空';
     }
+    // =========================================================
+    // 8-7. 分項評分
+    //
+    // 提供前端未來顯示「為什麼是這個分數」。
+    // =========================================================
+    $scoreDetail = [
+        'index' => [
+            'score' => $indexScore,
+            'max' => 35
+        ],
+        'futures' => [
+            'score' => $futuresScore,
+            'max' => 25
+        ],
+        'sentiment' => [
+            'score' => $sentimentScoreFinal,
+            'max' => 20
+        ],
+        'institutional' => [
+            'score' => $institutionalScore,
+            'max' => 20
+        ]
+    ];
 
     // =========================================================
     // 9. 統一回傳前端 JSON
@@ -2082,6 +2554,7 @@ function analyzeMarketTrend(PDO $pdo): void
         'date' => $targetDate,
         'score' => $score,
         'trend' => $trend,
+        'scoreDetail' => $scoreDetail,
         'index' => [
             'close' => $close,
             'changePercent' => $changePercent,
