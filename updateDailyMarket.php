@@ -6,7 +6,6 @@ try {
     $openInterest = getOpenInterest($pdo, $targetDate);
     $PutCallRatio = getPutCallRatio($targetDate);
     $instiBuySell = getInstiBuySell($pdo, $targetDate);
-
     $pdo->beginTransaction();
     $sql = "INSERT INTO market_daily (
                     trade_date, twii_close,
@@ -75,5 +74,6 @@ try {
         $pdo->rollBack();
     }
     writeLog($pdo, 'updateDailyMarket', "{$targetDate} 大盤資料新增失敗: " . $e->getMessage(), 'error');
+    updateSystemLog($pdo);
     exit(1);
 }

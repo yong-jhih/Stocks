@@ -8,14 +8,7 @@ try {
         insertComponent($pdo, $targetDate, $etf_id, $results);
     }
 } catch (Throwable $e) {
-    callGAS([
-        'date' => $targetDate,
-        'action' => 'retry',
-        'target' => 'GetETF',
-        'after' => 600
-    ]);
     writeLog($pdo, 'updateETFcomponent', "更新ETF異常:" . $e->getMessage(), 'error');
     updateSystemLog($pdo);
-    $currentHi = (int)date('Hi');
-    if ($currentHi >= 2000 && $currentHi <= 2030) exit(1);
+    exit(1);
 }

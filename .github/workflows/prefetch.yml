@@ -2,7 +2,7 @@ name: Prefetch Data
 
 on:
   repository_dispatch:
-    types: [getETF]
+    types: [prefetch]
   workflow_dispatch:
 
 concurrency:

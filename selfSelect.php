@@ -49,21 +49,8 @@ if (
         cleanData(20);
         updateSystemLog($pdo);
     } catch (Throwable $e) {
-        if (str_contains($e->getMessage(), 'exceeding the allowed memory limit')) {
-            writeLog($pdo, 'selfSelectGenerateDailyDashboard', 'TiDB記憶體不足，3分鐘後重試', 'retry');
-            callGAS([
-                'date' => $targetDate,
-                'action' => 'retry',
-                'target' => 'SelfSelect',
-                'after' => 180
-            ]);
-            updateSystemLog($pdo);
-            exit(0);
-        } else {
-            writeLog($pdo, 'selfSelectGenerateDailyDashboard', $e->getMessage(), 'error');
-            updateSystemLog($pdo);
-            exit(1);
-        }
+        echo 'selfSelect:' . $e->getMessage();
+        exit(1);
     }
 } else {
     echo '資料數量不足, 請檢查資料更新狀態';
