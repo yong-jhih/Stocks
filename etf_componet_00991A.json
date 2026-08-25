@@ -6,25 +6,25 @@
       "ec002": "(基金之配息來源可能為收益平準金)",
       "etf002": "00991A",
       "ec038": "—",
-      "dDate": "2026/08/24",
-      "pcf_FundNav": "84,011,526,025",
+      "dDate": "2026/08/25",
+      "pcf_FundNav": "84,995,198,006",
       "pcf_FundQissue": "4,811,916,000",
-      "pcf_Fundpnav": "17.46",
+      "pcf_Fundpnav": "17.66",
       "result": [
         {
           "ftype": "股票",
           "itemName": "股票",
-          "tot_mvalue": "82,653,554,110"
+          "tot_mvalue": "83,639,276,399"
         },
         {
           "ftype": "其他資產",
           "itemName": "扣除應付買入證券款後現金餘額(NTD)",
-          "tot_mvalue": "1,847,005,922"
+          "tot_mvalue": "1,771,995,184"
         },
         {
           "ftype": "其他資產",
           "itemName": "應付買回款(NTD)",
-          "tot_mvalue": "-912,568,079"
+          "tot_mvalue": "-438,076,410"
         }
       ],
       "diff": null,
@@ -36,10 +36,10 @@
           "qshare": "4,500,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "10,687,500,000",
-          "price": "2,375.0000",
+          "mvalue": "10,800,000,000",
+          "price": "2,400.0000",
           "accint": "0",
-          "prate_addaccint": "12.721%"
+          "prate_addaccint": "12.707%"
         },
         {
           "ftype": "股票",
@@ -48,10 +48,10 @@
           "qshare": "1,400,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "7,602,000,000",
-          "price": "5,430.0000",
+          "mvalue": "7,833,000,000",
+          "price": "5,595.0000",
           "accint": "0",
-          "prate_addaccint": "9.049%"
+          "prate_addaccint": "9.216%"
         },
         {
           "ftype": "股票",
@@ -60,10 +60,10 @@
           "qshare": "510,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "7,349,100,000",
-          "price": "14,410.0000",
+          "mvalue": "7,285,350,000",
+          "price": "14,285.0000",
           "accint": "0",
-          "prate_addaccint": "8.748%"
+          "prate_addaccint": "8.571%"
         },
         {
           "ftype": "股票",
@@ -72,10 +72,10 @@
           "qshare": "14,000,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "7,014,000,000",
-          "price": "501.0000",
+          "mvalue": "7,140,000,000",
+          "price": "510.0000",
           "accint": "0",
-          "prate_addaccint": "8.349%"
+          "prate_addaccint": "8.400%"
         },
         {
           "ftype": "股票",
@@ -84,10 +84,10 @@
           "qshare": "5,000,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "5,375,000,000",
-          "price": "1,075.0000",
+          "mvalue": "5,475,000,000",
+          "price": "1,095.0000",
           "accint": "0",
-          "prate_addaccint": "6.398%"
+          "prate_addaccint": "6.442%"
         },
         {
           "ftype": "股票",
@@ -96,10 +96,10 @@
           "qshare": "7,700,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "4,242,700,000",
-          "price": "551.0000",
+          "mvalue": "4,188,800,000",
+          "price": "544.0000",
           "accint": "0",
-          "prate_addaccint": "5.050%"
+          "prate_addaccint": "4.928%"
         },
         {
           "ftype": "股票",
@@ -108,22 +108,10 @@
           "qshare": "600,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,780,000,000",
-          "price": "6,300.0000",
+          "mvalue": "3,864,000,000",
+          "price": "6,440.0000",
           "accint": "0",
-          "prate_addaccint": "4.499%"
-        },
-        {
-          "ftype": "股票",
-          "stockid": "2454",
-          "stockname": "聯發科技",
-          "qshare": "1,000,000",
-          "etf_index": null,
-          "qshareCur": "NTD",
-          "mvalue": "3,765,000,000",
-          "price": "3,765.0000",
-          "accint": "0",
-          "prate_addaccint": "4.482%"
+          "prate_addaccint": "4.546%"
         },
         {
           "ftype": "股票",
@@ -132,10 +120,22 @@
           "qshare": "3,250,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,688,750,000",
-          "price": "1,135.0000",
+          "mvalue": "3,770,000,000",
+          "price": "1,160.0000",
           "accint": "0",
-          "prate_addaccint": "4.391%"
+          "prate_addaccint": "4.436%"
+        },
+        {
+          "ftype": "股票",
+          "stockid": "2454",
+          "stockname": "聯發科技",
+          "qshare": "1,000,000",
+          "etf_index": null,
+          "qshareCur": "NTD",
+          "mvalue": "3,735,000,000",
+          "price": "3,735.0000",
+          "accint": "0",
+          "prate_addaccint": "4.394%"
         },
         {
           "ftype": "股票",
@@ -144,22 +144,10 @@
           "qshare": "660,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,672,900,000",
-          "price": "5,565.0000",
+          "mvalue": "3,696,000,000",
+          "price": "5,600.0000",
           "accint": "0",
-          "prate_addaccint": "4.372%"
-        },
-        {
-          "ftype": "股票",
-          "stockid": "2345",
-          "stockname": "智邦科技",
-          "qshare": "1,750,000",
-          "etf_index": null,
-          "qshareCur": "NTD",
-          "mvalue": "3,622,500,000",
-          "price": "2,070.0000",
-          "accint": "0",
-          "prate_addaccint": "4.312%"
+          "prate_addaccint": "4.348%"
         },
         {
           "ftype": "股票",
@@ -168,10 +156,10 @@
           "qshare": "1,250,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,568,750,000",
-          "price": "2,855.0000",
+          "mvalue": "3,687,500,000",
+          "price": "2,950.0000",
           "accint": "0",
-          "prate_addaccint": "4.248%"
+          "prate_addaccint": "4.338%"
         },
         {
           "ftype": "股票",
@@ -180,10 +168,22 @@
           "qshare": "2,400,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,492,000,000",
-          "price": "1,455.0000",
+          "mvalue": "3,564,000,000",
+          "price": "1,485.0000",
           "accint": "0",
-          "prate_addaccint": "4.157%"
+          "prate_addaccint": "4.193%"
+        },
+        {
+          "ftype": "股票",
+          "stockid": "2345",
+          "stockname": "智邦科技",
+          "qshare": "1,750,000",
+          "etf_index": null,
+          "qshareCur": "NTD",
+          "mvalue": "3,552,500,000",
+          "price": "2,030.0000",
+          "accint": "0",
+          "prate_addaccint": "4.180%"
         },
         {
           "ftype": "股票",
@@ -192,10 +192,10 @@
           "qshare": "4,100,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "3,255,400,000",
-          "price": "794.0000",
+          "mvalue": "3,423,500,000",
+          "price": "835.0000",
           "accint": "0",
-          "prate_addaccint": "3.875%"
+          "prate_addaccint": "4.028%"
         },
         {
           "ftype": "股票",
@@ -204,10 +204,10 @@
           "qshare": "380,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "2,376,900,000",
-          "price": "6,255.0000",
+          "mvalue": "2,359,800,000",
+          "price": "6,210.0000",
           "accint": "0",
-          "prate_addaccint": "2.829%"
+          "prate_addaccint": "2.776%"
         },
         {
           "ftype": "股票",
@@ -216,22 +216,10 @@
           "qshare": "700,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,935,500,000",
-          "price": "2,765.0000",
+          "mvalue": "2,072,000,000",
+          "price": "2,960.0000",
           "accint": "0",
-          "prate_addaccint": "2.304%"
-        },
-        {
-          "ftype": "股票",
-          "stockid": "8299",
-          "stockname": "群聯電子",
-          "qshare": "880,000",
-          "etf_index": null,
-          "qshareCur": "NTD",
-          "mvalue": "1,878,800,000",
-          "price": "2,135.0000",
-          "accint": "0",
-          "prate_addaccint": "2.236%"
+          "prate_addaccint": "2.438%"
         },
         {
           "ftype": "股票",
@@ -240,10 +228,22 @@
           "qshare": "120,500",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,821,357,500",
-          "price": "15,115.0000",
+          "mvalue": "1,855,700,000",
+          "price": "15,400.0000",
           "accint": "0",
-          "prate_addaccint": "2.168%"
+          "prate_addaccint": "2.183%"
+        },
+        {
+          "ftype": "股票",
+          "stockid": "8299",
+          "stockname": "群聯電子",
+          "qshare": "880,000",
+          "etf_index": null,
+          "qshareCur": "NTD",
+          "mvalue": "1,834,800,000",
+          "price": "2,085.0000",
+          "accint": "0",
+          "prate_addaccint": "2.159%"
         },
         {
           "ftype": "股票",
@@ -252,10 +252,10 @@
           "qshare": "340,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,752,700,000",
-          "price": "5,155.0000",
+          "mvalue": "1,769,700,000",
+          "price": "5,205.0000",
           "accint": "0",
-          "prate_addaccint": "2.086%"
+          "prate_addaccint": "2.082%"
         },
         {
           "ftype": "股票",
@@ -264,10 +264,10 @@
           "qshare": "2,700,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,736,100,000",
-          "price": "643.0000",
+          "mvalue": "1,695,600,000",
+          "price": "628.0000",
           "accint": "0",
-          "prate_addaccint": "2.067%"
+          "prate_addaccint": "1.995%"
         },
         {
           "ftype": "股票",
@@ -276,10 +276,10 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "5,385,000",
-          "price": "5,385.0000",
+          "mvalue": "5,720,000",
+          "price": "5,720.0000",
           "accint": "0",
-          "prate_addaccint": "0.006%"
+          "prate_addaccint": "0.007%"
         },
         {
           "ftype": "股票",
@@ -288,8 +288,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "5,328,000",
-          "price": "592.0000",
+          "mvalue": "5,319,000",
+          "price": "591.0000",
           "accint": "0",
           "prate_addaccint": "0.006%"
         },
@@ -300,20 +300,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "2,925,000",
-          "price": "325.0000",
-          "accint": "0",
-          "prate_addaccint": "0.003%"
-        },
-        {
-          "ftype": "股票",
-          "stockid": "2317",
-          "stockname": "鴻海精密",
-          "qshare": "9,000",
-          "etf_index": null,
-          "qshareCur": "NTD",
-          "mvalue": "2,191,500",
-          "price": "243.5000",
+          "mvalue": "2,956,500",
+          "price": "328.5000",
           "accint": "0",
           "prate_addaccint": "0.003%"
         },
@@ -324,22 +312,22 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "2,254,500",
-          "price": "250.5000",
+          "mvalue": "2,214,000",
+          "price": "246.0000",
           "accint": "0",
           "prate_addaccint": "0.003%"
         },
         {
           "ftype": "股票",
-          "stockid": "2360",
-          "stockname": "致茂電子",
-          "qshare": "1,000",
+          "stockid": "2317",
+          "stockname": "鴻海精密",
+          "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "2,070,000",
-          "price": "2,070.0000",
+          "mvalue": "2,187,000",
+          "price": "243.0000",
           "accint": "0",
-          "prate_addaccint": "0.002%"
+          "prate_addaccint": "0.003%"
         },
         {
           "ftype": "股票",
@@ -348,8 +336,20 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "2,050,000",
-          "price": "2,050.0000",
+          "mvalue": "2,075,000",
+          "price": "2,075.0000",
+          "accint": "0",
+          "prate_addaccint": "0.002%"
+        },
+        {
+          "ftype": "股票",
+          "stockid": "2360",
+          "stockname": "致茂電子",
+          "qshare": "1,000",
+          "etf_index": null,
+          "qshareCur": "NTD",
+          "mvalue": "1,965,000",
+          "price": "1,965.0000",
           "accint": "0",
           "prate_addaccint": "0.002%"
         },
@@ -360,8 +360,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,735,000",
-          "price": "1,735.0000",
+          "mvalue": "1,710,000",
+          "price": "1,710.0000",
           "accint": "0",
           "prate_addaccint": "0.002%"
         },
@@ -372,8 +372,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,579,500",
-          "price": "175.5000",
+          "mvalue": "1,606,500",
+          "price": "178.5000",
           "accint": "0",
           "prate_addaccint": "0.002%"
         },
@@ -384,8 +384,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,359,000",
-          "price": "151.0000",
+          "mvalue": "1,354,500",
+          "price": "150.5000",
           "accint": "0",
           "prate_addaccint": "0.002%"
         },
@@ -396,8 +396,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,188,000",
-          "price": "132.0000",
+          "mvalue": "1,273,500",
+          "price": "141.5000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -408,8 +408,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,065,000",
-          "price": "1,065.0000",
+          "mvalue": "1,070,000",
+          "price": "1,070.0000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -420,8 +420,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "923,000",
-          "price": "923.0000",
+          "mvalue": "925,000",
+          "price": "925.0000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -432,8 +432,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "890,100",
-          "price": "98.9000",
+          "mvalue": "927,000",
+          "price": "103.0000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -444,8 +444,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "716,000",
-          "price": "716.0000",
+          "mvalue": "730,000",
+          "price": "730.0000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -468,8 +468,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "572,400",
-          "price": "63.6000",
+          "mvalue": "580,500",
+          "price": "64.5000",
           "accint": "0",
           "prate_addaccint": "0.001%"
         },
@@ -480,10 +480,22 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "450,000",
-          "price": "450.0000",
+          "mvalue": "463,000",
+          "price": "463.0000",
           "accint": "0",
           "prate_addaccint": "0.001%"
+        },
+        {
+          "ftype": "股票",
+          "stockid": "2890",
+          "stockname": "永豐金融",
+          "qshare": "9,000",
+          "etf_index": null,
+          "qshareCur": "NTD",
+          "mvalue": "353,700",
+          "price": "39.3000",
+          "accint": "0",
+          "prate_addaccint": "0.000%"
         },
         {
           "ftype": "股票",
@@ -492,10 +504,10 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "421,650",
-          "price": "46.8500",
+          "mvalue": "423,000",
+          "price": "47.0000",
           "accint": "0",
-          "prate_addaccint": "0.001%"
+          "prate_addaccint": "0.000%"
         },
         {
           "ftype": "股票",
@@ -504,8 +516,8 @@
           "qshare": "1,450",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "346,550",
-          "price": "239.0000",
+          "mvalue": "347,275",
+          "price": "239.5000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -516,8 +528,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "343,350",
-          "price": "38.1500",
+          "mvalue": "351,000",
+          "price": "39.0000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -528,20 +540,8 @@
           "qshare": "9,090",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "356,783",
-          "price": "39.2500",
-          "accint": "0",
-          "prate_addaccint": "0.000%"
-        },
-        {
-          "ftype": "股票",
-          "stockid": "2890",
-          "stockname": "永豐金融",
-          "qshare": "9,000",
-          "etf_index": null,
-          "qshareCur": "NTD",
-          "mvalue": "350,550",
-          "price": "38.9500",
+          "mvalue": "361,782",
+          "price": "39.8000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -552,8 +552,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "279,000",
-          "price": "31.0000",
+          "mvalue": "285,300",
+          "price": "31.7000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -564,8 +564,8 @@
           "qshare": "9,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "328,500",
-          "price": "36.5000",
+          "mvalue": "334,350",
+          "price": "37.1500",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -576,8 +576,8 @@
           "qshare": "1,253",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "266,263",
-          "price": "212.5000",
+          "mvalue": "272,528",
+          "price": "217.5000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -588,8 +588,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "223,500",
-          "price": "223.5000",
+          "mvalue": "224,000",
+          "price": "224.0000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -600,8 +600,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "200,500",
-          "price": "200.5000",
+          "mvalue": "198,500",
+          "price": "198.5000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -624,8 +624,8 @@
           "qshare": "1,000",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "77,400",
-          "price": "77.4000",
+          "mvalue": "77,900",
+          "price": "77.9000",
           "accint": "0",
           "prate_addaccint": "0.000%"
         },
@@ -636,10 +636,10 @@
           "qshare": "0",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "1,847,005,922",
+          "mvalue": "1,771,995,184",
           "price": "",
           "accint": "0",
-          "prate_addaccint": "2.200%"
+          "prate_addaccint": "2.080%"
         },
         {
           "ftype": "其他資產",
@@ -648,29 +648,29 @@
           "qshare": "0",
           "etf_index": null,
           "qshareCur": "NTD",
-          "mvalue": "-912,568,079",
+          "mvalue": "-438,076,410",
           "price": "",
           "accint": "0",
-          "prate_addaccint": "-1.090%"
+          "prate_addaccint": "-0.520%"
         }
       ],
       "summary": [
         {
           "ftype": "股票",
-          "totValue": "82,653,554,110",
-          "totRatio": "98.381%"
+          "totValue": "83,639,276,399",
+          "totRatio": "98.402%"
         },
         {
           "ftype": "其他資產",
-          "totValue": "934,437,843",
-          "totRatio": "1.110%"
+          "totValue": "1,333,918,774",
+          "totRatio": "1.560%"
         }
       ],
       "rate": [
         {
           "i_cur": "NTD",
-          "ddate": "2026/08/24",
-          "price": "31.8720"
+          "ddate": "2026/08/25",
+          "price": "31.8790"
         }
       ]
     }
