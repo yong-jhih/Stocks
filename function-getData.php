@@ -1896,44 +1896,14 @@ function analyzeMarketTrend(PDO $pdo): void
     }
 
     // =========================================================
-    // 5. 市場情緒連續性
-    // =========================================================
-    // $sentimentScore = 0;
-    // if ($retailRatio !== null) {
-    //     if ($retailRatio < 0) { // 散戶偏空
-    //         $sentimentScore += 1;
-    //     } elseif ($retailRatio > 0) { // 散戶偏多
-    //         $sentimentScore -= 1;
-    //     }
-    // }
-
-    // if ($putCallRatio !== null) {
-    //     if ($putCallRatio >= 120) {
-    //         $sentimentScore += 1;
-    //     } elseif ($putCallRatio <= 90) {
-    //         $sentimentScore -= 1;
-    //     }
-    // }
-    // if ($sentimentScore >= 2) {
-    //     $sentimentTrend = '🟢 偏多';
-    // } elseif ($sentimentScore <= -2) {
-    //     $sentimentTrend = '🔴 偏空';
-    // } else {
-    //     $sentimentTrend = '🟡 中性';
-    // }
-
-    // =========================================================
     // 5. 市場情緒
     // 小台散戶多空比：反向指標
     //   正值 → 散戶偏空 → 對多方較有利
     //   負值 → 散戶偏多 → 對多方較不利
-    //
     // P/C OI Ratio：
     //   高 → 市場避險/悲觀程度較高 → 反向偏多
     //   低 → 市場樂觀程度較高 → 反向偏空
-    //
-    // 目前資料不足時，先依「當日狀態」判斷。
-    // 未來累積更多資料後，可進一步加入連續天數。
+    // 目前資料不足時，先依「當日狀態」判斷。未來累積更多資料後，可進一步加入連續天數。
     // =========================================================
     $sentimentScore = 0;
     // ---------------------------------------------------------
@@ -2026,67 +1996,6 @@ function analyzeMarketTrend(PDO $pdo): void
 
     // =========================================================
     // 7. 今日市場訊號
-    // =========================================================
-    // $signals = [];
-    // // 指數
-    // if ($change20d !== null) {
-    //     if ($change20d > 3) {
-    //         $signals[] = [
-    //             'type' => 'bullish',
-    //             'text' => '加權指數維持中期上升趨勢'
-    //         ];
-    //     } elseif ($change20d < -3) {
-
-    //         $signals[] = [
-    //             'type' => 'bearish',
-    //             'text' => '加權指數中期走勢偏弱'
-    //         ];
-    //     }
-    // }
-    // // 外資期貨
-    // if ($futures['txf']['net'] > 0) {
-    //     $signals[] = [
-    //         'type' => 'bullish',
-    //         'text' => '外資大台期貨維持淨多單'
-    //     ];
-    // } elseif ($futures['txf']['net'] < 0) {
-    //     $signals[] = [
-    //         'type' => 'bearish',
-    //         'text' => '外資大台期貨維持淨空單'
-    //     ];
-    // }
-    // // 小台散戶
-    // if ($retailRatio !== null) {
-    //     if ($retailRatio > 20) {
-    //         $signals[] = [
-    //             'type' => 'warning',
-    //             'text' => '小台散戶多方部位偏高，需留意市場過熱'
-    //         ];
-    //     } elseif ($retailRatio < -20) {
-    //         $signals[] = [
-    //             'type' => 'bullish',
-    //             'text' => '小台散戶偏空，市場籌碼相對有利多方'
-    //         ];
-    //     }
-    // }
-    // // P/C
-    // if ($putCallRatio !== null) {
-    //     if ($putCallRatio >= 120) {
-    //         $signals[] = [
-    //             'type' => 'warning',
-    //             'text' => '選擇權 P/C OI Ratio 位於偏高區'
-    //         ];
-    //     } elseif ($putCallRatio <= 90) {
-    //         $signals[] = [
-    //             'type' => 'warning',
-    //             'text' => '選擇權 P/C OI Ratio 位於偏低區'
-    //         ];
-    //     }
-    // }
-
-    // =========================================================
-    // 7. 今日市場訊號
-    //
     // 原則：
     // 1. 只顯示具有判讀價值的訊號
     // 2. 避免單純「有空單」這種每天重複出現的訊息
@@ -2239,66 +2148,13 @@ function analyzeMarketTrend(PDO $pdo): void
 
     // =========================================================
     // 8. 大盤環境評分
-    // 第一版先採簡單規則
-    // 後續有足夠歷史資料再調整權重
-    // =========================================================
-    // $score = 50;
-    // // 指數中期方向
-    // if ($change20d !== null) {
-    //     if ($change20d > 3) {
-    //         $score += 15;
-    //     } elseif ($change20d > 0) {
-    //         $score += 8;
-    //     } elseif ($change20d < -3) {
-    //         $score -= 15;
-    //     } elseif ($change20d < 0) {
-    //         $score -= 8;
-    //     }
-    // }
-    // // 外資期貨
-    // if ($futures['txf']['net'] > 0) {
-    //     $score += 10;
-    // } elseif ($futures['txf']['net'] < 0) {
-    //     $score -= 10;
-    // }
-    // // 散戶反向指標
-    // if ($retailRatio !== null) {
-    //     if ($retailRatio < 0) {
-    //         $score += 5;
-    //     } elseif ($retailRatio > 20) {
-    //         $score -= 5;
-    //     }
-    // }
-    // // P/C
-    // if ($putCallRatio !== null) {
-    //     if ($putCallRatio >= 120) {
-    //         $score += 5;
-    //     } elseif ($putCallRatio <= 90) {
-    //         $score -= 5;
-    //     }
-    // }
-    // $score = max(0, min(100, $score));
-    // if ($score >= 65) {
-    //     $trend = '🟢 偏多';
-    // } elseif ($score >= 45) {
-    //     $trend = '🟡 中性';
-    // } else {
-    //     $trend = '🔴 偏空';
-    // }
-
-    // =========================================================
-    // 8. 大盤環境評分
-    //
     // 總分 100
-    //
     // 指數趨勢   35
     // 外資期貨   25
     // 市場情緒   20
     // 法人籌碼   20
-    //
     // 注意：
-    // 目前歷史資料尚少，因此只使用當下可可靠判斷的數值。
-    // 未來資料累積後，再加入「連續買超／連續淨空單」等因素。
+    // 目前歷史資料尚少，因此只使用當下可可靠判斷的數值。未來資料累積後，再加入「連續買超／連續淨空單」等因素。
     // =========================================================
     $indexScore = 0;
     $futuresScore = 0;

@@ -101,7 +101,6 @@
                     執行/更新紀錄</a>
             </div>
         </header>
-
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
             <div class="card p-5 flex flex-col items-center justify-center">
                 <div class="text-gray-400 text-sm mb-3">大盤環境評分</div>
@@ -152,13 +151,11 @@
                 </div>
             </div>
         </section>
-
         <section class="card p-5 mb-5">
             <div class="mb-4">
                 <h2 class="text-lg font-bold">🏦 三大法人買賣超</h2>
                 <p class="text-xs text-gray-500 mt-1">單位：億元</p>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 <div class="bg-gray-800 rounded-lg p-4 min-w-0">
                     <div class="text-gray-400 text-sm whitespace-nowrap">三大法人</div>
@@ -196,7 +193,6 @@
                 </div>
             </div>
         </section>
-
         <section class="card p-5 mb-5">
             <div class="mb-4">
                 <h2 class="text-lg font-bold">🏦 外資期貨未平倉</h2>
@@ -223,31 +219,26 @@
                 </div>
             </div>
         </section>
-
         <section class="card p-4 sm:p-5 mb-5">
             <h2 class="text-lg font-bold mb-1">📈 加權指數趨勢</h2>
             <p class="text-xs text-gray-500 mb-3">最近交易日</p>
             <div id="indexChart" class="chart"></div>
         </section>
-
         <section class="card p-4 sm:p-5 mb-5">
             <h2 class="text-lg font-bold mb-1">🏦 法人買賣超趨勢</h2>
             <p class="text-xs text-gray-500 mb-3">買賣超淨額，單位：億元</p>
             <div id="institutionalChart" class="chart"></div>
         </section>
-
         <section class="card p-4 sm:p-5 mb-5">
             <h2 class="text-lg font-bold mb-1">📊 外資期貨淨未平倉趨勢</h2>
             <p class="text-xs text-gray-500 mb-3">觀察外資期貨部位方向與變化</p>
             <div id="futuresChart" class="chart"></div>
         </section>
-
         <section class="card p-4 sm:p-5 mb-5">
             <h2 class="text-lg font-bold mb-1">🧠 市場情緒</h2>
             <p class="text-xs text-gray-500 mb-3">小台散戶多空比與選擇權 P/C OI Ratio</p>
             <div id="sentimentChart" class="chart"></div>
         </section>
-
         <section class="card p-4 sm:p-5">
             <h2 class="text-lg font-bold mb-4">🔎 今日市場訊號</h2>
             <div id="signals" class="space-y-2">
@@ -271,22 +262,19 @@
                 renderMarket(demoData());
             }
         }
-
         // =========================================================
         // 主畫面
         // =========================================================
         function renderMarket(d) {
             text('dataDate', d.date || '--');
             // -----------------------------------------------------
-            // 評分
+            // 大盤評分
             // -----------------------------------------------------
             const score = Number(d.score || 0);
-
             text('marketScore', Number.isFinite(score) ? score : '--');
             text('marketTrend', d.trend || '等待資料');
             const s = Math.max(0, Math.min(100, score));
             document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1f2937 56%, transparent 57%), conic-gradient(#22c55e ${s}%, #374151 ${s}%)`;
-
             // -----------------------------------------------------
             // 指數
             // -----------------------------------------------------
@@ -297,14 +285,12 @@
                 text('index20d', d.index.change20d == null ? '--' : signed(d.index.change20d) + '%');
                 text('index60d', d.index.change60d == null ? '--' : signed(d.index.change60d) + '%');
             }
-
             // -----------------------------------------------------
             // 外資期貨
             // -----------------------------------------------------
             future('txf', d.futures?.txf);
             future('mxf', d.futures?.mxf);
             future('tmf', d.futures?.tmf);
-
             // -----------------------------------------------------
             // 市場情緒
             // -----------------------------------------------------
@@ -313,17 +299,14 @@
                 text('putCallRatio', d.sentiment.putCallRatio == null ? '--' : num(d.sentiment.putCallRatio) + '%');
                 text('sentimentTrend', d.sentiment.trend || '等待資料');
             }
-
             // -----------------------------------------------------
             // 法人
             // -----------------------------------------------------
             renderInstitutional(d.institutional);
-
             // -----------------------------------------------------
             // 訊號
             // -----------------------------------------------------
             renderSignals(d.signals || []);
-
             // -----------------------------------------------------
             // 圖表
             // -----------------------------------------------------
@@ -332,7 +315,6 @@
             chartFutures(d.futures?.history || []);
             chartSentiment(d.sentiment?.history || []);
         }
-
         // =========================================================
         // 法人資料
         // =========================================================
@@ -355,7 +337,6 @@
             const value = Number(d.net);
             e.className = 'text-2xl font-bold mt-1 ' + (value > 0 ? 'text-green-400' : value < 0 ? 'text-red-400' : 'text-gray-300');
         }
-
         // =========================================================
         // 訊號
         // =========================================================
@@ -375,7 +356,6 @@
                 })
                 .join('') : `<div class="signal border-gray-600 text-gray-400">今日暫無市場訊號</div>`;
         }
-
         // =========================================================
         // 期貨
         // =========================================================
@@ -385,9 +365,9 @@
             text(type + 'Long', num(d.long));
             text(type + 'Short', num(d.short));
             const e = document.getElementById(type + 'Net');
+            if (!e) return;
             e.className = 'text-2xl font-bold mt-1 ' + (Number(d.net) > 0 ? 'text-green-400' : Number(d.net) < 0 ? 'text-red-400' : 'text-gray-300');
         }
-
         // =========================================================
         // 加權指數圖
         // =========================================================
@@ -396,15 +376,12 @@
             c.setOption(baseChart(h.map(x => x.date), [{ name: '加權指數', data: h.map(x => x.value) }]));
             window.addEventListener('resize', () => c.resize());
         }
-
         // =========================================================
         // 法人圖
         // =========================================================
         function chartInstitutional(h) {
             const c = echarts.init(document.getElementById('institutionalChart'));
             const hasData = Array.isArray(h) && h.length > 0;
-
-
             c.setOption({
                 tooltip: { trigger: 'axis' },
                 legend: { textStyle: { color: '#9ca3af' } },
@@ -464,7 +441,6 @@
             });
             window.addEventListener('resize', () => c.resize());
         }
-
         // =========================================================
         // 期貨圖
         // =========================================================
@@ -482,7 +458,6 @@
             );
             window.addEventListener('resize', () => c.resize());
         }
-
         // =========================================================
         // 情緒圖
         // =========================================================
@@ -499,7 +474,6 @@
             );
             window.addEventListener('resize', () => c.resize());
         }
-
         // =========================================================
         // 共用圖表設定
         // =========================================================
@@ -536,15 +510,13 @@
                     )
             };
         }
-
         // =========================================================
         // DOM
         // =========================================================
         function text(id, value) {
             const e = document.getElementById(id);
-            if (e) { e.textContent = value; }
+            if (e) e.textContent = value;
         }
-
         // =========================================================
         // 數字格式
         // =========================================================
@@ -552,57 +524,36 @@
             if (v === null || v === undefined) return '--';
             return Number(v).toLocaleString('zh-TW', { maximumFractionDigits: 2 });
         }
-
         function decimal(v) {
             if (v === null || v === undefined) return '--';
             return Number(v).toLocaleString('zh-TW', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         }
-
         function signed(v) {
             const n = Number(v);
             if (!Number.isFinite(n)) return '--';
             return (n > 0 ? '+' : '') + n.toFixed(2);
         }
-
         function signedNum(v) {
             const n = Number(v);
             if (!Number.isFinite(n)) return '--';
             return (n > 0 ? '+' : '') + n.toLocaleString('zh-TW');
         }
-
         function signedDecimal(v) {
             const n = Number(v);
             if (!Number.isFinite(n)) return '--';
             return (n > 0 ? '+' : '') + n.toLocaleString('zh-TW', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         }
-
         // =========================================================
         // HTML escape
         // =========================================================
         function esc(v) {
             return String(v)
-                .replaceAll(
-                    '&',
-                    '&amp;'
-                )
-                .replaceAll(
-                    '<',
-                    '&lt;'
-                )
-                .replaceAll(
-                    '>',
-                    '&gt;'
-                )
-                .replaceAll(
-                    '"',
-                    '&quot;'
-                )
-                .replaceAll(
-                    "'",
-                    "&#039;"
-                );
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", "&#039;");
         }
-
         // =========================================================
         // 啟動
         // =========================================================
