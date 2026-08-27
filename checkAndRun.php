@@ -60,10 +60,10 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             $filter = [];
             foreach ($resultsMix as $item) {
                 if (
-                    ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&
-                    ($item['foreign_streak_days'] > 0 || $item['trust_streak_days'] > 0) &&
-                    ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) &&
-                    ($item['margin_balance'] < $item['sbl_sold_balance'])
+                    ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&  // 借券淨賣還或借券淨賣還5日 < 0
+                    ($item['foreign_streak_days'] > 0 || $item['trust_streak_days'] > 0) && //  外資或投信連買 > 0
+                    ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) &&  // 融資或融資5日 < 0
+                    ($item['margin_balance'] < $item['sbl_sold_balance'])   // 融資餘額 < 借券賣出餘額
                 ) {
                     $filter[] = $item;
                 }
