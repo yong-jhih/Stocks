@@ -318,7 +318,19 @@
             text('marketScore', Number.isFinite(score) ? score : '--');
             text('marketTrend', d.trend || '等待資料');
             const s = Math.max(0, Math.min(100, score));
-            document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1f2937 56%, transparent 57%), conic-gradient(#22c55e ${s}%, #374151 ${s}%)`;
+            let scoreColor = '#6b7280';
+            if (score >= 70) {
+                scoreColor = '#22c55e';
+            } else if (score >= 55) {
+                scoreColor = '#4ade80';
+            } else if (score >= 45) {
+                scoreColor = '#facc15';
+            } else if (score >= 30) {
+                scoreColor = '#fb7185';
+            } else {
+                scoreColor = '#ef4444';
+            }
+            document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1f2937 56%, transparent 57%),conic-gradient(${scoreColor} ${s}%, #374151 ${s}%)`;
             // -----------------------------------------------------
             // 評分明細
             // -----------------------------------------------------

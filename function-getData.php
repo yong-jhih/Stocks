@@ -1938,13 +1938,13 @@ function analyzeMarketTrend(PDO $pdo): void
     // ---------------------------------------------------------
     // 5-3. 情緒總體判斷
     // ---------------------------------------------------------
-    if ($sentimentScore >= 3) {
+    if ($sentimentScore >= 8) {
         $sentimentTrend = '🟢 偏多';
-    } elseif ($sentimentScore >= 1) {
+    } elseif ($sentimentScore >= 4) {
         $sentimentTrend = '🟢 稍偏多';
-    } elseif ($sentimentScore <= -3) {
+    } elseif ($sentimentScore <= -8) {
         $sentimentTrend = '🔴 偏空';
-    } elseif ($sentimentScore <= -1) {
+    } elseif ($sentimentScore <= -4) {
         $sentimentTrend = '🔴 稍偏空';
     } else {
         $sentimentTrend = '🟡 中性';
