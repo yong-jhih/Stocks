@@ -93,7 +93,7 @@
                 }
             ]
         },
-        "illustrate_main": "※ 核心規則：僅上市上櫃個股，需同時滿足以下條件，較為嚴苛可能多日無資料。建議短線觀測週期約 2 週。建議使用方式-https://share.gemini.google/3NJ15gBFdCE4",
+        "illustrate_main": "※ 核心規則：僅上市上櫃個股，需同時滿足以下條件，較為嚴苛可能多日無資料。建議短線觀測週期約 2 週。<a href='https://share.gemini.google/3NJ15gBFdCE4' target='_blank' style='text-decoration: underline;'>建議使用方式請點我</a>",
         "illustrate": [
             {
                 "condition": "基礎量能門檻",

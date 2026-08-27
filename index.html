@@ -198,7 +198,7 @@
                 .join('');
             $('#tableHeadRow').html(headHtml);
 
-            $('#illustrate_main').text(page_info.illustrate_main);
+            $('#illustrate_main').html(page_info.illustrate_main);
             let illustratediv = "";
             page_info.illustrate.forEach(d => {
                 illustratediv += `<li class="bg-gray-700/50 p-3 rounded"><b class="text-blue-400 block mb-1">${d.condition}</b>${d.content}</li>`
