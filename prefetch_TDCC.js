@@ -144,10 +144,11 @@ const puppeteer = require('puppeteer');
         // console.log('=====================================================');
         // console.log(bodyText);
     } catch (error) {
-        console.error('\n=====================================================');
-        console.error('抓取失敗');
-        console.error('=====================================================');
-        console.error(error);
+        // console.error('\n=====================================================');
+        // console.error('抓取失敗');
+        // console.error('=====================================================');
+        // console.error(error);
+        console.log(JSON.stringify([]));
     } finally {
         await browser.close();
         // console.log('\n瀏覽器已關閉');

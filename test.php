@@ -54,35 +54,66 @@ $date_array = [
     '2025-09-05'
 ];
 
-$data = [];
-$stock_id = "2330";
-foreach ($date_array as $date) {
-    $arg1 = escapeshellarg($stock_id);
-    $arg2 = escapeshellarg(str_replace("-", "", $date));
-    $rawOutput = shell_exec("node prefetch_TDCC.js {$arg1} {$arg2}");
-    $data[$date] = json_decode($rawOutput, true);
-    if ($date === '2026-08-07') break;
-}
-
-try {
-    $pdo->beginTransaction();
-    $sql = "INSERT INTO stock_shareholder
+$stocksMap = getStocksMap();
+$i = 0;
+foreach ($stocksMap as $stock_id => $stock) {
+    if (in_array($stock['stock_type'], ["TSE", "TPEx"])) {
+        $arg1 = escapeshellarg($stock_id);
+        $arg2 = escapeshellarg(str_replace("-", "", '2026-08-21'));
+        $rawOutput = shell_exec("node prefetch_TDCC.js {$arg1} {$arg2}");
+        try {
+            $pdo->beginTransaction();
+            $sql = "INSERT INTO stock_shareholder
                 (trade_date, stock_id, shareholder_count, total_shares)
                 VALUES (?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
                 shareholder_count = VALUES(shareholder_count),
                 total_shares = VALUES(total_shares)";
-    $stmt = $pdo->prepare($sql);
-    foreach ($data as $date => $row) {
-        $stmt->execute([
-            $date,
-            $stock_id,
-            (int)str_replace(",", "", $row[2]),
-            (int)str_replace(",", "", $row[3])
-        ]);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                '2026-08-21',
+                $stock_id,
+                (int)str_replace(",", "", $rawOutput[2]),
+                (int)str_replace(",", "", $rawOutput[3])
+            ]);
+            $pdo->commit();
+        } catch (Throwable $e) {
+            $pdo->rollBack();
+        }
+        $i++;
     }
-    $pdo->commit();
-} catch (Throwable $e) {
-    $pdo->rollBack();
-    // throw new RuntimeException("{$targetDate} {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
+    if ($i > 3) break;
 }
+
+// $data = [];
+// $stock_id = "2330";
+// foreach ($date_array as $date) {
+//     $arg1 = escapeshellarg($stock_id);
+//     $arg2 = escapeshellarg(str_replace("-", "", $date));
+//     $rawOutput = shell_exec("node prefetch_TDCC.js {$arg1} {$arg2}");
+//     $data[$date] = json_decode($rawOutput, true);
+//     if ($date === '2026-08-07') break;
+// }
+
+// try {
+//     $pdo->beginTransaction();
+//     $sql = "INSERT INTO stock_shareholder
+//                 (trade_date, stock_id, shareholder_count, total_shares)
+//                 VALUES (?, ?, ?, ?)
+//                 ON DUPLICATE KEY UPDATE
+//                 shareholder_count = VALUES(shareholder_count),
+//                 total_shares = VALUES(total_shares)";
+//     $stmt = $pdo->prepare($sql);
+//     foreach ($data as $date => $row) {
+//         $stmt->execute([
+//             $date,
+//             $stock_id,
+//             (int)str_replace(",", "", $row[2]),
+//             (int)str_replace(",", "", $row[3])
+//         ]);
+//     }
+//     $pdo->commit();
+// } catch (Throwable $e) {
+//     $pdo->rollBack();
+//     // throw new RuntimeException("{$targetDate} {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
+// }
