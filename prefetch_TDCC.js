@@ -1,24 +1,19 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 (async () => {
     const url = 'https://www.tdcc.com.tw/portal/zh/smWeb/qryStock';
     console.log(`正在開啟網頁: ${url}`);
     const browser = await puppeteer.launch({
         headless: 'new',
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage', // 防止共享記憶體不足 (Docker/CI 環境常需要)
-            '--disable-accelerated-2d-canvas',
-            '--disable-gpu'
-        ]
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     try {
         const page = await browser.newPage();
-        await page.setViewport({
-            width: 1440,
-            height: 1000
-        });
+        // await page.setViewport({
+        //     width: 1440,
+        //     height: 1000
+        // });
         console.log('正在載入頁面...');
         await page.goto(url, {
             waitUntil: 'networkidle2',
