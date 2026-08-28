@@ -1,66 +1,82 @@
-name: Run TDCC Scraper
+name: Test
 
 on:
-  push:
+  repository_dispatch:
+    types: [test]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  TiDB_Host: ${{ secrets.TiDB_Host }}
+  TiDB_User: ${{ secrets.TiDB_User }}
+  TIDB_PASS: ${{ secrets.TIDB_PASS }}
+  TIDB_NAME: ${{ secrets.TIDB_NAME }}
+  FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+  FUGLE_TOKEN: ${{ secrets.FUGLE_TOKEN }}
+  GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+  LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+  LINE_TARGET: ${{ secrets.LINE_TARGET }}
+  GAS_URL_TRIGGERS: ${{ secrets.GAS_URL_TRIGGERS }}
+
 jobs:
-  scrape:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Check Code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20' # 建議使用 LTS 20，可減少 punycode 的警告聲音
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
 
-    - name: Install System Dependencies for Puppeteer
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          ca-certificates \
-          fonts-liberation \
-          libappindicator3-1 \
-          libasound2 \
-          libatk-bridge2.0-0 \
-          libatk1.0-0 \
-          libc6 \
-          libcairo2 \
-          libcups2 \
-          libdbus-1-3 \
-          libexpat1 \
-          libfontconfig1 \
-          libgbm1 \
-          libgcc1 \
-          libglib2.0-0 \
-          libgtk-3-0 \
-          libnspr4 \
-          libnss3 \
-          libpango-1.0-0 \
-          libpangocairo-1.0-0 \
-          libstdc++6 \
-          libx11-6 \
-          libx11-xcb1 \
-          libxcb1 \
-          libxcomposite1 \
-          libxcursor1 \
-          libxdamage1 \
-          libxext6 \
-          libxfixes3 \
-          libxi6 \
-          libxrandr2 \
-          libxrender1 \
-          libssse3 \
-          libxtst6 \
-          lsb-release \
-          wget \
-          xdg-utils
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: npm ci
+      # - name: Install Chrome for Puppeteer
+      #   run: npx puppeteer browsers install chrome
+  
+      # - name: Run Puppeteer to Fetch HTML(00981A)
+      #   run: node prefetch_00981A.js
 
-    - name: Run Scraper
-      run: node prefetch_TDCC.js # 替換成你的檔名
+      # - name: Run Puppeteer to Fetch HTML(00991A)
+      #   run: node prefetch_00991A.js
+
+      # - name: Run Puppeteer to Fetch HTML(00403A)
+        # run: node prefetch_00403A.js
+
+      - name: Run Puppeteer to Fetch TDCC
+        run: node prefetch_TDCC.js
+
+      # - name: Setup PHP
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: '8.2'
+      #     extensions: pdo, pdo_mysql
+
+      # - name: Check And Update ETF
+      #   run: php updateETFcomponent.php
+
+      # - name: Check And Update Market
+      #   run: php updateDailyMarket.php
+
+      # - name: Commit And Push JSON files
+      #   if: always()
+      #   run: |
+      #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
+      #     git add .
+      #     if git diff --quiet && git diff --staged --quiet; then
+      #       echo "沒有偵測到新的 JSON 檔案變更，略過提交。"
+      #     else
+      #       git commit -m "自動更新 00981A 成分股數據: $(date +'%Y-%m-%d %H:%M')"
+      #       git push
+      #     fi
