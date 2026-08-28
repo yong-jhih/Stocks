@@ -127,7 +127,7 @@ const puppeteer = require('puppeteer');
             // console.log(`**************** TABLE #${table.tableIndex} ****************`);
             table.rows.forEach(row => {
                 const values = row.cells.map(cell => cell.text);
-                console.log(values);
+                if (values[1] === '合　計') console.log(values);
             });
         });
 
