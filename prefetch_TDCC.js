@@ -2,34 +2,29 @@ const puppeteer = require('puppeteer');
 
 (async () => {
     const url = 'https://www.tdcc.com.tw/portal/zh/smWeb/qryStock';
-
     console.log(`正在開啟網頁: ${url}`);
-
     const browser = await puppeteer.launch({
         headless: 'new',
         args: [
             '--no-sandbox',
-            '--disable-setuid-sandbox'
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage', // 防止共享記憶體不足 (Docker/CI 環境常需要)
+            '--disable-accelerated-2d-canvas',
+            '--disable-gpu'
         ]
     });
-
     try {
         const page = await browser.newPage();
-
         await page.setViewport({
             width: 1440,
             height: 1000
         });
-
         console.log('正在載入頁面...');
-
         await page.goto(url, {
             waitUntil: 'networkidle2',
             timeout: 60000
         });
-
         console.log('頁面載入完成');
-
         // -----------------------------------------------------
         // 先等主要查詢區塊出現
         // -----------------------------------------------------
@@ -42,7 +37,6 @@ const puppeteer = require('puppeteer');
         // 方便確認 TDCC 實際欄位名稱
         // -----------------------------------------------------
         const formElements = await page.evaluate(() => {
-
             const inputs = Array.from(document.querySelectorAll('input')).map((el, index) => ({
                 type: el.type,
                 name: el.name,
@@ -51,7 +45,6 @@ const puppeteer = require('puppeteer');
                 placeholder: el.placeholder,
                 index
             }));
-
             const selects = Array.from(document.querySelectorAll('select')).map((el, index) => ({
                 name: el.name,
                 id: el.id,
@@ -62,28 +55,22 @@ const puppeteer = require('puppeteer');
                 })),
                 index
             }));
-
             return {
                 inputs,
                 selects
             };
         });
-
         console.log('\n================ INPUT =================');
         console.table(formElements.inputs);
-
         console.log('\n================ SELECT =================');
         console.dir(formElements.selects, {
             depth: null
         });
-
         // -----------------------------------------------------
         // 找日期下拉選單
         // -----------------------------------------------------
         const dateSelectInfo = await page.evaluate(() => {
-
             const selects = Array.from(document.querySelectorAll('select'));
-
             return selects.map((select, index) => ({
                 index,
                 name: select.name,
@@ -94,24 +81,18 @@ const puppeteer = require('puppeteer');
                 }))
             }));
         });
-
         console.log('\n================ 日期選單 =================');
-
         dateSelectInfo.forEach(item => {
             console.log(`\nSELECT #${item.index}`);
             console.log(`name: ${item.name}`);
             console.log(`id: ${item.id}`);
-
             console.table(item.options);
         });
-
         // -----------------------------------------------------
         // 找「證券代號」input
         // -----------------------------------------------------
         const stockInputInfo = await page.evaluate(() => {
-
             const inputs = Array.from(document.querySelectorAll('input'));
-
             return inputs.map((input, index) => ({
                 index,
                 type: input.type,
@@ -121,10 +102,8 @@ const puppeteer = require('puppeteer');
                 value: input.value
             }));
         });
-
         console.log('\n================ 證券代號 INPUT =================');
         console.table(stockInputInfo);
-
         // =====================================================
         // 下面先不直接假設欄位名稱
         // =====================================================
@@ -140,20 +119,13 @@ const puppeteer = require('puppeteer');
         // 4. 結果 table
         //
         // =====================================================
-
         console.log('\n目前先完成頁面 DOM 偵測。');
         console.log('請確認上面 INPUT / SELECT 的輸出結果。');
-
     } catch (error) {
-
         console.error('\n抓取失敗：');
         console.error(error);
-
     } finally {
-
         await browser.close();
-
         console.log('\n瀏覽器已關閉');
     }
-
 })();
