@@ -1,15 +1,16 @@
 <?php
 require_once("init.php");
 
-
+$targetDate = '2026-08-14';
 // process.php
 
 $stock_id = "2449";
+$date = str_replace("-", "", $targetDate);
 $arg1 = escapeshellarg($stock_id);
+$arg2 = escapeshellarg($date);
 
 // 執行 node 腳本並取得 console.log 的輸出
-$rawOutput = shell_exec("node prefetch_TDCC.js {$arg1}");
-
+$rawOutput = shell_exec("node prefetch_TDCC.js {$arg1} {$arg2}");
 echo $rawOutput;
 // 解析 JSON
 // $data = json_decode($rawOutput, true);

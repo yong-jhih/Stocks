@@ -39,11 +39,12 @@ const puppeteer = require('puppeteer');
         // =====================================================
         // 3. 取得最新日期
         // =====================================================
-        const latestDate = await page.$eval(
-            '#scaDate option:first-child',
-            el => el.value
-        );
+        // const latestDate = await page.$eval(
+        //     '#scaDate option:first-child',
+        //     el => el.value
+        // );
         // console.log(`最新資料日期: ${latestDate}`);
+        const latestDate = process.argv[3];
 
         // =====================================================
         // 4. 確認日期選單
