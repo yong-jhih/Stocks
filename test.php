@@ -64,27 +64,25 @@ foreach ($date_array as $date) {
     if ($date === '2026-08-07') break;
 }
 
-createJsonFile($pdo, 'test', $data);
-
-// try {
-//     $pdo->beginTransaction();
-//     $sql = "INSERT INTO stock_shareholder
-//                 (trade_date, stock_id, shareholder_count, total_shares)
-//                 VALUES (?, ?, ?, ?)
-//                 ON DUPLICATE KEY UPDATE
-//                 shareholder_count = VALUES(shareholder_count),
-//                 total_shares = VALUES(total_shares)";
-//     $stmt = $pdo->prepare($sql);
-//     foreach ($data as $date => $row) {
-//         $stmt->execute([
-//             $date,
-//             $stock_id,
-//             (int)str_replace(",", "", $row[2]),
-//             (int)str_replace(",", "", $row[3])
-//         ]);
-//     }
-//     $pdo->commit();
-// } catch (Throwable $e) {
-//     $pdo->rollBack();
-//     // throw new RuntimeException("{$targetDate} {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
-// }
+try {
+    $pdo->beginTransaction();
+    $sql = "INSERT INTO stock_shareholder
+                (trade_date, stock_id, shareholder_count, total_shares)
+                VALUES (?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                shareholder_count = VALUES(shareholder_count),
+                total_shares = VALUES(total_shares)";
+    $stmt = $pdo->prepare($sql);
+    foreach ($data as $date => $row) {
+        $stmt->execute([
+            $date,
+            $stock_id,
+            (int)str_replace(",", "", $row[2]),
+            (int)str_replace(",", "", $row[3])
+        ]);
+    }
+    $pdo->commit();
+} catch (Throwable $e) {
+    $pdo->rollBack();
+    // throw new RuntimeException("{$targetDate} {$etf_id} 成分股資料新增失敗: " . $e->getMessage());
+}
