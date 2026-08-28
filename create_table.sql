@@ -235,3 +235,17 @@ CREATE TABLE market_daily (
     insti_dealer_risk_sell DECIMAL(8,1) DEFAULT 0.0 COMMENT '自營商避險賣出金額(億元)',
     PRIMARY KEY (trade_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- =========================================================
+-- 股東人數
+-- =========================================================
+CREATE TABLE stock_shareholder (
+    trade_date DATE NOT NULL COMMENT '資料日期',
+    stock_id VARCHAR(6) NOT NULL COMMENT '證券代號',
+    shareholder_count INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '股東人數',
+    total_shares BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '總股數/單位數',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (trade_date, stock_id),
+    INDEX idx_stock (stock_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
