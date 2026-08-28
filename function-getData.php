@@ -1609,7 +1609,14 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         }
         $sblNet5 = round($sblNet5 / 1000);
 
-        // --- 4. 組合資料 ---
+        // --- 4. 5日均量 (計算當日 + 往前 4 日，共 5 日平均張數) ---
+        $volSum5 = 0;
+        for ($v = max(0, $i - 4); $v <= $i; $v++) {
+            $volSum5 += ($rows[$v]['trade_volume'] ?? 0);
+        }
+        $lineAverageVolume5 = round(($volSum5 / 1000) / 5);
+
+        // --- 5. 組合資料 ---
         $results[] = [
             'date'  => date('m/d', strtotime($curr['trade_date'])),
             'price' => (float)$curr['close_price'], // json夠20日js換讀d.close (目前維持d.price)
@@ -1622,7 +1629,8 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
             // 折線圖用 (Lines)
             'line_inst5'   => $instCum5,
             'line_margin5' => $marginCum5,
-            'line_sbl5'    => $sblNet5
+            'line_sbl5'    => $sblNet5,
+            'line_average_volume5' => $lineAverageVolume5 // 5日均量 (張)
         ];
     }
     return ['stockId' => $stockId, 'series'  => $results];
