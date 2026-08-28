@@ -4,8 +4,11 @@ require_once("init.php");
 
 // process.php
 
+$stock_id = "2449";
+$arg1 = escapeshellarg($stock_id);
+
 // 執行 node 腳本並取得 console.log 的輸出
-$rawOutput = shell_exec('node prefetch_TDCC.js');
+$rawOutput = shell_exec('node prefetch_TDCC.js {$arg1}');
 
 echo $rawOutput;
 // 解析 JSON

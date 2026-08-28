@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
+    const stock_id = process.argv[2];
     const url = 'https://www.tdcc.com.tw/portal/zh/smWeb/qryStock';
     // console.log(`正在開啟網頁: ${url}`);
     const browser = await puppeteer.launch({
@@ -58,7 +59,7 @@ const puppeteer = require('puppeteer');
         // 6. 輸入 2330
         // =====================================================
         await page.click('#StockNo');
-        await page.type('#StockNo', '2330');
+        await page.type('#StockNo', stock_id);
         // console.log('證券代號: 2330');
 
         // =====================================================
