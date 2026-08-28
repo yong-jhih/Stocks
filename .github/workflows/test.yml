@@ -53,17 +53,17 @@ jobs:
       # - name: Run Puppeteer to Fetch HTML(00403A)
         # run: node prefetch_00403A.js
 
-      - name: Run Puppeteer to Fetch TDCC
-        run: node prefetch_TDCC.js
+      # - name: Run Puppeteer to Fetch TDCC
+      #   run: node prefetch_TDCC.js
 
-      # - name: Setup PHP
-      #   uses: shivammathur/setup-php@v2
-      #   with:
-      #     php-version: '8.2'
-      #     extensions: pdo, pdo_mysql
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_mysql
 
-      # - name: Check And Update ETF
-      #   run: php updateETFcomponent.php
+      - name: Check And Update ETF
+        run: php test.php
 
       # - name: Check And Update Market
       #   run: php updateDailyMarket.php
