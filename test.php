@@ -61,6 +61,7 @@ foreach ($date_array as $date) {
     $arg2 = escapeshellarg(str_replace("-", "", $date));
     $rawOutput = shell_exec("node prefetch_TDCC.js {$arg1} {$arg2}");
     $data[$date] = json_decode($rawOutput, true);
+    if ($date === '20260731') break;
 }
 
 try {
