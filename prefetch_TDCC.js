@@ -10,10 +10,10 @@ const fs = require('fs');
     });
     try {
         const page = await browser.newPage();
-        // await page.setViewport({
-        //     width: 1440,
-        //     height: 1000
-        // });
+        await page.setViewport({
+            width: 1440,
+            height: 1000
+        });
         console.log('正在載入頁面...');
         await page.goto(url, {
             waitUntil: 'networkidle2',

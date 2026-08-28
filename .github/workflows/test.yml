@@ -41,8 +41,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Install Chrome for Puppeteer
-      #   run: npx puppeteer browsers install chrome
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
   
       # - name: Run Puppeteer to Fetch HTML(00981A)
       #   run: node prefetch_00981A.js
