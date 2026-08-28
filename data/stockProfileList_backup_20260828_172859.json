@@ -12571,7 +12571,7 @@
     },
     "6696": {
         "stock_id": "6696",
-        "stock_name": "仁新*",
+        "stock_name": "仁新",
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
@@ -13505,6 +13505,12 @@
         "stock_type": "ESM",
         "industry": "綠能環保"
     },
+    "7834": {
+        "stock_id": "7834",
+        "stock_name": "來毅數位",
+        "stock_type": "ESM",
+        "industry": "資訊服務業"
+    },
     "7836": {
         "stock_id": "7836",
         "stock_name": "智生活",
@@ -13870,12 +13876,6 @@
         "stock_name": "通寶半導體",
         "stock_type": "ESM",
         "industry": "半導體業"
-    },
-    "7914": {
-        "stock_id": "7914",
-        "stock_name": "碩明綠能",
-        "stock_type": "ESM",
-        "industry": "綠能環保"
     },
     "7915": {
         "stock_id": "7915",

@@ -1,5 +1,201 @@
 [
     {
+        "id": 12690019,
+        "log_time": "2026-08-28 17:29:02",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 12690018,
+        "log_time": "2026-08-28 17:29:02",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690017,
+        "log_time": "2026-08-28 17:29:01",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690016,
+        "log_time": "2026-08-28 17:29:01",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690015,
+        "log_time": "2026-08-28 17:29:01",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690014,
+        "log_time": "2026-08-28 17:29:01",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690013,
+        "log_time": "2026-08-28 17:29:00",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690012,
+        "log_time": "2026-08-28 17:29:00",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690011,
+        "log_time": "2026-08-28 17:29:00",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690010,
+        "log_time": "2026-08-28 17:29:00",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690009,
+        "log_time": "2026-08-28 17:29:00",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690008,
+        "log_time": "2026-08-28 17:28:59",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690007,
+        "log_time": "2026-08-28 17:28:59",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690006,
+        "log_time": "2026-08-28 17:28:59",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
+        "id": 12690005,
+        "log_time": "2026-08-28 17:28:59",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 476.96 秒",
+        "result": "end"
+    },
+    {
+        "id": 12690004,
+        "log_time": "2026-08-28 17:28:59",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4243 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690003,
+        "log_time": "2026-08-28 17:26:45",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6690 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690002,
+        "log_time": "2026-08-28 17:22:16",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2615 筆",
+        "result": "success"
+    },
+    {
+        "id": 12690001,
+        "log_time": "2026-08-28 17:21:02",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 12660036,
+        "log_time": "2026-08-27 22:08:59",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成, 共耗時 1.28 秒",
+        "result": "end"
+    },
+    {
+        "id": 12660035,
+        "log_time": "2026-08-27 22:08:58",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-08-27], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 12660034,
+        "log_time": "2026-08-27 22:08:58",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成, 共耗時 1.29 秒",
+        "result": "end"
+    },
+    {
+        "id": 12660033,
+        "log_time": "2026-08-27 22:08:56",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-08-27], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 12660032,
+        "log_time": "2026-08-27 22:08:56",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成, 共耗時 1.5 秒",
+        "result": "end"
+    },
+    {
+        "id": 12660031,
+        "log_time": "2026-08-27 22:08:55",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-08-27], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 12660030,
+        "log_time": "2026-08-27 22:08:55",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-08-27] 盤後篩選及評分排行已完成, 共耗時 1141.61 秒",
+        "result": "end"
+    },
+    {
+        "id": 12660029,
+        "log_time": "2026-08-27 22:08:24",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-08-27] 排行分析完成，共 668 檔",
+        "result": "success"
+    },
+    {
+        "id": 12660028,
+        "log_time": "2026-08-27 22:08:24",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-08-27] 篩選分析完成，共 14 檔",
+        "result": "success"
+    },
+    {
         "id": 12660027,
         "log_time": "2026-08-27 21:49:53",
         "log_type": "generateDailyDashboard",
