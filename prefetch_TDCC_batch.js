@@ -183,7 +183,7 @@ function parseNumber(value) {
                 // -----------------------------------------
                 // 5-3. 確認使用「證券代號」
                 // -----------------------------------------
-                const stockRadio = await page.$('#sqlStockNo');
+                const stockRadio = await page.$('#StockNo');
 
                 if (stockRadio) {
                     await stockRadio.click();
