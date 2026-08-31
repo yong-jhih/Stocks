@@ -14,7 +14,7 @@ foreach ($stocksMap as $stock_id => $stock) {
         $stocks['stock_id_array'][] = $stock_id;
         $i++;
     }
-    if ($i > 1) break;
+    if ($i > 5) break;
 }
 $taskFile = 'tdcc_task.json';
 file_put_contents(
