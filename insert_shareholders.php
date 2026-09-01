@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate='2026-08-21';
+$targetDate = '2026-08-21';
 
 $content = file_get_contents('tdcc_result.json');
 $results = json_decode($content, true);
@@ -22,6 +22,7 @@ try {
     $pdo->beginTransaction();
     foreach ($results as $row) {
         if (empty($row['stock_id'])) continue;
+        if (isset($row['success']) && !$row['success']) continue;
         if (!isset($row['shareholder_count']) || !isset($row['total_shares'])) continue;
         $stmt->execute([
             $targetDate,
