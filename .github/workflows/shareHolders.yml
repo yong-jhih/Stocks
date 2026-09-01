@@ -50,8 +50,8 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      # - name: Prefetch Share Holders AND Output Data
-      #   run: php prefetch_shareholders.php
+      - name: Prefetch Share Holders AND Output Data
+        run: php prefetch_shareholders.php
 
       - name: Insert Share Holders
         run: php insert_shareholders.php
