@@ -50,8 +50,11 @@ jobs:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
 
-      - name: Check And Update ETF
+      - name: Prefetch Share Holders AND Output Data
         run: php prefetch_shareholders.php
+
+      # - name: Insert Share Holders
+      #   run: php insert_shareholders.php
 
       - name: Commit And Push JSON files
         if: always()
