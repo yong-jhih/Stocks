@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate = '2026-08-14';
+$targetDate = '2026-08-28';
 
 $content = file_get_contents('tdcc_result.json');
 $results = json_decode($content, true);
@@ -32,6 +32,7 @@ try {
         ]);
     }
     $pdo->commit();
+    unlink('tdcc_result.json');
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     writeLog($pdo, 'insertTDCC', $e->getMessage(), 'error');

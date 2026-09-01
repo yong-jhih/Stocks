@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate='2026-08-14';
+$targetDate = '2026-08-28';
 
 $stocksMap = getStocksMap();
 $stocks = [
@@ -15,3 +15,4 @@ foreach ($stocksMap as $stock_id => $stock) {
 file_put_contents('tdcc_task.json', json_encode($stocks, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 $output = shell_exec("node prefetch_TDCC_batch.js " . escapeshellarg('tdcc_task.json'));
 file_put_contents('tdcc_result.json', $output);
+unlink('tdcc_task.json');

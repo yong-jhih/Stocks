@@ -69,6 +69,7 @@ try {
         $instiBuySell['insti_dealer_risk_sell'] ?? null,
     ]);
     $pdo->commit();
+    unlink("pc_ratio.json");
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
