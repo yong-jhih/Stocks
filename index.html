@@ -977,21 +977,37 @@
                 };
             });
             if (hasVolume) {
+                const volumeAxisIndex = chartConfig.yAxis.length;
+                // =========================================================
+                // 成交量柱狀圖
+                // =========================================================
                 series.push({
                     name: '成交量',
                     type: 'bar',
                     xAxisIndex: 1,
-                    yAxisIndex: chartConfig.yAxis.length,
+                    yAxisIndex: volumeAxisIndex,
                     barMaxWidth: isMobile ? 6 : 10,
                     data: stockData.series.map((d, i) => {
                         const prevPrice = i === 0 ? d.price : stockData.series[i - 1].price;
                         return {
                             value: d.volume,
-                            itemStyle: {
-                                color: d.price >= prevPrice ? '#ef4444' : '#22c55e'
-                            }
+                            itemStyle: { color: d.price >= prevPrice ? '#ef4444' : '#22c55e' }
                         };
                     })
+                });
+                // =========================================================
+                // 5日均量線
+                // =========================================================
+                series.push({
+                    name: '5日均量',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: volumeAxisIndex,
+                    data: stockData.series.map(d => d.line_average_volume5 ?? null),
+                    smooth: true,
+                    symbol: 'none',
+                    lineStyle: { width: 2, color: '#f59e0b' },
+                    z: 5
                 });
             }
             return {
