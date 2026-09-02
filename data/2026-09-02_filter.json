@@ -1,0 +1,289 @@
+[
+    {
+        "stock_id": "1712",
+        "stock_name": "興農",
+        "stock_type": "TSE",
+        "industry": "化學工業",
+        "subIndustry": [
+            " 塑膠製品",
+            " 農藥"
+        ],
+        "concept": [
+            "資產股",
+            "都市更新"
+        ],
+        "score": 69,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "confidence": 0.67,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 41.05,
+        "yesterday_high": 40.2,
+        "yesterday_low": 39.65,
+        "vol": 2029,
+        "vol_ratio": 2.67,
+        "rank10": 88.1,
+        "rank20": 91.07,
+        "amp10": 5.36,
+        "amp20": 7.27,
+        "ma5": 39.93,
+        "ma10": 39.78,
+        "ma20": 39.41,
+        "ma60": 39.41,
+        "vma5": 2433,
+        "vma10": 1773,
+        "vma20": 1289,
+        "bia5": 2.8,
+        "bia10": 3.19,
+        "bia20": 4.15,
+        "con1": 51.95,
+        "con5": 10.81,
+        "con10": 7.43,
+        "con20": 5.4,
+        "foreign_buy_sell": 1069546,
+        "trust_buy_sell": -14574,
+        "foreign_sum5": 1530,
+        "foreign_sum10": 1415,
+        "foreign_sum20": 1226,
+        "trust_sum5": -11,
+        "trust_sum10": -11,
+        "trust_sum20": -17,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 481,
+        "margin_balance_diff": 3,
+        "margin_balance_diff_sum5": 15,
+        "squeeze": 6.03,
+        "bullet": 1.21,
+        "net_sbl": -5555,
+        "net_sbl_sum5": -5253,
+        "sbl_total": 9334,
+        "sbl_sold_balance": 7779,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.67 倍",
+            "突破前高"
+        ],
+        "hint": [
+            "主升段啟動"
+        ]
+    },
+    {
+        "stock_id": "2889",
+        "stock_name": "國票金",
+        "stock_type": "TSE",
+        "industry": "金融保險",
+        "subIndustry": [
+            " 金控業\/銀行業\/保險業"
+        ],
+        "concept": [
+            "傳產內需股",
+            "儲能"
+        ],
+        "score": 65,
+        "rating": "A",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.67,
+        "trend_score": 35,
+        "momentum_score": 0,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": 0,
+        "close": 16,
+        "yesterday_high": 15.7,
+        "yesterday_low": 15.35,
+        "vol": 22667,
+        "vol_ratio": 1.17,
+        "rank10": 65,
+        "rank20": 70.83,
+        "amp10": 6.51,
+        "amp20": 7.92,
+        "ma5": 15.89,
+        "ma10": 15.77,
+        "ma20": 15.6,
+        "ma60": 15.41,
+        "vma5": 26471,
+        "vma10": 16621,
+        "vma20": 10905,
+        "bia5": 0.69,
+        "bia10": 1.49,
+        "bia20": 2.6,
+        "con1": 49.05,
+        "con5": 26.86,
+        "con10": 24.28,
+        "con20": 17.11,
+        "foreign_buy_sell": 11091589,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 35515,
+        "foreign_sum10": 42091,
+        "foreign_sum20": 42252,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": -2026,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 3020,
+        "margin_balance_diff": 13,
+        "margin_balance_diff_sum5": 207,
+        "squeeze": 3.45,
+        "bullet": 0.21,
+        "net_sbl": -119,
+        "net_sbl_sum5": -1347,
+        "sbl_total": 40001,
+        "sbl_sold_balance": 37669,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "2515",
+        "stock_name": "中工",
+        "stock_type": "TSE",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 建設業",
+            " 營造業"
+        ],
+        "concept": [
+            "傳產內需股",
+            "水資源",
+            "都市更新"
+        ],
+        "score": 43,
+        "rating": "C",
+        "strategy_type": "高風險",
+        "confidence": 0.3,
+        "trend_score": 29,
+        "momentum_score": 0,
+        "chip_score": 10,
+        "structure_score": 8,
+        "risk_score": -25,
+        "close": 12.1,
+        "yesterday_high": 12.1,
+        "yesterday_low": 12.05,
+        "vol": 8760,
+        "vol_ratio": 2.37,
+        "rank10": 40,
+        "rank20": 57.14,
+        "amp10": 4.2,
+        "amp20": 5.98,
+        "ma5": 12.02,
+        "ma10": 11.99,
+        "ma20": 11.96,
+        "ma60": 12.59,
+        "vma5": 4802,
+        "vma10": 4924,
+        "vma20": 5230,
+        "bia5": 0.67,
+        "bia10": 0.92,
+        "bia20": 1.17,
+        "con1": 31.07,
+        "con5": 9.96,
+        "con10": 22.21,
+        "con20": 10.3,
+        "foreign_buy_sell": 2751269,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 2899,
+        "foreign_sum10": 12070,
+        "foreign_sum20": 11212,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": -14,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 29027,
+        "margin_balance_diff": 73,
+        "margin_balance_diff_sum5": 189,
+        "squeeze": 18.69,
+        "bullet": 1.68,
+        "net_sbl": -1887,
+        "net_sbl_sum5": -1329,
+        "sbl_total": 106540,
+        "sbl_sold_balance": 97767,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4
+            },
+            "momentum": [],
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": {
+                "高檔出貨": -25
+            },
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "外資連買",
+            "高檔出貨",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.37 倍",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    }
+]
