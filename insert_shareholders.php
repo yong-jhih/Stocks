@@ -1,6 +1,6 @@
 <?php
 require_once("init.php");
-$targetDate = '2026-08-28';
+$targetDate = '2026-08-07';
 
 $content = file_get_contents('tdcc_result.json');
 $results = json_decode($content, true);
