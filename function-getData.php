@@ -1930,25 +1930,22 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         }
         $lineAverageVolume20 = round(($volSum20 / 1000) / 20);
 
-        // -----------------------------------------------------
-        // 組合資料
-        // -----------------------------------------------------
+        // --- 6. 組合資料 ---
         $results[] = [
-            'date' => date('m/d', strtotime($curr['trade_date'])),
-            'price' => (float)$curr['close_price'],
+            'date'  => date('m/d', strtotime($curr['trade_date'])),
+            'price' => (float)$curr['close_price'], // json夠20日js換讀d.close (目前維持d.price)
             'close' => (float)$curr['close_price'],
-            'volume' => round(($curr['trade_volume'] ?? 0) / 1000),
-            // 柱狀
-            'bar_inst' => $instDiff,
+            'volume' => round($curr['trade_volume'] / 1000),
+            // 柱狀圖用 (Bars)
+            'bar_inst'   => $instDiff,
             'bar_margin' => $marginDiff,
-            'bar_sbl' => $sblNetDiffIdx,
-            // 5日累積
-            'line_inst5' => $instCum5,
+            'bar_sbl'    => $sblNetDiffIdx,
+            // 折線圖用 (Lines)
+            'line_inst5'   => $instCum5,
             'line_margin5' => $marginCum5,
-            'line_sbl5' => $sblNet5,
-            // 均量
-            'line_average_volume5' => $lineAverageVolume5,
-            'line_average_volume20' => $lineAverageVolume20
+            'line_sbl5'    => $sblNet5,
+            'line_average_volume5' => $lineAverageVolume5, // 5日均量 (張)
+            'line_average_volume20' => $lineAverageVolume20 // 20日均量 (張)
         ];
     }
 
