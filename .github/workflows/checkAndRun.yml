@@ -44,6 +44,7 @@ jobs:
       run: php checkAndRun.php
 
     - name: Commit And Push JSON files
+      id: commit_step
       if: always()
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -51,7 +52,20 @@ jobs:
         git add .
         if git diff --cached --quiet; then
           echo "沒有偵測到新的檔案變更，略過提交。"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
         else
           git commit -m "自動更新股票分析數據: $(date +'%Y-%m-%d %H:%M')"
           git push
+          echo "has_changes=true" >> $GITHUB_OUTPUT
         fi
+
+    - name: Sync data folder to FTP
+      if: success() && steps.commit_step.outputs.has_changes == 'true'
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./data/
+        server-dir: /htdocs/data/
+        dangerous-clean-slate: true

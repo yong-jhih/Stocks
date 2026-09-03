@@ -43,10 +43,10 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         $resultsTopTWSE = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTWSE);
         $resultsTopTPEx = topPerformingGenerateDailyDashboard($pdo, $targetDate, $tableTPEx);
         $resultsMix = [...$resultsTWSE, ...$resultsTPEx];
-        createJsonFile($pdo, $targetDate . '_filter', $resultsMix);
+        createJsonFile($pdo, "{$targetDate}_filter", $resultsMix);
         renewCharts($pdo, $targetDate, 'filter', 'charts');
         $resultsTopMix = [...$resultsTopTWSE, ...$resultsTopTPEx];
-        createJsonFile($pdo, $targetDate . '_topPerforming', $resultsTopMix);
+        createJsonFile($pdo, "{$targetDate}_topPerforming", $resultsTopMix);
         renewCharts($pdo, $targetDate, 'topPerforming', 'topPerforming-charts');
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($resultsMix) . " 檔", 'success');
         writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTopMix) . " 檔", 'success');
@@ -87,7 +87,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             writeLog($pdo, "update{$etf_id}", "取得交易日期 [{$targetDate}], 開始更新 {$etf_id} 成分股資料", 'start');
             $analyzeMultiPeriodChanges = analyzeMultiPeriodChanges($pdo, $targetDate, $etf_id);
             $analysis = $analyzeMultiPeriodChanges[0];
-            $lineNotifyStr .= $analyzeMultiPeriodChanges[1] . "\n";
+            $lineNotifyStr .= "{$analyzeMultiPeriodChanges[1]}\n";
             createJsonFile($pdo, $targetDate . "_componentOf{$etf_id}", $analysis);
             $stockIds = [];
             $stocks = json_decode(file_get_contents("data/{$targetDate}_componentOf{$etf_id}.json"), true);

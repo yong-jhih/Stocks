@@ -3047,7 +3047,7 @@ function analyzeMultiPeriodChanges(PDO $pdo, string $targetDate, string $etf_id)
         $incCount = count($increase);
         $decCount = count($decrease);
         $conCount = count($constant);
-        $notificationStr = "{$etf_id}成分股今日變動-https://yong-jhih.github.io/Stocks/?page={$etf_id}_component\n"
+        $notificationStr = "{$etf_id}成分股今日變動\n"
             . "增持共 {$incCount} 檔: " . implode(', ', $increase) . "\n"
             . "減持共 {$decCount} 檔: " . implode(', ', $decrease) . "\n"
             . "無變動共 {$conCount} 檔\n";
