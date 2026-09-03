@@ -16,7 +16,7 @@
                     "line_margin5": 7,
                     "line_sbl5": 1070,
                     "line_average_volume5": 962,
-                    "line_average_volume20": 565
+                    "line_average_volume20": 952
                 },
                 {
                     "date": "08\/07",
@@ -30,7 +30,7 @@
                     "line_margin5": 3,
                     "line_sbl5": 972,
                     "line_average_volume5": 780,
-                    "line_average_volume20": 588
+                    "line_average_volume20": 959
                 },
                 {
                     "date": "08\/10",
@@ -44,7 +44,7 @@
                     "line_margin5": 4,
                     "line_sbl5": 849,
                     "line_average_volume5": 784,
-                    "line_average_volume20": 636
+                    "line_average_volume20": 980
                 },
                 {
                     "date": "08\/11",
@@ -58,7 +58,7 @@
                     "line_margin5": -2,
                     "line_sbl5": 696,
                     "line_average_volume5": 736,
-                    "line_average_volume20": 674
+                    "line_average_volume20": 973
                 },
                 {
                     "date": "08\/12",
@@ -72,7 +72,7 @@
                     "line_margin5": 5,
                     "line_sbl5": 711,
                     "line_average_volume5": 773,
-                    "line_average_volume20": 729
+                    "line_average_volume20": 1011
                 },
                 {
                     "date": "08\/13",
@@ -86,7 +86,7 @@
                     "line_margin5": 0,
                     "line_sbl5": 825,
                     "line_average_volume5": 840,
-                    "line_average_volume20": 775
+                    "line_average_volume20": 1039
                 },
                 {
                     "date": "08\/14",
@@ -100,7 +100,7 @@
                     "line_margin5": 15,
                     "line_sbl5": 954,
                     "line_average_volume5": 934,
-                    "line_average_volume20": 821
+                    "line_average_volume20": 1059
                 },
                 {
                     "date": "08\/17",
@@ -114,7 +114,7 @@
                     "line_margin5": 2,
                     "line_sbl5": 1006,
                     "line_average_volume5": 840,
-                    "line_average_volume20": 846
+                    "line_average_volume20": 1031
                 },
                 {
                     "date": "08\/18",
@@ -128,7 +128,7 @@
                     "line_margin5": 2,
                     "line_sbl5": 1078,
                     "line_average_volume5": 875,
-                    "line_average_volume20": 893
+                    "line_average_volume20": 1020
                 },
                 {
                     "date": "08\/19",
@@ -284,7 +284,68 @@
                     "line_average_volume5": 2665,
                     "line_average_volume20": 1345
                 }
-            ]
+            ],
+            "shareholder": {
+                "latest": {
+                    "date": "08\/28",
+                    "trade_date": "2026-08-28",
+                    "shareholder_count": 82515,
+                    "total_shares": 420492585,
+                    "average_lots": 5.1,
+                    "change": -57,
+                    "change_percent": -0.07
+                },
+                "history": [
+                    {
+                        "date": "08\/07",
+                        "trade_date": "2026-08-07",
+                        "shareholder_count": 82545,
+                        "total_shares": 420492585,
+                        "average_lots": 5.09,
+                        "change": null,
+                        "change_percent": null
+                    },
+                    {
+                        "date": "08\/14",
+                        "trade_date": "2026-08-14",
+                        "shareholder_count": 82463,
+                        "total_shares": 420492585,
+                        "average_lots": 5.1,
+                        "change": -82,
+                        "change_percent": -0.1
+                    },
+                    {
+                        "date": "08\/21",
+                        "trade_date": "2026-08-21",
+                        "shareholder_count": 82572,
+                        "total_shares": 420492585,
+                        "average_lots": 5.09,
+                        "change": 109,
+                        "change_percent": 0.13
+                    },
+                    {
+                        "date": "08\/28",
+                        "trade_date": "2026-08-28",
+                        "shareholder_count": 82515,
+                        "total_shares": 420492585,
+                        "average_lots": 5.1,
+                        "change": -57,
+                        "change_percent": -0.07
+                    }
+                ],
+                "analysis": {
+                    "trend": "neutral",
+                    "label": "籌碼中性",
+                    "score": 0,
+                    "latest_change": -57,
+                    "latest_change_percent": -0.07,
+                    "period_change": -30,
+                    "period_change_percent": -0.04,
+                    "average_lots_change_percent": 0.2,
+                    "consecutive_up": 0,
+                    "consecutive_down": 1
+                }
+            }
         },
         "2889": {
             "stockId": "2889",
@@ -301,7 +362,7 @@
                     "line_margin5": 160,
                     "line_sbl5": 2369,
                     "line_average_volume5": 7575,
-                    "line_average_volume20": 3728
+                    "line_average_volume20": 7730
                 },
                 {
                     "date": "08\/07",
@@ -315,7 +376,7 @@
                     "line_margin5": 134,
                     "line_sbl5": 1828,
                     "line_average_volume5": 5728,
-                    "line_average_volume20": 3897
+                    "line_average_volume20": 6667
                 },
                 {
                     "date": "08\/10",
@@ -329,7 +390,7 @@
                     "line_margin5": 92,
                     "line_sbl5": 1277,
                     "line_average_volume5": 4877,
-                    "line_average_volume20": 4083
+                    "line_average_volume20": 6258
                 },
                 {
                     "date": "08\/11",
@@ -343,7 +404,7 @@
                     "line_margin5": -112,
                     "line_sbl5": 1239,
                     "line_average_volume5": 3993,
-                    "line_average_volume20": 4269
+                    "line_average_volume20": 5931
                 },
                 {
                     "date": "08\/12",
@@ -357,7 +418,7 @@
                     "line_margin5": -120,
                     "line_sbl5": 1315,
                     "line_average_volume5": 4195,
-                    "line_average_volume20": 4485
+                    "line_average_volume20": 5949
                 },
                 {
                     "date": "08\/13",
@@ -371,7 +432,7 @@
                     "line_margin5": 7,
                     "line_sbl5": 602,
                     "line_average_volume5": 5311,
-                    "line_average_volume20": 5056
+                    "line_average_volume20": 6373
                 },
                 {
                     "date": "08\/14",
@@ -385,7 +446,7 @@
                     "line_margin5": -98,
                     "line_sbl5": -20,
                     "line_average_volume5": 6211,
-                    "line_average_volume20": 5450
+                    "line_average_volume20": 6384
                 },
                 {
                     "date": "08\/17",
@@ -399,7 +460,7 @@
                     "line_margin5": -152,
                     "line_sbl5": -2638,
                     "line_average_volume5": 6285,
-                    "line_average_volume20": 5654
+                    "line_average_volume20": 6315
                 },
                 {
                     "date": "08\/18",
@@ -413,7 +474,7 @@
                     "line_margin5": -87,
                     "line_sbl5": -3838,
                     "line_average_volume5": 6386,
-                    "line_average_volume20": 5865
+                    "line_average_volume20": 6213
                 },
                 {
                     "date": "08\/19",
@@ -569,7 +630,68 @@
                     "line_average_volume5": 26440,
                     "line_average_volume20": 11872
                 }
-            ]
+            ],
+            "shareholder": {
+                "latest": {
+                    "date": "08\/28",
+                    "trade_date": "2026-08-28",
+                    "shareholder_count": 219709,
+                    "total_shares": 3633563471,
+                    "average_lots": 16.54,
+                    "change": 292,
+                    "change_percent": 0.13
+                },
+                "history": [
+                    {
+                        "date": "08\/07",
+                        "trade_date": "2026-08-07",
+                        "shareholder_count": 219212,
+                        "total_shares": 3633563471,
+                        "average_lots": 16.58,
+                        "change": null,
+                        "change_percent": null
+                    },
+                    {
+                        "date": "08\/14",
+                        "trade_date": "2026-08-14",
+                        "shareholder_count": 219321,
+                        "total_shares": 3633563471,
+                        "average_lots": 16.57,
+                        "change": 109,
+                        "change_percent": 0.05
+                    },
+                    {
+                        "date": "08\/21",
+                        "trade_date": "2026-08-21",
+                        "shareholder_count": 219417,
+                        "total_shares": 3633563471,
+                        "average_lots": 16.56,
+                        "change": 96,
+                        "change_percent": 0.04
+                    },
+                    {
+                        "date": "08\/28",
+                        "trade_date": "2026-08-28",
+                        "shareholder_count": 219709,
+                        "total_shares": 3633563471,
+                        "average_lots": 16.54,
+                        "change": 292,
+                        "change_percent": 0.13
+                    }
+                ],
+                "analysis": {
+                    "trend": "slightly_bearish",
+                    "label": "籌碼偏分散",
+                    "score": -2,
+                    "latest_change": 292,
+                    "latest_change_percent": 0.13,
+                    "period_change": 497,
+                    "period_change_percent": 0.23,
+                    "average_lots_change_percent": -0.24,
+                    "consecutive_up": 3,
+                    "consecutive_down": 0
+                }
+            }
         },
         "2515": {
             "stockId": "2515",
@@ -586,7 +708,7 @@
                     "line_margin5": 1822,
                     "line_sbl5": 2510,
                     "line_average_volume5": 6373,
-                    "line_average_volume20": 4156
+                    "line_average_volume20": 9299
                 },
                 {
                     "date": "08\/07",
@@ -600,7 +722,7 @@
                     "line_margin5": 1781,
                     "line_sbl5": 2604,
                     "line_average_volume5": 5936,
-                    "line_average_volume20": 4372
+                    "line_average_volume20": 9132
                 },
                 {
                     "date": "08\/10",
@@ -614,7 +736,7 @@
                     "line_margin5": 473,
                     "line_sbl5": 1917,
                     "line_average_volume5": 5571,
-                    "line_average_volume20": 4831
+                    "line_average_volume20": 8940
                 },
                 {
                     "date": "08\/11",
@@ -628,7 +750,7 @@
                     "line_margin5": 92,
                     "line_sbl5": 1167,
                     "line_average_volume5": 5608,
-                    "line_average_volume20": 5128
+                    "line_average_volume20": 8760
                 },
                 {
                     "date": "08\/12",
@@ -642,7 +764,7 @@
                     "line_margin5": 76,
                     "line_sbl5": 253,
                     "line_average_volume5": 5774,
-                    "line_average_volume20": 5395
+                    "line_average_volume20": 8484
                 },
                 {
                     "date": "08\/13",
@@ -656,7 +778,7 @@
                     "line_margin5": 9,
                     "line_sbl5": -22,
                     "line_average_volume5": 5881,
-                    "line_average_volume20": 5627
+                    "line_average_volume20": 7941
                 },
                 {
                     "date": "08\/14",
@@ -670,7 +792,7 @@
                     "line_margin5": 77,
                     "line_sbl5": -365,
                     "line_average_volume5": 6687,
-                    "line_average_volume20": 6044
+                    "line_average_volume20": 7474
                 },
                 {
                     "date": "08\/17",
@@ -684,7 +806,7 @@
                     "line_margin5": -168,
                     "line_sbl5": -239,
                     "line_average_volume5": 6043,
-                    "line_average_volume20": 6341
+                    "line_average_volume20": 7390
                 },
                 {
                     "date": "08\/18",
@@ -698,7 +820,7 @@
                     "line_margin5": -78,
                     "line_sbl5": 156,
                     "line_average_volume5": 5464,
-                    "line_average_volume20": 6494
+                    "line_average_volume20": 7005
                 },
                 {
                     "date": "08\/19",
@@ -854,7 +976,68 @@
                     "line_average_volume5": 5664,
                     "line_average_volume20": 5443
                 }
-            ]
+            ],
+            "shareholder": {
+                "latest": {
+                    "date": "08\/28",
+                    "trade_date": "2026-08-28",
+                    "shareholder_count": 139763,
+                    "total_shares": 1607904084,
+                    "average_lots": 11.5,
+                    "change": -128,
+                    "change_percent": -0.09
+                },
+                "history": [
+                    {
+                        "date": "08\/07",
+                        "trade_date": "2026-08-07",
+                        "shareholder_count": 140083,
+                        "total_shares": 1607904084,
+                        "average_lots": 11.48,
+                        "change": null,
+                        "change_percent": null
+                    },
+                    {
+                        "date": "08\/14",
+                        "trade_date": "2026-08-14",
+                        "shareholder_count": 139952,
+                        "total_shares": 1607904084,
+                        "average_lots": 11.49,
+                        "change": -131,
+                        "change_percent": -0.09
+                    },
+                    {
+                        "date": "08\/21",
+                        "trade_date": "2026-08-21",
+                        "shareholder_count": 139891,
+                        "total_shares": 1607904084,
+                        "average_lots": 11.49,
+                        "change": -61,
+                        "change_percent": -0.04
+                    },
+                    {
+                        "date": "08\/28",
+                        "trade_date": "2026-08-28",
+                        "shareholder_count": 139763,
+                        "total_shares": 1607904084,
+                        "average_lots": 11.5,
+                        "change": -128,
+                        "change_percent": -0.09
+                    }
+                ],
+                "analysis": {
+                    "trend": "slightly_bullish",
+                    "label": "籌碼偏集中",
+                    "score": 2,
+                    "latest_change": -128,
+                    "latest_change_percent": -0.09,
+                    "period_change": -320,
+                    "period_change_percent": -0.23,
+                    "average_lots_change_percent": 0.17,
+                    "consecutive_up": 0,
+                    "consecutive_down": 3
+                }
+            }
         }
     }
 }
