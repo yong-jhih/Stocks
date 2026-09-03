@@ -1009,6 +1009,20 @@
                     lineStyle: { width: 2, color: '#f59e0b' },
                     z: 5
                 });
+                // =========================================================
+                // 20日均量線
+                // =========================================================
+                series.push({
+                    name: '20日均量',
+                    type: 'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: volumeAxisIndex,
+                    data: stockData.series.map(d => d.line_average_volume20 ?? null),
+                    smooth: true,
+                    symbol: 'none',
+                    lineStyle: { width: 2, color: '#22c55e' },
+                    z: 5
+                });
             }
             return {
                 title: {
