@@ -346,6 +346,22 @@ function renewCharts(PDO $pdo, string $targetDate, string $getCode, string $name
     createJsonFile($pdo, "{$targetDate}_{$name}", $allData);
 }
 
+function renewCharts_test(PDO $pdo, string $targetDate, string $getCode, string $name): void
+{
+    $stockList = json_decode(file_get_contents("data/{$targetDate}_{$getCode}.json"), true);
+    $allData = [
+        'date' => $targetDate,
+        'stocks' => []
+    ];
+    foreach ($stockList as $stock) {
+        $data = getStockAnalysisChart_test($pdo, $stock['stock_id'], $targetDate);
+        if ($data) {
+            $allData['stocks'][$stock['stock_id']] = $data;
+        }
+    }
+    createJsonFile($pdo, "{$targetDate}_{$name}", $allData);
+}
+
 function testRetry(PDO $pdo): array
 {
     $sql = "SELECT * FROM system_logs ORDER BY id DESC LIMIT 1";

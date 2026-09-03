@@ -1,3 +1,4 @@
 <?php
 require_once("init.php");
-echo $targetDate;
+$targetDate='2026-09-02';
+renewCharts_test( $pdo, $targetDate, 'filter', 'test');
