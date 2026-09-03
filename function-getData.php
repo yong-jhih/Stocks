@@ -1533,7 +1533,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
                 h.trade_date,
                 h.close_price,
                 h.trade_volume,
-                i.total_buy_sell as inst_diff,
+                i.total_buy_sell AS inst_diff,
                 m.margin_balance,
                 s.sbl_sold,
                 s.sbl_return
@@ -1551,7 +1551,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
                 h.trade_date,
                 h.close_price,
                 h.trade_volume,
-                i.total_buy_sell as inst_diff,
+                i.total_buy_sell AS inst_diff,
                 m.margin_balance,
                 s.sbl_sold,
                 s.sbl_return
@@ -1647,7 +1647,7 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
 function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDate, int $displayDays = 20): array
 {
     $stocksMap = getStocksMap();
-
+    $fetchLimit = $displayDays + 20;
     if (!isset($stocksMap[$stockId])) {
         return [
             'stockId' => $stockId,
@@ -1655,17 +1655,11 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
             'shareholder' => null
         ];
     }
-
     // =========================================================
     // 1. 取得日線資料
     // 額外抓資料供 5 / 20 日均量與累計計算使用
     // =========================================================
-    $fetchLimit = $displayDays + 20;
-
-    if (
-        $stocksMap[$stockId]['stock_type'] === 'TPEx' ||
-        $stocksMap[$stockId]['stock_type'] === 'ESM'
-    ) {
+    if ($stocksMap[$stockId]['stock_type'] === 'TPEx' || $stocksMap[$stockId]['stock_type'] === 'ESM') {
         $sql = "
             SELECT 
                 h.trade_date,
@@ -1676,17 +1670,10 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
                 s.sbl_sold,
                 s.sbl_return
             FROM TPEx_stock_history h
-            LEFT JOIN TPEx_stock_insti i
-                ON h.trade_date = i.trade_date
-                AND h.stock_id = i.stock_id
-            LEFT JOIN TPEx_stock_margin m
-                ON h.trade_date = m.trade_date
-                AND h.stock_id = m.stock_id
-            LEFT JOIN TPEx_stock_sbl_sold s
-                ON h.trade_date = s.trade_date
-                AND h.stock_id = s.stock_id
-            WHERE h.stock_id = :stockId
-                AND h.trade_date <= :targetDate
+            LEFT JOIN TPEx_stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+            LEFT JOIN TPEx_stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+            LEFT JOIN TPEx_stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
             ORDER BY h.trade_date DESC
             LIMIT :limit
         ";
@@ -1701,17 +1688,10 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
                 s.sbl_sold,
                 s.sbl_return
             FROM stock_history h
-            LEFT JOIN stock_insti i
-                ON h.trade_date = i.trade_date
-                AND h.stock_id = i.stock_id
-            LEFT JOIN stock_margin m
-                ON h.trade_date = m.trade_date
-                AND h.stock_id = m.stock_id
-            LEFT JOIN stock_sbl_sold s
-                ON h.trade_date = s.trade_date
-                AND h.stock_id = s.stock_id
-            WHERE h.stock_id = :stockId
-                AND h.trade_date <= :targetDate
+            LEFT JOIN stock_insti i ON h.trade_date = i.trade_date AND h.stock_id = i.stock_id
+            LEFT JOIN stock_margin m ON h.trade_date = m.trade_date AND h.stock_id = m.stock_id
+            LEFT JOIN stock_sbl_sold s ON h.trade_date = s.trade_date AND h.stock_id = s.stock_id
+            WHERE h.stock_id = :stockId AND h.trade_date <= :targetDate
             ORDER BY h.trade_date DESC
             LIMIT :limit
         ";
@@ -1726,9 +1706,8 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':stockId', $stockId);
     $stmt->bindValue(':targetDate', $targetDate);
-    $stmt->bindValue(':limit', $fetchLimit, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', (int)$fetchLimit, PDO::PARAM_INT);
     $stmt->execute();
-
     $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
     $count = count($rows);
 
@@ -1742,57 +1721,33 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
             shareholder_count,
             total_shares
         FROM stock_shareholder
-        WHERE stock_id = :stockId
-            AND trade_date <= :targetDate
+        WHERE stock_id = :stockId AND trade_date <= :targetDate
         ORDER BY trade_date DESC
         LIMIT 4
     ";
-
     $shareholderStmt = $pdo->prepare($shareholderSql);
     $shareholderStmt->execute([
         ':stockId' => $stockId,
         ':targetDate' => $targetDate
     ]);
-
-    $shareholderRows = array_reverse(
-        $shareholderStmt->fetchAll(PDO::FETCH_ASSOC)
-    );
+    $shareholderRows = array_reverse($shareholderStmt->fetchAll(PDO::FETCH_ASSOC));
 
     // =========================================================
     // 3. 整理股東歷史資料
     // =========================================================
     $shareholderHistory = [];
-
     foreach ($shareholderRows as $index => $row) {
-
         $shareholderCount = (int)$row['shareholder_count'];
         $totalShares = (int)$row['total_shares'];
-
-        // 平均每位股東持有張數
-        // 1 張 = 1000 股
-        $averageLots = $shareholderCount > 0
-            ? round(($totalShares / $shareholderCount) / 1000, 2)
-            : null;
-
+        $averageLots = $shareholderCount > 0 ? round(($totalShares / $shareholderCount) / 1000, 2) : null;
         $previous = $shareholderRows[$index - 1] ?? null;
-
         $change = null;
         $changePercent = null;
-
         if ($previous) {
-
             $previousCount = (int)$previous['shareholder_count'];
-
             $change = $shareholderCount - $previousCount;
-
-            if ($previousCount > 0) {
-                $changePercent = round(
-                    ($change / $previousCount) * 100,
-                    2
-                );
-            }
+            if ($previousCount > 0) $changePercent = round(($change / $previousCount) * 100, 2);
         }
-
         $shareholderHistory[] = [
             'date' => date('m/d', strtotime($row['trade_date'])),
             'trade_date' => $row['trade_date'],
@@ -1803,7 +1758,6 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
             'change_percent' => $changePercent
         ];
     }
-
     // =========================================================
     // 4. 股東籌碼分析
     // =========================================================
@@ -1819,67 +1773,30 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         'consecutive_up' => 0,
         'consecutive_down' => 0
     ];
-
     $shareholderCount = count($shareholderHistory);
-
     if ($shareholderCount >= 2) {
-
         $latest = $shareholderHistory[$shareholderCount - 1];
         $previous = $shareholderHistory[$shareholderCount - 2];
-
         // -----------------------------------------------------
         // 最新週變化
         // -----------------------------------------------------
-        $shareholderAnalysis['latest_change'] =
-            $latest['shareholder_count'] - $previous['shareholder_count'];
-
-        $shareholderAnalysis['latest_change_percent'] =
-            $previous['shareholder_count'] > 0
-            ? round(
-                (
-                    $shareholderAnalysis['latest_change']
-                    / $previous['shareholder_count']
-                ) * 100,
-                2
-            )
-            : null;
+        $shareholderAnalysis['latest_change'] = $latest['shareholder_count'] - $previous['shareholder_count'];
+        $shareholderAnalysis['latest_change_percent'] = $previous['shareholder_count'] > 0 ? round(($shareholderAnalysis['latest_change'] / $previous['shareholder_count']) * 100, 2) : null;
 
         // -----------------------------------------------------
         // 期間累積變化
         // -----------------------------------------------------
         $first = $shareholderHistory[0];
-
-        $shareholderAnalysis['period_change'] =
-            $latest['shareholder_count'] - $first['shareholder_count'];
-
+        $shareholderAnalysis['period_change'] = $latest['shareholder_count'] - $first['shareholder_count'];
         if ($first['shareholder_count'] > 0) {
-            $shareholderAnalysis['period_change_percent'] = round(
-                (
-                    $shareholderAnalysis['period_change']
-                    / $first['shareholder_count']
-                ) * 100,
-                2
-            );
+            $shareholderAnalysis['period_change_percent'] = round(($shareholderAnalysis['period_change'] / $first['shareholder_count']) * 100, 2);
         }
 
         // -----------------------------------------------------
         // 平均持股變化
         // -----------------------------------------------------
-        if (
-            $first['average_lots'] !== null &&
-            $first['average_lots'] > 0 &&
-            $latest['average_lots'] !== null
-        ) {
-            $shareholderAnalysis['average_lots_change_percent'] = round(
-                (
-                    (
-                        $latest['average_lots']
-                        - $first['average_lots']
-                    )
-                    / $first['average_lots']
-                ) * 100,
-                2
-            );
+        if ($first['average_lots'] !== null && $first['average_lots'] > 0 && $latest['average_lots'] !== null) {
+            $shareholderAnalysis['average_lots_change_percent'] = round((($latest['average_lots'] - $first['average_lots']) / $first['average_lots']) * 100, 2);
         }
 
         // -----------------------------------------------------
@@ -1887,34 +1804,19 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         // -----------------------------------------------------
         $consecutiveUp = 0;
         $consecutiveDown = 0;
-
         for ($i = $shareholderCount - 1; $i > 0; $i--) {
-
-            $currentCount =
-                $shareholderHistory[$i]['shareholder_count'];
-
-            $previousCount =
-                $shareholderHistory[$i - 1]['shareholder_count'];
-
+            $currentCount = $shareholderHistory[$i]['shareholder_count'];
+            $previousCount = $shareholderHistory[$i - 1]['shareholder_count'];
             if ($currentCount > $previousCount) {
-
-                if ($consecutiveDown > 0) {
-                    break;
-                }
-
+                if ($consecutiveDown > 0) break;
                 $consecutiveUp++;
             } elseif ($currentCount < $previousCount) {
-
-                if ($consecutiveUp > 0) {
-                    break;
-                }
-
+                if ($consecutiveUp > 0) break;
                 $consecutiveDown++;
             } else {
                 break;
             }
         }
-
         $shareholderAnalysis['consecutive_up'] = $consecutiveUp;
         $shareholderAnalysis['consecutive_down'] = $consecutiveDown;
 
@@ -1923,12 +1825,8 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         // 暫時獨立評分，不併入個股總評分
         // =====================================================
         $score = 0;
-
         // 最新週股東減少
-        if (
-            $shareholderAnalysis['latest_change_percent'] !== null
-        ) {
-
+        if ($shareholderAnalysis['latest_change_percent'] !== null) {
             if ($shareholderAnalysis['latest_change_percent'] <= -1) {
                 $score += 1;
             } elseif ($shareholderAnalysis['latest_change_percent'] >= 1) {
@@ -1937,10 +1835,7 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         }
 
         // 最近期間累積變化
-        if (
-            $shareholderAnalysis['period_change_percent'] !== null
-        ) {
-
+        if ($shareholderAnalysis['period_change_percent'] !== null) {
             if ($shareholderAnalysis['period_change_percent'] <= -3) {
                 $score += 2;
             } elseif ($shareholderAnalysis['period_change_percent'] >= 3) {
@@ -1949,22 +1844,12 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
         }
 
         // 連續性
-        if ($consecutiveDown >= 2) {
-            $score += 2;
-        }
-
-        if ($consecutiveUp >= 2) {
-            $score -= 2;
-        }
+        if ($consecutiveDown >= 2) $score += 2;
+        if ($consecutiveUp >= 2) $score -= 2;
 
         // 平均持股變化
-        if (
-            $shareholderAnalysis['average_lots_change_percent'] !== null
-        ) {
-
-            if (
-                $shareholderAnalysis['average_lots_change_percent'] >= 3
-            ) {
+        if ($shareholderAnalysis['average_lots_change_percent'] !== null) {
+            if ($shareholderAnalysis['average_lots_change_percent'] >= 3) {
                 $score += 1;
             } elseif (
                 $shareholderAnalysis['average_lots_change_percent'] <= -3
@@ -1972,32 +1857,25 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
                 $score -= 1;
             }
         }
-
         $score = max(-6, min(6, $score));
-
         $shareholderAnalysis['score'] = $score;
 
         // =====================================================
         // 6. 籌碼狀態
         // =====================================================
         if ($score >= 4) {
-
             $shareholderAnalysis['trend'] = 'bullish';
             $shareholderAnalysis['label'] = '籌碼明顯集中';
         } elseif ($score >= 2) {
-
             $shareholderAnalysis['trend'] = 'slightly_bullish';
             $shareholderAnalysis['label'] = '籌碼偏集中';
         } elseif ($score <= -4) {
-
             $shareholderAnalysis['trend'] = 'bearish';
             $shareholderAnalysis['label'] = '籌碼明顯分散';
         } elseif ($score <= -2) {
-
             $shareholderAnalysis['trend'] = 'slightly_bearish';
             $shareholderAnalysis['label'] = '籌碼偏分散';
         } else {
-
             $shareholderAnalysis['trend'] = 'neutral';
             $shareholderAnalysis['label'] = '籌碼中性';
         }
@@ -2007,131 +1885,67 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
     // 7. 建立 20 日趨勢資料
     // =========================================================
     $results = [];
-
     for ($i = 0; $i < $count; $i++) {
-
-        if ($i < ($count - $displayDays)) {
-            continue;
-        }
-
+        if ($i < ($count - $displayDays)) continue;
         $curr = $rows[$i];
         $prev = $rows[$i - 1] ?? $curr;
 
-        // -----------------------------------------------------
-        // 法人
-        // -----------------------------------------------------
-        $instDiff = round(
-            ($curr['inst_diff'] ?? 0) / 1000
-        );
-
+        // --- 1. 法人 (Institutional) ---
+        $instDiff = round(($curr['inst_diff'] ?? 0) / 1000); // 今日張數
         $instCum5 = 0;
-
         for ($j = max(0, $i - 4); $j <= $i; $j++) {
             $instCum5 += ($rows[$j]['inst_diff'] ?? 0);
         }
-
         $instCum5 = round($instCum5 / 1000);
 
-        // -----------------------------------------------------
-        // 融資
-        // -----------------------------------------------------
+        // --- 2. 融資 (Margin) ---
         $marginToday = $curr['margin_balance'] ?? 0;
         $marginPrev = $prev['margin_balance'] ?? $marginToday;
+        $marginDiff = round($marginToday - $marginPrev); // 今日增減張數
 
-        $marginDiff = round(
-            $marginToday - $marginPrev
-        );
+        $refMargin5 = $rows[max(0, $i - 5)]['margin_balance'] ?? $marginToday;
+        $marginCum5 = round($marginToday - $refMargin5);
 
-        $refMargin5 =
-            $rows[max(0, $i - 5)]['margin_balance']
-            ?? $marginToday;
-
-        $marginCum5 = round(
-            $marginToday - $refMargin5
-        );
-
-        // -----------------------------------------------------
-        // 借券
-        // -----------------------------------------------------
-        $sblNetDiff =
-            ($curr['sbl_sold'] ?? 0)
-            - ($curr['sbl_return'] ?? 0);
-
-        $sblNetDiffIdx = round(
-            $sblNetDiff / 1000
-        );
+        // --- 3. 借券賣出 (SBL) ---
+        $sblNetDiff = ($curr['sbl_sold'] ?? 0) - ($curr['sbl_return'] ?? 0);
+        $sblNetDiffIdx = round($sblNetDiff / 1000); // 今日淨張數
 
         $sblNet5 = 0;
-
         for ($k = max(0, $i - 4); $k <= $i; $k++) {
-
-            $sblNet5 +=
-                (($rows[$k]['sbl_sold'] ?? 0)
-                    - ($rows[$k]['sbl_return'] ?? 0));
+            $sblNet5 += (($rows[$k]['sbl_sold'] ?? 0) - ($rows[$k]['sbl_return'] ?? 0));
         }
+        $sblNet5 = round($sblNet5 / 1000);
 
-        $sblNet5 = round(
-            $sblNet5 / 1000
-        );
-
-        // -----------------------------------------------------
-        // 5日均量
-        // -----------------------------------------------------
+        // --- 4. 5日均量 (計算當日 + 往前 4 日，共 5 日平均張數) ---
         $volSum5 = 0;
-        $volCount5 = 0;
-
         for ($v = max(0, $i - 4); $v <= $i; $v++) {
             $volSum5 += ($rows[$v]['trade_volume'] ?? 0);
-            $volCount5++;
         }
+        $lineAverageVolume5 = round(($volSum5 / 1000) / 5);
 
-        $lineAverageVolume5 =
-            $volCount5 > 0
-            ? round(($volSum5 / $volCount5) / 1000)
-            : null;
-
-        // -----------------------------------------------------
-        // 20日均量
-        // -----------------------------------------------------
+        // --- 5. 20日均量 (計算當日 + 往前 19 日，共 20 日平均張數) ---
         $volSum20 = 0;
-        $volCount20 = 0;
-
         for ($v = max(0, $i - 19); $v <= $i; $v++) {
             $volSum20 += ($rows[$v]['trade_volume'] ?? 0);
-            $volCount20++;
         }
-
-        $lineAverageVolume20 =
-            $volCount20 > 0
-            ? round(($volSum20 / $volCount20) / 1000)
-            : null;
+        $lineAverageVolume20 = round(($volSum20 / 1000) / 20);
 
         // -----------------------------------------------------
         // 組合資料
         // -----------------------------------------------------
         $results[] = [
-            'date' => date(
-                'm/d',
-                strtotime($curr['trade_date'])
-            ),
-
+            'date' => date('m/d', strtotime($curr['trade_date'])),
             'price' => (float)$curr['close_price'],
             'close' => (float)$curr['close_price'],
-
-            'volume' => round(
-                ($curr['trade_volume'] ?? 0) / 1000
-            ),
-
+            'volume' => round(($curr['trade_volume'] ?? 0) / 1000),
             // 柱狀
             'bar_inst' => $instDiff,
             'bar_margin' => $marginDiff,
             'bar_sbl' => $sblNetDiffIdx,
-
             // 5日累積
             'line_inst5' => $instCum5,
             'line_margin5' => $marginCum5,
             'line_sbl5' => $sblNet5,
-
             // 均量
             'line_average_volume5' => $lineAverageVolume5,
             'line_average_volume20' => $lineAverageVolume20
@@ -2143,17 +1957,10 @@ function getStockAnalysisChart_test(PDO $pdo, string $stockId, string $targetDat
     // =========================================================
     return [
         'stockId' => $stockId,
-
         'series' => $results,
-
         'shareholder' => [
-            'latest' =>
-            !empty($shareholderHistory)
-                ? end($shareholderHistory)
-                : null,
-
+            'latest' => !empty($shareholderHistory) ? end($shareholderHistory) : null,
             'history' => $shareholderHistory,
-
             'analysis' => $shareholderAnalysis
         ]
     ];
