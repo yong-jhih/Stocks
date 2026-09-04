@@ -1,12 +1,5 @@
 [
     {
-        "id": 13200011,
-        "log_time": "2026-09-04 21:56:19",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-09-04] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
         "id": 13200010,
         "log_time": "2026-09-04 21:50:31",
         "log_type": "update00991A",
