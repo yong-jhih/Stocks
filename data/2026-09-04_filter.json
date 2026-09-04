@@ -1,0 +1,102 @@
+[
+    {
+        "stock_id": "2511",
+        "stock_name": "太子",
+        "stock_type": "TSE",
+        "industry": "建材營造",
+        "subIndustry": [
+            " 工程承攬",
+            " 建設業",
+            " 營造業",
+            " 物業管理"
+        ],
+        "concept": [
+            "傳產內需股",
+            "都市更新"
+        ],
+        "score": 58,
+        "rating": "B",
+        "strategy_type": "發動前夕",
+        "confidence": 0.67,
+        "trend_score": 10,
+        "momentum_score": 20,
+        "chip_score": 16,
+        "structure_score": 8,
+        "risk_score": 0,
+        "close": 8.43,
+        "yesterday_high": 8.38,
+        "yesterday_low": 8.3,
+        "vol": 1490,
+        "vol_ratio": 3.84,
+        "rank10": 86.36,
+        "rank20": 90.32,
+        "amp10": 2.67,
+        "amp20": 3.8,
+        "ma5": 8.32,
+        "ma10": 8.34,
+        "ma20": 8.31,
+        "ma60": 8.34,
+        "vma5": 612,
+        "vma10": 597,
+        "vma20": 739,
+        "bia5": 1.35,
+        "bia10": 1.12,
+        "bia20": 1.4,
+        "con1": 51.42,
+        "con5": 8.39,
+        "con10": 10.57,
+        "con20": -4,
+        "foreign_buy_sell": 744209,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 357,
+        "foreign_sum10": 653,
+        "foreign_sum20": -880,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 2440,
+        "margin_balance_diff": -5,
+        "margin_balance_diff_sum5": -3,
+        "squeeze": 6.8,
+        "bullet": 9.1,
+        "net_sbl": 22,
+        "net_sbl_sum5": 93,
+        "sbl_total": 11746,
+        "sbl_sold_balance": 5021,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "外資連買": 10,
+                "融資減肥": 6
+            },
+            "risk": [],
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "外資連買",
+            "融資減肥",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 3.84 倍",
+            "突破前高"
+        ],
+        "hint": [
+            "洗盤完成"
+        ]
+    }
+]
