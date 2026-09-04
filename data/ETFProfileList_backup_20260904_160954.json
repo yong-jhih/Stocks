@@ -53,12 +53,6 @@
         "stock_type": "ETF",
         "industry": ""
     },
-    "00409A": {
-        "stock_id": "00409A",
-        "stock_name": "主動復華全球50",
-        "stock_type": "ETF",
-        "industry": ""
-    },
     "00410A": {
         "stock_id": "00410A",
         "stock_name": "主動永豐科技趨勢",
@@ -1472,12 +1466,6 @@
     "009827": {
         "stock_id": "009827",
         "stock_name": "玉山未來全球算力",
-        "stock_type": "ETF",
-        "industry": ""
-    },
-    "009828": {
-        "stock_id": "009828",
-        "stock_name": "中信台日韓PCB",
         "stock_type": "ETF",
         "industry": ""
     },

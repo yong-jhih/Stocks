@@ -2885,6 +2885,12 @@
         "stock_type": "TSE",
         "industry": "金融保險"
     },
+    "2867": {
+        "stock_id": "2867",
+        "stock_name": "三商壽",
+        "stock_type": "TSE",
+        "industry": "金融保險"
+    },
     "2880": {
         "stock_id": "2880",
         "stock_name": "華南金",
@@ -3333,7 +3339,7 @@
         "stock_id": "3054",
         "stock_name": "立萬利",
         "stock_type": "TSE",
-        "industry": "電子通路業"
+        "industry": "食品工業"
     },
     "3055": {
         "stock_id": "3055",
@@ -7979,12 +7985,6 @@
         "stock_type": "TPEx",
         "industry": "綠能環保"
     },
-    "3718": {
-        "stock_id": "3718",
-        "stock_name": "中光電投控",
-        "stock_type": "TPEx",
-        "industry": "光電業"
-    },
     "4102": {
         "stock_id": "4102",
         "stock_name": "永日",
@@ -8575,7 +8575,7 @@
     },
     "4747": {
         "stock_id": "4747",
-        "stock_name": "強生*",
+        "stock_name": "強生製藥",
         "stock_type": "TPEx",
         "industry": "生技醫療業"
     },
@@ -9070,6 +9070,12 @@
         "stock_name": "力麗店",
         "stock_type": "TPEx",
         "industry": "觀光餐旅"
+    },
+    "5371": {
+        "stock_id": "5371",
+        "stock_name": "中光電",
+        "stock_type": "TPEx",
+        "industry": "光電業"
     },
     "5381": {
         "stock_id": "5381",
@@ -12119,6 +12125,12 @@
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
+    "4150": {
+        "stock_id": "4150",
+        "stock_name": "優你康",
+        "stock_type": "ESM",
+        "industry": "生技醫療業"
+    },
     "4170": {
         "stock_id": "4170",
         "stock_name": "鑫品生醫",
@@ -12977,12 +12989,6 @@
         "stock_type": "ESM",
         "industry": "綠能環保"
     },
-    "6950": {
-        "stock_id": "6950",
-        "stock_name": "科科科技-KY",
-        "stock_type": "ESM",
-        "industry": "數位雲端"
-    },
     "6959": {
         "stock_id": "6959",
         "stock_name": "兆捷科技",
@@ -13192,12 +13198,6 @@
         "stock_name": "碩正科技",
         "stock_type": "ESM",
         "industry": "半導體業"
-    },
-    "7686": {
-        "stock_id": "7686",
-        "stock_name": "捷立康",
-        "stock_type": "ESM",
-        "industry": "生技醫療業"
     },
     "7702": {
         "stock_id": "7702",
@@ -13966,12 +13966,6 @@
         "stock_name": "續升綠能",
         "stock_type": "ESM",
         "industry": "綠能環保"
-    },
-    "7932": {
-        "stock_id": "7932",
-        "stock_name": "昱鐳應材",
-        "stock_type": "ESM",
-        "industry": "電子零組件業"
     },
     "7933": {
         "stock_id": "7933",
