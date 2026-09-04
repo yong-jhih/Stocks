@@ -21,12 +21,12 @@ try {
     ]);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if (curl_errno($ch)) throw new RuntimeException("錯誤 無法取得 Finmind {$params['dataset']}");
-    if ($httpCode !== 200) throw new RuntimeException("http {$httpCode} 無法取得 Finmind {$params['dataset']}");
+    if (curl_errno($ch)) throw new RuntimeException("錯誤 無法取得 Finmind");
+    if ($httpCode !== 200) throw new RuntimeException("http {$httpCode}");
     $result = json_decode($response, true);
     if (json_last_error() !== JSON_ERROR_NONE) throw new RuntimeException('JSON Error: ' . json_last_error_msg());
     echo json_encode($result);
 } catch (Throwable $e) {
-    writeLog($pdo, $params['dataset'], $e->getMessage(), 'Warnning');
-    echo "empty";
+    // writeLog($pdo, "test", $e->getMessage(), 'Warnning');
+    echo $e->getMessage();
 }
