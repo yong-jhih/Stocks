@@ -918,9 +918,253 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
     }
 }
 
+//  批次取得股票股東資料並分析 每檔最多取 targetDate 以前最近 4 筆資料 避免 outputModel() 逐檔查詢造成 N+1 SQL Query
+function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDate): array
+{
+    if (empty($stockIds)) return [];
+    // =========================================================
+    // 1. 整理股票代號
+    // =========================================================
+    $stockIds = array_values(array_unique(array_filter($stockIds)));
+    if (empty($stockIds)) return [];
+    $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
+    // =========================================================
+    // 2. 一次取得所有股票最近股東資料
+    // 使用 ROW_NUMBER 確保每檔最多取得最近 4 筆
+    // =========================================================
+    $sql = "
+        SELECT
+            stock_id,
+            trade_date,
+            shareholder_count,
+            total_shares
+        FROM (
+            SELECT
+                stock_id,
+                trade_date,
+                shareholder_count,
+                total_shares,
+                ROW_NUMBER() OVER (
+                    PARTITION BY stock_id
+                    ORDER BY trade_date DESC
+                ) AS rn
+            FROM stock_shareholder
+            WHERE stock_id IN ({$placeholders})
+                AND trade_date <= ?
+        ) t
+        WHERE rn <= 4
+        ORDER BY stock_id, trade_date ASC
+    ";
+    $stmt = $pdo->prepare($sql);
+    $params = array_merge($stockIds, [$targetDate]);
+    $stmt->execute($params);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // =========================================================
+    // 3. 依股票分類
+    // =========================================================
+    $grouped = [];
+    foreach ($rows as $row) {
+        $stockId = (string)$row['stock_id'];
+        $grouped[$stockId][] = [
+            'trade_date' => $row['trade_date'],
+            'shareholder_count' => (int)$row['shareholder_count'],
+            'total_shares' => (int)$row['total_shares']
+        ];
+    }
+
+    // =========================================================
+    // 4. 建立所有股票預設結果
+    // =========================================================
+    $results = [];
+    foreach ($stockIds as $stockId) {
+        $results[(string)$stockId] = [
+            'trend' => 'neutral',
+            'label' => '資料不足',
+            'score' => 0,
+            'latest_change' => null,
+            'latest_change_percent' => null,
+            'period_change' => null,
+            'period_change_percent' => null,
+            'average_lots_change_percent' => null,
+            'consecutive_up' => 0,
+            'consecutive_down' => 0,
+            'data_count' => 0
+        ];
+    }
+
+    // =========================================================
+    // 5. 逐檔分析
+    // =========================================================
+    foreach ($grouped as $stockId => $shareholderRows) {
+        $history = [];
+        foreach ($shareholderRows as $index => $row) {
+            $shareholderCount = (int)$row['shareholder_count'];
+            $totalShares = (int)$row['total_shares'];
+            $averageLots = $shareholderCount > 0 ? round(($totalShares / $shareholderCount) / 1000, 2) : null;
+            $previous = $shareholderRows[$index - 1] ?? null;
+            $change = null;
+            $changePercent = null;
+            if ($previous) {
+                $previousCount = (int)$previous['shareholder_count'];
+                $change = $shareholderCount - $previousCount;
+                if ($previousCount > 0) $changePercent = round(($change / $previousCount) * 100, 2);
+            }
+            $history[] = [
+                'trade_date' => $row['trade_date'],
+                'shareholder_count' => $shareholderCount,
+                'total_shares' => $totalShares,
+                'average_lots' => $averageLots,
+                'change' => $change,
+                'change_percent' => $changePercent
+            ];
+        }
+        $analysis = [
+            'trend' => 'neutral',
+            'label' => '資料不足',
+            'score' => 0,
+            'latest_change' => null,
+            'latest_change_percent' => null,
+            'period_change' => null,
+            'period_change_percent' => null,
+            'average_lots_change_percent' => null,
+            'consecutive_up' => 0,
+            'consecutive_down' => 0,
+            'data_count' => count($history)
+        ];
+        // 至少兩筆才能比較
+        if (count($history) < 2) {
+            $results[$stockId] = $analysis;
+            continue;
+        }
+
+        // =====================================================
+        // 最新資料
+        // =====================================================
+        $latest = end($history);
+        $previous = $history[count($history) - 2];
+        $first = $history[0];
+
+        // -----------------------------------------------------
+        // 最新一週變化
+        // -----------------------------------------------------
+        $analysis['latest_change'] = $latest['shareholder_count'] - $previous['shareholder_count'];
+        if ($previous['shareholder_count'] > 0) {
+            $analysis['latest_change_percent'] = round(($analysis['latest_change'] / $previous['shareholder_count']) * 100, 2);
+        }
+
+        // -----------------------------------------------------
+        // 整段期間變化
+        // -----------------------------------------------------
+        $analysis['period_change'] = $latest['shareholder_count'] - $first['shareholder_count'];
+        if ($first['shareholder_count'] > 0) {
+            $analysis['period_change_percent'] = round(($analysis['period_change'] / $first['shareholder_count']) * 100, 2);
+        }
+
+        // -----------------------------------------------------
+        // 平均持股變化
+        // -----------------------------------------------------
+        if ($first['average_lots'] !== null && $first['average_lots'] > 0 && $latest['average_lots'] !== null) {
+            $analysis['average_lots_change_percent'] = round((($latest['average_lots'] - $first['average_lots']) / $first['average_lots']) * 100, 2);
+        }
+
+        // =====================================================
+        // 連續增加 / 減少
+        // =====================================================
+        $consecutiveUp = 0;
+        $consecutiveDown = 0;
+        for ($i = count($history) - 1; $i > 0; $i--) {
+            $currentCount = $history[$i]['shareholder_count'];
+            $previousCount = $history[$i - 1]['shareholder_count'];
+            if ($currentCount > $previousCount) {
+                if ($consecutiveDown > 0) break;
+                $consecutiveUp++;
+            } elseif ($currentCount < $previousCount) {
+                if ($consecutiveUp > 0) break;
+                $consecutiveDown++;
+            } else {
+                break;
+            }
+        }
+        $analysis['consecutive_up'] = $consecutiveUp;
+        $analysis['consecutive_down'] = $consecutiveDown;
+
+        // =====================================================
+        // 股東籌碼評分
+        // 最大 ±6
+        // =====================================================
+        $score = 0;
+        // 最新週
+        if ($analysis['latest_change_percent'] !== null) {
+            if ($analysis['latest_change_percent'] <= -1) {
+                $score += 1;
+            } elseif ($analysis['latest_change_percent'] >= 1) {
+                $score -= 1;
+            }
+        }
+        // 期間變化
+        if ($analysis['period_change_percent'] !== null) {
+            if ($analysis['period_change_percent'] <= -3) {
+                $score += 2;
+            } elseif ($analysis['period_change_percent'] >= 3) {
+                $score -= 2;
+            }
+        }
+        // 連續集中
+        if ($consecutiveDown >= 2) $score += 2;
+        // 連續分散
+        if ($consecutiveUp >= 2) $score -= 2;
+        // 平均持股
+        if ($analysis['average_lots_change_percent'] !== null) {
+            if ($analysis['average_lots_change_percent'] >= 3) {
+                $score += 1;
+            } elseif ($analysis['average_lots_change_percent'] <= -3) {
+                $score -= 1;
+            }
+        }
+        $score = max(-6, min(6, $score));
+        $analysis['score'] = $score;
+
+        // =====================================================
+        // 狀態分類
+        // =====================================================
+        if ($score >= 4) {
+            $analysis['trend'] = 'bullish';
+            $analysis['label'] = '籌碼明顯集中';
+        } elseif ($score >= 2) {
+            $analysis['trend'] = 'slightly_bullish';
+            $analysis['label'] = '籌碼偏集中';
+        } elseif ($score <= -4) {
+            $analysis['trend'] = 'bearish';
+            $analysis['label'] = '籌碼明顯分散';
+        } elseif ($score <= -2) {
+            $analysis['trend'] = 'slightly_bearish';
+            $analysis['label'] = '籌碼偏分散';
+        } else {
+            $analysis['trend'] = 'neutral';
+            $analysis['label'] = '籌碼中性';
+        }
+        $results[$stockId] = $analysis;
+    }
+    return $results;
+}
+
 function outputModel(PDO $pdo, array $sqlFetch): array
 {
     $stocksMap = getStocksMap();
+    // =========================================================
+    // 批次取得本次分析股票的股東籌碼資料
+    // =========================================================
+    $stockIds = [];
+    $targetDate = null;
+    foreach ($sqlFetch as $row) {
+        if (!empty($row['stock_id'])) $stockIds[] = (string)$row['stock_id'];
+        if ($targetDate === null && !empty($row['trade_date'])) $targetDate = $row['trade_date'];
+    }
+    $shareholderAnalysisMap = [];
+    if (!empty($stockIds) && $targetDate !== null) {
+        $shareholderAnalysisMap = getBatchShareholderAnalysis($pdo, $stockIds, $targetDate);
+    }
     $profile = [];
     $sqlProfile = "SELECT * FROM stock_profile WHERE stock_type != 'ETF'";
     $stmtProfile = $pdo->prepare($sqlProfile);
@@ -943,6 +1187,23 @@ function outputModel(PDO $pdo, array $sqlFetch): array
 
     $dashboardResults = [];
     foreach ($sqlFetch as $s) {
+        // =========================
+        // Shareholder Analysis
+        // =========================
+        $shareholderAnalysis =
+            $shareholderAnalysisMap[(string)$s['stock_id']] ?? [
+                'trend' => 'neutral',
+                'label' => '資料不足',
+                'score' => 0,
+                'latest_change' => null,
+                'latest_change_percent' => null,
+                'period_change' => null,
+                'period_change_percent' => null,
+                'average_lots_change_percent' => null,
+                'consecutive_up' => 0,
+                'consecutive_down' => 0,
+                'data_count' => 0
+            ];
         // =========================
         // Base Numbers
         // =========================
@@ -1104,6 +1365,40 @@ function outputModel(PDO $pdo, array $sqlFetch): array
                 $close >= $yClose,
             '融資減肥',
             6
+        );
+
+        // =====================================================
+        // 股東籌碼
+        // 週資料，權重低於法人與融資資料
+        // =====================================================
+        // 強烈籌碼集中
+        $addSignal(
+            'chip',
+            $shareholderAnalysis['trend'] === 'bullish',
+            '股東明顯減少',
+            8
+        );
+        // 輕度籌碼集中
+        $addSignal(
+            'chip',
+            $shareholderAnalysis['trend'] === 'slightly_bullish',
+            '股東人數下降',
+            4
+        );
+        // 股東持續減少
+        $addSignal(
+            'chip',
+            $shareholderAnalysis['consecutive_down'] >= 2,
+            '股東持續減少',
+            5
+        );
+        // 平均持股增加
+        $addSignal(
+            'chip',
+            $shareholderAnalysis['average_lots_change_percent'] !== null &&
+                $shareholderAnalysis['average_lots_change_percent'] >= 3,
+            '平均持股增加',
+            3
         );
 
         // =========================
@@ -1464,6 +1759,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'chip_score' => round($chipScore),
             'structure_score' => round($structureScore),
             'risk_score' => round($riskScore),
+            'shareholder_analysis' => $shareholderAnalysis, // 股東籌碼週資料分析
             'close' => round($close, 2),
             'yesterday_high' => round($yHigh, 2),
             'yesterday_low' => round($yLow, 2),
