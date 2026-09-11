@@ -1,0 +1,133 @@
+[
+    {
+        "stock_id": "2354",
+        "stock_name": "鴻準",
+        "stock_type": "TSE",
+        "industry": "其他電子業",
+        "subIndustry": [
+            " 其他電子產品及電子服務產業",
+            " 散熱片、風扇馬達、散熱模組",
+            " 機殼",
+            " 金屬、塑膠模具"
+        ],
+        "concept": [
+            "Apple",
+            "PS5",
+            "任天堂Switch",
+            "折疊式手機",
+            "機器人",
+            "臺灣中型100指數成分股",
+            "臺灣資訊科技指數成分股",
+            "輝達AI"
+        ],
+        "score": 100,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "confidence": 1,
+        "trend_score": 35,
+        "momentum_score": 20,
+        "chip_score": 40,
+        "structure_score": 8,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "slightly_bullish",
+            "label": "籌碼偏集中",
+            "score": 2,
+            "latest_change": -1851,
+            "latest_change_percent": -0.98,
+            "period_change": -4421,
+            "period_change_percent": -2.31,
+            "average_lots_change_percent": 2.44,
+            "consecutive_up": 0,
+            "consecutive_down": 3,
+            "data_count": 4
+        },
+        "close": 65.7,
+        "yesterday_high": 65.1,
+        "yesterday_low": 63.7,
+        "vol": 18151,
+        "vol_ratio": 2.65,
+        "rank10": 67.39,
+        "rank20": 82.14,
+        "amp10": 7.35,
+        "amp20": 14.29,
+        "ma5": 65.06,
+        "ma10": 64.98,
+        "ma20": 63.1,
+        "ma60": 59.03,
+        "vma5": 10815,
+        "vma10": 14490,
+        "vma20": 11506,
+        "bia5": 0.98,
+        "bia10": 1.11,
+        "bia20": 4.12,
+        "con1": 45.56,
+        "con5": 15.06,
+        "con10": 21.78,
+        "con20": 14.24,
+        "foreign_buy_sell": 7730747,
+        "trust_buy_sell": -4000,
+        "foreign_sum5": 8962,
+        "foreign_sum10": 30685,
+        "foreign_sum20": 32561,
+        "trust_sum5": -18,
+        "trust_sum10": -21,
+        "trust_sum20": -71,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 25116,
+        "margin_balance_diff": -251,
+        "margin_balance_diff_sum5": -1237,
+        "squeeze": 3.2,
+        "bullet": 0.8,
+        "net_sbl": -1797,
+        "net_sbl_sum5": -3170,
+        "sbl_total": 46040,
+        "sbl_sold_balance": 36785,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10,
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10,
+                "融資減肥": 6,
+                "股東人數下降": 4,
+                "股東持續減少": 5
+            },
+            "risk": [],
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "站上月線",
+            "站上季線",
+            "爆量突破",
+            "法人集中",
+            "外資連買",
+            "融資減肥",
+            "股東人數下降",
+            "股東持續減少",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 2.65 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "主升段啟動",
+            "洗盤完成"
+        ]
+    }
+]

@@ -1,5 +1,75 @@
 [
     {
+        "id": 13620031,
+        "log_time": "2026-09-11 22:00:33",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成, 共耗時 1.17 秒",
+        "result": "end"
+    },
+    {
+        "id": 13620030,
+        "log_time": "2026-09-11 22:00:32",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-09-11], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 13620029,
+        "log_time": "2026-09-11 22:00:32",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成, 共耗時 1.16 秒",
+        "result": "end"
+    },
+    {
+        "id": 13620028,
+        "log_time": "2026-09-11 22:00:31",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-09-11], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 13620027,
+        "log_time": "2026-09-11 22:00:30",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成, 共耗時 1.35 秒",
+        "result": "end"
+    },
+    {
+        "id": 13620026,
+        "log_time": "2026-09-11 22:00:29",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-09-11], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 13620025,
+        "log_time": "2026-09-11 22:00:29",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-09-11] 盤後篩選及評分排行已完成, 共耗時 515.16 秒",
+        "result": "end"
+    },
+    {
+        "id": 13620024,
+        "log_time": "2026-09-11 21:59:58",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-09-11] 排行分析完成，共 646 檔",
+        "result": "success"
+    },
+    {
+        "id": 13620023,
+        "log_time": "2026-09-11 21:59:57",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-09-11] 篩選分析完成，共 1 檔",
+        "result": "success"
+    },
+    {
+        "id": 13620022,
+        "log_time": "2026-09-11 21:51:54",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-09-11] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 13620021,
         "log_time": "2026-09-11 21:48:12",
         "log_type": "updateAllHistory",
