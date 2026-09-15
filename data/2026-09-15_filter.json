@@ -1,0 +1,112 @@
+[
+    {
+        "stock_id": "9933",
+        "stock_name": "中鼎",
+        "stock_type": "TSE",
+        "industry": "其他",
+        "subIndustry": [
+            " 其他配件",
+            " 工程承攬",
+            " 營造設置"
+        ],
+        "concept": [
+            "儲能",
+            "台積電",
+            "水資源",
+            "都市更新"
+        ],
+        "score": 36,
+        "rating": "C",
+        "strategy_type": "籌碼潛伏",
+        "confidence": 0.3,
+        "trend_score": 10,
+        "momentum_score": 0,
+        "chip_score": 25,
+        "structure_score": 0,
+        "risk_score": -38,
+        "shareholder_analysis": {
+            "trend": "slightly_bearish",
+            "label": "籌碼偏分散",
+            "score": -2,
+            "latest_change": 105,
+            "latest_change_percent": 0.21,
+            "period_change": 36,
+            "period_change_percent": 0.07,
+            "average_lots_change_percent": -0.05,
+            "consecutive_up": 2,
+            "consecutive_down": 0,
+            "data_count": 4
+        },
+        "close": 41.9,
+        "yesterday_high": 41.95,
+        "yesterday_low": 40.8,
+        "vol": 3421,
+        "vol_ratio": 1.66,
+        "rank10": 86.67,
+        "rank20": 80.25,
+        "amp10": 9.7,
+        "amp20": 10.48,
+        "ma5": 40.5,
+        "ma10": 40.58,
+        "ma20": 41.09,
+        "ma60": 40.44,
+        "vma5": 2587,
+        "vma10": 2337,
+        "vma20": 2110,
+        "bia5": 3.46,
+        "bia10": 3.27,
+        "bia20": 1.97,
+        "con1": 35.93,
+        "con5": 29.63,
+        "con10": -0.82,
+        "con20": -2.45,
+        "foreign_buy_sell": 1371249,
+        "trust_buy_sell": -89000,
+        "foreign_sum5": 4352,
+        "foreign_sum10": -593,
+        "foreign_sum20": -1894,
+        "trust_sum5": 67,
+        "trust_sum10": 925,
+        "trust_sum20": 1321,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 4689,
+        "margin_balance_diff": 456,
+        "margin_balance_diff_sum5": 463,
+        "squeeze": 3.45,
+        "bullet": 4.83,
+        "net_sbl": 82,
+        "net_sbl_sum5": 84,
+        "sbl_total": 17470,
+        "sbl_sold_balance": 7276,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 15,
+                "外資連買": 10
+            },
+            "risk": {
+                "假突破": -20,
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "法人集中",
+            "外資連買",
+            "假突破",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 1.66 倍"
+        ],
+        "hint": []
+    }
+]
