@@ -11,11 +11,17 @@
         body {
             background: #111827;
             color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .card,
+        .card .bg-gray-800 {
+            background: #1e293b !important;
         }
 
         .card {
-            background: #1f2937;
-            border: 1px solid #374151;
+            border: 1px solid #334155;
             border-radius: 12px;
         }
 
@@ -26,7 +32,7 @@
 
         .signal {
             border-left: 4px solid;
-            background: #111827;
+            background: #0f172a;
             border-radius: 6px;
             padding: 10px 12px;
         }
@@ -50,7 +56,7 @@
         }
 
         .metric-neutral {
-            color: #d1d5db;
+            color: #cbd5e1;
         }
 
         /* 評分明細 */
@@ -63,6 +69,16 @@
             font-size: 1.15rem;
             line-height: 1.4;
             font-weight: 700;
+        }
+
+        @media(max-width:768px) {
+            body {
+                padding: 8px !important;
+            }
+
+            h1 {
+                font-size: 1.5rem !important;
+            }
         }
 
         @media(max-width:640px) {
@@ -79,11 +95,11 @@
 </head>
 
 <body>
-    <div class="max-w-7xl mx-auto px-3 sm:px-5 py-5">
-        <header class="mb-5">
+    <div class="max-w-[1600px] mx-auto p-4 md:p-8">
+        <header class="mb-8 border-b border-gray-700 pb-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold">📊 大盤趨勢分析</h1>
+                    <h1 class="text-3xl font-bold text-blue-400">📊 大盤趨勢分析</h1>
                     <p class="text-gray-400 mt-1">台股指數、法人籌碼、外資期貨與市場情緒</p>
                 </div>
                 <div class="text-sm text-gray-400">資料日期：<span id="dataDate"
@@ -92,31 +108,31 @@
             <!-- 導覽 -->
             <div class="flex flex-wrap gap-2 sm:gap-3 mt-4">
                 <a href="marketTrend.html"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     🏠 大盤趨勢分析
                 </a>
                 <a href="index.html?page=index"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     📊 盤後分析篩選
                 </a>
                 <a href="index.html?page=topPerforming"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     🏆 市場評分排行
                 </a>
                 <a href="index.html?page=00981A_component"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     🎯 00981A
                 </a>
                 <a href="index.html?page=00403A_component"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     💹 00403A
                 </a>
                 <a href="index.html?page=00991A_component"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     ⭐ 00991A
                 </a>
                 <a href="index.html?page=systemLog"
-                    class="px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
+                    class="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm font-medium text-blue-300 transition-colors">
                     🛠️ 執行/更新紀錄
                 </a>
             </div>
@@ -330,7 +346,7 @@
             } else {
                 scoreColor = '#ef4444';
             }
-            document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1f2937 56%, transparent 57%),conic-gradient(${scoreColor} ${s}%, #374151 ${s}%)`;
+            document.getElementById('scoreRing').style.background = `radial-gradient(circle, #1e293b 56%, transparent 57%),conic-gradient(${scoreColor} ${s}%, #334155 ${s}%)`;
             // -----------------------------------------------------
             // 評分明細
             // -----------------------------------------------------

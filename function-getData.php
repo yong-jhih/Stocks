@@ -2660,6 +2660,9 @@ function analyzeMarketTrend(PDO $pdo): void
     // 6. 法人買賣超
     // 直接使用 market_daily 已儲存資料
     // 單位：億元
+    //
+    // total20MA：三大法人買賣超 20 日均線
+    // 用來觀察法人資金流向的中短期連續性
     // =========================================================
     $institutional = [
         'total' => [
@@ -2688,17 +2691,63 @@ function analyzeMarketTrend(PDO $pdo): void
             'net'  => round((float)$latest['insti_dealer_risk_buy'] - (float)$latest['insti_dealer_risk_sell'], 1)
         ]
     ];
+
+    /*
+ * ---------------------------------------------------------
+ * 法人歷史資料
+ * ---------------------------------------------------------
+ * 先建立由舊 → 新的歷史序列，
+ * 再計算三大法人買賣超 20 日均線。
+ * 前 19 個交易日因不足 20 筆資料，
+ * total20MA 會回傳 null。
+ */
     $institutionalHistory = [];
-    foreach (array_reverse($rows) as $row) {
+    $institutionalRows = array_reverse($rows);
+    foreach ($institutionalRows as $index => $row) {
+        $totalNet = round((float)$row['insti_total_buy'] - (float)$row['insti_total_sell'], 1);
+        $foreignNet = round((float)$row['insti_foreign_buy'] - (float)$row['insti_foreign_sell'], 1);
+        $trustNet = round((float)$row['insti_trust_buy'] - (float)$row['insti_trust_sell'], 1);
+        $dealerNet = round((float)$row['insti_dealer_buy'] - (float)$row['insti_dealer_sell'], 1);
+        $dealerRiskNet = round((float)$row['insti_dealer_risk_buy'] - (float)$row['insti_dealer_risk_sell'], 1);
+
+        /*
+     * 三大法人買賣超 20 日均線
+     * 使用目前這一天往前包含自己，
+     * 共 20 個交易日計算平均。
+     */
+        $total20MA = null;
+        if ($index >= 19) {
+            $sum20 = 0;
+            $count20 = 0;
+            for ($i = $index - 19; $i <= $index; $i++) {
+                $historyRow = $institutionalRows[$i];
+                $historyTotalNet = (float)$historyRow['insti_total_buy'] - (float)$historyRow['insti_total_sell'];
+                $sum20 += $historyTotalNet;
+                $count20++;
+            }
+            if ($count20 === 20) $total20MA = round($sum20 / $count20, 1);
+        }
         $institutionalHistory[] = [
             'date' => date('m/d', strtotime($row['trade_date'])),
-            'total' => round((float)$row['insti_total_buy'] - (float)$row['insti_total_sell'], 1),
-            'foreign' => round((float)$row['insti_foreign_buy'] - (float)$row['insti_foreign_sell'], 1),
-            'trust' => round((float)$row['insti_trust_buy'] - (float)$row['insti_trust_sell'], 1),
-            'dealer' => round((float)$row['insti_dealer_buy'] - (float)$row['insti_dealer_sell'], 1),
-            'dealerRisk' => round((float)$row['insti_dealer_risk_buy'] - (float)$row['insti_dealer_risk_sell'], 1)
+            'total' => $totalNet,
+            'total20MA' => $total20MA,
+            'foreign' => $foreignNet,
+            'trust' => $trustNet,
+            'dealer' => $dealerNet,
+            'dealerRisk' => $dealerRiskNet
         ];
     }
+
+    /*
+ * 最新一天的三大法人 20 日均線
+ * 如果目前資料不足 20 個交易日，
+ * 就維持 null。
+ */
+    $latestInstitutional20MA = null;
+    if (!empty($institutionalHistory)) {
+        $latestInstitutional20MA = $institutionalHistory[count($institutionalHistory) - 1]['total20MA'];
+    }
+    $institutional['total']['ma20'] = $latestInstitutional20MA;
 
     // =========================================================
     // 7. 今日市場訊號
