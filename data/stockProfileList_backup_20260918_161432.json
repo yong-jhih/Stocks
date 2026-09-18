@@ -1003,7 +1003,7 @@
     },
     "1721": {
         "stock_id": "1721",
-        "stock_name": "國慶科技",
+        "stock_name": "三晃",
         "stock_type": "TSE",
         "industry": "化學工業"
     },
@@ -5683,7 +5683,7 @@
     },
     "6949": {
         "stock_id": "6949",
-        "stock_name": "沛爾生醫*-創",
+        "stock_name": "沛爾生醫-創",
         "stock_type": "TSE",
         "industry": "生技醫療業"
     },
@@ -6944,12 +6944,6 @@
     "2937": {
         "stock_id": "2937",
         "stock_name": "集雅社",
-        "stock_type": "TPEx",
-        "industry": "居家生活"
-    },
-    "2938": {
-        "stock_id": "2938",
-        "stock_name": "床的世界",
         "stock_type": "TPEx",
         "industry": "居家生活"
     },
@@ -11195,12 +11189,6 @@
         "stock_type": "TPEx",
         "industry": "綠能環保"
     },
-    "7825": {
-        "stock_id": "7825",
-        "stock_name": "和亞智慧",
-        "stock_type": "TPEx",
-        "industry": "其他電子業"
-    },
     "7828": {
         "stock_id": "7828",
         "stock_name": "創新服務",
@@ -12028,6 +12016,12 @@
         "stock_name": "橘焱胡同",
         "stock_type": "ESM",
         "industry": "觀光餐旅"
+    },
+    "2938": {
+        "stock_id": "2938",
+        "stock_name": "床的世界",
+        "stock_type": "ESM",
+        "industry": "居家生活"
     },
     "2940": {
         "stock_id": "2940",
@@ -13475,6 +13469,12 @@
         "stock_type": "ESM",
         "industry": "其他"
     },
+    "7825": {
+        "stock_id": "7825",
+        "stock_name": "和亞智慧",
+        "stock_type": "ESM",
+        "industry": "其他電子業"
+    },
     "7826": {
         "stock_id": "7826",
         "stock_name": "極風雲創",
@@ -13979,12 +13979,6 @@
         "stock_type": "ESM",
         "industry": "其他"
     },
-    "7934": {
-        "stock_id": "7934",
-        "stock_name": "鋒霈環境科技",
-        "stock_type": "ESM",
-        "industry": "綠能環保"
-    },
     "7935": {
         "stock_id": "7935",
         "stock_name": "安富",
@@ -14026,12 +14020,6 @@
         "stock_name": "廣盛科技",
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
-    },
-    "7947": {
-        "stock_id": "7947",
-        "stock_name": "補丁科",
-        "stock_type": "ESM",
-        "industry": "半導體業"
     },
     "8058": {
         "stock_id": "8058",
