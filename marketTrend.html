@@ -535,6 +535,17 @@
                         symbol: 'none'
                     },
                     {
+                        name: '三大法人20日均線',
+                        type: 'line',
+                        smooth: true,
+                        data: hasData ? h.map(x => x.total20MA ?? null) : [],
+                        symbol: 'none',
+                        lineStyle: {
+                            type: 'dashed',
+                            width: 2
+                        }
+                    },
+                    {
                         name: '外資',
                         type: 'line',
                         smooth: true,
