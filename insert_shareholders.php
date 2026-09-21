@@ -37,8 +37,10 @@ try {
     $end_time = microtime(true);
     $execution_time = round($end_time - $start_time, 2);
     writeLog($pdo, 'insertTDCC', "股東人數更新完成, 共耗時 {$execution_time} 秒", 'end');
+    updateSystemLog($pdo);
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     writeLog($pdo, 'insertTDCC', $e->getMessage(), 'error');
+    updateSystemLog($pdo);
     exit(1);
 }
