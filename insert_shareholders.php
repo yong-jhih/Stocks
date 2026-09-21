@@ -1,6 +1,8 @@
 <?php
 require_once("init.php");
 
+writeLog($pdo, 'insertTDCC', "取得本周最新交易日期 [ {$targetDate} ] 股東人數資料, 開始更新", 'end');
+$start_time = microtime(true);
 $content = file_get_contents('tdcc_result.json');
 $results = json_decode($content, true);
 $sql = "
@@ -32,6 +34,9 @@ try {
     }
     $pdo->commit();
     unlink('tdcc_result.json');
+    $end_time = microtime(true);
+    $execution_time = round($end_time - $start_time, 2);
+    writeLog($pdo, 'insertTDCC', "股東人數更新完成, 共耗時 {$execution_time} 秒", 'end');
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     writeLog($pdo, 'insertTDCC', $e->getMessage(), 'error');
