@@ -302,6 +302,8 @@
             <div class="flex border-b border-gray-700 px-4">
                 <button onclick="switchTab('filterRule')" id="tab-filterRule"
                     class="px-4 py-2 text-sm font-medium tab-active">篩選條件</button>
+                <button onclick="switchTab('strategyManual')" id="tab-strategyManual"
+                    class="px-4 py-2 text-sm font-medium text-gray-400">策略說明</button>
                 <button onclick="switchTab('tagManual')" id="tab-tagManual"
                     class="px-4 py-2 text-sm font-medium text-gray-400">標籤定義</button>
                 <button onclick="switchTab('comboManual')" id="tab-comboManual"
@@ -313,6 +315,171 @@
                         <p class="font-bold text-blue-300" id="illustrate_main"></p>
                     </div>
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-4" id="illustratediv"></ul>
+                </div>
+                <div id="content-strategyManual" class="hidden space-y-6">
+                    <section>
+                        <div class="bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-r mb-4">
+                            <h4 class="text-blue-300 font-bold text-base mb-2">策略分類 × 均線策略：兩層判讀</h4>
+                            <p class="text-sm text-gray-300 leading-6">
+                                本系統將「策略分類」與「均線策略」分成兩個層級。策略分類用來回答「這檔股票目前屬於哪一種階段／型態？」；均線策略用來回答「目前股價位於均線結構的什麼位置？」。兩者需要一起閱讀，不代表單一欄位就是買賣訊號。
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-gray-700/30 p-3 rounded border border-blue-900/50">
+                                <b class="text-blue-300">策略分類</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">
+                                    綜合趨勢、動能、籌碼、結構與風險後的主要市場階段，用於選股分組與大方向判讀。
+                                </p>
+                            </div>
+                            <div class="bg-gray-700/30 p-3 rounded border border-cyan-900/50">
+                                <b class="text-cyan-300">均線策略</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">
+                                    以 MA5／MA10／MA20 的排列與方向，加上 BIAS10 的位置與變化，描述目前均線操作狀態。
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-green-400 font-bold mb-3">📐 操作矩陣</h4>
+                        <p class="text-xs text-gray-400 mb-3 leading-5">
+                            以下矩陣是本系統的「判讀方式」，不是機械式買賣指令。均線策略主要用來判斷持有、等待、回踩觀察或資金周轉的狀態；實際操作仍應搭配價格、量能、法人、籌碼與風險訊號。移動平均適合用來辨識趨勢方向與支撐／壓力區，但本身具有落後性，不適合單獨用來抓精確高低點。
+                        </p>
+                        <div class="overflow-x-auto rounded-lg border border-gray-700">
+                            <table class="w-full min-w-[1100px] text-xs text-left">
+                                <thead class="bg-gray-700/80 text-gray-200">
+                                    <tr>
+                                        <th class="p-3 w-[130px]">均線策略</th>
+                                        <th class="p-3">主升段</th>
+                                        <th class="p-3">籌碼潛伏</th>
+                                        <th class="p-3">短線轉強</th>
+                                        <th class="p-3">發動前夕</th>
+                                        <th class="p-3">高風險</th>
+                                        <th class="p-3">觀察</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-700">
+                                    <tr>
+                                        <td class="p-3 font-bold text-pink-300">主升段加速</td>
+                                        <td class="p-3 text-gray-300">強勢趨勢正在加速；重點是避免把強勢誤判成單純過熱。</td>
+                                        <td class="p-3 text-gray-300">籌碼先行但價格已快速拉升；確認是否由潛伏進入主升。</td>
+                                        <td class="p-3 text-gray-300">短線動能很強；觀察能否轉成完整多頭結構。</td>
+                                        <td class="p-3 text-gray-300">若突然加速，代表可能提前發動；確認量價與籌碼是否同步。</td>
+                                        <td class="p-3 text-gray-300">高風險背景下的加速，優先視為風險放大而非追價訊號。</td>
+                                        <td class="p-3 text-gray-300">觀察型態突然加速，需再確認是否具有持續性。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-yellow-300">均線偏離</td>
+                                        <td class="p-3 text-gray-300">趨勢仍強但價格偏離 MA10；適合關注資金周轉與拉回風險。</td>
+                                        <td class="p-3 text-gray-300">籌碼偏強但股價已提前反映；避免把潛伏股當成低位股追價。</td>
+                                        <td class="p-3 text-gray-300">短線轉強後出現偏離；觀察動能能否維持。</td>
+                                        <td class="p-3 text-gray-300">可能已從整理進入拉升；確認突破是否有效。</td>
+                                        <td class="p-3 text-gray-300">偏離與風險同時存在；優先觀察降溫，而非追價。</td>
+                                        <td class="p-3 text-gray-300">單一偏離不足以定義趨勢，需等待其他訊號確認。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-green-300">沿均線</td>
+                                        <td class="p-3 text-gray-300">趨勢正常運行；適合以持有與回踩節奏觀察。</td>
+                                        <td class="p-3 text-gray-300">籌碼尚未完全轉成價格動能；屬於等待型態改善的狀態。</td>
+                                        <td class="p-3 text-gray-300">短線轉強但尚未過度延伸；觀察是否形成穩定趨勢。</td>
+                                        <td class="p-3 text-gray-300">整理接近結束但價格尚未明顯脫離；等待量價確認。</td>
+                                        <td class="p-3 text-gray-300">即使沿均線，也不能忽略其他風險訊號。</td>
+                                        <td class="p-3 text-gray-300">屬中性偏穩定狀態，等待方向明確。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-teal-300">均線上彎</td>
+                                        <td class="p-3 text-gray-300">中期結構改善；若同時多頭排列，可視為主升前後的強勢狀態。</td>
+                                        <td class="p-3 text-gray-300">最值得觀察的組合之一：籌碼先行、均線開始改善。</td>
+                                        <td class="p-3 text-gray-300">短線動能開始被中期趨勢承接。</td>
+                                        <td class="p-3 text-gray-300">整理末端開始改善，屬於發動前的觀察狀態。</td>
+                                        <td class="p-3 text-gray-300">均線改善不能抵銷高風險訊號，需觀察風險是否同步下降。</td>
+                                        <td class="p-3 text-gray-300">趨勢可能正在形成，等待價格與量能確認。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-blue-300">回踩觀察</td>
+                                        <td class="p-3 text-gray-300">主升趨勢中的短線回撤；重點觀察是否重新站回 MA10。</td>
+                                        <td class="p-3 text-gray-300">籌碼尚在，但價格回落；觀察是否形成重新轉強。</td>
+                                        <td class="p-3 text-gray-300">轉強後的回踩，確認短線突破是否有效。</td>
+                                        <td class="p-3 text-gray-300">發動前的回測，需觀察整理是否重新失敗。</td>
+                                        <td class="p-3 text-gray-300">高風險背景下的回踩不宜單獨視為買點。</td>
+                                        <td class="p-3 text-gray-300">方向尚未確認，等待 BIAS10 回升或均線重新站穩。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-emerald-300">回踩接回</td>
+                                        <td class="p-3 text-gray-300">趨勢仍強且 BIAS10 開始回升；屬於回踩後重新轉強的狀態。</td>
+                                        <td class="p-3 text-gray-300">籌碼條件配合時，可視為潛伏轉強的觀察點。</td>
+                                        <td class="p-3 text-gray-300">短線轉強後重新接回均線，觀察是否延續。</td>
+                                        <td class="p-3 text-gray-300">整理後重新回升，可能代表發動條件逐步成熟。</td>
+                                        <td class="p-3 text-gray-300">即使出現回升，也需先確認高風險因素是否解除。</td>
+                                        <td class="p-3 text-gray-300">原本不明確的趨勢出現回升跡象，可列入後續追蹤。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-orange-300">深度回踩</td>
+                                        <td class="p-3 text-gray-300">強勢股的較深回撤；需確認長一點的均線結構沒有被破壞。</td>
+                                        <td class="p-3 text-gray-300">籌碼仍強但價格弱，屬於「籌碼與價格背離」的觀察狀態。</td>
+                                        <td class="p-3 text-gray-300">短線轉強失敗或回撤較深，需重新確認趨勢。</td>
+                                        <td class="p-3 text-gray-300">整理期間的深度回測，可能延後發動時間。</td>
+                                        <td class="p-3 text-gray-300">高風險搭配深度回踩時，優先視為風險狀態。</td>
+                                        <td class="p-3 text-gray-300">尚無明確方向，等待止跌與 BIAS10 回升。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-red-300">均線轉弱</td>
+                                        <td class="p-3 text-gray-300">主升結構開始鬆動；需觀察是否只是短期整理或趨勢反轉。</td>
+                                        <td class="p-3 text-gray-300">籌碼仍強但均線轉弱，代表價格尚未配合，需降低樂觀程度。</td>
+                                        <td class="p-3 text-gray-300">短線轉強尚未延續，可能重新回到整理。</td>
+                                        <td class="p-3 text-gray-300">發動前結構轉弱，原本的發動假設需要重新確認。</td>
+                                        <td class="p-3 text-gray-300">趨勢與風險同步惡化，屬於需要優先關注的組合。</td>
+                                        <td class="p-3 text-gray-300">均線方向尚未配合，維持觀察。</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-300">均線盤整</td>
+                                        <td class="p-3 text-gray-300">大方向雖強但短期均線失去斜率，可能進入高檔整理。</td>
+                                        <td class="p-3 text-gray-300">籌碼潛伏但價格尚未表態，屬於等待突破的典型狀態。</td>
+                                        <td class="p-3 text-gray-300">短線動能沒有持續擴散，等待下一個方向。</td>
+                                        <td class="p-3 text-gray-300">若同時有整理末端、量縮抗跌等訊號，可視為發動前觀察區。</td>
+                                        <td class="p-3 text-gray-300">盤整不能抵銷風險訊號，仍應優先觀察風險。</td>
+                                        <td class="p-3 text-gray-300">最中性的狀態，適合等待明確突破或轉弱。</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-yellow-400 font-bold mb-3">📌 實際閱讀方式</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-gray-700/30 p-3 rounded border border-green-900/50">
+                                <b class="text-green-300">1. 先看策略分類</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">先判斷股票目前偏向主升段、籌碼潛伏、短線轉強、發動前夕、高風險或觀察。</p>
+                            </div>
+                            <div class="bg-gray-700/30 p-3 rounded border border-cyan-900/50">
+                                <b class="text-cyan-300">2. 再看均線策略</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">確認目前是沿均線、偏離、回踩、加速、盤整或轉弱。</p>
+                            </div>
+                            <div class="bg-gray-700/30 p-3 rounded border border-yellow-900/50">
+                                <b class="text-yellow-300">3. 最後看 BIAS10</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">BIAS10 是價格距離 MA10 的量化尺；正值代表在 MA10
+                                    上方，負值代表在 MA10 下方。數值越大，代表偏離越遠。</p>
+                            </div>
+                            <div class="bg-gray-700/30 p-3 rounded border border-pink-900/50">
+                                <b class="text-pink-300">4. 再搭配標籤與組合技</b>
+                                <p class="text-xs text-gray-300 mt-1 leading-5">最後確認量價、法人、融資與股東結構等訊號，避免單靠均線策略做判斷。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <h4 class="text-purple-400 font-bold mb-3">🧭 核心概念</h4>
+                        <div
+                            class="bg-gray-700/30 p-4 rounded border border-purple-900/50 text-sm text-gray-300 leading-6">
+                            <p><b class="text-white">策略分類</b> =「這檔股票現在處在哪個階段？」</p>
+                            <p><b class="text-white">均線策略</b> =「在這個階段裡，價格現在位於均線結構的哪裡？」</p>
+                            <p><b class="text-white">BIAS10</b> =「價格距離 MA10 有多遠？」</p>
+                            <p class="mt-2 text-gray-400">
+                                因此，例如「主升段＋主升段加速」代表強勢趨勢中的價格加速；「籌碼潛伏＋均線上彎」代表籌碼條件先行、技術結構正在改善；「主升段＋回踩接回」則代表強勢趨勢中的回踩後重新轉強。
+                            </p>
+                        </div>
+                    </section>
+                    <div class="bg-slate-800/70 border border-slate-700 p-3 rounded text-xs text-gray-400 leading-5">
+                        ※ 本頁是系統判讀邏輯說明，不是固定買賣指令。均線屬於趨勢型指標，具有落後性；本系統將均線、BIAS10、量價、法人與籌碼訊號合併，用來協助分類與追蹤。
+                    </div>
                 </div>
                 <div id="content-tagManual" class="hidden space-y-6">
                     <section>
@@ -692,6 +859,54 @@
             if (TAG_STYLES.bearish.includes(tag)) return `bg-red-900/40 text-red-300 border border-red-700`;
             return `bg-slate-700 text-slate-200 border border-slate-500`; // 未分類
         }
+        // =========================================================
+        // 策略分類樣式
+        // =========================================================
+        function getStrategyClass(strategy) {
+            switch (strategy) {
+                case '主升段':
+                    return 'bg-pink-900/50 text-pink-300 border border-pink-700';
+                case '籌碼潛伏':
+                    return 'bg-cyan-900/50 text-cyan-300 border border-cyan-700';
+                case '短線轉強':
+                    return 'bg-blue-900/50 text-blue-300 border border-blue-700';
+                case '發動前夕':
+                    return 'bg-yellow-900/50 text-yellow-300 border border-yellow-700';
+                case '高風險':
+                    return 'bg-red-900/50 text-red-300 border border-red-700';
+                case '觀察':
+                default:
+                    return 'bg-slate-700/60 text-slate-300 border border-slate-600';
+            }
+        }
+        // =========================================================
+        // 均線策略樣式
+        // =========================================================
+        function getMaStrategyClass(strategy) {
+            switch (strategy) {
+                case '主升段加速':
+                    return 'bg-pink-900/60 text-pink-200 border border-pink-500';
+                case '均線偏離':
+                    return 'bg-yellow-900/60 text-yellow-200 border border-yellow-600';
+                case '回踩接回':
+                    return 'bg-emerald-900/60 text-emerald-200 border border-emerald-600';
+                case '沿均線':
+                    return 'bg-green-900/50 text-green-200 border border-green-600';
+                case '均線上彎':
+                    return 'bg-teal-900/50 text-teal-200 border border-teal-600';
+                case '回踩觀察':
+                    return 'bg-blue-900/50 text-blue-200 border border-blue-600';
+                case '深度回踩':
+                    return 'bg-orange-900/50 text-orange-200 border border-orange-600';
+                case '均線盤整':
+                    return 'bg-slate-700/70 text-slate-300 border border-slate-500';
+                case '均線轉弱':
+                    return 'bg-red-900/60 text-red-200 border border-red-600';
+                case '觀察':
+                default:
+                    return 'bg-slate-800 text-slate-400 border border-slate-600';
+            }
+        }
         function getMatchedCombos(tags) {
             return COMBO_RULES.filter(combo => combo.tags.every(tag => tags.includes(tag)));
         }
@@ -699,14 +914,11 @@
             $('#tag-tab-feature,#tag-tab-industry,#tag-tab-concept')
                 .removeClass('tab-active')
                 .addClass('text-gray-400');
-
             $('#tag-content-feature,#tag-content-industry,#tag-content-concept')
                 .addClass('hidden');
-
             $(`#tag-tab-${tab}`)
                 .addClass('tab-active')
                 .removeClass('text-gray-400');
-
             $(`#tag-content-${tab}`)
                 .removeClass('hidden');
         }
@@ -734,11 +946,17 @@
             $('#stockTable tbody').on('click', '.tag-btn', function (e) {
                 e.stopPropagation();
                 const name = $(this).data('name');
+                const strategy = $(this).data('strategy') || '觀察';
+                const maStrategy = $(this).data('ma-strategy') || '觀察';
+                const bia10 = $(this).data('bia10');
                 const tags = $(this).data('tags');
                 const industry = $(this).data('industry');
                 const concept = $(this).data('concept');
                 showTags(
                     name,
+                    strategy,
+                    maStrategy,
+                    bia10,
                     tags,
                     industry,
                     concept
@@ -772,11 +990,73 @@
         }
         function showTags(
             name,
+            strategy,
+            maStrategy,
+            bia10,
             tags,
             industryData,
             conceptText
         ) {
             $('#modalStockTitle').text(name);
+            // =====================================================
+            // 基本資料防呆
+            // =====================================================
+            tags = Array.isArray(tags) ? tags : [];
+            if (!industryData || typeof industryData !== 'object') {
+                industryData = {
+                    industry: '',
+                    subIndustry: []
+                };
+            }
+            if (!Array.isArray(industryData.subIndustry)) {
+                industryData.subIndustry = [];
+            }
+            // =====================================================
+            // 策略摘要
+            // =====================================================
+            const bia10Value =
+                bia10 !== '' &&
+                    bia10 !== null &&
+                    bia10 !== undefined &&
+                    !Number.isNaN(Number(bia10)) ? Number(bia10) : null;
+            let bia10Class = 'text-slate-300';
+            if (bia10Value !== null) {
+                if (bia10Value >= 5) {
+                    bia10Class = 'text-yellow-300';
+                } else if (bia10Value <= -4) {
+                    bia10Class = 'text-emerald-300';
+                } else if (bia10Value < 0) {
+                    bia10Class = 'text-blue-300';
+                }
+            }
+            const strategyHtml = `
+                <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="bg-slate-800/70 border border-slate-700 rounded-lg p-4">
+                        <div class="text-xs text-slate-400 mb-2">策略分類</div>
+                        <span class="inline-block px-3 py-1.5 rounded-lg text-sm font-bold
+                            ${getStrategyClass(strategy)}">
+                            ${strategy || '觀察'}
+                        </span>
+                    </div>
+                    <div class="bg-slate-800/70 border border-slate-700 rounded-lg p-4">
+                        <div class="text-xs text-slate-400 mb-2">均線策略</div>
+                        <span class="inline-block px-3 py-1.5 rounded-lg text-sm font-bold
+                            ${getMaStrategyClass(maStrategy)}">
+                            ${maStrategy || '觀察'}
+                        </span>
+                    </div>
+                    <div class="bg-slate-800/70 border border-slate-700 rounded-lg p-4">
+                        <div class="text-xs text-slate-400 mb-2">10日乖離</div>
+                        <div class="text-xl font-bold ${bia10Class}">
+                            ${bia10Value !== null ? bia10Value.toFixed(2) + '%' : '--'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            // =====================================================
+            // 組合技
+            // ★ 這一段一定要放在第一次使用 comboHtml 之前
+            // =====================================================
             const matchedCombos = getMatchedCombos(tags);
             let comboHtml = '';
             if (matchedCombos.length) {
@@ -785,30 +1065,34 @@
                         <div class="text-pink-300 font-bold mb-2">已發動組合技</div>
                         <div class="flex flex-wrap gap-2">
                             ${matchedCombos.map(c => `
-                                <div class="combo-badge px-4 py-2 rounded-lg bg-pink-900/50 border border-pink-500 text-pink-200 font-bold">${c.name}</div>
+                                <div
+                                    class="combo-badge px-4 py-2 rounded-lg bg-pink-900/50 border border-pink-500 text-pink-200 font-bold">
+                                    ${c.name}
+                                </div>
                             `).join('')}
                         </div>
                     </div>
                 `;
             }
-            //------------------------------------
+            // =====================================================
             // 特性
-            //------------------------------------
-            $('#tag-content-feature').html(
-                comboHtml +
-                tags.map(tag => `
+            // =====================================================
+            const featureHtml = `
+                ${strategyHtml}
+                ${comboHtml}
+                ${tags.map(tag => `
                     <div class="mb-3 bg-slate-800/60 border border-slate-700 rounded-lg p-3">
                         <div class="${getTagClass(tag)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">${tag}</div>
                         <div class="text-sm text-slate-300">${TAG_DESCRIPTIONS[tag] || '尚無說明'}</div>
-                    </div>`
-                ).join('')
-            );
-
-            //------------------------------------
+                    </div>
+                `).join('')}
+            `;
+            $('#tag-content-feature').html(featureHtml);
+            // =====================================================
             // 產業
-            //------------------------------------
+            // =====================================================
             let industryHtml = '';
-            if (industryData?.industry) {
+            if (industryData.industry) {
                 industryHtml += `
                     <div class="mb-4">
                         <div class="text-blue-300 font-bold mb-2">主產業</div>
@@ -817,7 +1101,7 @@
                 `;
             }
             if (
-                industryData?.subIndustry &&
+                industryData.subIndustry &&
                 industryData.subIndustry.length
             ) {
                 industryHtml += `
@@ -831,11 +1115,12 @@
                     </div>
                 `;
             }
-            $('#tag-content-industry').html(industryHtml);
-
-            //------------------------------------
+            $('#tag-content-industry').html(
+                industryHtml || `<div class="text-slate-500">尚無產業資料</div>`
+            );
+            // =====================================================
             // 概念
-            //------------------------------------
+            // =====================================================
             let concepts = [];
             if (Array.isArray(conceptText)) {
                 concepts = conceptText;
@@ -846,13 +1131,19 @@
                     .filter(Boolean);
             }
             $('#tag-content-concept').html(
-                `<div class="flex flex-wrap gap-2">
-                ${concepts.map(c => `
-                        <span class="px-3 py-2 rounded bg-purple-900/40 border border-purple-700 text-purple-200">${c}</span>
-                    `).join('')}
-                </div>`
+                concepts.length ? `
+                    <div class="flex flex-wrap gap-2">
+                        ${concepts.map(c => `<span class="px-3 py-2 rounded bg-purple-900/40 border border-purple-700 text-purple-200">${c}</span>`).join('')}
+                    </div>
+                ` : `<div class="text-slate-500">尚無概念資料</div>`
             );
+            // =====================================================
+            // 預設顯示「特性」
+            // =====================================================
             switchTagTab('feature');
+            // =====================================================
+            // 開啟 Modal
+            // =====================================================
             $('#tagModal')
                 .removeClass('hidden')
                 .addClass('flex');
@@ -877,6 +1168,35 @@
                 data.forEach(item => {
                     const row = page_info.columns.map(col => {
                         let value = item[col.field];
+                        // =====================================================
+                        // 策略分類
+                        // =====================================================
+                        if (col.field === 'strategy_type') {
+                            const strategy = item.strategy_type || '觀察';
+                            return `
+                                <span
+                                    class="inline-block px-2 py-1 rounded text-xs font-bold whitespace-nowrap
+                                    ${getStrategyClass(strategy)}">
+                                    ${strategy}
+                                </span>
+                            `;
+                        }
+                        // =====================================================
+                        // 均線策略
+                        // =====================================================
+                        if (col.field === 'ma_strategy') {
+                            const strategy = item.ma_strategy || '觀察';
+                            return `
+                                <span
+                                    class="inline-block px-2 py-1 rounded text-xs font-bold whitespace-nowrap
+                                    ${getMaStrategyClass(strategy)}">
+                                    ${strategy}
+                                </span>
+                            `;
+                        }
+                        // =====================================================
+                        // Tags
+                        // =====================================================
                         if (col.field === 'tags') {
                             const tagText = item.tags.join(', ');
                             const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
@@ -888,18 +1208,26 @@
                                 ...(item.concept || [])
                             ].join(' ');
                             return `
-                                <div class="flex items-center gap-1">
-                                    <span>${tagShort}</span>
-                                    <span style="display:none">${searchText}</span>
-                                    <button
-                                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-                                        data-name="${item.stock_name}"
-                                        data-tags='${JSON.stringify(item.tags || [])}'
-                                        data-industry='${JSON.stringify({ industry: item.industry || '', subIndustry: item.subIndustry || [] })}'
-                                        data-concept='${JSON.stringify(item.concept || [])}'>更
-                                    </button>
-                                </div>
-                            `;
+            <div class="flex items-center gap-1">
+                <span>${tagShort}</span>
+                <span style="display:none">
+                    ${searchText}
+                </span>
+                <button
+                    class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
+                    data-name="${item.stock_name}"
+                    data-strategy="${item.strategy_type || '觀察'}"
+                    data-ma-strategy="${item.ma_strategy || '觀察'}"
+                    data-bia10="${item.bia10 ?? ''}"
+                    data-tags='${JSON.stringify(item.tags || [])}'
+                    data-industry='${JSON.stringify({
+                                industry: item.industry || '',
+                                subIndustry: item.subIndustry || []
+                            })}'
+                    data-concept='${JSON.stringify(item.concept || [])}'>更
+                </button>
+            </div>
+        `;
                         }
                         if (col.field === 'stock_name') {
                             let bar = '';
