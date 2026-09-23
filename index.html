@@ -181,7 +181,6 @@
     </style>
     <script>
         const timestamp = new Date().getTime();
-        // 優先載入頁面設定
         const params = new URLSearchParams(location.search);
         const currentPage = params.get('page') || 'index';
         let page_info = {};
@@ -197,7 +196,6 @@
                 .map(col => `<th>${col.title}</th>`)
                 .join('');
             $('#tableHeadRow').html(headHtml);
-
             $('#illustrate_main').html(page_info.illustrate_main);
             let illustratediv = "";
             page_info.illustrate.forEach(d => {
@@ -910,6 +908,131 @@
         function getMatchedCombos(tags) {
             return COMBO_RULES.filter(combo => combo.tags.every(tag => tags.includes(tag)));
         }
+        function getOperationMatrix(strategy, maStrategy, bia10) {
+            const key = `${strategy || '觀察'}|${maStrategy || '均線盤整'}`;
+            const matrix = {
+                '主升段|主升段加速': {
+                    title: '主升段 × 主升段加速',
+                    meaning: '趨勢已進入強勢階段，均線呈現多頭排列，且股價相對10MA快速擴張。',
+                    action: '以趨勢持有為主，避免因短線強勢而追高。若後續乖離收斂但均線結構仍維持，可觀察回踩後是否重新轉強。',
+                    risk: '短線乖離偏大，若量價開始背離或跌破短期均線，需提高警覺。'
+                },
+                '主升段|均線偏離': {
+                    title: '主升段 × 均線偏離',
+                    meaning: '中期趨勢仍強，但股價已明顯脫離均線。',
+                    action: '以持有與追蹤為主，不宜因強勢而直接追價。等待乖離收斂或回踩均線後重新轉強。',
+                    risk: '最大的風險不是趨勢立即反轉，而是短線過熱後的快速修正。'
+                },
+                '主升段|沿均線': {
+                    title: '主升段 × 沿均線',
+                    meaning: '股價維持多頭排列，且價格沒有明顯脫離均線。',
+                    action: '屬於趨勢正常運行狀態，以持有、追蹤趨勢為主。',
+                    risk: '若後續跌破20MA且均線開始轉弱，需重新評估主升段是否結束。'
+                },
+                '主升段|回踩觀察': {
+                    title: '主升段 × 回踩觀察',
+                    meaning: '原本的多頭結構仍在，但股價正在回到均線附近。',
+                    action: '先觀察，不急著追價。重點觀察回踩後是否重新站回短期均線並出現量價轉強。',
+                    risk: '如果回踩持續擴大並跌破20MA，可能由正常回檔轉為趨勢轉弱。'
+                },
+                '主升段|回踩接回': {
+                    title: '主升段 × 回踩接回',
+                    meaning: '多頭結構仍存在，股價經過回踩後，BIAS10 開始重新改善。',
+                    action: '這是趨勢中的重新轉強狀態，可重點追蹤後續是否重新突破近期高點。',
+                    risk: '仍需確認量能與價格同步改善，避免只有乖離反彈而沒有真正恢復趨勢。'
+                },
+                '籌碼潛伏|均線上彎': {
+                    title: '籌碼潛伏 × 均線上彎',
+                    meaning: '籌碼面偏正向，同時均線開始改善，但股價尚未完全進入主升段。',
+                    action: '適合列入觀察名單，等待價格突破與量能確認。',
+                    risk: '籌碼先行不代表股價一定立即上漲，仍需等待技術面確認。'
+                },
+                '籌碼潛伏|沿均線': {
+                    title: '籌碼潛伏 × 沿均線',
+                    meaning: '籌碼面具有一定支撐，但價格仍處於均線附近，尚未明確發動。',
+                    action: '以觀察與追蹤為主，等待突破、量增或均線進一步上彎。',
+                    risk: '如果法人籌碼轉弱或跌破20MA，潛伏條件可能失效。'
+                },
+                '籌碼潛伏|均線偏離': {
+                    title: '籌碼潛伏 × 均線偏離',
+                    meaning: '籌碼條件偏正向，但股價已經先行反應。',
+                    action: '不宜單純因籌碼強勢追價，等待乖離收斂後再觀察趨勢是否延續。',
+                    risk: '容易出現籌碼仍好但價格先修正的情況。'
+                },
+                '觀察|均線盤整': {
+                    title: '觀察 × 均線盤整',
+                    meaning: '目前沒有形成明確的趨勢或攻擊結構。',
+                    action: '以觀察為主，等待趨勢、量價或籌碼出現明確變化。',
+                    risk: '盤整期間訊號容易反覆，不宜過度解讀單一標籤。'
+                },
+                '高風險|均線轉弱': {
+                    title: '高風險 × 均線轉弱',
+                    meaning: '風險條件已經升高，同時中期均線結構正在轉弱。',
+                    action: '以風險控管與觀察為主，避免把短線反彈直接視為趨勢重新轉強。',
+                    risk: '若跌破重要均線且法人、量價同步轉弱，弱勢可能進一步延續。'
+                }
+            };
+            // =====================================================
+            // 如果沒有完全對應的組合
+            // =====================================================
+            const result = matrix[key];
+            if (result) return result;
+            // =====================================================
+            // fallback：依 ma_strategy 提供基本解釋
+            // =====================================================
+            const maFallback = {
+                '主升段加速': {
+                    title: `${strategy} × 主升段加速`,
+                    meaning: '均線結構偏多，且股價相對10MA快速擴張。',
+                    action: '以趨勢追蹤為主，避免短線追高。'
+                },
+                '均線偏離': {
+                    title: `${strategy} × 均線偏離`,
+                    meaning: '股價已明顯脫離均線。',
+                    action: '等待乖離收斂或回踩後重新轉強。'
+                },
+                '回踩接回': {
+                    title: `${strategy} × 回踩接回`,
+                    meaning: '股價經過回踩後，10日乖離開始改善。',
+                    action: '觀察是否重新轉強並突破近期高點。'
+                },
+                '回踩觀察': {
+                    title: `${strategy} × 回踩觀察`,
+                    meaning: '股價正在回到均線附近。',
+                    action: '先觀察回踩是否完成，再確認是否重新轉強。'
+                },
+                '深度回踩': {
+                    title: `${strategy} × 深度回踩`,
+                    meaning: '股價相對均線的負乖離較明顯。',
+                    action: '先觀察是否止跌，不宜僅因跌深而直接判斷反轉。'
+                },
+                '沿均線': {
+                    title: `${strategy} × 沿均線`,
+                    meaning: '股價與均線保持相對健康的距離。',
+                    action: '以趨勢追蹤與均線是否持續上彎為主要觀察重點。'
+                },
+                '均線上彎': {
+                    title: `${strategy} × 均線上彎`,
+                    meaning: '均線正在改善，中期結構逐步轉強。',
+                    action: '等待價格與量能進一步確認。'
+                },
+                '均線轉弱': {
+                    title: `${strategy} × 均線轉弱`,
+                    meaning: '中期均線開始下降，趨勢結構轉弱。',
+                    action: '以風險控管與觀察為主。'
+                },
+                '均線盤整': {
+                    title: `${strategy} × 均線盤整`,
+                    meaning: '目前均線沒有形成明確趨勢。',
+                    action: '等待突破或均線方向明確後再判斷。'
+                }
+            };
+            return maFallback[maStrategy] || {
+                title: `${strategy || '觀察'} × ${maStrategy || '均線盤整'}`,
+                meaning: '目前沒有建立專屬的操作矩陣說明。',
+                action: '請搭配 BIAS10、量價、法人與其他標籤一起觀察。'
+            };
+        }
         function switchTagTab(tab) {
             $('#tag-tab-feature,#tag-tab-industry,#tag-tab-concept')
                 .removeClass('tab-active')
@@ -988,15 +1111,7 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(
-            name,
-            strategy,
-            maStrategy,
-            bia10,
-            tags,
-            industryData,
-            conceptText
-        ) {
+        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText) {
             $('#modalStockTitle').text(name);
             // =====================================================
             // 基本資料防呆
@@ -1074,18 +1189,52 @@
                     </div>
                 `;
             }
+            const operation = getOperationMatrix(strategy, maStrategy, bia10Value);
+            const operationHtml = `
+                <div class="mb-6 bg-slate-900/70 border border-indigo-700/60 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="text-indigo-300 font-bold text-sm">操作矩陣</div>
+                            <div class="text-lg font-bold text-white mt-1">${operation.title}</div>
+                        </div>
+                        <div class="text-xs text-slate-500">
+                            系統判讀
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">現在代表什麼</div>
+                            <div class="text-sm text-slate-200 leading-6">${operation.meaning}</div>
+                        </div>
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">操作思路</div>
+                            <div class="text-sm text-slate-200 leading-6">${operation.action}</div>
+                        </div>
+                    </div>
+                    ${operation.risk ? `
+                                <div class="mt-3 bg-red-950/20 border border-red-900/50 rounded-lg p-3">
+                                    <div class="text-xs text-red-400 mb-1">注意事項</div>
+                                    <div class="text-sm text-slate-300 leading-6">${operation.risk}</div>
+                                </div>
+                            ` : ''}
+                </div>
+            `;
             // =====================================================
             // 特性
             // =====================================================
             const featureHtml = `
                 ${strategyHtml}
+                ${operationHtml}
                 ${comboHtml}
-                ${tags.map(tag => `
-                    <div class="mb-3 bg-slate-800/60 border border-slate-700 rounded-lg p-3">
-                        <div class="${getTagClass(tag)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">${tag}</div>
-                        <div class="text-sm text-slate-300">${TAG_DESCRIPTIONS[tag] || '尚無說明'}</div>
-                    </div>
-                `).join('')}
+                <div class="mt-6">
+                    <div class="text-slate-400 font-bold text-sm mb-3">訊號標籤</div>
+                    ${tags.map(tag => `
+                        <div class="mb-3 bg-slate-800/60 border border-slate-700 rounded-lg p-3">
+                            <div class="${getTagClass(tag)} inline-block text-xs px-2 py-1 rounded font-bold mb-2">${tag}</div>
+                            <div class="text-sm text-slate-300">${TAG_DESCRIPTIONS[tag] || '尚無說明'}</div>
+                        </div>
+                    `).join('')}
+                </div>
             `;
             $('#tag-content-feature').html(featureHtml);
             // =====================================================
@@ -1100,10 +1249,7 @@
                     </div>
                 `;
             }
-            if (
-                industryData.subIndustry &&
-                industryData.subIndustry.length
-            ) {
+            if (industryData.subIndustry && industryData.subIndustry.length) {
                 industryHtml += `
                     <div>
                         <div class="text-blue-300 font-bold mb-2">次產業</div>
@@ -1115,9 +1261,7 @@
                     </div>
                 `;
             }
-            $('#tag-content-industry').html(
-                industryHtml || `<div class="text-slate-500">尚無產業資料</div>`
-            );
+            $('#tag-content-industry').html(industryHtml || `<div class="text-slate-500">尚無產業資料</div>`);
             // =====================================================
             // 概念
             // =====================================================
@@ -1208,35 +1352,27 @@
                                 ...(item.concept || [])
                             ].join(' ');
                             return `
-            <div class="flex items-center gap-1">
-                <span>${tagShort}</span>
-                <span style="display:none">
-                    ${searchText}
-                </span>
-                <button
-                    class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
-                    data-name="${item.stock_name}"
-                    data-strategy="${item.strategy_type || '觀察'}"
-                    data-ma-strategy="${item.ma_strategy || '觀察'}"
-                    data-bia10="${item.bia10 ?? ''}"
-                    data-tags='${JSON.stringify(item.tags || [])}'
-                    data-industry='${JSON.stringify({
-                                industry: item.industry || '',
-                                subIndustry: item.subIndustry || []
-                            })}'
-                    data-concept='${JSON.stringify(item.concept || [])}'>更
-                </button>
-            </div>
-        `;
+                                <div class="flex items-center gap-1">
+                                    <span>${tagShort}</span>
+                                    <span style="display:none">${searchText}</span>
+                                    <button
+                                        class="tag-btn text-[10px] bg-gray-700 px-1 rounded hover:bg-gray-600"
+                                        data-name="${item.stock_name}"
+                                        data-strategy="${item.strategy_type || '觀察'}"
+                                        data-ma-strategy="${item.ma_strategy || '觀察'}"
+                                        data-bia10="${item.bia10 ?? ''}"
+                                        data-tags='${JSON.stringify(item.tags || [])}'
+                                        data-industry='${JSON.stringify({ industry: item.industry || '', subIndustry: item.subIndustry || [] })}'
+                                        data-concept='${JSON.stringify(item.concept || [])}'>更
+                                    </button>
+                                </div>
+                            `;
                         }
                         if (col.field === 'stock_name') {
                             let bar = '';
                             if (item.hint && item.hint.length > 0) bar = `<span class="hint-bar"></span>`;
                             return `
-                                <div class="stock-cell">
-                                    ${bar}
-                                    <span class="${col.class || ''}">${value}</span>
-                                </div>
+                                <div class="stock-cell">${bar}<span class="${col.class || ''}">${value}</span></div>
                                 <span style="display:none">${(item.hint || []).join(' ')}</span>
                             `;
                         }
@@ -1260,9 +1396,7 @@
                         const selectedDate = $(this).val();
                         if (selectedDate) {
                             loadData(selectedDate);
-                            if (page_info.enableChart) {
-                                loadChartData(selectedDate);
-                            }
+                            if (page_info.enableChart) loadChartData(selectedDate);
                         }
                     });
                     $sel.val(dates[0]).trigger('change');
@@ -1301,11 +1435,9 @@
                         }
                     };
                 }
-
                 //----------------------------------
                 // LINE
                 //----------------------------------
-
                 return {
                     name: cfg.name,
                     type: 'line',
@@ -1490,13 +1622,7 @@
         }
         function openChart(id, name) {
             id = String(id).trim();
-            if (
-                !cachedChartData ||
-                !cachedChartData.stocks ||
-                !cachedChartData.stocks[id]
-            ) {
-                return;
-            }
+            if (!cachedChartData || !cachedChartData.stocks || !cachedChartData.stocks[id]) return;
             openModal('chartModal');
             const stockData = cachedChartData.stocks[id];
             requestAnimationFrame(() => {
@@ -1505,9 +1631,7 @@
                 chartInstance = echarts.init(chartDom, 'dark');
                 const option = buildChartOption(id, name, stockData, page_info.chart);
                 chartInstance.setOption(option);
-                setTimeout(() => {
-                    chartInstance.resize();
-                }, 50);
+                setTimeout(() => { chartInstance.resize(); }, 50);
             });
         }
         function openModal(id) {
@@ -1516,12 +1640,8 @@
                 .addClass('flex modal-active');
         }
         window.addEventListener('resize', () => {
-            if (chartInstance) {
-                chartInstance.resize();
-            }
-            if ($.fn.DataTable.isDataTable('#stockTable')) {
-                table.columns.adjust();
-            }
+            if (chartInstance) chartInstance.resize();
+            if ($.fn.DataTable.isDataTable('#stockTable')) table.columns.adjust();
         });
         $(window).on('click', function (event) {
             if ($(event.target).is('#chartModal')) closeModal('chartModal');
