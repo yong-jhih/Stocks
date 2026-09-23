@@ -780,7 +780,7 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
                 AVG(h.close_price) OVER w60 AS ma60,
 
                 -- 均量
-                AVG(h.trade_volume) OVER w5  AS vma5, 
+                AVG(h.trade_volume) OVER w5  AS vma5,
                 AVG(h.trade_volume) OVER w10 AS vma10,
                 AVG(h.trade_volume) OVER w20 AS vma20,
                 AVG(h.trade_volume) OVER w60 AS vma60,
@@ -842,9 +842,6 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
                 LAG(h.low_price)    OVER lagw AS yesterday_low,
                 LAG(h.close_price)  OVER lagw AS yesterday_close,
                 LAG(h.trade_volume) OVER lagw AS yesterday_vol,
-
-                LAG(i.foreign_buy_sell) OVER lagw AS yesterday_foreign_buy_sell,
-                LAG(i.trust_buy_sell)   OVER lagw AS yesterday_trust_buy_sell
 
             FROM {$table[0]} h
             LEFT JOIN {$table[1]} i      ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
@@ -1581,7 +1578,6 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             $ma20 > $prevMa20;
 
         $bia10Rising = $bia10 > $prevBia10;
-        $bia10Falling = $bia10 < $prevBia10;
 
         // 預設
         $maStrategy = '觀察';
