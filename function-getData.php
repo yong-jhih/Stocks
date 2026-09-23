@@ -1231,65 +1231,71 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         // Trend
         // =========================
-        $addSignal(
-            'trend',
-            $close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20,
-            '多頭排列',
-            15
-        );
+        if ($close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20) {
+            $addSignal(
+                'trend',
+                true,
+                '多頭排列',
+                15
+            );
+        } else {
+            $addSignal(
+                'trend',
+                $close > $ma20,
+                '站上月線',
+                4
+            );
+            $addSignal(
+                'trend',
+                $close > $ma60,
+                '站上季線',
+                6
+            );
+        }
         $addSignal(
             'trend',
             $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20,
             '均線上彎',
             10
         );
-        if ($close > $ma20 && $yClose <= $prevMa20) {
-            $addSignal(
-                'trend',
-                true,
-                '首次站上月線',
-                12
-            );
-        } else if ($close > $ma20) {
-            $addSignal(
-                'trend',
-                true,
-                '站上月線',
-                4
-            );
-        }
-        if ($close > $ma60 && $yClose <= $prevMa60) {
-            $addSignal(
-                'trend',
-                true,
-                '首次站上季線',
-                15
-            );
-        } else if ($close > $ma60) {
-            $addSignal(
-                'trend',
-                true,
-                '站上季線',
-                6
-            );
-        }
+        $addSignal(
+            'trend',
+            $close > $ma20 && $yClose <= $prevMa20,
+            '首次站上月線',
+            12
+        );
+        $addSignal(
+            'trend',
+            $close > $ma60 && $yClose <= $prevMa60,
+            '首次站上季線',
+            15
+        );
         // =========================
         // Momentum
         // =========================
-        $addSignal(
-            'momentum',
-            $volRatio > 1.5 &&
-                $close > $yHigh,
-            '爆量突破',
-            20
-        );
-        $addSignal(
-            'momentum',
-            ($close / max($yClose, 0.01)) > 1.03 &&
-                $volRatio > 1.3,
-            '價量齊揚',
-            15
-        );
+        if ($volRatio > 1.5 && $close > $yHigh) {
+            $addSignal(
+                'momentum',
+                true,
+                '爆量突破',
+                20
+            );
+            if (($close / max($yClose, 0.01)) > 1.03 && $volRatio > 1.3) {
+                $addSignal(
+                    'momentum',
+                    true,
+                    '價量齊揚',
+                    5
+                );
+            }
+        } elseif (($close / max($yClose, 0.01)) > 1.03 && $volRatio > 1.3) {
+            $addSignal(
+                'momentum',
+                true,
+                '價量齊揚',
+                15
+            );
+        }
         // =========================
         // Chip
         // =========================
@@ -1299,24 +1305,28 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             '法人集中',
             15
         );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] >= 3,
-            '外資連買',
-            10
-        );
-        $addSignal(
-            'chip',
-            $s['trust_streak_days'] >= 3,
-            '投信連買',
-            12
-        );
-        $addSignal(
-            'chip',
-            $s['foreign_streak_days'] > 0 && $s['trust_streak_days'] > 0,
-            '土洋合力',
-            15
-        );
+        if ($s['foreign_streak_days'] > 0 && $s['trust_streak_days'] > 0) {
+            $addSignal(
+                'chip',
+                true,
+                '土洋合力',
+                15
+            );
+        } elseif ($s['trust_streak_days'] >= 3) {
+            $addSignal(
+                'chip',
+                true,
+                '投信連買',
+                12
+            );
+        } elseif ($s['foreign_streak_days'] >= 3) {
+            $addSignal(
+                'chip',
+                true,
+                '外資連買',
+                10
+            );
+        }
         $addSignal(
             'chip',
             $s['margin_balance_diff'] < 0 && $close >= $yClose,
@@ -1327,28 +1337,28 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // 股東籌碼
         // 週資料，權重低於法人與融資資料
         // =====================================================
-        // 強烈籌碼集中
-        $addSignal(
-            'chip',
-            $shareholderAnalysis['trend'] === 'bullish',
-            '股東明顯減少',
-            8
-        );
-        // 輕度籌碼集中
-        $addSignal(
-            'chip',
-            $shareholderAnalysis['trend'] === 'slightly_bullish',
-            '股東人數下降',
-            4
-        );
-        // 股東持續減少
-        $addSignal(
-            'chip',
-            $shareholderAnalysis['consecutive_down'] >= 2,
-            '股東持續減少',
-            5
-        );
-        // 平均持股增加
+        if ($shareholderAnalysis['trend'] === 'bullish') {
+            $addSignal(
+                'chip',
+                true,
+                '股東明顯減少',
+                8
+            );
+        } elseif (($shareholderAnalysis['consecutive_down'] ?? 0) >= 2) {
+            $addSignal(
+                'chip',
+                true,
+                '股東持續減少',
+                5
+            );
+        } elseif ($shareholderAnalysis['trend'] === 'slightly_bullish') {
+            $addSignal(
+                'chip',
+                true,
+                '股東人數下降',
+                4
+            );
+        }
         $addSignal(
             'chip',
             $shareholderAnalysis['average_lots_change_percent'] !== null && $shareholderAnalysis['average_lots_change_percent'] >= 3,
