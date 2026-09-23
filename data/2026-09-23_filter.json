@@ -1,0 +1,343 @@
+[
+    {
+        "stock_id": "1102",
+        "stock_name": "亞泥",
+        "stock_type": "TSE",
+        "industry": "水泥工業",
+        "subIndustry": [
+            " 水泥熟料",
+            " 發電營運",
+            " 風場開發"
+        ],
+        "concept": [
+            "傳產內需股",
+            "傳產原物料股",
+            "碳權",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股",
+            "臺灣高股息指數成分股",
+            "都市更新"
+        ],
+        "score": 96,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "ma_strategy": "均線上彎",
+        "confidence": 1,
+        "trend_score": 20,
+        "momentum_score": 20,
+        "chip_score": 40,
+        "structure_score": 8,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "slightly_bullish",
+            "label": "籌碼偏集中",
+            "score": 2,
+            "latest_change": -321,
+            "latest_change_percent": -0.32,
+            "period_change": -1246,
+            "period_change_percent": -1.21,
+            "average_lots_change_percent": 1.22,
+            "consecutive_up": 0,
+            "consecutive_down": 3,
+            "data_count": 4
+        },
+        "close": 35.95,
+        "yesterday_high": 35.45,
+        "yesterday_low": 34.9,
+        "vol": 11338,
+        "vol_ratio": 1.77,
+        "rank10": 88.46,
+        "rank20": 91.67,
+        "amp10": 3.74,
+        "amp20": 5.25,
+        "ma5": 35.22,
+        "ma10": 35.25,
+        "ma20": 35.13,
+        "ma60": 34.26,
+        "vma5": 7288,
+        "vma10": 7007,
+        "vma20": 7368,
+        "bia5": 2.07,
+        "bia10": 2,
+        "bia20": 2.34,
+        "con1": 48.55,
+        "con5": 30.44,
+        "con10": 25.46,
+        "con20": 19.48,
+        "foreign_buy_sell": 5215618,
+        "trust_buy_sell": 168000,
+        "foreign_sum5": 10411,
+        "foreign_sum10": 14803,
+        "foreign_sum20": 21321,
+        "trust_sum5": 2058,
+        "trust_sum10": 3196,
+        "trust_sum20": 9303,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 7,
+        "margin_balance": 627,
+        "margin_balance_diff": -43,
+        "margin_balance_diff_sum5": -164,
+        "squeeze": 2.47,
+        "bullet": 6.75,
+        "net_sbl": 633,
+        "net_sbl_sum5": 491,
+        "sbl_total": 67925,
+        "sbl_sold_balance": 18165,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6,
+                "均線上彎": 10
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "土洋合力": 15,
+                "融資減肥": 6,
+                "股東持續減少": 5
+            },
+            "risk": [],
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "均線上彎",
+            "爆量突破",
+            "法人集中",
+            "土洋合力",
+            "融資減肥",
+            "股東持續減少",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 1.77 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "9910",
+        "stock_name": "豐泰",
+        "stock_type": "TSE",
+        "industry": "運動休閒",
+        "subIndustry": [
+            " 其他"
+        ],
+        "concept": [
+            "台商越南",
+            "臺灣中型100指數成分股",
+            "臺灣發達指數成分股",
+            "運動休閒"
+        ],
+        "score": 95,
+        "rating": "S",
+        "strategy_type": "主升段",
+        "ma_strategy": "均線轉弱",
+        "confidence": 1,
+        "trend_score": 25,
+        "momentum_score": 20,
+        "chip_score": 35,
+        "structure_score": 8,
+        "risk_score": -18,
+        "shareholder_analysis": {
+            "trend": "slightly_bullish",
+            "label": "籌碼偏集中",
+            "score": 2,
+            "latest_change": -26,
+            "latest_change_percent": -0.11,
+            "period_change": -148,
+            "period_change_percent": -0.61,
+            "average_lots_change_percent": 0.62,
+            "consecutive_up": 0,
+            "consecutive_down": 2,
+            "data_count": 4
+        },
+        "close": 70,
+        "yesterday_high": 69.1,
+        "yesterday_low": 68.4,
+        "vol": 1710,
+        "vol_ratio": 2.26,
+        "rank10": 81.82,
+        "rank20": 44.26,
+        "amp10": 4.9,
+        "amp20": 9.06,
+        "ma5": 68.4,
+        "ma10": 68.31,
+        "ma20": 68.49,
+        "ma60": 68.75,
+        "vma5": 1152,
+        "vma10": 1069,
+        "vma20": 1185,
+        "bia5": 2.34,
+        "bia10": 2.47,
+        "bia20": 2.21,
+        "con1": 62.48,
+        "con5": 35.46,
+        "con10": 17.1,
+        "con20": 19.03,
+        "foreign_buy_sell": 997151,
+        "trust_buy_sell": 70000,
+        "foreign_sum5": 883,
+        "foreign_sum10": -413,
+        "foreign_sum20": 1597,
+        "trust_sum5": 1132,
+        "trust_sum10": 2100,
+        "trust_sum20": 2604,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 18,
+        "margin_balance": 1955,
+        "margin_balance_diff": 51,
+        "margin_balance_diff_sum5": -22,
+        "squeeze": 25.47,
+        "bullet": 1.93,
+        "net_sbl": -157,
+        "net_sbl_sum5": -149,
+        "sbl_total": 32470,
+        "sbl_sold_balance": 30183,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6,
+                "首次站上季線": 15
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 15,
+                "土洋合力": 15,
+                "股東持續減少": 5
+            },
+            "risk": {
+                "月線轉弱": -18
+            },
+            "structure": {
+                "整理末端": 8
+            }
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "首次站上季線",
+            "爆量突破",
+            "法人集中",
+            "土洋合力",
+            "股東持續減少",
+            "月線轉弱",
+            "整理末端"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 2.26 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "hint": []
+    },
+    {
+        "stock_id": "2329",
+        "stock_name": "華泰",
+        "stock_type": "TSE",
+        "industry": "半導體業",
+        "subIndustry": [
+            " IC封裝測試"
+        ],
+        "concept": [],
+        "score": 8,
+        "rating": "D",
+        "strategy_type": "高風險",
+        "ma_strategy": "均線轉弱",
+        "confidence": 0,
+        "trend_score": 4,
+        "momentum_score": 0,
+        "chip_score": 5,
+        "structure_score": 0,
+        "risk_score": -43,
+        "shareholder_analysis": {
+            "trend": "slightly_bullish",
+            "label": "籌碼偏集中",
+            "score": 2,
+            "latest_change": -461,
+            "latest_change_percent": -0.36,
+            "period_change": -989,
+            "period_change_percent": -0.76,
+            "average_lots_change_percent": 0.79,
+            "consecutive_up": 0,
+            "consecutive_down": 3,
+            "data_count": 4
+        },
+        "close": 44.35,
+        "yesterday_high": 44.65,
+        "yesterday_low": 43.3,
+        "vol": 4444,
+        "vol_ratio": 2.33,
+        "rank10": 78.41,
+        "rank20": 78.41,
+        "amp10": 10.76,
+        "amp20": 10.76,
+        "ma5": 43.42,
+        "ma10": 42.68,
+        "ma20": 43.03,
+        "ma60": 45.05,
+        "vma5": 3244,
+        "vma10": 2303,
+        "vma20": 2076,
+        "bia5": 2.14,
+        "bia10": 3.93,
+        "bia20": 3.08,
+        "con1": 10.74,
+        "con5": 3.96,
+        "con10": 7.46,
+        "con20": 5.71,
+        "foreign_buy_sell": 502363,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 723,
+        "foreign_sum10": 1982,
+        "foreign_sum20": 2707,
+        "trust_sum5": 0,
+        "trust_sum10": 0,
+        "trust_sum20": 0,
+        "foreign_streak_days": 1,
+        "trust_streak_days": 0,
+        "margin_balance": 13558,
+        "margin_balance_diff": 86,
+        "margin_balance_diff_sum5": -32,
+        "squeeze": 18.75,
+        "bullet": 0.46,
+        "net_sbl": 293,
+        "net_sbl_sum5": 1589,
+        "sbl_total": 39881,
+        "sbl_sold_balance": 38918,
+        "signals": {
+            "trend": {
+                "站上月線": 4
+            },
+            "momentum": [],
+            "chip": {
+                "股東持續減少": 5
+            },
+            "risk": {
+                "高檔出貨": -25,
+                "月線轉弱": -18
+            },
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "股東持續減少",
+            "高檔出貨",
+            "月線轉弱"
+        ],
+        "trigger_reasons": [
+            "成交量放大 2.33 倍"
+        ],
+        "hint": []
+    }
+]
