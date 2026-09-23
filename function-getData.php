@@ -841,7 +841,7 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
                 LAG(h.high_price)   OVER lagw AS yesterday_high,
                 LAG(h.low_price)    OVER lagw AS yesterday_low,
                 LAG(h.close_price)  OVER lagw AS yesterday_close,
-                LAG(h.trade_volume) OVER lagw AS yesterday_vol,
+                LAG(h.trade_volume) OVER lagw AS yesterday_vol
 
             FROM {$table[0]} h
             LEFT JOIN {$table[1]} i      ON h.stock_id = i.stock_id AND h.trade_date = i.trade_date
