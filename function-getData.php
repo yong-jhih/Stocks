@@ -1353,17 +1353,17 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $strategyType = $marketStates[0] ?? '觀察';
         if (
             $trendScore >= 20 &&
-            $momentumScore >= 20 &&
+            $momentumScore >= 16 &&
             $chipScore >= 20
         ) {
             $strategyType = '主升段';
         } elseif (
-            $chipScore >= 25 &&
-            $momentumScore < 15
+            $chipScore >= 22 &&
+            $momentumScore < 12
         ) {
             $strategyType = '籌碼潛伏';
         } elseif (
-            $momentumScore >= 25 &&
+            $momentumScore >= 18 &&
             $trendScore < 15
         ) {
             $strategyType = '短線轉強';
