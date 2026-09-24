@@ -916,25 +916,16 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
     // 2. 一次取得所有股票最近股東資料 使用 ROW_NUMBER 確保每檔最多取得最近 4 筆
     // =========================================================
     $sql = "
-        SELECT
-            stock_id,
-            trade_date,
-            shareholder_count,
-            total_shares
+        SELECT stock_id, trade_date, shareholder_count, total_shares
         FROM (
             SELECT
                 stock_id,
                 trade_date,
                 shareholder_count,
                 total_shares,
-                ROW_NUMBER() OVER (
-                    PARTITION BY stock_id
-                    ORDER BY trade_date DESC
-                ) AS rn
+                ROW_NUMBER() OVER ( PARTITION BY stock_id ORDER BY trade_date DESC) AS rn
             FROM stock_shareholder
-            WHERE stock_id IN ({$placeholders})
-                AND trade_date <= ?
-        ) t
+            WHERE stock_id IN ({$placeholders}) AND trade_date <= ? ) t
         WHERE rn <= 4
         ORDER BY stock_id, trade_date ASC
     ";
@@ -1220,188 +1211,68 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'risk' => [],
             'structure' => []
         ];
-        $addSignal = function (
-            string $group,
-            bool $condition,
-            string $tag,
-            int $score
-        ) use (&$signals): void {
+        $addSignal = function (string $group, bool $condition, string $tag, int $score) use (&$signals): void {
             if ($condition) $signals[$group][$tag] = $score;
         };
         // =========================
         // Trend
         // =========================
         if ($close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20) {
-            $addSignal(
-                'trend',
-                true,
-                '多頭排列',
-                15
-            );
+            $addSignal('trend', true, '多頭排列', 15);
         } else {
-            $addSignal(
-                'trend',
-                $close > $ma20,
-                '站上月線',
-                4
-            );
-            $addSignal(
-                'trend',
-                $close > $ma60,
-                '站上季線',
-                6
-            );
+            $addSignal('trend', $close > $ma20, '站上月線', 4);
+            $addSignal('trend', $close > $ma60, '站上季線', 6);
         }
-        $addSignal(
-            'trend',
-            $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20,
-            '均線上彎',
-            10
-        );
-        $addSignal(
-            'trend',
-            $close > $ma20 && $yClose <= $prevMa20,
-            '首次站上月線',
-            12
-        );
-        $addSignal(
-            'trend',
-            $close > $ma60 && $yClose <= $prevMa60,
-            '首次站上季線',
-            15
-        );
+        $addSignal('trend', $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20, '均線上彎', 10);
+        $addSignal('trend', $close > $ma20 && $yClose <= $prevMa20, '首次站上月線', 12);
+        $addSignal('trend', $close > $ma60 && $yClose <= $prevMa60, '首次站上季線', 15);
         // =========================
         // Momentum
         // =========================
         if ($volRatio > 1.5 && $close > $yHigh) {
-            $addSignal(
-                'momentum',
-                true,
-                '爆量突破',
-                20
-            );
+            $addSignal('momentum', true, '爆量突破', 20);
             if (($close / max($yClose, 0.01)) > 1.03 && $volRatio > 1.3) {
-                $addSignal(
-                    'momentum',
-                    true,
-                    '價量齊揚',
-                    5
-                );
+                $addSignal('momentum', true, '價量齊揚', 5);
             }
         } elseif (($close / max($yClose, 0.01)) > 1.03 && $volRatio > 1.3) {
-            $addSignal(
-                'momentum',
-                true,
-                '價量齊揚',
-                15
-            );
+            $addSignal('momentum', true, '價量齊揚', 15);
         }
         // =========================
         // Chip
         // =========================
-        $addSignal(
-            'chip',
-            $con5 > 15,
-            '法人集中',
-            15
-        );
+        $addSignal('chip', $con5 > 15, '法人集中', 15);
         if ($s['foreign_streak_days'] > 0 && $s['trust_streak_days'] > 0) {
-            $addSignal(
-                'chip',
-                true,
-                '土洋合力',
-                15
-            );
+            $addSignal('chip', true, '土洋合力', 15);
         } elseif ($s['trust_streak_days'] >= 3) {
-            $addSignal(
-                'chip',
-                true,
-                '投信連買',
-                12
-            );
+            $addSignal('chip', true, '投信連買', 12);
         } elseif ($s['foreign_streak_days'] >= 3) {
-            $addSignal(
-                'chip',
-                true,
-                '外資連買',
-                10
-            );
+            $addSignal('chip', true, '外資連買', 10);
         }
-        $addSignal(
-            'chip',
-            $s['margin_balance_diff'] < 0 && $close >= $yClose,
-            '融資減肥',
-            6
-        );
+        $addSignal('chip', $s['margin_balance_diff'] < 0 && $close >= $yClose, '融資減肥', 6);
         // =====================================================
         // 股東籌碼
         // 週資料，權重低於法人與融資資料
         // =====================================================
         if ($shareholderAnalysis['trend'] === 'bullish') {
-            $addSignal(
-                'chip',
-                true,
-                '股東明顯減少',
-                8
-            );
+            $addSignal('chip', true, '股東明顯減少', 8);
         } elseif (($shareholderAnalysis['consecutive_down'] ?? 0) >= 2) {
-            $addSignal(
-                'chip',
-                true,
-                '股東持續減少',
-                5
-            );
+            $addSignal('chip', true, '股東持續減少', 5);
         } elseif ($shareholderAnalysis['trend'] === 'slightly_bullish') {
-            $addSignal(
-                'chip',
-                true,
-                '股東人數下降',
-                4
-            );
+            $addSignal('chip', true, '股東人數下降', 4);
         }
-        $addSignal(
-            'chip',
-            $shareholderAnalysis['average_lots_change_percent'] !== null && $shareholderAnalysis['average_lots_change_percent'] >= 3,
-            '平均持股增加',
-            3
-        );
+        $addSignal('chip', $shareholderAnalysis['average_lots_change_percent'] !== null && $shareholderAnalysis['average_lots_change_percent'] >= 3, '平均持股增加', 3);
         // =========================
         // Structure
         // =========================
-        $addSignal(
-            'structure',
-            $amp10 < 8 && $vma5 < $vma20,
-            '整理末端',
-            8
-        );
+        $addSignal('structure', $amp10 < 8 && $vma5 < $vma20, '整理末端', 8);
         if ($rank20 < 30 && $close > $ma20 && $yClose <= $prevMa20) {
-            $addSignal(
-                'structure',
-                true,
-                '低位階轉強',
-                8
-            );
+            $addSignal('structure', true, '低位階轉強', 8);
         } else if ($rank20 < 30 && $ma20 >= $prevMa20) {
-            $addSignal(
-                'structure',
-                true,
-                '低位階止跌',
-                6
-            );
+            $addSignal('structure', true, '低位階止跌', 6);
         } else if ($rank20 < 30) {
-            $addSignal(
-                'structure',
-                true,
-                '低位階',
-                4
-            );
+            $addSignal('structure', true, '低位階', 4);
         }
-        $addSignal(
-            'structure',
-            $close > $ma20 && $volRatio < 0.8 && $low >= $yLow,
-            '量縮抗跌',
-            10
-        );
+        $addSignal('structure', $close > $ma20 && $volRatio < 0.8 && $low >= $yLow, '量縮抗跌', 10);
         // =========================
         // Market State
         // 不加分，只做分類
@@ -1418,86 +1289,31 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         // ---- 過熱類 ----
         if ($rank10 > 90 && $bia20 > 15) {
-            $addSignal(
-                'risk',
-                true,
-                '極度過熱',
-                -35
-            );
+            $addSignal('risk', true, '極度過熱', -35);
         } elseif ($rank10 > 85 && $bia20 > 12) {
-            $addSignal(
-                'risk',
-                true,
-                '短線過熱',
-                -18
-            );
+            $addSignal('risk', true, '短線過熱', -18);
         } elseif ($bia20 > 18) {
-            $addSignal(
-                'risk',
-                true,
-                '乖離過大',
-                -12
-            );
+            $addSignal('risk', true, '乖離過大', -12);
         }
         // ---- 出貨類 ----
         if ($volRatio > 2.5 && ($close / max($yClose, 0.01)) < 1.01) {
-            $addSignal(
-                'risk',
-                true,
-                '爆量滯漲',
-                -30
-            );
+            $addSignal('risk', true, '爆量滯漲', -30);
         } elseif ($volRatio > 2 && (($high - max($close, $open)) / max(($high - $low), 0.01)) > 0.45) {
-            $addSignal(
-                'risk',
-                true,
-                '高檔出貨',
-                -25
-            );
+            $addSignal('risk', true, '高檔出貨', -25);
         } elseif ($high > $yHigh && $close < $yHigh) {
-            $addSignal(
-                'risk',
-                true,
-                '假突破',
-                -20
-            );
+            $addSignal('risk', true, '假突破', -20);
         }
         // ---- 趨勢轉弱類 ----
         if ($close < $ma20 && $s['trade_volume'] < $vma20) {
-            $addSignal(
-                'risk',
-                true,
-                '量縮走弱',
-                -20
-            );
+            $addSignal('risk', true, '量縮走弱', -20);
         } elseif ($ma20 < $prevMa20) {
-            $addSignal(
-                'risk',
-                true,
-                '月線轉弱',
-                -18
-            );
+            $addSignal('risk', true, '月線轉弱', -18);
         } elseif ($close < $ma20) {
-            $addSignal(
-                'risk',
-                true,
-                '跌破月線',
-                -12
-            );
+            $addSignal('risk', true, '跌破月線', -12);
         }
         // ---- 籌碼轉弱 ----
-        $addSignal(
-            'risk',
-            $s['foreign_buy_sell'] < 0 && $s['trust_buy_sell'] < 0,
-            '法人同步轉賣',
-            -18
-        );
-        $addSignal(
-            'risk',
-            $s['foreign_sum5'] < 0 && $s['trust_sum5'] < 0,
-            '法人倒貨',
-            -22
-        );
+        $addSignal('risk', $s['foreign_buy_sell'] < 0 && $s['trust_buy_sell'] < 0, '法人同步轉賣', -18);
+        $addSignal('risk', $s['foreign_sum5'] < 0 && $s['trust_sum5'] < 0, '法人倒貨', -22);
         // =========================
         // Category Scores
         // =========================
@@ -1577,16 +1393,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // 注意：
         // 這裡目前只是「策略分類」，不是直接買賣訊號。
         // =========================
-        $maBullishAlignment =
-            $close > $ma5 &&
-            $ma5 > $ma10 &&
-            $ma10 > $ma20;
-
-        $maRising =
-            $ma5 > $prevMa5 &&
-            $ma10 > $prevMa10 &&
-            $ma20 > $prevMa20;
-
+        $maBullishAlignment = $close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20;
+        $maRising = $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20;
         $bia10Rising = $bia10 > $prevBia10;
 
         // 預設
@@ -1594,56 +1402,41 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================================================
         // 1. 多頭排列 + 均線上彎
         // =========================================================
-        if (
-            $maBullishAlignment &&
-            $maRising
-        ) {
+        if ($maBullishAlignment && $maRising) {
             // -----------------------------------------------------
             // BIAS10 >= +8%
             // 股價明顯遠離10MA。
             // 如果 BIAS10 還在持續擴大，偏向主升段加速，
             // 不直接視為賣出訊號。
             // -----------------------------------------------------
-            if (
-                $bia10 >= 8 &&
-                $bia10Rising
-            ) {
+            if ($bia10 >= 8 && $bia10Rising) {
                 $maStrategy = '主升段加速';
                 // -----------------------------------------------------
                 // BIAS10 >= +5%
                 // 已經明顯偏離10MA。
                 // 趨勢仍然偏多，但可以開始注意資金周轉。
                 // -----------------------------------------------------
-            } elseif (
-                $bia10 >= 5
-            ) {
+            } elseif ($bia10 >= 5) {
                 $maStrategy = '均線偏離';
                 // -----------------------------------------------------
                 // BIAS10 < -4%
                 // 已經明顯低於10MA。
                 // 如果 BIAS10 開始收斂，代表回檔可能正在結束。
                 // -----------------------------------------------------
-            } elseif (
-                $bia10 < -4 &&
-                $bia10Rising
-            ) {
+            } elseif ($bia10 < -4 && $bia10Rising) {
                 $maStrategy = '回踩接回';
                 // -----------------------------------------------------
                 // BIAS10 < -4%
                 // 但仍在持續走弱。
                 // 先不要直接定義成買點。
                 // -----------------------------------------------------
-            } elseif (
-                $bia10 < -4
-            ) {
+            } elseif ($bia10 < -4) {
                 $maStrategy = '深度回踩';
                 // -----------------------------------------------------
                 // -4% ~ -2%
                 // 進入回踩區，但還沒有確認止跌。
                 // -----------------------------------------------------
-            } elseif (
-                $bia10 < -2
-            ) {
+            } elseif ($bia10 < -2) {
                 $maStrategy = '回踩觀察';
                 // -----------------------------------------------------
                 // -2% ~ +5%
@@ -1656,20 +1449,12 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             // 2. 均線沒有完整多頭排列，但仍然上彎
             // 這類股票可能正在從整理進入趨勢。
             // =========================================================
-        } elseif (
-            $maRising &&
-            $close > $ma20
-        ) {
+        } elseif ($maRising && $close > $ma20) {
             if ($bia10 >= 5) {
                 $maStrategy = '均線偏離';
-            } elseif (
-                $bia10 < -2 &&
-                $bia10Rising
-            ) {
+            } elseif ($bia10 < -2 && $bia10Rising) {
                 $maStrategy = '回踩接回';
-            } elseif (
-                $bia10 < -2
-            ) {
+            } elseif ($bia10 < -2) {
                 $maStrategy = '回踩觀察';
             } else {
                 $maStrategy = '均線上彎';
@@ -1677,9 +1462,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             // =========================================================
             // 3. 均線走弱
             // =========================================================
-        } elseif (
-            $ma20 < $prevMa20
-        ) {
+        } elseif ($ma20 < $prevMa20) {
             $maStrategy = '均線轉弱';
             // =========================================================
             // 4. 其他
@@ -1691,13 +1474,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // Confidence
         // =========================
         $positiveGroups = 0;
-        foreach (
-            [
-                $trendScore,
-                $momentumScore,
-                $chipScore
-            ] as $v
-        ) {
+        foreach ([$trendScore, $momentumScore, $chipScore] as $v) {
             if ($v >= 15) $positiveGroups++;
         }
         $confidence = round(max(0, min(1, (($positiveGroups / 3) * $riskMultiplier))), 2);
@@ -1815,10 +1592,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
     // =========================
     // Sort by Score
     // =========================
-    usort(
-        $dashboardResults,
-        fn($a, $b) => $b['score'] <=> $a['score']
-    );
+    usort($dashboardResults, fn($a, $b) => $b['score'] <=> $a['score']);
     return $dashboardResults;
 }
 
@@ -1906,15 +1680,10 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     // 只取最近 4 筆週資料
     // =========================================================
     $shareholderSql = "
-        SELECT
-            trade_date,
-            shareholder_count,
-            total_shares
+        SELECT trade_date, shareholder_count, total_shares
         FROM stock_shareholder
-        WHERE stock_id = :stockId
-            AND trade_date <= :targetDate
-        ORDER BY trade_date DESC
-        LIMIT 4
+        WHERE stock_id = :stockId AND trade_date <= :targetDate
+        ORDER BY trade_date DESC LIMIT 4
     ";
     $shareholderStmt = $pdo->prepare($shareholderSql);
     $shareholderStmt->execute([
@@ -1929,8 +1698,6 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     foreach ($shareholderRows as $index => $row) {
         $shareholderCount = (int)$row['shareholder_count'];
         $totalShares = (int)$row['total_shares'];
-        // 平均每位股東持有張數
-        // 1 張 = 1000 股
         $averageLots = $shareholderCount > 0 ? round(($totalShares / $shareholderCount) / 1000, 2) : null;
         $previous = $shareholderRows[$index - 1] ?? null;
         $change = null;
@@ -1950,7 +1717,6 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
             'change_percent' => $changePercent
         ];
     }
-
     // =========================================================
     // 4. 股東籌碼分析
     // =========================================================
@@ -1974,17 +1740,13 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         // 最新週變化
         // -----------------------------------------------------
         $shareholderAnalysis['latest_change'] = $latest['shareholder_count'] - $previous['shareholder_count'];
-        $shareholderAnalysis['latest_change_percent'] =
-            $previous['shareholder_count'] > 0
-            ? round(($shareholderAnalysis['latest_change'] / $previous['shareholder_count']) * 100, 2) : null;
+        $shareholderAnalysis['latest_change_percent'] = $previous['shareholder_count'] > 0 ? round(($shareholderAnalysis['latest_change'] / $previous['shareholder_count']) * 100, 2) : null;
         // -----------------------------------------------------
         // 期間累積變化
         // -----------------------------------------------------
         $first = $shareholderHistory[0];
         $shareholderAnalysis['period_change'] = $latest['shareholder_count'] - $first['shareholder_count'];
-        if ($first['shareholder_count'] > 0) {
-            $shareholderAnalysis['period_change_percent'] = round(($shareholderAnalysis['period_change'] / $first['shareholder_count']) * 100, 2);
-        }
+        if ($first['shareholder_count'] > 0) $shareholderAnalysis['period_change_percent'] = round(($shareholderAnalysis['period_change'] / $first['shareholder_count']) * 100, 2);
         // -----------------------------------------------------
         // 平均持股變化
         // -----------------------------------------------------
@@ -2426,8 +2188,8 @@ function analyzeMarketTrend(PDO $pdo): void
     // =========================================================
     // 5. 市場情緒
     // 小台散戶多空比：反向指標
-    //   正值 → 散戶偏空 → 對多方較有利
-    //   負值 → 散戶偏多 → 對多方較不利
+    //   正值 → 散戶偏多 → 對多方較不利
+    //   負值 → 散戶偏空 → 對多方較有利
     // P/C OI Ratio：
     //   高 → 市場避險/悲觀程度較高 → 反向偏多
     //   低 → 市場樂觀程度較高 → 反向偏空
