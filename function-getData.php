@@ -28,7 +28,7 @@ function getDataWithFinmind(PDO $pdo, array $params): ?array
         if (json_last_error() !== JSON_ERROR_NONE) throw new RuntimeException('JSON Error: ' . json_last_error_msg());
         return $result;
     } catch (Throwable $e) {
-        writeLog($pdo, $params['dataset'], $e->getMessage(), 'Warnning');
+        writeLog($pdo, $params['dataset'], $e->getMessage(), 'Warning');
         return null;
     }
 }
