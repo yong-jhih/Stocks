@@ -1501,9 +1501,9 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         // Category Scores
         // =========================
-        $trendScore = min(35, array_sum($signals['trend']));
-        $momentumScore = min(35, array_sum($signals['momentum']));
-        $chipScore = min(40, array_sum($signals['chip']));
+        $trendScore = min(30, array_sum($signals['trend']));
+        $momentumScore = min(30, array_sum($signals['momentum']));
+        $chipScore = min(30, array_sum($signals['chip']));
         $structureScore = min(20, array_sum($signals['structure']));
         $riskScore = array_sum($signals['risk']);
         // =========================
@@ -1516,7 +1516,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         // Final Score
         // =========================
-        $rawScore = ($trendScore * 1.0) + ($momentumScore * 1.1) + ($chipScore * 1.2) + ($structureScore * 0.8);
+        $rawScore = ($trendScore * 1.0) + ($momentumScore * 1.1) + ($chipScore * 1.1) + ($structureScore * 0.7);
         $finalScore = ($rawScore * $riskMultiplier);
         // Normalize
         $finalScore = max(0, min(100, round($finalScore)));
