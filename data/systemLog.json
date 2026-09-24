@@ -1,5 +1,110 @@
 [
     {
+        "id": 14460015,
+        "log_time": "2026-09-24 16:03:44",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 14460014,
+        "log_time": "2026-09-24 16:03:44",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460013,
+        "log_time": "2026-09-24 16:03:43",
+        "log_type": "dbClean",
+        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460012,
+        "log_time": "2026-09-24 16:03:43",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 50 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460011,
+        "log_time": "2026-09-24 16:03:43",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460010,
+        "log_time": "2026-09-24 16:03:42",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460009,
+        "log_time": "2026-09-24 16:03:42",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460008,
+        "log_time": "2026-09-24 16:03:42",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460007,
+        "log_time": "2026-09-24 16:03:41",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460006,
+        "log_time": "2026-09-24 16:03:41",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1052 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460005,
+        "log_time": "2026-09-24 16:03:40",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 991 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460004,
+        "log_time": "2026-09-24 16:03:40",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1049 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460003,
+        "log_time": "2026-09-24 16:03:40",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1069 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460002,
+        "log_time": "2026-09-24 16:03:39",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1082 筆",
+        "result": "success"
+    },
+    {
+        "id": 14460001,
+        "log_time": "2026-09-24 16:03:39",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
         "id": 14430009,
         "log_time": "2026-09-23 23:01:49",
         "log_type": "update00991A",
