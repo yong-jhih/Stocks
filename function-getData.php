@@ -1224,8 +1224,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             $addSignal('trend', $close > $ma60, '站上季線', 6);
         }
         $addSignal('trend', $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20, '均線上彎', 10);
-        $addSignal('trend', $close > $ma20 && $yClose <= $prevMa20, '首次站上月線', 12);
-        $addSignal('trend', $close > $ma60 && $yClose <= $prevMa60, '首次站上季線', 15);
+        $addSignal('trend', $close > $ma20 && $yClose <= $prevMa20, '首次站上月線', 8);
+        $addSignal('trend', $close > $ma60 && $yClose <= $prevMa60, '首次站上季線', 10);
         // =========================
         // Momentum
         // =========================
@@ -1235,7 +1235,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
                 $addSignal('momentum', true, '價量齊揚', 5);
             }
         } elseif (($close / max($yClose, 0.01)) > 1.03 && $volRatio > 1.3) {
-            $addSignal('momentum', true, '價量齊揚', 15);
+            $addSignal('momentum', true, '價量齊揚', 10);
         }
         // =========================
         // Chip
