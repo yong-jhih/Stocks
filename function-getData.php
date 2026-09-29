@@ -1318,7 +1318,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // Category Scores
         // =========================
         $trendScore = min(30, array_sum($signals['trend']));
-        $momentumScore = min(30, array_sum($signals['momentum']));
+        $momentumScore = min(25, array_sum($signals['momentum']));
         $chipScore = min(30, array_sum($signals['chip']));
         $structureScore = min(20, array_sum($signals['structure']));
         $riskScore = array_sum($signals['risk']);
@@ -1327,8 +1327,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         $riskMultiplier = 1.0;
         if ($riskScore <= -20) $riskMultiplier = 0.9;
-        if ($riskScore <= -40) $riskMultiplier = 0.75;
-        if ($riskScore <= -60) $riskMultiplier = 0.6;
+        if ($riskScore <= -40) $riskMultiplier = 0.8;
+        if ($riskScore <= -60) $riskMultiplier = 0.7;
         // =========================
         // Final Score
         // =========================
@@ -1474,10 +1474,10 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // Confidence
         // =========================
         $positiveGroups = 0;
-        foreach ([$trendScore, $momentumScore, $chipScore] as $v) {
-            if ($v >= 15) $positiveGroups++;
-        }
-        $confidence = round(max(0, min(1, (($positiveGroups / 3) * $riskMultiplier))), 2);
+        if ($trendScore >= 15) $positiveGroups++;
+        if ($momentumScore >= 12.5) $positiveGroups++;
+        if ($chipScore >= 15) $positiveGroups++;
+        $confidence = round(max(0, min(1, ($positiveGroups / 3) * $riskMultiplier)), 2);
         // =========================
         // Flatten Tags
         // =========================
@@ -1499,12 +1499,12 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         ) {
             $hint[] = '妖股起漲型';
         }
-        if (empty(array_diff(['外資連買', '投信連買', '土洋合力'], $tags))) $hint[] = '法人鎖碼';
+        if (in_array('土洋合力', $tags, true) && in_array('法人集中', $tags, true)) $hint[] = '法人鎖碼';
         if (empty(array_diff(['整理末端', '量縮抗跌', '法人集中'], $tags))) $hint[] = '發動前夕';
         if (empty(array_diff(['首次站上月線', '均線上彎', '量縮抗跌'], $tags))) $hint[] = '波段轉強';
         if (empty(array_diff(['融資減肥', '外資連買'], $tags))) $hint[] = '洗盤完成';
-        if (empty(array_diff(['爆量滯漲', '高檔出貨'], $tags))) $hint[] = '出貨警訊';
-        if (empty(array_diff(['極度過熱', '乖離過大'], $tags))) $hint[] = '主升段末端';
+        if (in_array('爆量滯漲', $tags, true) || in_array('高檔出貨', $tags, true) || in_array('假突破', $tags, true)) $hint[] = '出貨警訊';
+        if (in_array('極度過熱', $tags, true) || in_array('乖離過大', $tags, true)) $hint[] = '主升段末端';
         if (empty(array_diff(['跌破月線', '法人倒貨'], $tags))) $hint[] = '趨勢反轉';
         // =========================
         // Trigger Reasons
