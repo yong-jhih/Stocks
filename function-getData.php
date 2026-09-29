@@ -1240,9 +1240,9 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         // =========================
         // Chip
         // =========================
-        $addSignal('chip', $con5 > 15, '法人集中', 15);
-        if ($s['foreign_streak_days'] > 0 && $s['trust_streak_days'] > 0) {
-            $addSignal('chip', true, '土洋合力', 15);
+        $addSignal('chip', $con5 > 15, '法人集中', 12);
+        if ($s['foreign_streak_days'] >= 2 && $s['trust_streak_days'] >= 2) {
+            $addSignal('chip', true, '土洋合力', 14);
         } elseif ($s['trust_streak_days'] >= 3) {
             $addSignal('chip', true, '投信連買', 12);
         } elseif ($s['foreign_streak_days'] >= 3) {
