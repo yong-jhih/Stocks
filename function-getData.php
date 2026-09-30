@@ -902,7 +902,9 @@ function returnSqlFetch(PDO $pdo, string $targetDate, array $table, array $where
     }
 }
 
-//  批次取得股票股東資料並分析 每檔最多取 targetDate 以前最近 4 筆資料 避免 outputModel() 逐檔查詢造成 N+1 SQL Query
+// 批次取得股票股東資料並分析
+// 每檔最多取 targetDate 以前最近 8 筆週資料
+// 避免 outputModel() 逐檔查詢造成 N+1 SQL Query
 function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDate): array
 {
     if (empty($stockIds)) return [];
@@ -913,7 +915,8 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
     if (empty($stockIds)) return [];
     $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
     // =========================================================
-    // 2. 一次取得所有股票最近股東資料 使用 ROW_NUMBER 確保每檔最多取得最近 4 筆
+    // 2. 一次取得所有股票最近股東資料
+    //    每檔最多取得 targetDate 以前最近 8 筆週資料
     // =========================================================
     $sql = "
         SELECT stock_id, trade_date, shareholder_count, total_shares
@@ -923,10 +926,15 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
                 trade_date,
                 shareholder_count,
                 total_shares,
-                ROW_NUMBER() OVER ( PARTITION BY stock_id ORDER BY trade_date DESC) AS rn
+                ROW_NUMBER() OVER (
+                    PARTITION BY stock_id
+                    ORDER BY trade_date DESC
+                ) AS rn
             FROM stock_shareholder
-            WHERE stock_id IN ({$placeholders}) AND trade_date <= ? ) t
-        WHERE rn <= 4
+            WHERE stock_id IN ({$placeholders})
+              AND trade_date <= ?
+        ) t
+        WHERE rn <= 8
         ORDER BY stock_id, trade_date ASC
     ";
     $stmt = $pdo->prepare($sql);
@@ -961,7 +969,8 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
             'average_lots_change_percent' => null,
             'consecutive_up' => 0,
             'consecutive_down' => 0,
-            'data_count' => 0
+            'data_count' => 0,
+            'analysis_period_weeks' => 8
         ];
     }
     // =========================================================
@@ -1001,7 +1010,8 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
             'average_lots_change_percent' => null,
             'consecutive_up' => 0,
             'consecutive_down' => 0,
-            'data_count' => count($history)
+            'data_count' => count($history),
+            'analysis_period_weeks' => 8
         ];
         if (count($history) < 2) {
             $results[$stockId] = $analysis;
@@ -1676,14 +1686,13 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
     $rows = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
     $count = count($rows);
     // =========================================================
-    // 2. 取得最近股東資料
-    // 只取最近 4 筆週資料
+    // 2. 取得最近股東資料 取 targetDate 以前最近 8 筆週資料
     // =========================================================
     $shareholderSql = "
         SELECT trade_date, shareholder_count, total_shares
         FROM stock_shareholder
         WHERE stock_id = :stockId AND trade_date <= :targetDate
-        ORDER BY trade_date DESC LIMIT 4
+        ORDER BY trade_date DESC LIMIT 8
     ";
     $shareholderStmt = $pdo->prepare($shareholderSql);
     $shareholderStmt->execute([
