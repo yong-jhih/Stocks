@@ -1,0 +1,221 @@
+[
+    {
+        "stock_id": "2302",
+        "stock_name": "麗正",
+        "stock_type": "TSE",
+        "industry": "半導體業",
+        "subIndustry": [
+            " 其他IC\/二極體製造"
+        ],
+        "concept": [],
+        "score": 64,
+        "rating": "B",
+        "strategy_type": "觀察",
+        "ma_strategy": "沿均線",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 25,
+        "chip_score": 10,
+        "structure_score": 0,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "neutral",
+            "label": "籌碼中性",
+            "score": -1,
+            "latest_change": 249,
+            "latest_change_percent": 1.02,
+            "period_change": -67,
+            "period_change_percent": -0.27,
+            "average_lots_change_percent": 0.3,
+            "consecutive_up": 1,
+            "consecutive_down": 0,
+            "data_count": 8,
+            "analysis_period_weeks": 8
+        },
+        "close": 46.5,
+        "yesterday_high": 46.3,
+        "yesterday_low": 45,
+        "vol": 6732,
+        "vol_ratio": 2.44,
+        "rank10": 88.89,
+        "rank20": 89.51,
+        "amp10": 16.67,
+        "amp20": 17.83,
+        "ma5": 45.16,
+        "ma10": 44.3,
+        "ma20": 43.36,
+        "ma60": 43.05,
+        "vma5": 6304,
+        "vma10": 5470,
+        "vma20": 3932,
+        "bia5": 2.97,
+        "bia10": 4.98,
+        "bia20": 7.25,
+        "con1": 28.26,
+        "con5": 4.68,
+        "con10": 7.4,
+        "con20": 4.99,
+        "foreign_buy_sell": 1896169,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 1490,
+        "foreign_sum10": 4148,
+        "foreign_sum20": 3866,
+        "trust_sum5": -2,
+        "trust_sum10": -2,
+        "trust_sum20": -8,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 0,
+        "margin_balance": 4251,
+        "margin_balance_diff": 84,
+        "margin_balance_diff_sum5": 177,
+        "squeeze": 0.52,
+        "bullet": 0.09,
+        "net_sbl": 0,
+        "net_sbl_sum5": 50,
+        "sbl_total": 2419,
+        "sbl_sold_balance": 2047,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10
+            },
+            "momentum": {
+                "爆量突破": 20,
+                "價量齊揚": 5
+            },
+            "chip": {
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "爆量突破",
+            "價量齊揚",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 2.44 倍",
+            "突破前高"
+        ],
+        "hint": [
+            "主升段啟動"
+        ]
+    },
+    {
+        "stock_id": "2347",
+        "stock_name": "聯強",
+        "stock_type": "TSE",
+        "industry": "電子通路業",
+        "subIndustry": [
+            " IC通路"
+        ],
+        "concept": [
+            "Apple",
+            "臺灣中型100指數成分股",
+            "臺灣資訊科技指數成分股",
+            "臺灣高股息指數成分股",
+            "輝達機器人"
+        ],
+        "score": 58,
+        "rating": "B",
+        "strategy_type": "籌碼潛伏",
+        "ma_strategy": "沿均線",
+        "confidence": 0.67,
+        "trend_score": 25,
+        "momentum_score": 0,
+        "chip_score": 30,
+        "structure_score": 0,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "neutral",
+            "label": "籌碼中性",
+            "score": 0,
+            "latest_change": -727,
+            "latest_change_percent": -1.78,
+            "period_change": 1484,
+            "period_change_percent": 3.84,
+            "average_lots_change_percent": -3.7,
+            "consecutive_up": 0,
+            "consecutive_down": 2,
+            "data_count": 8,
+            "analysis_period_weeks": 8
+        },
+        "close": 95.4,
+        "yesterday_high": 96.2,
+        "yesterday_low": 94.5,
+        "vol": 5965,
+        "vol_ratio": 1.83,
+        "rank10": 60.68,
+        "rank20": 67.83,
+        "amp10": 13.25,
+        "amp20": 16.69,
+        "ma5": 93.66,
+        "ma10": 91.56,
+        "ma20": 89.88,
+        "ma60": 89.08,
+        "vma5": 3460,
+        "vma10": 3409,
+        "vma20": 3225,
+        "bia5": 1.86,
+        "bia10": 4.19,
+        "bia20": 6.14,
+        "con1": 70.19,
+        "con5": 39.22,
+        "con10": 24.73,
+        "con20": 22.34,
+        "foreign_buy_sell": 3259389,
+        "trust_buy_sell": 800000,
+        "foreign_sum5": 6692,
+        "foreign_sum10": 7654,
+        "foreign_sum20": 10045,
+        "trust_sum5": 1328,
+        "trust_sum10": 1079,
+        "trust_sum20": 4158,
+        "foreign_streak_days": 4,
+        "trust_streak_days": 6,
+        "margin_balance": 581,
+        "margin_balance_diff": -7,
+        "margin_balance_diff_sum5": -1,
+        "squeeze": 1.45,
+        "bullet": 14.34,
+        "net_sbl": 2,
+        "net_sbl_sum5": -667,
+        "sbl_total": 50923,
+        "sbl_sold_balance": 4675,
+        "signals": {
+            "trend": {
+                "多頭排列": 15,
+                "均線上彎": 10
+            },
+            "momentum": [],
+            "chip": {
+                "法人集中": 12,
+                "土洋合力": 14,
+                "融資減肥": 6,
+                "股東持續減少": 5
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "均線上彎",
+            "法人集中",
+            "土洋合力",
+            "融資減肥",
+            "股東持續減少"
+        ],
+        "trigger_reasons": [
+            "外資連買 4 日",
+            "成交量放大 1.83 倍",
+            "法人持股集中度提升"
+        ],
+        "hint": [
+            "法人鎖碼"
+        ]
+    }
+]
