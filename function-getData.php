@@ -969,6 +969,7 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
             'average_lots_change_percent' => null,
             'consecutive_up' => 0,
             'consecutive_down' => 0,
+            'down_streak_level' => 'none',
             'data_count' => 0,
             'analysis_period_weeks' => 8
         ];
@@ -1010,6 +1011,7 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
             'average_lots_change_percent' => null,
             'consecutive_up' => 0,
             'consecutive_down' => 0,
+            'down_streak_level' => 'none',
             'data_count' => count($history),
             'analysis_period_weeks' => 8
         ];
@@ -1061,8 +1063,17 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
                 break;
             }
         }
+        $downStreakLevel = 'none';
+        if ($consecutiveDown >= 6) {
+            $downStreakLevel = 'long';
+        } elseif ($consecutiveDown >= 4) {
+            $downStreakLevel = 'medium';
+        } elseif ($consecutiveDown >= 2) {
+            $downStreakLevel = 'short';
+        }
         $analysis['consecutive_up'] = $consecutiveUp;
         $analysis['consecutive_down'] = $consecutiveDown;
+        $analysis['down_streak_level'] = $downStreakLevel;
         // =====================================================
         // 股東籌碼評分 最大 ±6
         // =====================================================
