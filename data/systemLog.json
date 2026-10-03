@@ -1,5 +1,19 @@
 [
     {
+        "id": 15030002,
+        "log_time": "2026-10-03 13:47:47",
+        "log_type": "insertTDCC",
+        "content": "股東人數更新完成, 共耗時 273.39 秒",
+        "result": "end"
+    },
+    {
+        "id": 15030001,
+        "log_time": "2026-10-03 13:43:14",
+        "log_type": "insertTDCC",
+        "content": "取得本周最新交易日期 [ 2026-10-02 ] 股東人數資料, 開始更新",
+        "result": "end"
+    },
+    {
         "id": 15000010,
         "log_time": "2026-10-02 22:29:38",
         "log_type": "update00991A",
