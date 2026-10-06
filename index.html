@@ -981,6 +981,14 @@
                     console.warn('shareholder_analysis 解析失敗:', error);
                     shareholderAnalysis = {};
                 }
+                let signals = {};
+                try {
+                    const encoded = $(this).attr('data-signals');
+                    if (encoded) signals = JSON.parse(decodeURIComponent(encoded));
+                } catch (error) {
+                    console.warn('signals 解析失敗:', error);
+                    signals = {};
+                }
                 let triggerReasons = [];
                 try {
                     const encoded = $(this).attr('data-trigger-reasons');
@@ -998,7 +1006,8 @@
                     industry,
                     concept,
                     shareholderAnalysis,
-                    triggerReasons
+                    triggerReasons,
+                    signals
                 );
             });
             table = $('#stockTable').DataTable({
@@ -1027,7 +1036,7 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis, triggerReasons) {
+        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis, triggerReasons, signals) {
             $('#modalStockTitle').text(name);
             // =====================================================
             // 基本資料防呆
@@ -1044,6 +1053,7 @@
             }
             shareholderAnalysis = shareholderAnalysis && typeof shareholderAnalysis === 'object' ? shareholderAnalysis : {};
             triggerReasons = Array.isArray(triggerReasons) ? triggerReasons : [];
+            signals = signals && typeof signals === 'object' ? signals : {};
             // =====================================================
             // 策略摘要
             // =====================================================
@@ -1296,6 +1306,104 @@
                 </div>
             `;
             // =====================================================
+            // 五大分析訊號
+            // =====================================================
+            const signalGroups = [
+                {
+                    key: 'trend',
+                    title: '趨勢',
+                    icon: '📈',
+                    border: 'border-emerald-700/60',
+                    titleColor: 'text-emerald-300'
+                },
+                {
+                    key: 'momentum',
+                    title: '動能',
+                    icon: '⚡',
+                    border: 'border-amber-700/60',
+                    titleColor: 'text-amber-300'
+                },
+                {
+                    key: 'chip',
+                    title: '籌碼',
+                    icon: '💰',
+                    border: 'border-cyan-700/60',
+                    titleColor: 'text-cyan-300'
+                },
+                {
+                    key: 'risk',
+                    title: '風險',
+                    icon: '⚠️',
+                    border: 'border-red-700/60',
+                    titleColor: 'text-red-300'
+                },
+                {
+                    key: 'structure',
+                    title: '結構',
+                    icon: '🧩',
+                    border: 'border-indigo-700/60',
+                    titleColor: 'text-indigo-300'
+                }
+            ];
+            const signalGroupsWithData = signalGroups.filter(group => {
+                return signals[group.key] && typeof signals[group.key] === 'object' && Object.keys(signals[group.key]).length > 0;
+            });
+            let signalsHtml = '';
+            if (signalGroupsWithData.length > 0) {
+                signalsHtml = `
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <div class="text-white font-bold text-sm">五大分析訊號</div>
+                    <div class="text-xs text-slate-500 mt-1">各分類目前實際觸發的分析條件</div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                ${signalGroupsWithData.map(group => {
+                    const groupSignals = signals[group.key] || {};
+                    const entries = Object.entries(groupSignals);
+                    const groupScore = entries.reduce((sum, [, score]) => sum + Number(score || 0), 0);
+                    return `
+                        <div class="bg-slate-900/70 border ${group.border} rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="${group.titleColor} font-bold text-sm">
+                                    ${group.icon}
+                                    ${group.title}
+                                </div>
+                                <div class="text-xs font-bold ${groupScore >= 0 ? 'text-emerald-300' : 'text-red-300'}">
+                                    ${groupScore > 0 ? '+' : ''}${groupScore}
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                ${entries.map(([tag, score]) => {
+                                    const numericScore = Number(score || 0);
+                                    const scoreClass = numericScore > 0 ? 'text-emerald-300' : numericScore < 0 ? 'text-red-300' : 'text-slate-400';
+                                    return `
+                                        <div class="flex items-center justify-between bg-slate-800/70 rounded-lg px-3 py-2">
+                                            <div class="text-sm text-slate-200">${tag}</div>
+                                            <div class="text-xs font-bold ${scoreClass}">
+                                                ${numericScore > 0 ? '+' : ''}
+                                                ${numericScore}
+                                            </div>
+                                        </div>
+                                    `;
+                                    }).join('')}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+            } else {
+                signalsHtml = `
+                    <div class="mb-6 bg-slate-900/70 border border-slate-700 rounded-xl p-4">
+                        <div class="text-slate-400 font-bold text-sm mb-1">五大分析訊號</div>
+                        <div class="text-xs text-slate-500">目前沒有觸發額外的分析訊號。</div>
+                    </div>
+                `;
+            }
+            // =====================================================
             // 特性
             // =====================================================
             const featureHtml = `
@@ -1443,9 +1551,8 @@
                                         data-industry='${JSON.stringify({ industry: item.industry || '', subIndustry: item.subIndustry || [] })}'
                                         data-concept='${JSON.stringify(item.concept || [])}'
                                         data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'
-                                        data-trigger-reasons='${encodeURIComponent(JSON.stringify(item.trigger_reasons || []))}'>更
-                                    </button>
-                                </div>
+                                        data-trigger-reasons='${encodeURIComponent(JSON.stringify(item.trigger_reasons || []))}'
+                                        data-signals='${encodeURIComponent(JSON.stringify(item.signals || {}))}'>更</button></div>
                             `;
                         }
                         if (col.field === 'stock_name') {
