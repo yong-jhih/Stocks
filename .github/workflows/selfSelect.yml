@@ -50,6 +50,7 @@ jobs:
       run: php selfSelect.php
 
     - name: Commit And Push JSON files
+      id: commit_step
       if: always()
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -63,7 +64,7 @@ jobs:
         fi
 
     - name: Sync data folder to FTP
-      if: always()
+      if: success() && steps.commit_step.outputs.has_changes == 'true'
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}

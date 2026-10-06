@@ -58,14 +58,3 @@ jobs:
           git push
           echo "has_changes=true" >> $GITHUB_OUTPUT
         fi
-
-    - name: Sync data folder to FTP
-      if: success() && steps.commit_step.outputs.has_changes == 'true'
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./data/
-        server-dir: /htdocs/data/
-        dangerous-clean-slate: true
