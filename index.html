@@ -973,6 +973,14 @@
                 const tags = $(this).data('tags');
                 const industry = $(this).data('industry');
                 const concept = $(this).data('concept');
+                let shareholderAnalysis = {};
+                try {
+                    const encoded = $(this).attr('data-shareholder-analysis');
+                    if (encoded) shareholderAnalysis = JSON.parse(decodeURIComponent(encoded));
+                } catch (error) {
+                    console.warn('shareholder_analysis 解析失敗:', error);
+                    shareholderAnalysis = {};
+                }
                 showTags(
                     name,
                     strategy,
@@ -980,7 +988,8 @@
                     bia10,
                     tags,
                     industry,
-                    concept
+                    concept,
+                    shareholderAnalysis
                 );
             });
             table = $('#stockTable').DataTable({
@@ -1009,7 +1018,7 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText) {
+        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis) {
             $('#modalStockTitle').text(name);
             // =====================================================
             // 基本資料防呆
@@ -1024,6 +1033,7 @@
             if (!Array.isArray(industryData.subIndustry)) {
                 industryData.subIndustry = [];
             }
+            shareholderAnalysis = shareholderAnalysis && typeof shareholderAnalysis === 'object' ? shareholderAnalysis : {};
             // =====================================================
             // 策略摘要
             // =====================================================
@@ -1118,11 +1128,137 @@
                 </div>
             `;
             // =====================================================
+            // 股東籌碼分析
+            // =====================================================
+            const shareholderScore = shareholderAnalysis.score !== null && shareholderAnalysis.score !== undefined ? Number(shareholderAnalysis.score) : null;
+            const shareholderTrend = shareholderAnalysis.label || '資料不足';
+            const latestChange = shareholderAnalysis.latest_change !== null && shareholderAnalysis.latest_change !== undefined ? Number(shareholderAnalysis.latest_change) : null;
+            const latestChangePercent = shareholderAnalysis.latest_change_percent !== null && shareholderAnalysis.latest_change_percent !== undefined ? Number(shareholderAnalysis.latest_change_percent) : null;
+            const periodChange = shareholderAnalysis.period_change !== null && shareholderAnalysis.period_change !== undefined ? Number(shareholderAnalysis.period_change) : null;
+            const periodChangePercent = shareholderAnalysis.period_change_percent !== null && shareholderAnalysis.period_change_percent !== undefined ? Number(shareholderAnalysis.period_change_percent) : null;
+            const averageLotsChangePercent = shareholderAnalysis.average_lots_change_percent !== null && shareholderAnalysis.average_lots_change_percent !== undefined ? Number(shareholderAnalysis.average_lots_change_percent) : null;
+            const consecutiveDown = Number.isFinite(Number(shareholderAnalysis.consecutive_down)) ? Number(shareholderAnalysis.consecutive_down) : 0;
+            const consecutiveUp = Number.isFinite(Number(shareholderAnalysis.consecutive_up)) ? Number(shareholderAnalysis.consecutive_up) : 0;
+            const downStreakLevel = shareholderAnalysis.down_streak_level || 'none';
+            const shareholderDataCount = Number.isFinite(Number(shareholderAnalysis.data_count)) ? Number(shareholderAnalysis.data_count) : 0;
+            const shareholderPeriodWeeks = Number.isFinite(Number(shareholderAnalysis.analysis_period_weeks)) ? Number(shareholderAnalysis.analysis_period_weeks) : 8;
+            // -----------------------------------------------------
+            // 股東 Score 顏色
+            // -----------------------------------------------------
+            let shareholderScoreClass = 'text-slate-300';
+            if (shareholderScore !== null) {
+                if (shareholderScore >= 4) {
+                    shareholderScoreClass = 'text-emerald-300';
+                } else if (shareholderScore >= 2) {
+                    shareholderScoreClass = 'text-green-300';
+                } else if (shareholderScore <= -4) {
+                    shareholderScoreClass = 'text-red-300';
+                } else if (shareholderScore <= -2) {
+                    shareholderScoreClass = 'text-orange-300';
+                }
+            }
+            // -----------------------------------------------------
+            // 股東趨勢顏色
+            // -----------------------------------------------------
+            let shareholderTrendClass = 'bg-slate-800/70 text-slate-300 border-slate-600';
+            if (shareholderAnalysis.trend === 'bullish') {
+                shareholderTrendClass = 'bg-emerald-900/40 text-emerald-300 border-emerald-700';
+            } else if (shareholderAnalysis.trend === 'slightly_bullish') {
+                shareholderTrendClass = 'bg-green-900/40 text-green-300 border-green-700';
+            } else if (shareholderAnalysis.trend === 'bearish') {
+                shareholderTrendClass = 'bg-red-900/40 text-red-300 border-red-700';
+            } else if (shareholderAnalysis.trend === 'slightly_bearish') {
+                shareholderTrendClass = 'bg-orange-900/40 text-orange-300 border-orange-700';
+            }
+            // -----------------------------------------------------
+            // 連續下降程度
+            // -----------------------------------------------------
+            let downStreakText = '無';
+            if (downStreakLevel === 'short') {
+                downStreakText = `短期集中（${consecutiveDown} 週）`;
+            } else if (downStreakLevel === 'medium') {
+                downStreakText = `中期集中（${consecutiveDown} 週）`;
+            } else if (downStreakLevel === 'long') {
+                downStreakText = `長期集中（${consecutiveDown} 週）`;
+            } else if (consecutiveDown === 1) {
+                downStreakText = '單週下降';
+            }
+            // -----------------------------------------------------
+            // 連續增加程度
+            // -----------------------------------------------------
+            let upStreakText = '無';
+            if (consecutiveUp > 0) upStreakText = `${consecutiveUp} 週`;
+            // -----------------------------------------------------
+            // 判讀文字
+            // -----------------------------------------------------
+            let shareholderHint = '';
+            if (downStreakLevel === 'long') {
+                shareholderHint = '股東人數已連續多週下降，若同時伴隨平均持股增加，代表籌碼集中現象具有持續性。';
+            } else if (downStreakLevel === 'medium') {
+                shareholderHint = '股東人數已持續下降，籌碼集中現象開始具備一定持續性。';
+            } else if (downStreakLevel === 'short') {
+                shareholderHint = '近期開始出現連續股東人數下降，可視為初步籌碼集中訊號。';
+            } else if (consecutiveUp >= 2) {
+                shareholderHint = '股東人數連續增加，代表籌碼有分散現象，需搭配價格與法人動向判斷。';
+            } else {
+                shareholderHint = '目前尚未形成明顯的連續集中或分散結構。';
+            }
+            const shareholderHtml = `
+                <div class="mb-6 bg-slate-900/70 border border-cyan-700/60 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="text-cyan-300 font-bold text-sm">
+                                股東籌碼分析
+                            </div>
+                            <div class="text-xs text-slate-500 mt-1"> 最近 ${shareholderPeriodWeeks} 週資料 ${shareholderDataCount > 0 ? `・實際資料 ${shareholderDataCount} 週` : ''}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-slate-500">
+                                籌碼評分
+                            </div>
+                            <div class="text-xl font-bold ${shareholderScoreClass}"> ${shareholderScore !== null ? `${shareholderScore > 0 ? '+' : ''}${shareholderScore}` : '--'}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-lg border ${shareholderTrendClass} text-xs font-bold">${shareholderTrend}</span>
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800/70 border border-slate-700 text-slate-300 text-xs">連續下降：${downStreakText}</span>
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800/70 border border-slate-700 text-slate-300 text-xs">連續增加：${upStreakText}</span>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">最新週變化</div>
+                            <div class="text-sm font-bold ${latestChange !== null ? latestChange < 0 ? 'text-emerald-300' : latestChange > 0 ? 'text-red-300' : 'text-slate-300' : 'text-slate-300'}"> ${latestChange !== null ? `${latestChange > 0 ? '+' : ''}${latestChange.toLocaleString()}` : '--'}</div>
+                            <div class="text-xs text-slate-500 mt-1"> ${latestChangePercent !== null ? `${latestChangePercent > 0 ? '+' : ''}${latestChangePercent.toFixed(2)}%` : '--'}</div>
+                        </div>
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">${shareholderPeriodWeeks}週變化</div>
+                            <div class="text-sm font-bold ${periodChange !== null ? periodChange < 0 ? 'text-emerald-300' : periodChange > 0 ? 'text-red-300' : 'text-slate-300' : 'text-slate-300'}"> ${periodChange !== null ? `${periodChange > 0 ? '+' : ''}${periodChange.toLocaleString()}` : '--'}</div>
+                            <div class="text-xs text-slate-500 mt-1"> ${periodChangePercent !== null ? `${periodChangePercent > 0 ? '+' : ''}${periodChangePercent.toFixed(2)}%` : '--'}</div>
+                        </div>
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">平均持股變化</div>
+                            <div class="text-sm font-bold ${averageLotsChangePercent !== null ? averageLotsChangePercent > 0 ? 'text-emerald-300' : averageLotsChangePercent < 0 ? 'text-red-300' : 'text-slate-300' : 'text-slate-300'}"> ${averageLotsChangePercent !== null ? `${averageLotsChangePercent > 0 ? '+' : ''}${averageLotsChangePercent.toFixed(2)}%` : '--'}</div>
+                        </div>
+                        <div class="bg-slate-800/70 rounded-lg p-3">
+                            <div class="text-xs text-slate-500 mb-1">集中持續</div>
+                            <div class="text-sm font-bold ${downStreakLevel === 'long' ? 'text-cyan-300' : downStreakLevel === 'medium' ? 'text-blue-300' : downStreakLevel === 'short' ? 'text-green-300' : 'text-slate-300'}"> ${downStreakText}</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 bg-cyan-950/20 border border-cyan-900/50 rounded-lg p-3">
+                        <div class="text-xs text-cyan-400 mb-1">籌碼判讀</div>
+                        <div class="text-sm text-slate-300 leading-6">${shareholderHint}</div>
+                    </div>
+                </div>
+            `;
+            // =====================================================
             // 特性
             // =====================================================
             const featureHtml = `
                 ${strategyHtml}
                 ${operationHtml}
+                ${shareholderHtml}
                 ${comboHtml}
                 <div class="mt-6">
                     <div class="text-slate-400 font-bold text-sm mb-3">訊號標籤</div>
@@ -1261,7 +1397,8 @@
                                         data-bia10="${item.bia10 ?? ''}"
                                         data-tags='${JSON.stringify(item.tags || [])}'
                                         data-industry='${JSON.stringify({ industry: item.industry || '', subIndustry: item.subIndustry || [] })}'
-                                        data-concept='${JSON.stringify(item.concept || [])}'>更
+                                        data-concept='${JSON.stringify(item.concept || [])}'
+                                        data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'>更
                                     </button>
                                 </div>
                             `;
