@@ -981,6 +981,14 @@
                     console.warn('shareholder_analysis 解析失敗:', error);
                     shareholderAnalysis = {};
                 }
+                let triggerReasons = [];
+                try {
+                    const encoded = $(this).attr('data-trigger-reasons');
+                    if (encoded) triggerReasons = JSON.parse(decodeURIComponent(encoded));
+                } catch (error) {
+                    console.warn('trigger_reasons 解析失敗:', error);
+                    triggerReasons = [];
+                }
                 showTags(
                     name,
                     strategy,
@@ -989,7 +997,8 @@
                     tags,
                     industry,
                     concept,
-                    shareholderAnalysis
+                    shareholderAnalysis,
+                    triggerReasons
                 );
             });
             table = $('#stockTable').DataTable({
@@ -1018,7 +1027,7 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis) {
+        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis, triggerReasons) {
             $('#modalStockTitle').text(name);
             // =====================================================
             // 基本資料防呆
@@ -1034,6 +1043,7 @@
                 industryData.subIndustry = [];
             }
             shareholderAnalysis = shareholderAnalysis && typeof shareholderAnalysis === 'object' ? shareholderAnalysis : {};
+            triggerReasons = Array.isArray(triggerReasons) ? triggerReasons : [];
             // =====================================================
             // 策略摘要
             // =====================================================
@@ -1076,6 +1086,39 @@
                     </div>
                 </div>
             `;
+            // =====================================================
+            // 為什麼被選中
+            // Trigger Reasons
+            // =====================================================
+            let triggerReasonsHtml = '';
+            if (triggerReasons.length > 0) {
+                triggerReasonsHtml = `
+                    <div class="mb-6 bg-slate-900/70 border border-amber-700/60 rounded-xl p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <div class="text-amber-300 font-bold text-sm">為什麼被選中</div>
+                                <div class="text-xs text-slate-500 mt-1">本次篩選中觸發的主要條件</div>
+                            </div>
+                            <div class="text-xs text-slate-500">${triggerReasons.length} 項</div>
+                        </div>
+                        <div class="space-y-2">
+                            ${triggerReasons.map((reason, index) => `
+                                <div class="flex items-start gap-3 bg-slate-800/70 border border-slate-700 rounded-lg p-3">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-900/50 border border-amber-700 text-amber-300 text-xs font-bold flex items-center justify-center">${index + 1}</div>
+                                    <div class="text-sm text-slate-200 leading-6">${reason}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                triggerReasonsHtml = `
+                    <div class="mb-6 bg-slate-900/70 border border-slate-700 rounded-xl p-4">
+                        <div class="text-slate-400 font-bold text-sm mb-1">為什麼被選中</div>
+                        <div class="text-xs text-slate-500">本次沒有額外觸發的強勢條件，主要是依整體評分與篩選條件入選。</div>
+                    </div>
+                `;
+            }
             // =====================================================
             // 組合技
             // ★ 這一段一定要放在第一次使用 comboHtml 之前
@@ -1257,6 +1300,7 @@
             // =====================================================
             const featureHtml = `
                 ${strategyHtml}
+                ${triggerReasonsHtml}
                 ${operationHtml}
                 ${shareholderHtml}
                 ${comboHtml}
@@ -1398,7 +1442,8 @@
                                         data-tags='${JSON.stringify(item.tags || [])}'
                                         data-industry='${JSON.stringify({ industry: item.industry || '', subIndustry: item.subIndustry || [] })}'
                                         data-concept='${JSON.stringify(item.concept || [])}'
-                                        data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'>更
+                                        data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'
+                                        data-trigger-reasons='${encodeURIComponent(JSON.stringify(item.trigger_reasons || []))}'>更
                                     </button>
                                 </div>
                             `;
