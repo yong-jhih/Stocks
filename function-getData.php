@@ -1510,23 +1510,94 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         }
         // =========================
         // 組合技
+        // 唯一規則來源：COMBO_RULES
         // =========================
-        $hint = [];
-        if (empty(array_diff(['多頭排列', '爆量突破', '外資連買'], $tags))) $hint[] = '主升段啟動';
-        if (
-            empty(array_diff(['低位階', '爆量突破', '價量齊揚'], $tags)) ||
-            empty(array_diff(['低位階止跌', '爆量突破', '價量齊揚'], $tags)) ||
-            empty(array_diff(['低位階轉強', '爆量突破', '價量齊揚'], $tags))
-        ) {
-            $hint[] = '妖股起漲型';
+        $comboRules = [
+            [
+                'name' => '主升段啟動',
+                'type' => 'all',
+                'tags' => ['多頭排列', '爆量突破', '外資連買']
+            ],
+            [
+                'name' => '妖股起漲型',
+                'type' => 'any_all',
+                'any' => [
+                    ['低位階', '爆量突破', '價量齊揚'],
+                    ['低位階止跌', '爆量突破', '價量齊揚'],
+                    ['低位階轉強', '爆量突破', '價量齊揚']
+                ]
+            ],
+            [
+                'name' => '法人鎖碼',
+                'type' => 'all',
+                'tags' => ['土洋合力', '法人集中']
+            ],
+            [
+                'name' => '發動前夕',
+                'type' => 'all',
+                'tags' => ['整理末端', '量縮抗跌', '法人集中']
+            ],
+            [
+                'name' => '波段轉強',
+                'type' => 'all',
+                'tags' => ['首次站上月線', '均線上彎', '量縮抗跌']
+            ],
+            [
+                'name' => '洗盤完成',
+                'type' => 'all',
+                'tags' => ['融資減肥', '外資連買']
+            ],
+            [
+                'name' => '出貨警訊',
+                'type' => 'any',
+                'tags' => ['爆量滯漲', '高檔出貨', '假突破']
+            ],
+            [
+                'name' => '主升段末端',
+                'type' => 'any',
+                'tags' => ['極度過熱', '乖離過大']
+            ],
+            [
+                'name' => '趨勢反轉',
+                'type' => 'all',
+                'tags' => ['跌破月線', '法人倒貨']
+            ]
+        ];
+        $hasAllTags = function (array $requiredTags, array $currentTags): bool {
+            foreach ($requiredTags as $tag) {
+                if (!in_array($tag, $currentTags, true)) return false;
+            }
+            return true;
+        };
+        $matchedCombos = [];
+        foreach ($comboRules as $rule) {
+            $matched = false;
+            switch ($rule['type']) {
+                case 'all':
+                    $matched = $hasAllTags($rule['tags'], $tags);
+                    break;
+                case 'any':
+                    foreach ($rule['tags'] as $tag) {
+                        if (in_array($tag, $tags, true)) {
+                            $matched = true;
+                            break;
+                        }
+                    }
+                    break;
+                case 'any_all':
+                    foreach ($rule['any'] as $requiredTags) {
+                        if ($hasAllTags($requiredTags, $tags)) {
+                            $matched = true;
+                            break;
+                        }
+                    }
+                    break;
+            }
+            if ($matched) $matchedCombos[] = $rule['name'];
         }
-        if (in_array('土洋合力', $tags, true) && in_array('法人集中', $tags, true)) $hint[] = '法人鎖碼';
-        if (empty(array_diff(['整理末端', '量縮抗跌', '法人集中'], $tags))) $hint[] = '發動前夕';
-        if (empty(array_diff(['首次站上月線', '均線上彎', '量縮抗跌'], $tags))) $hint[] = '波段轉強';
-        if (empty(array_diff(['融資減肥', '外資連買'], $tags))) $hint[] = '洗盤完成';
-        if (in_array('爆量滯漲', $tags, true) || in_array('高檔出貨', $tags, true) || in_array('假突破', $tags, true)) $hint[] = '出貨警訊';
-        if (in_array('極度過熱', $tags, true) || in_array('乖離過大', $tags, true)) $hint[] = '主升段末端';
-        if (empty(array_diff(['跌破月線', '法人倒貨'], $tags))) $hint[] = '趨勢反轉';
+        // hint 保留給舊版前端 / 舊資料使用。
+        // 實際內容直接來自唯一的 COMBO_RULES。
+        $hint = $matchedCombos;
         // =========================
         // Trigger Reasons
         // =========================
@@ -1607,7 +1678,8 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'signals' => $signals,
             'tags' => $tags,
             'trigger_reasons' => $triggerReasons,
-            'hint' => $hint
+            'hint' => $hint,
+            'matched_combos' => $matchedCombos
         ];
     }
     // =========================
