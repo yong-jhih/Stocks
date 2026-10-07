@@ -10391,12 +10391,6 @@
         "stock_type": "TPEx",
         "industry": "電機機械"
     },
-    "6604": {
-        "stock_id": "6604",
-        "stock_name": "儒億",
-        "stock_type": "TPEx",
-        "industry": "電機機械"
-    },
     "6609": {
         "stock_id": "6609",
         "stock_name": "瀧澤科",
@@ -11525,6 +11519,12 @@
         "stock_type": "TPEx",
         "industry": "電子零組件業"
     },
+    "8183": {
+        "stock_id": "8183",
+        "stock_name": "精星",
+        "stock_type": "TPEx",
+        "industry": "其他電子業"
+    },
     "8227": {
         "stock_id": "8227",
         "stock_name": "巨有科技",
@@ -12473,11 +12473,23 @@
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
     },
+    "6604": {
+        "stock_id": "6604",
+        "stock_name": "儒億",
+        "stock_type": "ESM",
+        "industry": "電機機械"
+    },
     "6610": {
         "stock_id": "6610",
         "stock_name": "安成生技",
         "stock_type": "ESM",
         "industry": "生技醫療業"
+    },
+    "6618": {
+        "stock_id": "6618",
+        "stock_name": "永虹先進",
+        "stock_type": "ESM",
+        "industry": "化學工業"
     },
     "6621": {
         "stock_id": "6621",
@@ -12524,12 +12536,6 @@
     "6659": {
         "stock_id": "6659",
         "stock_name": "天明製藥",
-        "stock_type": "ESM",
-        "industry": "生技醫療業"
-    },
-    "6660": {
-        "stock_id": "6660",
-        "stock_name": "厚美德",
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
@@ -14020,18 +14026,6 @@
         "stock_name": "補丁科",
         "stock_type": "ESM",
         "industry": "半導體業"
-    },
-    "7949": {
-        "stock_id": "7949",
-        "stock_name": "耀寬",
-        "stock_type": "ESM",
-        "industry": "建材營造"
-    },
-    "7950": {
-        "stock_id": "7950",
-        "stock_name": "盛大資訊",
-        "stock_type": "ESM",
-        "industry": "資訊服務業"
     },
     "8058": {
         "stock_id": "8058",

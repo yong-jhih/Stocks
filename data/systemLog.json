@@ -1,5 +1,159 @@
 [
     {
+        "id": 15390021,
+        "log_time": "2026-10-07 16:27:18",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 15390020,
+        "log_time": "2026-10-07 16:27:18",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 2 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390019,
+        "log_time": "2026-10-07 16:27:17",
+        "log_type": "dbClean",
+        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390018,
+        "log_time": "2026-10-07 16:27:17",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 50 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390017,
+        "log_time": "2026-10-07 16:27:17",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390016,
+        "log_time": "2026-10-07 16:27:16",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390015,
+        "log_time": "2026-10-07 16:27:16",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390014,
+        "log_time": "2026-10-07 16:27:15",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390013,
+        "log_time": "2026-10-07 16:27:15",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390012,
+        "log_time": "2026-10-07 16:27:15",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 1052 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390011,
+        "log_time": "2026-10-07 16:27:14",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 991 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390010,
+        "log_time": "2026-10-07 16:27:14",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 1049 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390009,
+        "log_time": "2026-10-07 16:27:13",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 1067 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390008,
+        "log_time": "2026-10-07 16:27:13",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 1082 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390007,
+        "log_time": "2026-10-07 16:27:13",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
+        "id": 15390006,
+        "log_time": "2026-10-07 16:27:12",
+        "log_type": "updateStockProfile",
+        "content": "基本資料及產業別及次產業概念更新完成,共耗時 941.22 秒",
+        "result": "end"
+    },
+    {
+        "id": 15390005,
+        "log_time": "2026-10-07 16:27:12",
+        "log_type": "updateConcept",
+        "content": "概念股 更新完成,共更新 4210 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390004,
+        "log_time": "2026-10-07 16:24:56",
+        "log_type": "updateSubIndustry",
+        "content": "次產業 更新完成,共更新 6704 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390003,
+        "log_time": "2026-10-07 16:16:05",
+        "log_type": "updateIndustry",
+        "content": "產業別 更新完成,共更新 2620 筆",
+        "result": "success"
+    },
+    {
+        "id": 15390002,
+        "log_time": "2026-10-07 16:14:37",
+        "log_type": "getStockProfileESM",
+        "content": "證交所回傳錯誤訊息：錯誤：無法取得資料。請檢查網路連線或 API 網址。, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 15390001,
+        "log_time": "2026-10-07 16:11:31",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
+        "id": 15360001,
+        "log_time": "2026-10-07 16:03:11",
+        "log_type": "updateStockProfile",
+        "content": "開始更新基本資料及產業別及次產業概念",
+        "result": "start"
+    },
+    {
         "id": 15330010,
         "log_time": "2026-10-06 22:20:14",
         "log_type": "update00991A",
@@ -2273,19 +2427,5 @@
         "log_type": "dbClean",
         "content": "開始進行資料庫維護",
         "result": "start"
-    },
-    {
-        "id": 14580002,
-        "log_time": "2026-09-26 13:45:19",
-        "log_type": "insertTDCC",
-        "content": "股東人數更新完成, 共耗時 264.22 秒",
-        "result": "end"
-    },
-    {
-        "id": 14580001,
-        "log_time": "2026-09-26 13:40:54",
-        "log_type": "insertTDCC",
-        "content": "取得本周最新交易日期 [ 2026-09-24 ] 股東人數資料, 開始更新",
-        "result": "end"
     }
 ]
