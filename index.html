@@ -1376,9 +1376,9 @@
                             </div>
                             <div class="space-y-2">
                                 ${entries.map(([tag, score]) => {
-                                    const numericScore = Number(score || 0);
-                                    const scoreClass = numericScore > 0 ? 'text-emerald-300' : numericScore < 0 ? 'text-red-300' : 'text-slate-400';
-                                    return `
+                        const numericScore = Number(score || 0);
+                        const scoreClass = numericScore > 0 ? 'text-emerald-300' : numericScore < 0 ? 'text-red-300' : 'text-slate-400';
+                        return `
                                         <div class="flex items-center justify-between bg-slate-800/70 rounded-lg px-3 py-2">
                                             <div class="text-sm text-slate-200">${tag}</div>
                                             <div class="text-xs font-bold ${scoreClass}">
@@ -1387,11 +1387,11 @@
                                             </div>
                                         </div>
                                     `;
-                                    }).join('')}
+                    }).join('')}
                                             </div>
                                         </div>
                                     `;
-                                }).join('')}
+                }).join('')}
                             </div>
                         </div>
                     `;
@@ -1411,6 +1411,7 @@
                 ${triggerReasonsHtml}
                 ${operationHtml}
                 ${shareholderHtml}
+                ${signalsHtml}
                 ${comboHtml}
                 <div class="mt-6">
                     <div class="text-slate-400 font-bold text-sm mb-3">訊號標籤</div>
