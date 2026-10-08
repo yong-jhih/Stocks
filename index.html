@@ -973,6 +973,14 @@
                 const tags = $(this).data('tags');
                 const industry = $(this).data('industry');
                 const concept = $(this).data('concept');
+                let matchedCombos = [];
+                try {
+                    const encoded = $(this).attr('data-matched-combos');
+                    if (encoded) matchedCombos = JSON.parse(decodeURIComponent(encoded));
+                } catch (error) {
+                    console.warn('matched_combos 解析失敗:', error);
+                    matchedCombos = [];
+                }
                 let shareholderAnalysis = {};
                 try {
                     const encoded = $(this).attr('data-shareholder-analysis');
@@ -1007,7 +1015,8 @@
                     concept,
                     shareholderAnalysis,
                     triggerReasons,
-                    signals
+                    signals,
+                    matchedCombos
                 );
             });
             table = $('#stockTable').DataTable({
@@ -1036,7 +1045,7 @@
             $(`#tab-${tabName}`).addClass('tab-active').removeClass('text-gray-400');
             $(`#content-${tabName}`).removeClass('hidden');
         }
-        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis, triggerReasons, signals) {
+        function showTags(name, strategy, maStrategy, bia10, tags, industryData, conceptText, shareholderAnalysis, triggerReasons, signals, matchedCombos) {
             $('#modalStockTitle').text(name);
             // =====================================================
             // 基本資料防呆
@@ -1054,6 +1063,7 @@
             shareholderAnalysis = shareholderAnalysis && typeof shareholderAnalysis === 'object' ? shareholderAnalysis : {};
             triggerReasons = Array.isArray(triggerReasons) ? triggerReasons : [];
             signals = signals && typeof signals === 'object' ? signals : {};
+            matchedCombos = Array.isArray(matchedCombos) ? matchedCombos : [];
             // =====================================================
             // 策略摘要
             // =====================================================
@@ -1133,17 +1143,16 @@
             // 組合技
             // ★ 這一段一定要放在第一次使用 comboHtml 之前
             // =====================================================
-            const matchedCombos = getMatchedCombos(tags);
             let comboHtml = '';
             if (matchedCombos.length) {
                 comboHtml = `
                     <div class="mb-6">
                         <div class="text-pink-300 font-bold mb-2">已發動組合技</div>
                         <div class="flex flex-wrap gap-2">
-                            ${matchedCombos.map(c => `
+                            ${matchedCombos.map(name => `
                                 <div
                                     class="combo-badge px-4 py-2 rounded-lg bg-pink-900/50 border border-pink-500 text-pink-200 font-bold">
-                                    ${c.name}
+                                    ${name}
                                 </div>
                             `).join('')}
                         </div>
@@ -1553,7 +1562,8 @@
                                         data-concept='${JSON.stringify(item.concept || [])}'
                                         data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'
                                         data-trigger-reasons='${encodeURIComponent(JSON.stringify(item.trigger_reasons || []))}'
-                                        data-signals='${encodeURIComponent(JSON.stringify(item.signals || {}))}'>更</button></div>
+                                        data-signals='${encodeURIComponent(JSON.stringify(item.signals || {}))}'
+                                        data-matched-combos='${encodeURIComponent(JSON.stringify(item.matched_combos || item.hint || []))}'>更</button>
                             `;
                         }
                         if (col.field === 'stock_name') {
