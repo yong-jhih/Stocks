@@ -73,6 +73,30 @@ function convertTaiwanDateToWestern(string $dateStr): ?string
     return null;
 }
 
+function validateTPExDate(PDO $pdo, string $tag, array $data, string $targetDate): bool
+{
+    $firstRow = $data[0] ?? null;
+    if ($firstRow === null) return false;
+
+    $apiDateRaw = $firstRow['Date'] ?? null;
+    if ($apiDateRaw === null) {
+        writeLog($pdo, $tag, "回傳資料無日期欄位，無法驗證交易日，請人工確認格式", 'warning');
+        return false;
+    }
+
+    $apiDate = convertTaiwanDateToWestern((string)$apiDateRaw);
+    if ($apiDate === null) {
+        writeLog($pdo, $tag, "API 回傳日期 [{$apiDateRaw}] 格式無法解析或非有效日期，跳過寫入", 'warning');
+        return false;
+    }
+
+    if ($apiDate !== $targetDate) {
+        writeLog($pdo, $tag, "API 回傳交易日 [{$apiDate}] 與目標日期 [{$targetDate}] 不符，疑似非當日資料，跳過寫入", 'warning');
+        return false;
+    }
+    return true;
+}
+
 function fetchUrl(string $url): array
 {
     sleep(3);

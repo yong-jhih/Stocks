@@ -103,7 +103,7 @@ function getInsti(PDO $pdo, string $date): ?array
     $url = "https://www.twse.com.tw/fund/T86?response=json&selectType=ALL&date=" . str_replace("-", "", $date);
     for ($i = 0; $i < 3; $i++) {
         $data = fetchUrl($url);
-        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data'])) {
+        if (isset($data['stat']) && $data['stat'] === 'OK' && isset($data['data']) && isset($data['title'])) {
             if (str_contains($data['title'], "三大法人買賣超日報")) {
                 $stocks = [];
                 foreach ($data['data'] as $v) {
@@ -371,11 +371,11 @@ function updateAllTPExHistory(PDO $pdo, string $targetDate): void
         $SBLTotalData = null;
         $SBLSoldData = null;
         for ($i = 1; $i <= 10; $i++) {
-            if (empty($historyData)) $historyData = getTPExHistory($pdo);
-            if (empty($instiData)) $instiData = getTPExInsti($pdo);
-            if (empty($marginData)) $marginData = getTPExMargin($pdo);
+            if (empty($historyData)) $historyData = getTPExHistory($pdo, $targetDate);
+            if (empty($instiData)) $instiData = getTPExInsti($pdo, $targetDate);
+            if (empty($marginData)) $marginData = getTPExMargin($pdo, $targetDate);
             if (empty($SBLTotalData)) $SBLTotalData = getTPExSBLTotal($pdo, $targetDate);
-            if (empty($SBLSoldData)) $SBLSoldData = getTPExSBLSold($pdo);
+            if (empty($SBLSoldData)) $SBLSoldData = getTPExSBLSold($pdo, $targetDate);
             if (!empty($historyData) && !empty($instiData) && !empty($marginData) && !empty($SBLTotalData) && !empty($SBLSoldData)) {
                 break;
             } else {
@@ -401,12 +401,15 @@ function updateAllTPExHistory(PDO $pdo, string $targetDate): void
     }
 }
 
-function getTPExHistory(PDO $pdo): ?array
+function getTPExHistory(PDO $pdo, string $targetDate): ?array
 {
     $url = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes";
     for ($i = 0; $i < 3; $i++) {
         $data = fetchUrl($url);
         if (is_array($data) && count($data) > 0) {
+            if (!validateTPExDate($pdo, 'getTPExHistory', $data, $targetDate)) {
+                return null; // 日期不符，視同本次抓不到有效資料
+            }
             $stocks = [];
             foreach ($data as $row) {
                 if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
@@ -421,7 +424,7 @@ function getTPExHistory(PDO $pdo): ?array
     return null;
 }
 
-function getTPExInsti(PDO $pdo): ?array
+function getTPExInsti(PDO $pdo, string $targetDate): ?array
 {
     $url = "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading";
     for ($i = 0; $i < 3; $i++) {
@@ -441,7 +444,7 @@ function getTPExInsti(PDO $pdo): ?array
     return null;
 }
 
-function getTPExMargin(PDO $pdo): ?array
+function getTPExMargin(PDO $pdo, string $targetDate): ?array
 {
     $url = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance";
     for ($i = 0; $i < 3; $i++) {
@@ -482,7 +485,7 @@ function getTPExSBLTotal(PDO $pdo, string $date): ?array
     return null;
 }
 
-function getTPExSBLSold(PDO $pdo): ?array
+function getTPExSBLSold(PDO $pdo, string $targetDate): ?array
 {
     $url = "https://www.tpex.org.tw/openapi/v1/tpex_margin_sbl";
     for ($i = 0; $i < 3; $i++) {
@@ -613,10 +616,10 @@ function insertTPExMargin(PDO $pdo, string $targetDate, array $marginData): void
         $pdo->commit();
         $end_time = microtime(true);
         $execution_time = round($end_time - $start_time, 2);
-        writeLog($pdo, 'insertMargin', "{$targetDate} 上櫃公司 融資融券彙總 更新完成,共新增 {$countMarginData} 筆,耗時 {$execution_time} 秒", 'success');
+        writeLog($pdo, 'insertTPExMargin', "{$targetDate} 上櫃公司 融資融券彙總 更新完成,共新增 {$countMarginData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertMargin', "{$targetDate} 上櫃公司 融資融券彙總 寫入失敗：{$e->getMessage()}", 'error');
+        writeLog($pdo, 'insertTPExMargin', "{$targetDate} 上櫃公司 融資融券彙總 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
@@ -675,7 +678,7 @@ function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): vo
         writeLog($pdo, 'insertSBLSold', "{$targetDate} 上櫃公司 借券賣出餘額 更新完成,共新增 {$countSBLSoldData} 筆,耗時 {$execution_time} 秒", 'success');
     } catch (Throwable $e) {
         $pdo->rollBack();
-        writeLog($pdo, 'insertSBLSold', "{$targetDate} 上櫃公司 借券賣出餘額 寫入失敗：{$e->getMessage()}", 'error');
+        writeLog($pdo, 'insertTPExSBLSold', "{$targetDate} 上櫃公司 借券賣出餘額 寫入失敗：{$e->getMessage()}", 'error');
     }
 }
 
