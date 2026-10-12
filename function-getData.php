@@ -1129,6 +1129,40 @@ function getBatchShareholderAnalysis(PDO $pdo, array $stockIds, string $targetDa
     return $results;
 }
 
+/**
+ * 均線操作策略分類（純函式，方便單元測試）
+ * 注意：ma / prevMa 皆「不含當日」（SQL: n PRECEDING AND 1 PRECEDING）
+ * 邊界：bia10 >= 8（且乖離上升）→ 加速；>= 5 → 偏離；< -2 / < -4 → 回踩
+ */
+function classifyMaStrategy(float $close, float $ma5, float $ma10, float $ma20, float $prevMa5, float $prevMa10, float $prevMa20, float $bia10, float $prevBia10): string
+{
+    $bullishAlignment = $close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20;
+    $maRising = $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20;
+    // 回踩情境不要求 MA5 上彎：深度拉回時 MA5 通常最先轉彎
+    $midRising = $ma10 > $prevMa10 && $ma20 > $prevMa20;
+    $bia10Rising = $bia10 > $prevBia10;
+
+    // 1. 多頭排列 + 均線上彎（close > MA10，BIAS10 必為正）
+    if ($bullishAlignment && $maRising) {
+        if ($bia10 >= 8 && $bia10Rising) return '主升段加速';
+        if ($bia10 >= 5) return '均線偏離';
+        return '沿均線';
+    }
+    // 2. 中期均線上彎、站上 MA20、股價低於 MA10 超過 2%
+    if ($midRising && $close > $ma20 && $bia10 < -2) {
+        if ($bia10 < -4) return $bia10Rising ? '回踩接回' : '深度回踩';
+        return '回踩觀察'; // -4 <= bia10 < -2
+    }
+    // 3. 三條均線全上彎且站上 MA20（沿用原行為）
+    if ($maRising && $close > $ma20) {
+        return $bia10 >= 5 ? '均線偏離' : '均線上彎';
+    }
+    // 4. 均線走弱
+    if ($ma20 < $prevMa20) return '均線轉弱';
+    // 5. 其他
+    return '均線盤整';
+}
+
 function outputModel(PDO $pdo, array $sqlFetch): array
 {
     $stocksMap = getStocksMap();
@@ -1417,54 +1451,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $maBullishAlignment = $close > $ma5 && $ma5 > $ma10 && $ma10 > $ma20;
         $maRising = $ma5 > $prevMa5 && $ma10 > $prevMa10 && $ma20 > $prevMa20;
         $bia10Rising = $bia10 > $prevBia10;
-
-        // 預設
-        $maStrategy = '觀察';
-        // =========================================================
-        // 1. 多頭排列 + 均線上彎
-        // close > MA5 > MA10 > MA20
-        // 因為 close > MA10，所以 BIAS10 必定為正。
-        // 此分支不應出現任何負乖離回踩分類。
-        // =========================================================
-        if ($maBullishAlignment && $maRising) {
-            if ($bia10 >= 8 && $bia10Rising) {
-                $maStrategy = '主升段加速';
-            } elseif ($bia10 >= 5) {
-                $maStrategy = '均線偏離';
-            } else {
-                $maStrategy = '沿均線';
-            }
-            // =========================================================
-            // 2. 均線仍上彎、股價站在 MA20 上方，
-            // 但尚未形成完整多頭排列。
-            // 這個分支才可能出現負 BIAS10。
-            // =========================================================
-        } elseif ($maRising && $close > $ma20) {
-            if ($bia10 >= 5) {
-                $maStrategy = '均線偏離';
-            } elseif ($bia10 < -4 && $bia10Rising) {
-                // 深度負乖離，但開始收斂
-                $maStrategy = '回踩接回';
-            } elseif ($bia10 < -4) {
-                // 深度負乖離，且尚未看到回升
-                $maStrategy = '深度回踩';
-            } elseif ($bia10 < -2) {
-                // 負乖離介於 -4% 至 -2%
-                $maStrategy = '回踩觀察';
-            } else {
-                $maStrategy = '均線上彎';
-            }
-            // =========================================================
-            // 3. 均線走弱
-            // =========================================================
-        } elseif ($ma20 < $prevMa20) {
-            $maStrategy = '均線轉弱';
-            // =========================================================
-            // 4. 其他狀態
-            // =========================================================
-        } else {
-            $maStrategy = '均線盤整';
-        }
+        $maStrategy = classifyMaStrategy($close, $ma5, $ma10, $ma20, $prevMa5, $prevMa10, $prevMa20, $bia10, $prevBia10);
         // =========================
         // Confidence
         // =========================
