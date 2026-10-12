@@ -1499,7 +1499,7 @@
                             const tagShort = tagText.length > 8 ? tagText.substring(0, 8) + '...' : tagText;
                             const searchText = [
                                 ...(item.tags || []),
-                                ...(item.hint || []),
+                                ...(item.matched_combos || []),
                                 item.industry || '',
                                 ...(item.subIndustry || []),
                                 ...(item.concept || [])
@@ -1520,15 +1520,15 @@
                                         data-shareholder-analysis='${encodeURIComponent(JSON.stringify(item.shareholder_analysis || {}))}'
                                         data-trigger-reasons='${encodeURIComponent(JSON.stringify(item.trigger_reasons || []))}'
                                         data-signals='${encodeURIComponent(JSON.stringify(item.signals || {}))}'
-                                        data-matched-combos='${encodeURIComponent(JSON.stringify(item.matched_combos || item.hint || []))}'>更</button>
+                                        data-matched-combos='${encodeURIComponent(JSON.stringify(item.matched_combos || []))}'>更</button>
                             `;
                         }
                         if (col.field === 'stock_name') {
                             let bar = '';
-                            if (item.hint && item.hint.length > 0) bar = `<span class="hint-bar"></span>`;
+                            if (item.matched_combos && item.matched_combos.length > 0) bar = `<span class="hint-bar"></span>`;
                             return `
                                 <div class="stock-cell">${bar}<span class="${col.class || ''}">${value}</span></div>
-                                <span style="display:none">${(item.hint || []).join(' ')}</span>
+                                <span style="display:none">${(item.matched_combos || []).join(' ')}</span>
                             `;
                         }
                         if (value === null || value === undefined) return '';

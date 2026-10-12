@@ -1597,7 +1597,6 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         }
         // hint 保留給舊版前端 / 舊資料使用。
         // 實際內容直接來自唯一的 COMBO_RULES。
-        $hint = $matchedCombos;
         // =========================
         // Trigger Reasons
         // =========================
@@ -1678,7 +1677,6 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             'signals' => $signals,
             'tags' => $tags,
             'trigger_reasons' => $triggerReasons,
-            'hint' => $hint,
             'matched_combos' => $matchedCombos
         ];
     }
