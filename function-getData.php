@@ -1789,7 +1789,10 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         'period_change_percent' => null,
         'average_lots_change_percent' => null,
         'consecutive_up' => 0,
-        'consecutive_down' => 0
+        'consecutive_down' => 0,
+        'down_streak_level' => 'none',
+        'data_count' => count($shareholderHistory),
+        'analysis_period_weeks' => 8
     ];
     $shareholderCount = count($shareholderHistory);
     if ($shareholderCount >= 2) {
@@ -1832,6 +1835,16 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         }
         $shareholderAnalysis['consecutive_up'] = $consecutiveUp;
         $shareholderAnalysis['consecutive_down'] = $consecutiveDown;
+        // -----------------------------------------------------
+        // 連續減少分級（與 getBatchShareholderAnalysis() 門檻一致）
+        // -----------------------------------------------------
+        if ($consecutiveDown >= 6) {
+            $shareholderAnalysis['down_streak_level'] = 'long';
+        } elseif ($consecutiveDown >= 4) {
+            $shareholderAnalysis['down_streak_level'] = 'medium';
+        } elseif ($consecutiveDown >= 2) {
+            $shareholderAnalysis['down_streak_level'] = 'short';
+        }
         // =====================================================
         // 5. 股東籌碼初步評分
         // 暫時獨立評分，不併入個股總評分
@@ -2286,14 +2299,17 @@ function analyzeMarketTrend(PDO $pdo): void
     }
     // ---------------------------------------------------------
     // 5-3. 情緒總體判斷
+    // 注意：$sentimentScore 由 5-1（最高±2）+ 5-2（最高±2）組成，
+    // 實際可能範圍僅 -4 ～ +4，門檻需對齊此範圍（原本誤用 ±8/±4，
+    // 導致「偏多」「偏空」在數學上永遠無法觸發）。
     // ---------------------------------------------------------
-    if ($sentimentScore >= 8) {
+    if ($sentimentScore >= 3) {
         $sentimentTrend = '🟢 偏多';
-    } elseif ($sentimentScore >= 4) {
+    } elseif ($sentimentScore >= 1) {
         $sentimentTrend = '🟢 稍偏多';
-    } elseif ($sentimentScore <= -8) {
+    } elseif ($sentimentScore <= -3) {
         $sentimentTrend = '🔴 偏空';
-    } elseif ($sentimentScore <= -4) {
+    } elseif ($sentimentScore <= -1) {
         $sentimentTrend = '🔴 稍偏空';
     } else {
         $sentimentTrend = '🟡 中性';
