@@ -510,9 +510,10 @@
                             <div class="mb-2">
                                 <span class="text-green-300">多頭排列</span> +
                                 <span class="text-green-300">爆量突破</span> +
-                                <span class="text-green-300">外資連買</span>
+                                <span class="text-green-300">外資連買／投信連買／土洋合力（任一）</span>
                             </div>
-                            <div class="text-sm text-gray-300">趨勢、動能與法人籌碼同步偏強，代表攻擊條件同時出現。</div>
+                            <div class="text-sm text-gray-300">趨勢、動能與法人籌碼同步偏強，代表攻擊條件同時出現。法人買超只要符合三種型態任一即算數，不要求一定是外資單邊連買。
+                            </div>
                         </div>
                     </section>
                     <section>
@@ -541,14 +542,15 @@
                         </div>
                     </section>
                     <section>
-                        <h4 class="text-yellow-400 font-bold mb-3">⚡ 發動前夕</h4>
+                        <h4 class="text-yellow-400 font-bold mb-3">⚡ 量縮蓄勢</h4>
                         <div class="bg-gray-700/30 p-3 rounded border border-yellow-900/50">
                             <div class="mb-2">
                                 <span class="text-green-300">整理末端</span> +
                                 <span class="text-green-300">量縮抗跌</span> +
                                 <span class="text-green-300">法人集中</span>
                             </div>
-                            <div class="text-sm text-gray-300">整理接近尾聲、賣壓沒有明顯擴大，同時法人籌碼集中，代表可能處於發動前的觀察階段。</div>
+                            <div class="text-sm text-gray-300">整理接近尾聲、賣壓沒有明顯擴大，同時法人籌碼集中，代表可能處於發動前的觀察階段。※
+                                此為「組合技」判定條件，與策略分類欄位中的「發動前夕」標準不同，兩者不一定同時出現。</div>
                         </div>
                     </section>
                     <section>
@@ -567,9 +569,9 @@
                         <div class="bg-gray-700/30 p-3 rounded border border-emerald-900/50">
                             <div class="mb-2">
                                 <span class="text-green-300">融資減肥</span> +
-                                <span class="text-green-300">外資連買</span>
+                                <span class="text-green-300">外資連買／投信連買／土洋合力（任一）</span>
                             </div>
-                            <div class="text-sm text-gray-300">融資下降且外資持續買進，代表籌碼結構出現改善，屬於洗盤後轉強的觀察訊號。</div>
+                            <div class="text-sm text-gray-300">融資下降且法人持續買進（不限外資單邊），代表籌碼結構出現改善，屬於洗盤後轉強的觀察訊號。</div>
                         </div>
                     </section>
                     <section>
@@ -834,6 +836,36 @@
                     meaning: '風險條件已經升高，同時中期均線結構正在轉弱。',
                     action: '以風險控管與觀察為主，避免把短線反彈直接視為趨勢重新轉強。',
                     risk: '若跌破重要均線且法人、量價同步轉弱，弱勢可能進一步延續。'
+                },
+                '高風險|主升段加速': {
+                    title: '高風險 × 主升段加速',
+                    meaning: '均線結構仍偏多、股價相對MA10快速擴張，但同時觸發過熱／出貨類風險條件（可能是極度過熱、短線過熱或爆量滯漲等）。',
+                    action: '不建議單憑均線結構追價，應優先檢查觸發「高風險」的實際訊號標籤，評估是否為短線急漲後的風險區。',
+                    risk: '乖離過大、追價風險高，一旦量價背離或跌破短期均線，修正可能相對劇烈。'
+                },
+                '高風險|均線偏離': {
+                    title: '高風險 × 均線偏離',
+                    meaning: '股價已明顯脫離均線，同時觸發風險類訊號，顯示上漲動能可能伴隨過熱或籌碼轉弱。',
+                    action: '以觀察與風險控管為主，不宜單純因均線仍偏多而追價。',
+                    risk: '偏離均線愈遠、風險分數愈低，拉回幅度可能愈大。'
+                },
+                '高風險|均線上彎': {
+                    title: '高風險 × 均線上彎',
+                    meaning: '中期均線剛轉為上揚，但同時存在風險訊號（可能是法人轉賣、假突破等），趨勢尚未完全確立。',
+                    action: '先確認風險標籤的實際成因，再判斷均線上彎是否可信。',
+                    risk: '若風險訊號持續、均線上彎可能只是短暫反彈。'
+                },
+                '高風險|沿均線': {
+                    title: '高風險 × 沿均線',
+                    meaning: '價格雖貼近均線運行，但同時觸發風險類訊號，結構穩定度需要進一步確認。',
+                    action: '以觀察為主，優先排除風險訊號是否為法人籌碼轉弱或出貨跡象。',
+                    risk: '風險訊號未解除前，沿均線不代表趨勢穩健。'
+                },
+                '高風險|均線盤整': {
+                    title: '高風險 × 均線盤整',
+                    meaning: '均線沒有明確方向，同時觸發風險類訊號。',
+                    action: '以觀望為主，待風險訊號解除或均線方向明確後再評估。',
+                    risk: '盤整期間若風險持續存在，容易出現無預警的破底。'
                 }
             };
             // =====================================================

@@ -1476,8 +1476,12 @@ function outputModel(PDO $pdo, array $sqlFetch): array
         $comboRules = [
             [
                 'name' => '主升段啟動',
-                'type' => 'all',
-                'tags' => ['多頭排列', '爆量突破', '外資連買']
+                'type' => 'any_all',
+                'any' => [
+                    ['多頭排列', '爆量突破', '外資連買'],
+                    ['多頭排列', '爆量突破', '投信連買'],
+                    ['多頭排列', '爆量突破', '土洋合力']
+                ]
             ],
             [
                 'name' => '妖股起漲型',
@@ -1494,7 +1498,7 @@ function outputModel(PDO $pdo, array $sqlFetch): array
                 'tags' => ['土洋合力', '法人集中']
             ],
             [
-                'name' => '發動前夕',
+                'name' => '量縮蓄勢', // 原名「發動前夕」，與 strategy_type 的「發動前夕」撞名，詳見問題3
                 'type' => 'all',
                 'tags' => ['整理末端', '量縮抗跌', '法人集中']
             ],
@@ -1505,8 +1509,12 @@ function outputModel(PDO $pdo, array $sqlFetch): array
             ],
             [
                 'name' => '洗盤完成',
-                'type' => 'all',
-                'tags' => ['融資減肥', '外資連買']
+                'type' => 'any_all',
+                'any' => [
+                    ['融資減肥', '外資連買'],
+                    ['融資減肥', '投信連買'],
+                    ['融資減肥', '土洋合力']
+                ]
             ],
             [
                 'name' => '出貨警訊',
