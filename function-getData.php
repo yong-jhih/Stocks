@@ -694,7 +694,7 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
                 "(yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035",
                 "yesterday_close > ma20",
                 "((trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06) OR (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08))",
-                "((high10 - low10) / NULLIF(low10, 0)) > 0.01",
+                "((high10 - low10) / NULLIF(low10, 0)) > 0.04",
                 "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
                 "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
             ]);
@@ -706,12 +706,6 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
         throw new RuntimeException("篩選分析失敗");
     } else {
         $dashboardResults = outputModel($pdo, $stocks);
-        // -----------------------------------------------------
-        // 排除與「即將噴發」目標矛盾的出貨/過熱末端/趨勢反轉警訊股
-        // 這些 combo 代表當天雖然符合量能放大的篩選條件，
-        // 但收盤強弱／籌碼動向已經出現疑似出貨或過熱反轉的跡象，
-        // 不適合作為隔日進場的候選名單。
-        // -----------------------------------------------------
         $warningCombos = ['出貨警訊', '主升段末端', '趨勢反轉'];
         $dashboardResults = array_values(array_filter(
             $dashboardResults,
