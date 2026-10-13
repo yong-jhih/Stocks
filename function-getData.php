@@ -407,9 +407,6 @@ function getTPExHistory(PDO $pdo, string $targetDate): ?array
     for ($i = 0; $i < 3; $i++) {
         $data = fetchUrl($url);
         if (is_array($data) && count($data) > 0) {
-           // if (!validateTPExDate($pdo, 'getTPExHistory', $data, $targetDate)) {
-           //     return null; // 日期不符，視同本次抓不到有效資料
-          //  }
             $stocks = [];
             foreach ($data as $row) {
                 if (empty($row['SecuritiesCompanyCode']) || !preg_match('/^[1-9]\d{3}$/', $row['SecuritiesCompanyCode'])) continue;
