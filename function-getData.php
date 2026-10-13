@@ -706,6 +706,17 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
         throw new RuntimeException("篩選分析失敗");
     } else {
         $dashboardResults = outputModel($pdo, $stocks);
+        // -----------------------------------------------------
+        // 排除與「即將噴發」目標矛盾的出貨/過熱末端/趨勢反轉警訊股
+        // 這些 combo 代表當天雖然符合量能放大的篩選條件，
+        // 但收盤強弱／籌碼動向已經出現疑似出貨或過熱反轉的跡象，
+        // 不適合作為隔日進場的候選名單。
+        // -----------------------------------------------------
+        $warningCombos = ['出貨警訊', '主升段末端', '趨勢反轉'];
+        $dashboardResults = array_values(array_filter(
+            $dashboardResults,
+            fn($row) => empty(array_intersect($row['matched_combos'] ?? [], $warningCombos))
+        ));
         return $dashboardResults;
     }
 }
