@@ -59,14 +59,15 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         if (count($resultsMix) > 0) {
             $filter = [];
             foreach ($resultsMix as $item) {
-                if (
-                    ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) &&  // 借券淨賣還或借券淨賣還5日 < 0
-                    ($item['foreign_streak_days'] > 0 || $item['trust_streak_days'] > 0) && //  外資或投信連買 > 0
-                    ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) &&  // 融資或融資5日 < 0
-                    ($item['margin_balance'] < $item['sbl_sold_balance']) &&  // 融資餘額 < 借券賣出餘額
-                    ($item['vma5'] > $item['vma20']) && // 5日均量 > 20日均量
-                    (($item['bia20'] > $item['bia10']) && ($item['bia10'] > $item['bia5']))    // 20日乖離率 > 10日乖離率 > 5日乖離率
-                ) {
+                $matchScore = 0;
+                if ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) $matchScore++;                    // 借券回補
+                if ($item['foreign_streak_days'] >= 2 || $item['trust_streak_days'] >= 2) $matchScore++; // 法人連買(改為至少2天)
+                if ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) $matchScore++; // 融資減肥
+                if ($item['margin_balance'] < $item['sbl_sold_balance']) $matchScore++;                  // 軋空潛力
+                if ($item['vma5'] > $item['vma20']) $matchScore++;                                       // 量能放大
+                if ($item['bia20'] > $item['bia10'] && $item['bia10'] > $item['bia5']) $matchScore++;    // 乖離率排列
+                if ($matchScore >= 4) {
+                    $item['self_select_match_score'] = $matchScore;
                     $filter[] = $item;
                 }
             }
