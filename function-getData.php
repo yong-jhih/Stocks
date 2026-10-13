@@ -694,7 +694,7 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
                 "(yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035",
                 "yesterday_close > ma20",
                 "((trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06) OR (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08))",
-                "((high10 - low10) / NULLIF(low10, 0)) > 0.04",
+                "((high10 - low10) / NULLIF(low10, 0)) > 0.05",
                 "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
                 "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
             ]);
