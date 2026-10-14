@@ -65,6 +65,12 @@
         "stock_type": "ETF",
         "industry": ""
     },
+    "00412A": {
+        "stock_id": "00412A",
+        "stock_name": "主動安聯亞半導體",
+        "stock_type": "ETF",
+        "industry": ""
+    },
     "0050": {
         "stock_id": "0050",
         "stock_name": "元大台灣50",
