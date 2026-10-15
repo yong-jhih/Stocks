@@ -1964,6 +1964,32 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
         }
         $lineAverageVolume20 = $volCount20 > 0 ? round(($volSum20 / $volCount20) / 1000) : null;
         // -----------------------------------------------------
+        // 均價 MA5 / MA10 / MA20
+        // -----------------------------------------------------
+        $priceSum5 = 0;
+        $priceCount5 = 0;
+        for ($p = max(0, $i - 4); $p <= $i; $p++) {
+            $priceSum5 += (float)($rows[$p]['close_price'] ?? 0);
+            $priceCount5++;
+        }
+        $ma5 = $priceCount5 > 0 ? round($priceSum5 / $priceCount5, 2) : null;
+
+        $priceSum10 = 0;
+        $priceCount10 = 0;
+        for ($p = max(0, $i - 9); $p <= $i; $p++) {
+            $priceSum10 += (float)($rows[$p]['close_price'] ?? 0);
+            $priceCount10++;
+        }
+        $ma10 = $priceCount10 > 0 ? round($priceSum10 / $priceCount10, 2) : null;
+
+        $priceSum20 = 0;
+        $priceCount20 = 0;
+        for ($p = max(0, $i - 19); $p <= $i; $p++) {
+            $priceSum20 += (float)($rows[$p]['close_price'] ?? 0);
+            $priceCount20++;
+        }
+        $ma20 = $priceCount20 > 0 ? round($priceSum20 / $priceCount20, 2) : null;
+        // -----------------------------------------------------
         // 組合資料
         // -----------------------------------------------------
         $results[] = [
@@ -1981,7 +2007,11 @@ function getStockAnalysisChart(PDO $pdo, string $stockId, string $targetDate, in
             'line_sbl5' => $sblNet5,
             // 均量
             'line_average_volume5' => $lineAverageVolume5,
-            'line_average_volume20' => $lineAverageVolume20
+            'line_average_volume20' => $lineAverageVolume20,
+            // 均價（供前端畫 MA5/10/20 線段，判斷股價是否偏離均線）
+            'ma5' => $ma5,
+            'ma10' => $ma10,
+            'ma20' => $ma20
         ];
     }
     // =========================================================
