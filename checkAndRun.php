@@ -51,6 +51,9 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($resultsMix) . " 檔", 'success');
         writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTopMix) . " 檔", 'success');
         updateDateList($targetDate);
+        // 累積策略組合後續表現追蹤（1/2/5 個交易日），寫入 data/comboTracking.json，
+        // 要等 dateList.json 更新、且累積到足夠交易日數後才會真的寫入資料。
+        trackComboPerformance($pdo, $targetDate);
         callGAS([
             'date' => $targetDate,
             'action' => 'triggersSelfSelect',

@@ -351,3 +351,174 @@ function testRetry(PDO $pdo): array
     $sql = "SELECT * FROM system_logs ORDER BY id DESC LIMIT 1";
     return (array) $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 }
+
+/**
+ * 追蹤「策略組合」後續 N 個交易日的股價／評分表現，並累積寫入 data/comboTracking.json。
+ *
+ * 用法：在 $targetDate 的 topPerforming.json／filter.json 都已經產生之後呼叫。
+ * 對 $trackDaysList 裡每個天數 N，往回找 dateList.json 裡「N 個交易日前」的日期（startDate），
+ * 把 startDate 當天 topPerforming.json 裡每一檔股票的策略組合，拿 $targetDate（startDate 的
+ * 第 N 個交易日後）的收盤價／綜合評分，計算出這段期間的漲跌幅跟評分變化，存成一筆紀錄。
+ *
+ * data/comboTracking.json 不在 cleanData() 的清理檔名規則裡，所以不會被每日清理流程刪除，
+ * 會持續累積，長期下來就能用來驗證「哪種策略組合 × 均線策略」比較可靠。
+ *
+ * 注意：這個函式本身不做任何判斷或建議，只負責記錄資料，統計分析交給
+ * summarizeComboTracking() 或你自己另外拉資料分析。
+ */
+function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysList = [1, 2, 5]): void
+{
+    $dateListPath = "data/dateList.json";
+    if (!file_exists($dateListPath)) {
+        writeLog($pdo, 'trackComboPerformance', "找不到 dateList.json，略過追蹤", 'warning');
+        return;
+    }
+    $dateList = json_decode(file_get_contents($dateListPath), true);
+    if (!is_array($dateList)) {
+        writeLog($pdo, 'trackComboPerformance', "dateList.json 格式錯誤，略過追蹤", 'warning');
+        return;
+    }
+    // dateList.json 是新到舊排序（rsort），targetDate 的 index 加上 N 就是 N 個交易日前的 index
+    $targetIndex = array_search($targetDate, $dateList);
+    if ($targetIndex === false) {
+        writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] 不在 dateList.json 內，略過追蹤", 'warning');
+        return;
+    }
+
+    $endPath = "data/{$targetDate}_topPerforming.json";
+    if (!file_exists($endPath)) {
+        writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] 找不到 topPerforming.json，略過追蹤", 'warning');
+        return;
+    }
+    $endData = json_decode(file_get_contents($endPath), true);
+    if (!is_array($endData)) return;
+    $endMap = [];
+    foreach ($endData as $s) {
+        $endMap[$s['stock_id']] = $s;
+    }
+
+    $trackingPath = "data/comboTracking.json";
+    $tracking = [];
+    if (file_exists($trackingPath)) {
+        $tracking = json_decode(file_get_contents($trackingPath), true) ?: [];
+    }
+
+    foreach ($trackDaysList as $n) {
+        $startIndex = $targetIndex + $n;
+        if (!isset($dateList[$startIndex])) {
+            continue; // 累積的交易日還不夠 N 天，之後資料變多自然就會補上
+        }
+        $startDate = $dateList[$startIndex];
+
+        $startPath = "data/{$startDate}_topPerforming.json";
+        if (!file_exists($startPath)) continue;
+        $startData = json_decode(file_get_contents($startPath), true);
+        if (!is_array($startData)) continue;
+
+        // startDate 當天是否出現在盤後篩選精選名單(filter.json)，供之後分析比對用
+        $filterIds = [];
+        $filterPath = "data/{$startDate}_filter.json";
+        if (file_exists($filterPath)) {
+            $filterData = json_decode(file_get_contents($filterPath), true);
+            if (is_array($filterData)) {
+                foreach ($filterData as $f) {
+                    $filterIds[$f['stock_id']] = true;
+                }
+            }
+        }
+
+        // 先移除這個 (start_date, end_date, trading_days) 組合已經寫過的舊紀錄，避免重複執行時累加重複資料
+        $tracking = array_values(array_filter($tracking, function ($r) use ($startDate, $targetDate, $n) {
+            return !($r['start_date'] === $startDate && $r['end_date'] === $targetDate && $r['trading_days'] === $n);
+        }));
+
+        foreach ($startData as $s0) {
+            $sid = $s0['stock_id'];
+            if (!isset($endMap[$sid])) continue; // 這段期間下市、下櫃或不在榜內，跳過
+            $s2 = $endMap[$sid];
+            if (!is_numeric($s0['close'] ?? null) || $s0['close'] == 0) continue;
+
+            $priceChgPct = round(($s2['close'] - $s0['close']) / $s0['close'] * 100, 2);
+            $scoreChg = $s2['score'] - $s0['score'];
+
+            $tracking[] = [
+                'start_date' => $startDate,
+                'end_date' => $targetDate,
+                'trading_days' => $n,
+                'stock_id' => $sid,
+                'stock_name' => $s0['stock_name'],
+                'strategy_type' => $s0['strategy_type'],
+                'ma_strategy' => $s0['ma_strategy'],
+                'matched_combos' => $s0['matched_combos'],
+                'rating' => $s0['rating'],
+                'in_filter' => isset($filterIds[$sid]),
+                'price_start' => $s0['close'],
+                'price_end' => $s2['close'],
+                'price_chg_pct' => $priceChgPct,
+                'score_start' => $s0['score'],
+                'score_end' => $s2['score'],
+                'score_chg' => $scoreChg
+            ];
+        }
+    }
+
+    $jsonString = json_encode($tracking, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    if (file_put_contents($trackingPath, $jsonString) === false) {
+        writeLog($pdo, 'trackComboPerformance', "寫入 comboTracking.json 失敗", 'error');
+    } else {
+        writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] 組合追蹤資料已更新，累積共 " . count($tracking) . " 筆", 'success');
+    }
+}
+
+/**
+ * 讀取 data/comboTracking.json，依「策略分類 × 均線策略」分組統計平均漲跌幅／上漲率／評分變化。
+ * 純粹是個報表工具，方便你或我快速檢視目前累積的追蹤資料，不寫入任何東西。
+ *
+ * @param int $trackDays 只統計這個天數窗口的紀錄（對應 trackComboPerformance 的 $trackDaysList）
+ * @param bool $onlyInFilter 若為 true，只統計當初有出現在 filter.json（盤後篩選精選名單）裡的股票
+ * @param int $minSamples 樣本數低於這個門檻的分組不顯示，避免小樣本雜訊
+ * @return array 依平均漲跌幅由高到低排序的分組統計
+ */
+function summarizeComboTracking(int $trackDays = 2, bool $onlyInFilter = false, int $minSamples = 5): array
+{
+    $trackingPath = "data/comboTracking.json";
+    if (!file_exists($trackingPath)) return [];
+    $tracking = json_decode(file_get_contents($trackingPath), true);
+    if (!is_array($tracking)) return [];
+
+    $groups = [];
+    foreach ($tracking as $r) {
+        if ($r['trading_days'] !== $trackDays) continue;
+        if ($onlyInFilter && empty($r['in_filter'])) continue;
+        $key = $r['strategy_type'] . '|' . $r['ma_strategy'];
+        if (!isset($groups[$key])) {
+            $groups[$key] = [
+                'strategy_type' => $r['strategy_type'],
+                'ma_strategy' => $r['ma_strategy'],
+                'n' => 0,
+                'up_count' => 0,
+                'price_chg_sum' => 0,
+                'score_chg_sum' => 0
+            ];
+        }
+        $groups[$key]['n']++;
+        if ($r['price_chg_pct'] > 0) $groups[$key]['up_count']++;
+        $groups[$key]['price_chg_sum'] += $r['price_chg_pct'];
+        $groups[$key]['score_chg_sum'] += $r['score_chg'];
+    }
+
+    $result = [];
+    foreach ($groups as $g) {
+        if ($g['n'] < $minSamples) continue;
+        $result[] = [
+            'strategy_type' => $g['strategy_type'],
+            'ma_strategy' => $g['ma_strategy'],
+            'n' => $g['n'],
+            'up_rate' => round($g['up_count'] / $g['n'] * 100, 1),
+            'avg_price_chg_pct' => round($g['price_chg_sum'] / $g['n'], 2),
+            'avg_score_chg' => round($g['score_chg_sum'] / $g['n'], 1)
+        ];
+    }
+    usort($result, fn($a, $b) => $b['avg_price_chg_pct'] <=> $a['avg_price_chg_pct']);
+    return $result;
+}
