@@ -1584,6 +1584,11 @@
                     table.row.add(row);
                 });
                 table.draw();
+                // 欄位較多（如 index/self/topPerforming 共 41 欄）搭配 scrollX + fixedColumns 時，
+                // 初次 draw() 當下瀏覽器可能尚未完成實際內容的版面配置，
+                // 導致 FixedColumns/FixedHeader 量到的欄寬與內容不符，造成表頭跟內容對不齊。
+                // 待瀏覽器完成這一輪 reflow 後，再重新量測一次欄寬即可修正。
+                setTimeout(() => { table.columns.adjust(); }, 0);
             } catch (e) { alert("讀取失敗"); }
         }
         async function initSystem() {
