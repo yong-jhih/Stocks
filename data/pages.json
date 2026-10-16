@@ -11,7 +11,7 @@
         },
         "chart": {
             "title": "籌碼分析",
-            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "subTitle": "折線：5日累計 & 價格 & MA5/10/20 | 柱狀：每日增減",
             "showVolume": true,
             "yAxis": [
                 {
@@ -34,6 +34,36 @@
                     "symbolSize": 6,
                     "lineWidth": 3,
                     "color": "#facc15"
+                },
+                {
+                    "field": "ma5",
+                    "name": "MA5",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#e879f9"
+                },
+                {
+                    "field": "ma10",
+                    "name": "MA10",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#2dd4bf"
+                },
+                {
+                    "field": "ma20",
+                    "name": "MA20",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#94a3b8"
                 },
                 {
                     "field": "bar_inst",
@@ -380,7 +410,7 @@
         },
         "chart": {
             "title": "籌碼分析",
-            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "subTitle": "折線：5日累計 & 價格 & MA5/10/20 | 柱狀：每日增減",
             "showVolume": true,
             "yAxis": [
                 {
@@ -403,6 +433,36 @@
                     "symbolSize": 6,
                     "lineWidth": 3,
                     "color": "#facc15"
+                },
+                {
+                    "field": "ma5",
+                    "name": "MA5",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#e879f9"
+                },
+                {
+                    "field": "ma10",
+                    "name": "MA10",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#2dd4bf"
+                },
+                {
+                    "field": "ma20",
+                    "name": "MA20",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#94a3b8"
                 },
                 {
                     "field": "bar_inst",
@@ -721,7 +781,7 @@
         },
         "chart": {
             "title": "籌碼分析",
-            "subTitle": "折線：5日累計 & 價格 | 柱狀：每日增減",
+            "subTitle": "折線：5日累計 & 價格 & MA5/10/20 | 柱狀：每日增減",
             "showVolume": true,
             "yAxis": [
                 {
@@ -744,6 +804,36 @@
                     "symbolSize": 6,
                     "lineWidth": 3,
                     "color": "#facc15"
+                },
+                {
+                    "field": "ma5",
+                    "name": "MA5",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#e879f9"
+                },
+                {
+                    "field": "ma10",
+                    "name": "MA10",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#2dd4bf"
+                },
+                {
+                    "field": "ma20",
+                    "name": "MA20",
+                    "type": "line",
+                    "yAxisIndex": 0,
+                    "smooth": true,
+                    "symbol": "none",
+                    "lineWidth": 1.5,
+                    "color": "#94a3b8"
                 },
                 {
                     "field": "bar_inst",
