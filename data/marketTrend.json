@@ -1,14 +1,14 @@
 {
-    "date": "2026-10-16",
-    "score": 36,
+    "date": "2026-10-19",
+    "score": 33,
     "trend": "🔴 稍偏空",
     "scoreDetail": {
         "index": {
-            "score": 8,
+            "score": -5,
             "max": 35
         },
         "futures": {
-            "score": -20,
+            "score": -14,
             "max": 25
         },
         "sentiment": {
@@ -16,15 +16,15 @@
             "max": 20
         },
         "institutional": {
-            "score": -12,
+            "score": -10,
             "max": 20
         }
     },
     "index": {
-        "close": 47111.26,
-        "changePercent": 0.30102276203872697,
-        "change5d": -4.465679133315381,
-        "change20d": 3.5150903650924286,
+        "close": 46822.08,
+        "changePercent": -0.6138235317841219,
+        "change5d": -5.0299825808142264,
+        "change20d": 2.1225809125191666,
         "change60d": null,
         "history": [
             {
@@ -210,24 +210,28 @@
             {
                 "date": "10\/16",
                 "value": 47111.26
+            },
+            {
+                "date": "10\/19",
+                "value": 46822.08
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 9812,
-            "short": 103487,
-            "net": -93675
+            "long": 11962,
+            "short": 103107,
+            "net": -91145
         },
         "mxf": {
-            "long": 3676,
-            "short": 4427,
-            "net": -751
+            "long": 4864,
+            "short": 4275,
+            "net": 589
         },
         "tmf": {
-            "long": 10107,
-            "short": 14407,
-            "net": -4300
+            "long": 11415,
+            "short": 12628,
+            "net": -1213
         },
         "history": [
             {
@@ -505,12 +509,18 @@
                 "txf": -93675,
                 "mxf": -751,
                 "tmf": -4300
+            },
+            {
+                "date": "10\/19",
+                "txf": -91145,
+                "mxf": 589,
+                "tmf": -1213
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 25.71,
-        "putCallRatio": 67.6,
+        "retailRatio": 24.43,
+        "putCallRatio": 61.6,
         "trend": "🔴 稍偏空",
         "history": [
             {
@@ -742,35 +752,40 @@
                 "date": "10\/16",
                 "retailRatio": 25.71,
                 "putCallRatio": 67.6
+            },
+            {
+                "date": "10\/19",
+                "retailRatio": 24.43,
+                "putCallRatio": 61.6
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 4372.1,
-            "sell": 5057.2,
-            "net": -685.1,
-            "ma20": -274
+            "buy": 3651.5,
+            "sell": 4551,
+            "net": -899.5,
+            "ma20": -308.2
         },
         "foreign": {
-            "buy": 3563.2,
-            "sell": 4024.7,
-            "net": -461.5
+            "buy": 2741.9,
+            "sell": 3509.4,
+            "net": -767.5
         },
         "trust": {
-            "buy": 438.5,
-            "sell": 328,
-            "net": 110.5
+            "buy": 493,
+            "sell": 262.5,
+            "net": 230.5
         },
         "dealer": {
-            "buy": 83.8,
-            "sell": 185.6,
-            "net": -101.8
+            "buy": 93.9,
+            "sell": 154.2,
+            "net": -60.3
         },
         "dealerRisk": {
-            "buy": 286.5,
-            "sell": 518.9,
-            "net": -232.4
+            "buy": 322.6,
+            "sell": 625,
+            "net": -302.4
         },
         "history": [
             {
@@ -1186,14 +1201,19 @@
                 "trust": 110.5,
                 "dealer": -101.8,
                 "dealerRisk": -232.4
+            },
+            {
+                "date": "10\/19",
+                "total": -899.5,
+                "total20MA": -308.2,
+                "foreign": -767.5,
+                "trust": 230.5,
+                "dealer": -60.3,
+                "dealerRisk": -302.4
             }
         ]
     },
     "signals": [
-        {
-            "type": "bullish",
-            "text": "加權指數維持中期上升趨勢"
-        },
         {
             "type": "bearish",
             "text": "外資大台期貨淨空單仍處高檔"
