@@ -1,5 +1,124 @@
 [
     {
+        "id": 16110017,
+        "log_time": "2026-10-20 21:29:34",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 16110016,
+        "log_time": "2026-10-20 21:29:34",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時 681.64 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110015,
+        "log_time": "2026-10-20 21:29:34",
+        "log_type": "insertSBLSold",
+        "content": "2026-10-20 上櫃公司 借券賣出餘額 更新完成,共新增 814 筆,耗時 128.67 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110014,
+        "log_time": "2026-10-20 21:27:25",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-10-20 上櫃公司 借券餘額 更新完成,共新增 734 筆,耗時 115.58 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110013,
+        "log_time": "2026-10-20 21:25:29",
+        "log_type": "insertTPExMargin",
+        "content": "2026-10-20 上櫃公司 融資融券彙總 更新完成,共新增 801 筆,耗時 126.14 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110012,
+        "log_time": "2026-10-20 21:23:22",
+        "log_type": "insertTPExInsti",
+        "content": "2026-10-20 上櫃公司 三大法人買賣超 更新完成,共新增 761 筆,耗時 119.61 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110011,
+        "log_time": "2026-10-20 21:21:22",
+        "log_type": "insertTPExHistory",
+        "content": "2026-10-20 上櫃個股日成交 更新完成,共新增 891 筆,耗時 140.37 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110010,
+        "log_time": "2026-10-20 21:18:31",
+        "log_type": "getTPExInsti",
+        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
+        "result": "warning"
+    },
+    {
+        "id": 16110009,
+        "log_time": "2026-10-20 21:18:12",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-10-20] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 16110008,
+        "log_time": "2026-10-20 21:18:12",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 874.91 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110007,
+        "log_time": "2026-10-20 21:18:12",
+        "log_type": "insertSBLSold",
+        "content": "2026-10-20 借券賣出餘額 更新完成,共新增 1063 筆,耗時 167.23 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110006,
+        "log_time": "2026-10-20 21:15:24",
+        "log_type": "insertSBLTotal",
+        "content": "2026-10-20 借券餘額 更新完成,共新增 999 筆,耗時 157.1 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110005,
+        "log_time": "2026-10-20 21:12:47",
+        "log_type": "insertMargin",
+        "content": "2026-10-20 融資融券彙總 更新完成,共新增 1061 筆,耗時 167.12 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110004,
+        "log_time": "2026-10-20 21:09:59",
+        "log_type": "insertInsti",
+        "content": "2026-10-20 三大法人買賣超 更新完成,共新增 1079 筆,耗時 170.6 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110003,
+        "log_time": "2026-10-20 21:07:09",
+        "log_type": "insertHistory",
+        "content": "2026-10-20 上市個股日成交 更新完成,共新增 1088 筆,耗時 172.51 秒",
+        "result": "success"
+    },
+    {
+        "id": 16110002,
+        "log_time": "2026-10-20 21:03:37",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-10-20] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 16110001,
+        "log_time": "2026-10-20 21:03:37",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-10-20] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 16080015,
         "log_time": "2026-10-20 16:03:14",
         "log_type": "dbClean",
