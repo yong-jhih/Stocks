@@ -1,5 +1,82 @@
 [
     {
+        "id": 16110028,
+        "log_time": "2026-10-20 22:41:55",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成, 共耗時 1.16 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110027,
+        "log_time": "2026-10-20 22:41:54",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-10-20], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 16110026,
+        "log_time": "2026-10-20 22:41:54",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成, 共耗時 1.15 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110025,
+        "log_time": "2026-10-20 22:41:53",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-10-20], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 16110024,
+        "log_time": "2026-10-20 22:41:52",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成, 共耗時 1.51 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110023,
+        "log_time": "2026-10-20 22:41:51",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-10-20], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 16110022,
+        "log_time": "2026-10-20 22:41:51",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-10-20] 盤後篩選及評分排行已完成, 共耗時 1180.04 秒",
+        "result": "end"
+    },
+    {
+        "id": 16110021,
+        "log_time": "2026-10-20 22:41:19",
+        "log_type": "trackComboPerformance",
+        "content": "[2026-10-20] 組合追蹤資料已更新，累積共 5453 筆",
+        "result": "success"
+    },
+    {
+        "id": 16110020,
+        "log_time": "2026-10-20 22:41:19",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-10-20] 排行分析完成，共 705 檔",
+        "result": "success"
+    },
+    {
+        "id": 16110019,
+        "log_time": "2026-10-20 22:41:19",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-10-20] 篩選分析完成，共 4 檔",
+        "result": "success"
+    },
+    {
+        "id": 16110018,
+        "log_time": "2026-10-20 21:33:44",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-10-20] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 16110017,
         "log_time": "2026-10-20 21:29:34",
         "log_type": "updateAllHistory",
