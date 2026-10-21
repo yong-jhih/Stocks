@@ -5069,6 +5069,12 @@
         "stock_type": "TSE",
         "industry": "其他"
     },
+    "6467": {
+        "stock_id": "6467",
+        "stock_name": "泰合",
+        "stock_type": "TSE",
+        "industry": "生技醫療業"
+    },
     "6472": {
         "stock_id": "6472",
         "stock_name": "保瑞",
@@ -6262,6 +6268,12 @@
         "stock_name": "鼎炫-KY",
         "stock_type": "TSE",
         "industry": "其他電子業"
+    },
+    "8908": {
+        "stock_id": "8908",
+        "stock_name": "欣雄",
+        "stock_type": "TSE",
+        "industry": "油電燃氣業"
     },
     "8926": {
         "stock_id": "8926",
@@ -11177,6 +11189,12 @@
         "stock_type": "TPEx",
         "industry": "數位雲端"
     },
+    "7806": {
+        "stock_id": "7806",
+        "stock_name": "精華生醫",
+        "stock_type": "TPEx",
+        "industry": "食品工業"
+    },
     "7810": {
         "stock_id": "7810",
         "stock_name": "捷創科技",
@@ -11783,12 +11801,6 @@
         "stock_type": "TPEx",
         "industry": "其他"
     },
-    "8908": {
-        "stock_id": "8908",
-        "stock_name": "欣雄",
-        "stock_type": "TPEx",
-        "industry": "油電燃氣業"
-    },
     "8916": {
         "stock_id": "8916",
         "stock_name": "光隆",
@@ -12010,12 +12022,6 @@
         "stock_name": "中信造船",
         "stock_type": "ESM",
         "industry": "航運業"
-    },
-    "2733": {
-        "stock_id": "2733",
-        "stock_name": "維格餅家",
-        "stock_type": "ESM",
-        "industry": "觀光餐旅"
     },
     "2741": {
         "stock_id": "2741",
@@ -12352,12 +12358,6 @@
         "stock_name": "達輝光電",
         "stock_type": "ESM",
         "industry": "光電業"
-    },
-    "6467": {
-        "stock_id": "6467",
-        "stock_name": "泰合",
-        "stock_type": "ESM",
-        "industry": "生技醫療業"
     },
     "6473": {
         "stock_id": "6473",
@@ -12947,6 +12947,12 @@
         "stock_type": "ESM",
         "industry": "半導體業"
     },
+    "6930": {
+        "stock_id": "6930",
+        "stock_name": "盛新",
+        "stock_type": "ESM",
+        "industry": "半導體業"
+    },
     "6932": {
         "stock_id": "6932",
         "stock_name": "水星生醫*",
@@ -13432,12 +13438,6 @@
         "stock_name": "華芸科技",
         "stock_type": "ESM",
         "industry": "資訊服務業"
-    },
-    "7806": {
-        "stock_id": "7806",
-        "stock_name": "精華生醫",
-        "stock_type": "ESM",
-        "industry": "食品工業"
     },
     "7808": {
         "stock_id": "7808",
@@ -14038,6 +14038,18 @@
         "stock_name": "大易橙",
         "stock_type": "ESM",
         "industry": "其他電子業"
+    },
+    "7954": {
+        "stock_id": "7954",
+        "stock_name": "鑫詮科技",
+        "stock_type": "ESM",
+        "industry": ""
+    },
+    "7955": {
+        "stock_id": "7955",
+        "stock_name": "車麗屋",
+        "stock_type": "ESM",
+        "industry": "居家生活"
     },
     "7956": {
         "stock_id": "7956",
