@@ -682,20 +682,21 @@ function insertTPExSBLSold(PDO $pdo, string $targetDate, array $SBLSoldData): vo
 // 分析篩選
 function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): array
 {
-    // 2026-10-28 重新設計：候選股票池改用與 topPerformingGenerateDailyDashboard 相同的
-    // 寬鬆基礎門檻（僅做流動性/均線資料完整性篩選），真正的選股邏輯移到下方
-    // 以 outputModel() 計算出的 strategy_type / ma_strategy / rating / matched_combos
-    // 為依據。這樣才能對齊 comboTracking.json 的回測樣本（回測是針對整個
-    // topPerforming 名單跑的，不是針對舊版的 10 條 SQL 條件），確保這裡套用的
-    // 篩選邏輯跟實際驗證過的樣本是同一個母體。
     $stocks = null;
     for ($i = 1; $i <= 100; $i++) {
         if ($i !== 1) sleep(60);
         if ($stocks === null) {
             $stocks = returnSqlFetch($pdo, $targetDate, $table, [
                 "vma20 > 700000",
-                "ma20 IS NOT NULL",
-                "ma60 IS NOT NULL"
+                "((trade_volume > vma5 AND vma5 >= vma20) OR (trade_volume > vma20 * 1.3))",
+                "yesterday_vol < vma5",
+                "ABS(yesterday_close - yesterday_open) / NULLIF(yesterday_open, 0) < 0.03",
+                "(yesterday_high - yesterday_low) / NULLIF(yesterday_low, 0) < 0.035",
+                "yesterday_close > ma20",
+                "((trade_volume < vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.06) OR (trade_volume >= vma20 AND (insti_sum1 / NULLIF(vol_sum1, 0)) > 0.08))",
+                "((high10 - low10) / NULLIF(low10, 0)) > 0.05",
+                "((close_price - low10) / NULLIF(high10 - low10, 0)) BETWEEN 0.2 AND 0.9",
+                "(insti_sum5 / NULLIF(vol_sum5, 0)) > 0.03"
             ]);
         } else {
             break;
@@ -705,59 +706,11 @@ function generateDailyDashboard(PDO $pdo, string $targetDate, array $table): arr
         throw new RuntimeException("篩選分析失敗");
     } else {
         $dashboardResults = outputModel($pdo, $stocks);
-
-        // === 短線進場篩選條件（2026-10-28 依 comboTracking 回測結果重新設計）===
-        // 目標：找「隔日可進場、不追價」的短線標的，而非已經噴出的股票。
-        // 計算方式（strategy_type / ma_strategy / rating / matched_combos）完全沿用
-        // outputModel() 既有邏輯，這裡只調整「哪些結果可以進入盤後篩選清單」。
+        $warningCombos = ['出貨警訊', '主升段末端', '趨勢反轉'];
         $dashboardResults = array_values(array_filter(
             $dashboardResults,
-            function ($row) {
-                // 條件1：策略分類＝籌碼潛伏
-                // 目的：代表籌碼面（法人/主力）已經偏多，但股價尚未反映，
-                // 是「不追價」的核心——鎖定起漲前、還在潛伏階段的個股。
-                if (($row['strategy_type'] ?? '') !== '籌碼潛伏') {
-                    return false;
-                }
-
-                // 條件2：均線策略限定「均線盤整」或「均線轉弱」
-                // 目的：回測發現這兩種狀態的股價尚未被均線偏離拉開，藉此排除
-                // 「主升段加速」「均線偏離」這種已經噴出、進場等於追價的個股；
-                // 回測顯示這兩個子組合的報酬有超過一半在「隔日」就能兌現，
-                // 符合「可快速找到極短線標的」的需求。
-                if (!in_array($row['ma_strategy'] ?? '', ['均線盤整', '均線轉弱'], true)) {
-                    return false;
-                }
-
-                // 條件3：rating 限定 B／C 級
-                // 目的：這個早期階段的標的，綜合評分通常還沒被系統完全反映，
-                // 分數偏低屬正常現象；排除 D 級(籌碼/技術面品質過差)。
-                // A/S 級在此類型中極少出現，暫不特別處理。
-                if (!in_array($row['rating'] ?? '', ['B', 'C'], true)) {
-                    return false;
-                }
-
-                // 條件4：排除帶有「出貨警訊」標籤的個股
-                // 目的：此標籤在全市場範圍統計上接近雜訊，但在「籌碼潛伏+
-                // 均線盤整/轉弱」這個子族群中，回測顯示仍會拖累後續報酬與
-                // 勝率，故僅在此子族群內予以排除。
-                if (in_array('出貨警訊', $row['matched_combos'] ?? [], true)) {
-                    return false;
-                }
-
-                return true;
-            }
+            fn($row) => empty(array_intersect($row['matched_combos'] ?? [], $warningCombos))
         ));
-
-        // 優選標記（不做排除，僅排序用）：同時帶有「洗盤完成」標籤的個股，
-        // 回測顯示勝率與 alpha 皆再提升一截，前端可用此欄位做優先排序/標示，
-        // 但不強制排除沒有這個標籤的候選股，避免樣本過度縮水。
-        foreach ($dashboardResults as &$row) {
-            $row['is_premium'] = in_array('洗盤完成', $row['matched_combos'] ?? [], true);
-        }
-        unset($row);
-        usort($dashboardResults, fn($a, $b) => ($b['is_premium'] ?? false) <=> ($a['is_premium'] ?? false));
-
         return $dashboardResults;
     }
 }
