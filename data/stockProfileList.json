@@ -1393,7 +1393,7 @@
     },
     "2072": {
         "stock_id": "2072",
-        "stock_name": "世紀風電",
+        "stock_name": "世紀能源",
         "stock_type": "TSE",
         "industry": "綠能環保"
     },
@@ -5777,6 +5777,12 @@
         "stock_type": "TSE",
         "industry": "觀光餐旅"
     },
+    "7710": {
+        "stock_id": "7710",
+        "stock_name": "東擎科技",
+        "stock_type": "TSE",
+        "industry": "電腦及週邊設備業"
+    },
     "7711": {
         "stock_id": "7711",
         "stock_name": "永擎",
@@ -6818,6 +6824,12 @@
     "2235": {
         "stock_id": "2235",
         "stock_name": "謚源",
+        "stock_type": "TPEx",
+        "industry": "電機機械"
+    },
+    "2249": {
+        "stock_id": "2249",
+        "stock_name": "湧盛",
         "stock_type": "TPEx",
         "industry": "電機機械"
     },
@@ -10865,6 +10877,12 @@
         "stock_type": "TPEx",
         "industry": "半導體業"
     },
+    "6898": {
+        "stock_id": "6898",
+        "stock_name": "程曦資訊",
+        "stock_type": "TPEx",
+        "industry": "資訊服務業"
+    },
     "6899": {
         "stock_id": "6899",
         "stock_name": "創為精密",
@@ -11993,12 +12011,6 @@
         "stock_type": "ESM",
         "industry": "電機機械"
     },
-    "2249": {
-        "stock_id": "2249",
-        "stock_name": "湧盛",
-        "stock_type": "ESM",
-        "industry": "電機機械"
-    },
     "2252": {
         "stock_id": "2252",
         "stock_name": "為昇科",
@@ -12899,12 +12911,6 @@
         "stock_type": "ESM",
         "industry": "生技醫療業"
     },
-    "6898": {
-        "stock_id": "6898",
-        "stock_name": "程曦資訊",
-        "stock_type": "ESM",
-        "industry": "資訊服務業"
-    },
     "6911": {
         "stock_id": "6911",
         "stock_name": "群運",
@@ -12964,12 +12970,6 @@
         "stock_name": "王子製藥",
         "stock_type": "ESM",
         "industry": "食品工業"
-    },
-    "6938": {
-        "stock_id": "6938",
-        "stock_name": "藍新資訊",
-        "stock_type": "ESM",
-        "industry": "資訊服務業"
     },
     "6939": {
         "stock_id": "6939",
@@ -13228,12 +13228,6 @@
         "stock_name": "益芯科",
         "stock_type": "ESM",
         "industry": "半導體業"
-    },
-    "7710": {
-        "stock_id": "7710",
-        "stock_name": "東擎科技",
-        "stock_type": "ESM",
-        "industry": "電腦及週邊設備業"
     },
     "7719": {
         "stock_id": "7719",
@@ -13588,6 +13582,12 @@
         "stock_name": "芝普",
         "stock_type": "ESM",
         "industry": "化學工業"
+    },
+    "7859": {
+        "stock_id": "7859",
+        "stock_name": "翰可能源",
+        "stock_type": "ESM",
+        "industry": "綠能環保"
     },
     "7860": {
         "stock_id": "7860",
@@ -14015,6 +14015,12 @@
         "stock_type": "ESM",
         "industry": "電腦及週邊設備業"
     },
+    "7946": {
+        "stock_id": "7946",
+        "stock_name": "廣騰",
+        "stock_type": "ESM",
+        "industry": "綠能環保"
+    },
     "7947": {
         "stock_id": "7947",
         "stock_name": "補丁科",
@@ -14054,6 +14060,30 @@
     "7956": {
         "stock_id": "7956",
         "stock_name": "啟賦",
+        "stock_type": "ESM",
+        "industry": "半導體業"
+    },
+    "7957": {
+        "stock_id": "7957",
+        "stock_name": "第一傳動",
+        "stock_type": "ESM",
+        "industry": "電機機械"
+    },
+    "7958": {
+        "stock_id": "7958",
+        "stock_name": "六俊",
+        "stock_type": "ESM",
+        "industry": "電機機械"
+    },
+    "7960": {
+        "stock_id": "7960",
+        "stock_name": "亞昕科技",
+        "stock_type": "ESM",
+        "industry": "半導體業"
+    },
+    "7962": {
+        "stock_id": "7962",
+        "stock_name": "宇田控制",
         "stock_type": "ESM",
         "industry": "半導體業"
     },
