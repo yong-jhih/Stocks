@@ -60,16 +60,37 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             'after' => 180
         ]);
         if (count($resultsMix) > 0) {
+            // 2026-10-28 自選評分改版（方案A，10 條件門檻 7）：
+            // 原本 6 條只看技術/籌碼面指標；comboTracking 回測發現「法人連買」「融資減肥」
+            // 這兩條的訊號，其實已經被下面新增的「法人鎖碼」「洗盤完成」標籤更完整地涵蓋
+            // （兩個 tag 的判定本身就是建立在法人連買天數、融資減肥之上，再疊加其他條件），
+            // 直接並存等於同一個訊號被重複計分兩次，故移除這兩條、改用涵蓋範圍更廣的 tag 條件。
+            // 「乖離率排列」保留，與新增的「不追價」條件雖同屬乖離程度判斷但算法不同，暫時並存互相佐證。
+            $goodComboPairs = [
+                ['籌碼潛伏', '均線上彎'],
+                ['籌碼潛伏', '沿均線'],
+                ['短線轉強', '均線盤整'],
+                ['發動前夕', '均線盤整'],
+                ['發動前夕', '均線轉弱']
+            ];
             $filter = [];
             foreach ($resultsMix as $item) {
                 $matchScore = 0;
-                if ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) $matchScore++;                    // 借券回補
-                if ($item['foreign_streak_days'] >= 2 || $item['trust_streak_days'] >= 2) $matchScore++; // 法人連買(改為至少2天)
-                if ($item['margin_balance_diff'] < 0 || $item['margin_balance_diff_sum5'] < 0) $matchScore++; // 融資減肥
-                if ($item['margin_balance'] < $item['sbl_sold_balance']) $matchScore++;                  // 軋空潛力
-                if ($item['vma5'] > $item['vma20']) $matchScore++;                                       // 量能放大
-                if ($item['bia20'] > $item['bia10'] && $item['bia10'] > $item['bia5']) $matchScore++;    // 乖離率排列
-                if ($matchScore >= 4) {
+                // --- 沿用的技術/籌碼面條件(4條) ---
+                if ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) $matchScore++;                 // 借券回補
+                if ($item['margin_balance'] < $item['sbl_sold_balance']) $matchScore++;               // 軋空潛力
+                if ($item['vma5'] > $item['vma20']) $matchScore++;                                    // 量能放大
+                if ($item['bia20'] > $item['bia10'] && $item['bia10'] > $item['bia5']) $matchScore++; // 乖離率排列
+
+                // --- 新增的策略/組合技條件(6條，依 comboTracking 回測結果設計) ---
+                $comboPair = [$item['strategy_type'] ?? '', $item['ma_strategy'] ?? ''];
+                if (in_array($comboPair, $goodComboPairs, false)) $matchScore++;                      // 策略組合命中(多組合，非單押籌碼潛伏)
+                if (in_array('洗盤完成', $item['matched_combos'] ?? [], true)) $matchScore++;          // 洗盤完成標籤
+                if (in_array('法人鎖碼', $item['matched_combos'] ?? [], true)) $matchScore++;          // 法人鎖碼標籤
+                if (!in_array($item['ma_strategy'] ?? '', ['均線偏離', '主升段加速'], true)) $matchScore++; // 不追價
+                if (!in_array('出貨警訊', $item['matched_combos'] ?? [], true)) $matchScore++;         // 排除出貨警訊
+                if (($item['rating'] ?? '') !== 'D') $matchScore++;                                    // 排除品質過差
+                if ($matchScore >= 7) {
                     $item['self_select_match_score'] = $matchScore;
                     $filter[] = $item;
                 }

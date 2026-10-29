@@ -457,7 +457,23 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
                 'price_chg_pct' => $priceChgPct,
                 'score_start' => $s0['score'],
                 'score_end' => $s2['score'],
-                'score_chg' => $scoreChg
+                'score_chg' => $scoreChg,
+                // === 2026-10-28 新增：自選評分「方案A」(7/10) 回測用的原始欄位 ===
+                // 存原始數值而非算好的判定結果，日後要調整門檻或條件組合時不必重新累積資料，
+                // 直接用這些欄位重算即可。對應 checkAndRun.php 自選評分的 6 個舊條件。
+                'net_sbl' => $s0['net_sbl'] ?? null,
+                'net_sbl_sum5' => $s0['net_sbl_sum5'] ?? null,
+                'foreign_streak_days' => $s0['foreign_streak_days'] ?? null,
+                'trust_streak_days' => $s0['trust_streak_days'] ?? null,
+                'margin_balance' => $s0['margin_balance'] ?? null,
+                'margin_balance_diff' => $s0['margin_balance_diff'] ?? null,
+                'margin_balance_diff_sum5' => $s0['margin_balance_diff_sum5'] ?? null,
+                'sbl_sold_balance' => $s0['sbl_sold_balance'] ?? null,
+                'vma5' => $s0['vma5'] ?? null,
+                'vma20' => $s0['vma20'] ?? null,
+                'bia5' => $s0['bia5'] ?? null,
+                'bia10' => $s0['bia10'] ?? null,
+                'bia20' => $s0['bia20'] ?? null
             ];
         }
     }
@@ -519,6 +535,6 @@ function summarizeComboTracking(int $trackDays = 2, bool $onlyInFilter = false, 
             'avg_score_chg' => round($g['score_chg_sum'] / $g['n'], 1)
         ];
     }
-    usort($result, fn($a, $b) => $b['avg_price_chg_pct'] <=> $a['avg_price_chg_pct']);
+    usort($result, fn ($a, $b) => $b['avg_price_chg_pct'] <=> $a['avg_price_chg_pct']);
     return $result;
 }
