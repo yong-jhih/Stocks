@@ -5951,6 +5951,12 @@
         "stock_type": "TSE",
         "industry": "其他"
     },
+    "7867": {
+        "stock_id": "7867",
+        "stock_name": "特力屋",
+        "stock_type": "TSE",
+        "industry": "居家生活"
+    },
     "8011": {
         "stock_id": "8011",
         "stock_name": "台通",
@@ -10763,6 +10769,12 @@
         "stock_type": "TPEx",
         "industry": "半導體業"
     },
+    "6825": {
+        "stock_id": "6825",
+        "stock_name": "和暢科技",
+        "stock_type": "TPEx",
+        "industry": "電腦及週邊設備業"
+    },
     "6829": {
         "stock_id": "6829",
         "stock_name": "千附精密",
@@ -10936,6 +10948,12 @@
         "stock_name": "佑全",
         "stock_type": "TPEx",
         "industry": "生技醫療業"
+    },
+    "6938": {
+        "stock_id": "6938",
+        "stock_name": "藍新資訊",
+        "stock_type": "TPEx",
+        "industry": "資訊服務業"
     },
     "6945": {
         "stock_id": "6945",
@@ -12281,6 +12299,12 @@
         "stock_type": "ESM",
         "industry": "電子零組件業"
     },
+    "5235": {
+        "stock_id": "5235",
+        "stock_name": "金運",
+        "stock_type": "ESM",
+        "industry": "電腦及週邊設備業"
+    },
     "5240": {
         "stock_id": "5240",
         "stock_name": "建騰",
@@ -12772,12 +12796,6 @@
         "stock_name": "連訊",
         "stock_type": "ESM",
         "industry": "通信網路業"
-    },
-    "6825": {
-        "stock_id": "6825",
-        "stock_name": "和暢科技",
-        "stock_type": "ESM",
-        "industry": "電腦及週邊設備業"
     },
     "6826": {
         "stock_id": "6826",
@@ -13625,12 +13643,6 @@
         "stock_type": "ESM",
         "industry": "半導體業"
     },
-    "7867": {
-        "stock_id": "7867",
-        "stock_name": "特力屋",
-        "stock_type": "ESM",
-        "industry": "居家生活"
-    },
     "7868": {
         "stock_id": "7868",
         "stock_name": "聖育",
@@ -14086,6 +14098,18 @@
         "stock_name": "宇田控制",
         "stock_type": "ESM",
         "industry": "半導體業"
+    },
+    "7963": {
+        "stock_id": "7963",
+        "stock_name": "安達康",
+        "stock_type": "ESM",
+        "industry": "其他電子業"
+    },
+    "7965": {
+        "stock_id": "7965",
+        "stock_name": "昆桐",
+        "stock_type": "ESM",
+        "industry": "通信網路業"
     },
     "8058": {
         "stock_id": "8058",

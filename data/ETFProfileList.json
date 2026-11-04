@@ -77,6 +77,12 @@
         "stock_type": "ETF",
         "industry": ""
     },
+    "00416A": {
+        "stock_id": "00416A",
+        "stock_name": "主動台新臺灣中小",
+        "stock_type": "ETF",
+        "industry": ""
+    },
     "0050": {
         "stock_id": "0050",
         "stock_name": "元大台灣50",
@@ -1514,6 +1520,18 @@
     "00982T": {
         "stock_id": "00982T",
         "stock_name": "平衡兆豐台美動能",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009831": {
+        "stock_id": "009831",
+        "stock_name": "FT核心AI電力算力",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009832": {
+        "stock_id": "009832",
+        "stock_name": "兆豐美國黃金",
         "stock_type": "ETF",
         "industry": ""
     },
