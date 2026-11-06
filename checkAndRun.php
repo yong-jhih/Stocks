@@ -51,6 +51,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         writeLog($pdo, 'generateDailyDashboard', "[{$targetDate}] 篩選分析完成，共 " . count($resultsMix) . " 檔", 'success');
         writeLog($pdo, 'topPerformingGenerateDailyDashboard', "[{$targetDate}] 排行分析完成，共 " . count($resultsTopMix) . " 檔", 'success');
         updateDateList($targetDate);
+        // 2026-11-06 新增：analyzeMarketTrend() 移到 trackComboPerformance() 之前執行，
+        // 讓 data/marketTrend.json 在這裡先被寫成「今天」的分數/趨勢，trackComboPerformance()
+        // 才能讀到當下這天的數值存進 comboTracking.json（原本 analyzeMarketTrend() 排在後面，
+        // trackComboPerformance() 會讀到前一天殘留的檔案）。analyzeMarketTrend() 本身不依賴
+        // 這段之間任何變數，往前移動不影響原本的 LINE 通知等後續邏輯。
+        analyzeMarketTrend($pdo);
         // 累積策略組合後續表現追蹤（1/2/5 個交易日），寫入 data/comboTracking.json，
         // 要等 dateList.json 更新、且累積到足夠交易日數後才會真的寫入資料。
         trackComboPerformance($pdo, $targetDate);
@@ -153,7 +159,6 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             $lineNotifyStr = "{$institutionalStr}{$lineNotifyStr}";
         }
 
-        analyzeMarketTrend($pdo);
         updateSystemLog($pdo);
         lineNotification($pdo, getenv('LINE_TARGET'), "{$lineNotifyStr} 今日盤後篩選及評分排行已完成, 請稍候佈署 - https://yong-jhih.github.io/Stocks/");
     } catch (Throwable $e) {

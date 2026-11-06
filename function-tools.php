@@ -403,6 +403,27 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
         $tracking = json_decode(file_get_contents($trackingPath), true) ?: [];
     }
 
+    // 2026-11-06 新增：data/marketTrend.json 每天都是直接覆寫、沒有保留歷史，
+    // 過了當天就永遠查不回「那天大盤分數多少」。這裡在寫入 comboTracking.json 的同時，
+    // 把當下的大盤分數/趨勢一起存進每一筆紀錄，之後才能依「盤勢」分組回測
+    // （例如比較大盤穩定期 vs 弱勢期，同一組合的絕對勝率/報酬差異），
+    // 且這個欄位會跟著 comboTracking.json 一起不受 cleanData() 的保留天數限制清除。
+    // 注意：checkAndRun.php 需確保 analyzeMarketTrend($pdo) 在呼叫本函式之前先執行過，
+    // 否則這裡讀到的會是前一天殘留的分數。
+    $marketScore = null;
+    $marketTrend = null;
+    $marketTrendPath = "data/marketTrend.json";
+    if (file_exists($marketTrendPath)) {
+        $marketTrendData = json_decode(file_get_contents($marketTrendPath), true);
+        if (is_array($marketTrendData) && ($marketTrendData['date'] ?? null) === $targetDate) {
+            $marketScore = $marketTrendData['score'] ?? null;
+            $marketTrend = $marketTrendData['trend'] ?? null;
+        } else {
+            // 日期對不上，代表 analyzeMarketTrend() 還沒跑過今天的份，記錄下來方便排查
+            writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] marketTrend.json 日期與 targetDate 不符，market_score/market_trend 將記為 null", 'warning');
+        }
+    }
+
     foreach ($trackDaysList as $n) {
         $startIndex = $targetIndex + $n;
         if (!isset($dateList[$startIndex])) {
@@ -452,6 +473,9 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
                 'matched_combos' => $s0['matched_combos'],
                 'rating' => $s0['rating'],
                 'in_filter' => isset($filterIds[$sid]),
+                // 2026-11-06 新增：寫入當下(end_date=targetDate)的大盤分數/趨勢，供日後依盤勢分組回測
+                'market_score' => $marketScore,
+                'market_trend' => $marketTrend,
                 'price_start' => $s0['close'],
                 'price_end' => $s2['close'],
                 'price_chg_pct' => $priceChgPct,
