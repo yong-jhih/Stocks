@@ -1,5 +1,19 @@
 [
     {
+        "id": 17010002,
+        "log_time": "2026-11-07 02:21:44",
+        "log_type": "checkAndRun",
+        "content": "排行分析失敗",
+        "result": "error"
+    },
+    {
+        "id": 17010001,
+        "log_time": "2026-11-06 23:57:05",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-06] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 16980016,
         "log_time": "2026-11-06 23:33:20",
         "log_type": "updateAllHistory",
