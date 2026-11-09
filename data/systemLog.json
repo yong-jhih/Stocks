@@ -1,5 +1,110 @@
 [
     {
+        "id": 17100015,
+        "log_time": "2026-11-09 16:03:23",
+        "log_type": "dbClean",
+        "content": "資料庫維護完成",
+        "result": "end"
+    },
+    {
+        "id": 17100014,
+        "log_time": "2026-11-09 16:03:23",
+        "log_type": "dbClean",
+        "content": "system_logs 資料清理成功: 共刪除 139 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100013,
+        "log_time": "2026-11-09 16:03:23",
+        "log_type": "dbClean",
+        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100012,
+        "log_time": "2026-11-09 16:03:22",
+        "log_type": "dbClean",
+        "content": "etf_component 資料清理成功: 共刪除 100 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100011,
+        "log_time": "2026-11-09 16:03:22",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 1622 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100010,
+        "log_time": "2026-11-09 16:03:21",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 1458 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100009,
+        "log_time": "2026-11-09 16:03:21",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_margin 資料清理成功: 共刪除 1594 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100008,
+        "log_time": "2026-11-09 16:03:21",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_insti 資料清理成功: 共刪除 1611 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100007,
+        "log_time": "2026-11-09 16:03:20",
+        "log_type": "dbClean",
+        "content": "TPEx_stock_history 資料清理成功: 共刪除 1778 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100006,
+        "log_time": "2026-11-09 16:03:20",
+        "log_type": "dbClean",
+        "content": "stock_sbl_sold 資料清理成功: 共刪除 2114 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100005,
+        "log_time": "2026-11-09 16:03:20",
+        "log_type": "dbClean",
+        "content": "stock_sbl_total 資料清理成功: 共刪除 1991 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100004,
+        "log_time": "2026-11-09 16:03:19",
+        "log_type": "dbClean",
+        "content": "stock_margin 資料清理成功: 共刪除 2104 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100003,
+        "log_time": "2026-11-09 16:03:19",
+        "log_type": "dbClean",
+        "content": "stock_insti 資料清理成功: 共刪除 2144 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100002,
+        "log_time": "2026-11-09 16:03:18",
+        "log_type": "dbClean",
+        "content": "stock_history 資料清理成功: 共刪除 2166 筆",
+        "result": "success"
+    },
+    {
+        "id": 17100001,
+        "log_time": "2026-11-09 16:03:18",
+        "log_type": "dbClean",
+        "content": "開始進行資料庫維護",
+        "result": "start"
+    },
+    {
         "id": 17070011,
         "log_time": "2026-11-07 10:51:38",
         "log_type": "update00991A",
@@ -1843,979 +1948,6 @@
     {
         "id": 16500001,
         "log_time": "2026-10-30 16:03:14",
-        "log_type": "dbClean",
-        "content": "開始進行資料庫維護",
-        "result": "start"
-    },
-    {
-        "id": 16470028,
-        "log_time": "2026-10-29 21:30:20",
-        "log_type": "update00991A",
-        "content": "00991A 成分股資料更新完成, 共耗時 1.38 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470027,
-        "log_time": "2026-10-29 21:30:18",
-        "log_type": "update00991A",
-        "content": "取得交易日期 [2026-10-29], 開始更新 00991A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16470026,
-        "log_time": "2026-10-29 21:30:18",
-        "log_type": "update00403A",
-        "content": "00403A 成分股資料更新完成, 共耗時 1.42 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470025,
-        "log_time": "2026-10-29 21:30:17",
-        "log_type": "update00403A",
-        "content": "取得交易日期 [2026-10-29], 開始更新 00403A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16470024,
-        "log_time": "2026-10-29 21:30:16",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成, 共耗時 1.54 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470023,
-        "log_time": "2026-10-29 21:30:15",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-10-29], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16470022,
-        "log_time": "2026-10-29 21:30:15",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-29] 盤後篩選及評分排行已完成, 共耗時 537.27 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470021,
-        "log_time": "2026-10-29 21:29:59",
-        "log_type": "trackComboPerformance",
-        "content": "[2026-10-29] 組合追蹤資料已更新，累積共 15626 筆",
-        "result": "success"
-    },
-    {
-        "id": 16470020,
-        "log_time": "2026-10-29 21:29:59",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-10-29] 排行分析完成，共 690 檔",
-        "result": "success"
-    },
-    {
-        "id": 16470019,
-        "log_time": "2026-10-29 21:29:59",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-29] 篩選分析完成，共 1 檔",
-        "result": "success"
-    },
-    {
-        "id": 16470018,
-        "log_time": "2026-10-29 21:21:18",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-29] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
-        "id": 16470017,
-        "log_time": "2026-10-29 21:16:44",
-        "log_type": "updateAllHistory",
-        "content": "歷史資料更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
-        "id": 16470016,
-        "log_time": "2026-10-29 21:16:44",
-        "log_type": "updateAllTPExHistory",
-        "content": "更新上櫃盤後資料結束, 共耗時 680.4 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470015,
-        "log_time": "2026-10-29 21:16:44",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-29 上櫃公司 借券賣出餘額 更新完成,共新增 815 筆,耗時 125.73 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470014,
-        "log_time": "2026-10-29 21:14:38",
-        "log_type": "insertTPExSBLTotal",
-        "content": "2026-10-29 上櫃公司 借券餘額 更新完成,共新增 733 筆,耗時 113.03 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470013,
-        "log_time": "2026-10-29 21:12:44",
-        "log_type": "insertTPExMargin",
-        "content": "2026-10-29 上櫃公司 融資融券彙總 更新完成,共新增 802 筆,耗時 123.55 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470012,
-        "log_time": "2026-10-29 21:10:40",
-        "log_type": "insertTPExInsti",
-        "content": "2026-10-29 上櫃公司 三大法人買賣超 更新完成,共新增 760 筆,耗時 117.2 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470011,
-        "log_time": "2026-10-29 21:08:43",
-        "log_type": "insertTPExHistory",
-        "content": "2026-10-29 上櫃個股日成交 更新完成,共新增 892 筆,耗時 137.4 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470010,
-        "log_time": "2026-10-29 21:05:44",
-        "log_type": "getTPExInsti",
-        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16470009,
-        "log_time": "2026-10-29 21:05:24",
-        "log_type": "updateAllTPExHistory",
-        "content": "取得交易日期 [2026-10-29] 開始更新上櫃盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16470008,
-        "log_time": "2026-10-29 21:05:23",
-        "log_type": "updateAllHistory",
-        "content": "更新上市盤後資料結束, 共耗時 849.61 秒",
-        "result": "end"
-    },
-    {
-        "id": 16470007,
-        "log_time": "2026-10-29 21:05:23",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-29 借券賣出餘額 更新完成,共新增 1063 筆,耗時 163.95 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470006,
-        "log_time": "2026-10-29 21:02:39",
-        "log_type": "insertSBLTotal",
-        "content": "2026-10-29 借券餘額 更新完成,共新增 1000 筆,耗時 154.04 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470005,
-        "log_time": "2026-10-29 21:00:05",
-        "log_type": "insertMargin",
-        "content": "2026-10-29 融資融券彙總 更新完成,共新增 1061 筆,耗時 163.28 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470004,
-        "log_time": "2026-10-29 20:57:21",
-        "log_type": "insertInsti",
-        "content": "2026-10-29 三大法人買賣超 更新完成,共新增 1077 筆,耗時 165.92 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470003,
-        "log_time": "2026-10-29 20:54:35",
-        "log_type": "insertHistory",
-        "content": "2026-10-29 上市個股日成交 更新完成,共新增 1091 筆,耗時 168.27 秒",
-        "result": "success"
-    },
-    {
-        "id": 16470002,
-        "log_time": "2026-10-29 20:51:14",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 [2026-10-29] 開始更新上市盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16470001,
-        "log_time": "2026-10-29 20:51:14",
-        "log_type": "updateAllHistory",
-        "content": "偵測 [2026-10-29] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
-        "result": "waitting"
-    },
-    {
-        "id": 16440015,
-        "log_time": "2026-10-29 16:03:19",
-        "log_type": "dbClean",
-        "content": "資料庫維護完成",
-        "result": "end"
-    },
-    {
-        "id": 16440014,
-        "log_time": "2026-10-29 16:03:19",
-        "log_type": "dbClean",
-        "content": "system_logs 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440013,
-        "log_time": "2026-10-29 16:03:18",
-        "log_type": "dbClean",
-        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440012,
-        "log_time": "2026-10-29 16:03:18",
-        "log_type": "dbClean",
-        "content": "etf_component 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440011,
-        "log_time": "2026-10-29 16:03:18",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440010,
-        "log_time": "2026-10-29 16:03:18",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440009,
-        "log_time": "2026-10-29 16:03:17",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440008,
-        "log_time": "2026-10-29 16:03:17",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440007,
-        "log_time": "2026-10-29 16:03:17",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440006,
-        "log_time": "2026-10-29 16:03:17",
-        "log_type": "dbClean",
-        "content": "stock_sbl_sold 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440005,
-        "log_time": "2026-10-29 16:03:16",
-        "log_type": "dbClean",
-        "content": "stock_sbl_total 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440004,
-        "log_time": "2026-10-29 16:03:16",
-        "log_type": "dbClean",
-        "content": "stock_margin 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440003,
-        "log_time": "2026-10-29 16:03:16",
-        "log_type": "dbClean",
-        "content": "stock_insti 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440002,
-        "log_time": "2026-10-29 16:03:15",
-        "log_type": "dbClean",
-        "content": "stock_history 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16440001,
-        "log_time": "2026-10-29 16:03:15",
-        "log_type": "dbClean",
-        "content": "開始進行資料庫維護",
-        "result": "start"
-    },
-    {
-        "id": 16410027,
-        "log_time": "2026-10-28 21:40:03",
-        "log_type": "update00991A",
-        "content": "00991A 成分股資料更新完成, 共耗時 1.17 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410026,
-        "log_time": "2026-10-28 21:40:02",
-        "log_type": "update00991A",
-        "content": "取得交易日期 [2026-10-28], 開始更新 00991A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16410025,
-        "log_time": "2026-10-28 21:40:02",
-        "log_type": "update00403A",
-        "content": "00403A 成分股資料更新完成, 共耗時 1.22 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410024,
-        "log_time": "2026-10-28 21:40:00",
-        "log_type": "update00403A",
-        "content": "取得交易日期 [2026-10-28], 開始更新 00403A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16410023,
-        "log_time": "2026-10-28 21:40:00",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成, 共耗時 1.35 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410022,
-        "log_time": "2026-10-28 21:39:59",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-10-28], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16410021,
-        "log_time": "2026-10-28 21:39:59",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-28] 盤後篩選及評分排行已完成, 共耗時 728.72 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410020,
-        "log_time": "2026-10-28 21:39:28",
-        "log_type": "trackComboPerformance",
-        "content": "[2026-10-28] 組合追蹤資料已更新，累積共 13593 筆",
-        "result": "success"
-    },
-    {
-        "id": 16410019,
-        "log_time": "2026-10-28 21:39:28",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-10-28] 排行分析完成，共 695 檔",
-        "result": "success"
-    },
-    {
-        "id": 16410018,
-        "log_time": "2026-10-28 21:39:27",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-28] 篩選分析完成，共 32 檔",
-        "result": "success"
-    },
-    {
-        "id": 16410017,
-        "log_time": "2026-10-28 21:27:50",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-28] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
-        "id": 16410016,
-        "log_time": "2026-10-28 21:23:27",
-        "log_type": "updateAllHistory",
-        "content": "歷史資料更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
-        "id": 16410015,
-        "log_time": "2026-10-28 21:23:27",
-        "log_type": "updateAllTPExHistory",
-        "content": "更新上櫃盤後資料結束, 共耗時 673.29 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410014,
-        "log_time": "2026-10-28 21:23:27",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-28 上櫃公司 借券賣出餘額 更新完成,共新增 815 筆,耗時 128.07 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410013,
-        "log_time": "2026-10-28 21:21:18",
-        "log_type": "insertTPExSBLTotal",
-        "content": "2026-10-28 上櫃公司 借券餘額 更新完成,共新增 733 筆,耗時 115.28 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410012,
-        "log_time": "2026-10-28 21:19:23",
-        "log_type": "insertTPExMargin",
-        "content": "2026-10-28 上櫃公司 融資融券彙總 更新完成,共新增 802 筆,耗時 126.2 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410011,
-        "log_time": "2026-10-28 21:17:16",
-        "log_type": "insertTPExInsti",
-        "content": "2026-10-28 上櫃公司 三大法人買賣超 更新完成,共新增 785 筆,耗時 123.81 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410010,
-        "log_time": "2026-10-28 21:15:12",
-        "log_type": "insertTPExHistory",
-        "content": "2026-10-28 上櫃個股日成交 更新完成,共新增 895 筆,耗時 140.99 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410009,
-        "log_time": "2026-10-28 21:12:14",
-        "log_type": "updateAllTPExHistory",
-        "content": "取得交易日期 [2026-10-28] 開始更新上櫃盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16410008,
-        "log_time": "2026-10-28 21:12:13",
-        "log_type": "updateAllHistory",
-        "content": "更新上市盤後資料結束, 共耗時 863.36 秒",
-        "result": "end"
-    },
-    {
-        "id": 16410007,
-        "log_time": "2026-10-28 21:12:13",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-28 借券賣出餘額 更新完成,共新增 1063 筆,耗時 167.66 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410006,
-        "log_time": "2026-10-28 21:09:25",
-        "log_type": "insertSBLTotal",
-        "content": "2026-10-28 借券餘額 更新完成,共新增 1000 筆,耗時 157.35 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410005,
-        "log_time": "2026-10-28 21:06:47",
-        "log_type": "insertMargin",
-        "content": "2026-10-28 融資融券彙總 更新完成,共新增 1061 筆,耗時 167.02 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410004,
-        "log_time": "2026-10-28 21:04:00",
-        "log_type": "insertInsti",
-        "content": "2026-10-28 三大法人買賣超 更新完成,共新增 1082 筆,耗時 170.42 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410003,
-        "log_time": "2026-10-28 21:01:09",
-        "log_type": "insertHistory",
-        "content": "2026-10-28 上市個股日成交 更新完成,共新增 1091 筆,耗時 171.72 秒",
-        "result": "success"
-    },
-    {
-        "id": 16410002,
-        "log_time": "2026-10-28 20:57:50",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 [2026-10-28] 開始更新上市盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16410001,
-        "log_time": "2026-10-28 20:57:50",
-        "log_type": "updateAllHistory",
-        "content": "偵測 [2026-10-28] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
-        "result": "waitting"
-    },
-    {
-        "id": 16380021,
-        "log_time": "2026-10-28 16:10:15",
-        "log_type": "dbClean",
-        "content": "資料庫維護完成",
-        "result": "end"
-    },
-    {
-        "id": 16380020,
-        "log_time": "2026-10-28 16:10:15",
-        "log_type": "dbClean",
-        "content": "system_logs 資料清理成功: 共刪除 2 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380019,
-        "log_time": "2026-10-28 16:10:14",
-        "log_type": "dbClean",
-        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380018,
-        "log_time": "2026-10-28 16:10:14",
-        "log_type": "dbClean",
-        "content": "etf_component 資料清理成功: 共刪除 50 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380017,
-        "log_time": "2026-10-28 16:10:14",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 812 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380016,
-        "log_time": "2026-10-28 16:10:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 732 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380015,
-        "log_time": "2026-10-28 16:10:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_margin 資料清理成功: 共刪除 798 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380014,
-        "log_time": "2026-10-28 16:10:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_insti 資料清理成功: 共刪除 800 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380013,
-        "log_time": "2026-10-28 16:10:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_history 資料清理成功: 共刪除 889 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380012,
-        "log_time": "2026-10-28 16:10:12",
-        "log_type": "dbClean",
-        "content": "stock_sbl_sold 資料清理成功: 共刪除 1056 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380011,
-        "log_time": "2026-10-28 16:10:12",
-        "log_type": "dbClean",
-        "content": "stock_sbl_total 資料清理成功: 共刪除 994 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380010,
-        "log_time": "2026-10-28 16:10:12",
-        "log_type": "dbClean",
-        "content": "stock_margin 資料清理成功: 共刪除 1050 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380009,
-        "log_time": "2026-10-28 16:10:11",
-        "log_type": "dbClean",
-        "content": "stock_insti 資料清理成功: 共刪除 1075 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380008,
-        "log_time": "2026-10-28 16:10:11",
-        "log_type": "dbClean",
-        "content": "stock_history 資料清理成功: 共刪除 1082 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380007,
-        "log_time": "2026-10-28 16:10:11",
-        "log_type": "dbClean",
-        "content": "開始進行資料庫維護",
-        "result": "start"
-    },
-    {
-        "id": 16380006,
-        "log_time": "2026-10-28 16:10:11",
-        "log_type": "updateStockProfile",
-        "content": "基本資料及產業別及次產業概念更新完成,共耗時 417.62 秒",
-        "result": "end"
-    },
-    {
-        "id": 16380005,
-        "log_time": "2026-10-28 16:10:10",
-        "log_type": "updateConcept",
-        "content": "概念股 更新完成,共更新 4211 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380004,
-        "log_time": "2026-10-28 16:07:59",
-        "log_type": "updateSubIndustry",
-        "content": "次產業 更新完成,共更新 6706 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380003,
-        "log_time": "2026-10-28 16:03:54",
-        "log_type": "updateIndustry",
-        "content": "產業別 更新完成,共更新 2632 筆",
-        "result": "success"
-    },
-    {
-        "id": 16380002,
-        "log_time": "2026-10-28 16:03:24",
-        "log_type": "getStockProfileTPEx",
-        "content": "證交所回傳錯誤訊息：JSON 解析失敗, 準備執行第 1 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16380001,
-        "log_time": "2026-10-28 16:03:13",
-        "log_type": "updateStockProfile",
-        "content": "開始更新基本資料及產業別及次產業概念",
-        "result": "start"
-    },
-    {
-        "id": 16350033,
-        "log_time": "2026-10-27 21:39:24",
-        "log_type": "update00991A",
-        "content": "00991A 成分股資料更新完成, 共耗時 1.44 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350032,
-        "log_time": "2026-10-27 21:39:22",
-        "log_type": "update00991A",
-        "content": "取得交易日期 [2026-10-27], 開始更新 00991A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16350031,
-        "log_time": "2026-10-27 21:39:22",
-        "log_type": "update00403A",
-        "content": "00403A 成分股資料更新完成, 共耗時 1.44 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350030,
-        "log_time": "2026-10-27 21:39:21",
-        "log_type": "update00403A",
-        "content": "取得交易日期 [2026-10-27], 開始更新 00403A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16350029,
-        "log_time": "2026-10-27 21:39:21",
-        "log_type": "update00981A",
-        "content": "00981A 成分股資料更新完成, 共耗時 1.65 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350028,
-        "log_time": "2026-10-27 21:39:19",
-        "log_type": "update00981A",
-        "content": "取得交易日期 [2026-10-27], 開始更新 00981A 成分股資料",
-        "result": "start"
-    },
-    {
-        "id": 16350027,
-        "log_time": "2026-10-27 21:39:19",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-27] 盤後篩選及評分排行已完成, 共耗時 689.63 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350026,
-        "log_time": "2026-10-27 21:38:48",
-        "log_type": "trackComboPerformance",
-        "content": "[2026-10-27] 組合追蹤資料已更新，累積共 11562 筆",
-        "result": "success"
-    },
-    {
-        "id": 16350025,
-        "log_time": "2026-10-27 21:38:48",
-        "log_type": "topPerformingGenerateDailyDashboard",
-        "content": "[2026-10-27] 排行分析完成，共 689 檔",
-        "result": "success"
-    },
-    {
-        "id": 16350024,
-        "log_time": "2026-10-27 21:38:48",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-27] 篩選分析完成，共 6 檔",
-        "result": "success"
-    },
-    {
-        "id": 16350023,
-        "log_time": "2026-10-27 21:27:49",
-        "log_type": "generateDailyDashboard",
-        "content": "[2026-10-27] 資料數量正常, 開始進行盤後篩選及評分排行",
-        "result": "start"
-    },
-    {
-        "id": 16350022,
-        "log_time": "2026-10-27 21:25:24",
-        "log_type": "updateAllHistory",
-        "content": "歷史資料更新完畢, 等待下階段進入分析",
-        "result": "waitting"
-    },
-    {
-        "id": 16350021,
-        "log_time": "2026-10-27 21:25:24",
-        "log_type": "updateAllTPExHistory",
-        "content": "更新上櫃盤後資料結束, 共耗時 800.72 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350020,
-        "log_time": "2026-10-27 21:25:24",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-27 上櫃公司 借券賣出餘額 更新完成,共新增 815 筆,耗時 126.25 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350019,
-        "log_time": "2026-10-27 21:23:17",
-        "log_type": "insertTPExSBLTotal",
-        "content": "2026-10-27 上櫃公司 借券餘額 更新完成,共新增 734 筆,耗時 113.66 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350018,
-        "log_time": "2026-10-27 21:21:23",
-        "log_type": "insertTPExMargin",
-        "content": "2026-10-27 上櫃公司 融資融券彙總 更新完成,共新增 802 筆,耗時 124.19 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350017,
-        "log_time": "2026-10-27 21:19:19",
-        "log_type": "insertTPExInsti",
-        "content": "2026-10-27 上櫃公司 三大法人買賣超 更新完成,共新增 772 筆,耗時 119.69 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350016,
-        "log_time": "2026-10-27 21:17:19",
-        "log_type": "insertTPExHistory",
-        "content": "2026-10-27 上櫃個股日成交 更新完成,共新增 895 筆,耗時 138.76 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350015,
-        "log_time": "2026-10-27 21:13:56",
-        "log_type": "updateAllTPExHistory",
-        "content": "第 1\/10 次抓取完成, 尚有缺漏資料, 60秒後重試",
-        "result": "warning"
-    },
-    {
-        "id": 16350014,
-        "log_time": "2026-10-27 21:13:17",
-        "log_type": "getTPExInsti",
-        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16350013,
-        "log_time": "2026-10-27 21:13:12",
-        "log_type": "getTPExHistory",
-        "content": "取得 上櫃每日收盤行情 重試 3 次失敗, 跳過",
-        "result": "warning"
-    },
-    {
-        "id": 16350012,
-        "log_time": "2026-10-27 21:13:02",
-        "log_type": "getTPExHistory",
-        "content": "櫃買中心回傳資料異常, 準備執行第 3 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16350011,
-        "log_time": "2026-10-27 21:12:39",
-        "log_type": "getTPExHistory",
-        "content": "櫃買中心回傳資料異常, 準備執行第 2 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16350010,
-        "log_time": "2026-10-27 21:12:14",
-        "log_type": "getTPExHistory",
-        "content": "櫃買中心回傳資料異常, 準備執行第 1 次重試",
-        "result": "warning"
-    },
-    {
-        "id": 16350009,
-        "log_time": "2026-10-27 21:12:03",
-        "log_type": "updateAllTPExHistory",
-        "content": "取得交易日期 [2026-10-27] 開始更新上櫃盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16350008,
-        "log_time": "2026-10-27 21:12:03",
-        "log_type": "updateAllHistory",
-        "content": "更新上市盤後資料結束, 共耗時 852.84 秒",
-        "result": "end"
-    },
-    {
-        "id": 16350007,
-        "log_time": "2026-10-27 21:12:03",
-        "log_type": "insertSBLSold",
-        "content": "2026-10-27 借券賣出餘額 更新完成,共新增 1063 筆,耗時 164.59 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350006,
-        "log_time": "2026-10-27 21:09:18",
-        "log_type": "insertSBLTotal",
-        "content": "2026-10-27 借券餘額 更新完成,共新增 1000 筆,耗時 154.81 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350005,
-        "log_time": "2026-10-27 21:06:43",
-        "log_type": "insertMargin",
-        "content": "2026-10-27 融資融券彙總 更新完成,共新增 1061 筆,耗時 164.27 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350004,
-        "log_time": "2026-10-27 21:03:58",
-        "log_type": "insertInsti",
-        "content": "2026-10-27 三大法人買賣超 更新完成,共新增 1083 筆,耗時 167.7 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350003,
-        "log_time": "2026-10-27 21:01:10",
-        "log_type": "insertHistory",
-        "content": "2026-10-27 上市個股日成交 更新完成,共新增 1091 筆,耗時 168.89 秒",
-        "result": "success"
-    },
-    {
-        "id": 16350002,
-        "log_time": "2026-10-27 20:57:50",
-        "log_type": "updateAllHistory",
-        "content": "取得交易日期 [2026-10-27] 開始更新上市盤後資料",
-        "result": "start"
-    },
-    {
-        "id": 16350001,
-        "log_time": "2026-10-27 20:57:50",
-        "log_type": "updateAllHistory",
-        "content": "偵測 [2026-10-27] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
-        "result": "waitting"
-    },
-    {
-        "id": 16320015,
-        "log_time": "2026-10-27 16:03:15",
-        "log_type": "dbClean",
-        "content": "資料庫維護完成",
-        "result": "end"
-    },
-    {
-        "id": 16320014,
-        "log_time": "2026-10-27 16:03:15",
-        "log_type": "dbClean",
-        "content": "system_logs 資料清理成功: 共刪除 219 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320013,
-        "log_time": "2026-10-27 16:03:14",
-        "log_type": "dbClean",
-        "content": "stock_shareholder 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320012,
-        "log_time": "2026-10-27 16:03:14",
-        "log_type": "dbClean",
-        "content": "etf_component 資料清理成功: 共刪除 150 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320011,
-        "log_time": "2026-10-27 16:03:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_sold 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320010,
-        "log_time": "2026-10-27 16:03:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_sbl_total 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320009,
-        "log_time": "2026-10-27 16:03:13",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_margin 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320008,
-        "log_time": "2026-10-27 16:03:12",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_insti 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320007,
-        "log_time": "2026-10-27 16:03:12",
-        "log_type": "dbClean",
-        "content": "TPEx_stock_history 資料清理成功: 共刪除 0 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320006,
-        "log_time": "2026-10-27 16:03:12",
-        "log_type": "dbClean",
-        "content": "stock_sbl_sold 資料清理成功: 共刪除 3166 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320005,
-        "log_time": "2026-10-27 16:03:11",
-        "log_type": "dbClean",
-        "content": "stock_sbl_total 資料清理成功: 共刪除 2983 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320004,
-        "log_time": "2026-10-27 16:03:11",
-        "log_type": "dbClean",
-        "content": "stock_margin 資料清理成功: 共刪除 3146 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320003,
-        "log_time": "2026-10-27 16:03:10",
-        "log_type": "dbClean",
-        "content": "stock_insti 資料清理成功: 共刪除 3218 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320002,
-        "log_time": "2026-10-27 16:03:10",
-        "log_type": "dbClean",
-        "content": "stock_history 資料清理成功: 共刪除 3246 筆",
-        "result": "success"
-    },
-    {
-        "id": 16320001,
-        "log_time": "2026-10-27 16:03:10",
         "log_type": "dbClean",
         "content": "開始進行資料庫維護",
         "result": "start"
