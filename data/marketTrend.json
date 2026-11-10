@@ -1,10 +1,10 @@
 {
-    "date": "2026-11-09",
-    "score": 28,
-    "trend": "🔴 偏空",
+    "date": "2026-11-10",
+    "score": 30,
+    "trend": "🔴 稍偏空",
     "scoreDetail": {
         "index": {
-            "score": -25,
+            "score": -21,
             "max": 35
         },
         "futures": {
@@ -16,21 +16,17 @@
             "max": 20
         },
         "institutional": {
-            "score": -10,
+            "score": -9,
             "max": 20
         }
     },
     "index": {
-        "close": 41661.7,
-        "changePercent": 4.936974895747373,
-        "change5d": -7.253850945255295,
-        "change20d": -16.35266733953911,
+        "close": 42711.92,
+        "changePercent": 2.5208284827551473,
+        "change5d": -1.3753263288563669,
+        "change20d": -13.386857619342726,
         "change60d": null,
         "history": [
-            {
-                "date": "08\/11",
-                "value": 45120.72
-            },
             {
                 "date": "08\/12",
                 "value": 45518.07
@@ -266,32 +262,30 @@
             {
                 "date": "11\/09",
                 "value": 41661.7
+            },
+            {
+                "date": "11\/10",
+                "value": 42711.92
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 11571,
-            "short": 113342,
-            "net": -101771
+            "long": 9875,
+            "short": 113348,
+            "net": -103473
         },
         "mxf": {
-            "long": 5386,
-            "short": 2336,
-            "net": 3050
+            "long": 7125,
+            "short": 3869,
+            "net": 3256
         },
         "tmf": {
-            "long": 14245,
-            "short": 579,
-            "net": 13666
+            "long": 18711,
+            "short": 612,
+            "net": 18099
         },
         "history": [
-            {
-                "date": "08\/11",
-                "txf": -88924,
-                "mxf": -3835,
-                "tmf": 13362
-            },
             {
                 "date": "08\/12",
                 "txf": -86633,
@@ -645,19 +639,20 @@
                 "txf": -101771,
                 "mxf": 3050,
                 "tmf": 13666
+            },
+            {
+                "date": "11\/10",
+                "txf": -103473,
+                "mxf": 3256,
+                "tmf": 18099
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 18.3,
-        "putCallRatio": 51.19,
+        "retailRatio": 15.38,
+        "putCallRatio": 66.54,
         "trend": "🔴 稍偏空",
         "history": [
-            {
-                "date": "08\/11",
-                "retailRatio": 27.99,
-                "putCallRatio": 123.58
-            },
             {
                 "date": "08\/12",
                 "retailRatio": 20.44,
@@ -952,46 +947,42 @@
                 "date": "11\/09",
                 "retailRatio": 18.3,
                 "putCallRatio": 51.19
+            },
+            {
+                "date": "11\/10",
+                "retailRatio": 15.38,
+                "putCallRatio": 66.54
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 3804.7,
-            "sell": 4749.9,
-            "net": -945.2,
-            "ma20": -983.7
+            "buy": 4711.9,
+            "sell": 4860.1,
+            "net": -148.2,
+            "ma20": -946.2
         },
         "foreign": {
-            "buy": 3078.8,
-            "sell": 3979.4,
-            "net": -900.6
+            "buy": 3843.9,
+            "sell": 4185,
+            "net": -341.1
         },
         "trust": {
-            "buy": 321.8,
-            "sell": 54.4,
-            "net": 267.4
+            "buy": 455.6,
+            "sell": 87.3,
+            "net": 368.3
         },
         "dealer": {
-            "buy": 84,
-            "sell": 147.8,
-            "net": -63.8
+            "buy": 82.3,
+            "sell": 137.7,
+            "net": -55.4
         },
         "dealerRisk": {
-            "buy": 320.1,
-            "sell": 568.5,
-            "net": -248.4
+            "buy": 330.1,
+            "sell": 450.1,
+            "net": -120
         },
         "history": [
-            {
-                "date": "08\/11",
-                "total": 280.1,
-                "total20MA": null,
-                "foreign": 223.3,
-                "trust": 32.2,
-                "dealer": 10.6,
-                "dealerRisk": 14.1
-            },
             {
                 "date": "08\/12",
                 "total": 220,
@@ -1157,7 +1148,7 @@
             {
                 "date": "09\/07",
                 "total": 1138.6,
-                "total20MA": 161.2,
+                "total20MA": null,
                 "foreign": 883.1,
                 "trust": 98.7,
                 "dealer": 59.7,
@@ -1522,6 +1513,15 @@
                 "trust": 267.4,
                 "dealer": -63.8,
                 "dealerRisk": -248.4
+            },
+            {
+                "date": "11\/10",
+                "total": -148.2,
+                "total20MA": -946.2,
+                "foreign": -341.1,
+                "trust": 368.3,
+                "dealer": -55.4,
+                "dealerRisk": -120
             }
         ]
     },
@@ -1545,10 +1545,6 @@
         {
             "type": "bullish",
             "text": "投信單日明顯買超"
-        },
-        {
-            "type": "bearish",
-            "text": "三大法人單日合計明顯賣超"
         }
     ]
 }

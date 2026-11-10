@@ -1,0 +1,114 @@
+[
+    {
+        "stock_id": "4105",
+        "stock_name": "東洋",
+        "stock_type": "TPEx",
+        "industry": "生技醫療業",
+        "subIndustry": [
+            " 中、西藥製劑",
+            " 原材料",
+            " 藥品代理銷售及通路"
+        ],
+        "concept": [
+            "長期照護"
+        ],
+        "score": 66,
+        "rating": "A",
+        "strategy_type": "主升段",
+        "ma_strategy": "均線上彎",
+        "confidence": 1,
+        "trend_score": 20,
+        "momentum_score": 20,
+        "chip_score": 22,
+        "structure_score": 0,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "neutral",
+            "label": "籌碼中性",
+            "score": 0,
+            "latest_change": -54,
+            "latest_change_percent": -0.1,
+            "period_change": -387,
+            "period_change_percent": -0.74,
+            "average_lots_change_percent": 0.63,
+            "consecutive_up": 0,
+            "consecutive_down": 1,
+            "down_streak_level": "none",
+            "data_count": 8,
+            "analysis_period_weeks": 8
+        },
+        "close": 82.2,
+        "yesterday_high": 81.6,
+        "yesterday_low": 79.8,
+        "vol": 1383,
+        "vol_ratio": 1.57,
+        "rank10": 83.61,
+        "rank20": 76.12,
+        "amp10": 7.91,
+        "amp20": 8.69,
+        "ma5": 79.86,
+        "ma10": 80.03,
+        "ma20": 80.79,
+        "ma60": 78.88,
+        "vma5": 880,
+        "vma10": 742,
+        "vma20": 845,
+        "bia5": 2.93,
+        "bia10": 2.71,
+        "bia20": 1.75,
+        "con1": 33.56,
+        "con5": 24.09,
+        "con10": 12.42,
+        "con20": 18.03,
+        "foreign_buy_sell": 388169,
+        "trust_buy_sell": 0,
+        "foreign_sum5": 601,
+        "foreign_sum10": 303,
+        "foreign_sum20": 2069,
+        "trust_sum5": 416,
+        "trust_sum10": 440,
+        "trust_sum20": 426,
+        "foreign_streak_days": 3,
+        "trust_streak_days": 0,
+        "margin_balance": 653,
+        "margin_balance_diff": 28,
+        "margin_balance_diff_sum5": 95,
+        "squeeze": 2.16,
+        "bullet": 4.83,
+        "net_sbl": 7,
+        "net_sbl_sum5": -204,
+        "sbl_total": 5900,
+        "sbl_sold_balance": 1822,
+        "signals": {
+            "trend": {
+                "站上月線": 4,
+                "站上季線": 6,
+                "均線上彎": 10
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 12,
+                "外資連買": 10
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "站上月線",
+            "站上季線",
+            "均線上彎",
+            "爆量突破",
+            "法人集中",
+            "外資連買"
+        ],
+        "trigger_reasons": [
+            "外資連買 3 日",
+            "成交量放大 1.57 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "matched_combos": []
+    }
+]
