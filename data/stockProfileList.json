@@ -7633,7 +7633,7 @@
     },
     "3489": {
         "stock_id": "3489",
-        "stock_name": "森寶",
+        "stock_name": "長耀地產",
         "stock_type": "TPEx",
         "industry": "建材營造"
     },
@@ -14057,11 +14057,17 @@
         "stock_type": "ESM",
         "industry": "其他電子業"
     },
+    "7953": {
+        "stock_id": "7953",
+        "stock_name": "峻佳裝修",
+        "stock_type": "ESM",
+        "industry": "其他"
+    },
     "7954": {
         "stock_id": "7954",
         "stock_name": "鑫詮科技",
         "stock_type": "ESM",
-        "industry": ""
+        "industry": "半導體業"
     },
     "7955": {
         "stock_id": "7955",
@@ -14110,6 +14116,12 @@
         "stock_name": "昆桐",
         "stock_type": "ESM",
         "industry": "通信網路業"
+    },
+    "7971": {
+        "stock_id": "7971",
+        "stock_name": "視博網訊",
+        "stock_type": "ESM",
+        "industry": "光電業"
     },
     "8058": {
         "stock_id": "8058",

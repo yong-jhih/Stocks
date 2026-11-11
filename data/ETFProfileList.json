@@ -71,6 +71,12 @@
         "stock_type": "ETF",
         "industry": ""
     },
+    "00413A": {
+        "stock_id": "00413A",
+        "stock_name": "主動玉山關鍵科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
     "00415A": {
         "stock_id": "00415A",
         "stock_name": "主動群益核心50",
@@ -80,6 +86,12 @@
     "00416A": {
         "stock_id": "00416A",
         "stock_name": "主動台新臺灣中小",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00418A": {
+        "stock_id": "00418A",
+        "stock_name": "主動復華台灣新星",
         "stock_type": "ETF",
         "industry": ""
     },
