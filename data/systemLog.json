@@ -1,5 +1,82 @@
 [
     {
+        "id": 17880011,
+        "log_time": "2026-11-18 22:13:28",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成, 共耗時 1.48 秒",
+        "result": "end"
+    },
+    {
+        "id": 17880010,
+        "log_time": "2026-11-18 22:13:27",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17880009,
+        "log_time": "2026-11-18 22:13:27",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成, 共耗時 1.47 秒",
+        "result": "end"
+    },
+    {
+        "id": 17880008,
+        "log_time": "2026-11-18 22:13:25",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17880007,
+        "log_time": "2026-11-18 22:13:25",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成, 共耗時 1.65 秒",
+        "result": "end"
+    },
+    {
+        "id": 17880006,
+        "log_time": "2026-11-18 22:13:24",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17880005,
+        "log_time": "2026-11-18 22:13:23",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 盤後篩選及評分排行已完成, 共耗時 930.85 秒",
+        "result": "end"
+    },
+    {
+        "id": 17880004,
+        "log_time": "2026-11-18 22:13:07",
+        "log_type": "trackComboPerformance",
+        "content": "[2026-11-18] 組合追蹤資料已更新，累積共 1992 筆",
+        "result": "success"
+    },
+    {
+        "id": 17880003,
+        "log_time": "2026-11-18 22:13:06",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-11-18] 排行分析完成，共 673 檔",
+        "result": "success"
+    },
+    {
+        "id": 17880002,
+        "log_time": "2026-11-18 22:13:06",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 篩選分析完成，共 0 檔",
+        "result": "success"
+    },
+    {
+        "id": 17880001,
+        "log_time": "2026-11-18 21:57:53",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 17850012,
         "log_time": "2026-11-18 21:25:52",
         "log_type": "update00991A",
