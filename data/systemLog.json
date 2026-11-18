@@ -1,5 +1,89 @@
 [
     {
+        "id": 17850012,
+        "log_time": "2026-11-18 21:25:52",
+        "log_type": "update00991A",
+        "content": "00991A 成分股資料更新完成, 共耗時 1.57 秒",
+        "result": "end"
+    },
+    {
+        "id": 17850011,
+        "log_time": "2026-11-18 21:25:50",
+        "log_type": "update00991A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00991A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17850010,
+        "log_time": "2026-11-18 21:25:50",
+        "log_type": "update00403A",
+        "content": "00403A 成分股資料更新完成, 共耗時 1.56 秒",
+        "result": "end"
+    },
+    {
+        "id": 17850009,
+        "log_time": "2026-11-18 21:25:48",
+        "log_type": "update00403A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00403A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17850008,
+        "log_time": "2026-11-18 21:25:48",
+        "log_type": "update00981A",
+        "content": "00981A 成分股資料更新完成, 共耗時 1.78 秒",
+        "result": "end"
+    },
+    {
+        "id": 17850007,
+        "log_time": "2026-11-18 21:25:46",
+        "log_type": "update00981A",
+        "content": "取得交易日期 [2026-11-18], 開始更新 00981A 成分股資料",
+        "result": "start"
+    },
+    {
+        "id": 17850006,
+        "log_time": "2026-11-18 21:25:46",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 盤後篩選及評分排行已完成, 共耗時 500.75 秒",
+        "result": "end"
+    },
+    {
+        "id": 17850005,
+        "log_time": "2026-11-18 21:25:30",
+        "log_type": "trackComboPerformance",
+        "content": "[2026-11-18] 組合追蹤資料已更新，累積共 1992 筆",
+        "result": "success"
+    },
+    {
+        "id": 17850004,
+        "log_time": "2026-11-18 21:25:29",
+        "log_type": "trackComboPerformance",
+        "content": "[2026-11-18] marketTrend.json 日期與 targetDate 不符，market_score\/market_trend 將記為 null",
+        "result": "warning"
+    },
+    {
+        "id": 17850003,
+        "log_time": "2026-11-18 21:25:29",
+        "log_type": "topPerformingGenerateDailyDashboard",
+        "content": "[2026-11-18] 排行分析完成，共 673 檔",
+        "result": "success"
+    },
+    {
+        "id": 17850002,
+        "log_time": "2026-11-18 21:25:29",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 篩選分析完成，共 0 檔",
+        "result": "success"
+    },
+    {
+        "id": 17850001,
+        "log_time": "2026-11-18 21:17:26",
+        "log_type": "generateDailyDashboard",
+        "content": "[2026-11-18] 資料數量正常, 開始進行盤後篩選及評分排行",
+        "result": "start"
+    },
+    {
         "id": 17820016,
         "log_time": "2026-11-18 21:04:47",
         "log_type": "updateAllHistory",
