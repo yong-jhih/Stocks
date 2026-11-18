@@ -453,6 +453,38 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
             return !($r['start_date'] === $startDate && $r['end_date'] === $targetDate && $r['trading_days'] === $n);
         }));
 
+        // 2026-11-18 新增：price_start 用的是 startDate 當天收盤價，但 ma_strategy/matched_combos
+        // 等標籤本質上是「收盤後才跑得出來」的結果，實務上不可能用那天的收盤價成交——最早能進場
+        // 的時間點是 startDate 之後下一個交易日的開盤。這裡額外抓這個開盤價，用來算一組「寫實版」
+        // 報酬率（realistic_price_chg_pct），跟原本理想化版本（price_chg_pct）比較差異，尤其是
+        // 均線偏離/主升段加速這類噴出型標籤，兩者落差可能特別大。原本的 price_chg_pct 保留不動，
+        // 維持跟歷史資料可比較；這兩個新欄位只會從套用這次修改之後的資料開始累積（比照 bia 原始
+        // 欄位 2026-10-28 的做法），舊資料會是 null。
+        $nextDayIndex = $startIndex - 1;
+        $nextDayDate = $dateList[$nextDayIndex] ?? null;
+        $nextDayOpenMap = [];
+        if ($nextDayDate !== null) {
+            $stockIds = array_column($startData, 'stock_id');
+            if (!empty($stockIds)) {
+                $placeholders = implode(',', array_fill(0, count($stockIds), '?'));
+                foreach (['stock_history', 'TPEx_stock_history'] as $histTable) {
+                    try {
+                        $stmt = $pdo->prepare(
+                            "SELECT stock_id, open_price FROM `{$histTable}` WHERE trade_date = ? AND stock_id IN ({$placeholders})"
+                        );
+                        $stmt->execute([$nextDayDate, ...$stockIds]);
+                        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                            $nextDayOpenMap[$row['stock_id']] = (float)$row['open_price'];
+                        }
+                    } catch (PDOException $e) {
+                        writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] 查詢 {$histTable} 開盤價失敗（trading_days={$n}）：{$e->getMessage()}", 'warning');
+                    }
+                }
+            }
+        } else {
+            writeLog($pdo, 'trackComboPerformance', "[{$targetDate}] 找不到 startDate({$startDate}) 後一個交易日，realistic 欄位將記為 null（trading_days={$n}）", 'warning');
+        }
+
         foreach ($startData as $s0) {
             $sid = $s0['stock_id'];
             if (!isset($endMap[$sid])) continue; // 這段期間下市、下櫃或不在榜內，跳過
@@ -461,6 +493,12 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
 
             $priceChgPct = round(($s2['close'] - $s0['close']) / $s0['close'] * 100, 2);
             $scoreChg = $s2['score'] - $s0['score'];
+
+            // 寫實版報酬率：entry 用「startDate 後一個交易日的開盤價」而非「startDate 當天收盤價」
+            $nextOpen = $nextDayOpenMap[$sid] ?? null;
+            $realisticChgPct = ($nextOpen !== null && $nextOpen > 0)
+                ? round(($s2['close'] - $nextOpen) / $nextOpen * 100, 2)
+                : null;
 
             $tracking[] = [
                 'start_date' => $startDate,
@@ -479,6 +517,8 @@ function trackComboPerformance(PDO $pdo, string $targetDate, array $trackDaysLis
                 'price_start' => $s0['close'],
                 'price_end' => $s2['close'],
                 'price_chg_pct' => $priceChgPct,
+                'realistic_entry_open' => $nextOpen,
+                'realistic_price_chg_pct' => $realisticChgPct,
                 'score_start' => $s0['score'],
                 'score_end' => $s2['score'],
                 'score_chg' => $scoreChg,
@@ -538,13 +578,25 @@ function summarizeComboTracking(int $trackDays = 2, bool $onlyInFilter = false, 
                 'n' => 0,
                 'up_count' => 0,
                 'price_chg_sum' => 0,
-                'score_chg_sum' => 0
+                'score_chg_sum' => 0,
+                // 2026-11-18 新增：realistic_price_chg_pct 只有套用修改之後的資料才有值，
+                // 用獨立的 realistic_n 計數，不能直接套用 $g['n']，避免過渡期分母錯誤
+                'realistic_n' => 0,
+                'realistic_up_count' => 0,
+                'realistic_price_chg_sum' => 0
             ];
         }
         $groups[$key]['n']++;
         if ($r['price_chg_pct'] > 0) $groups[$key]['up_count']++;
         $groups[$key]['price_chg_sum'] += $r['price_chg_pct'];
         $groups[$key]['score_chg_sum'] += $r['score_chg'];
+
+        $realisticChgPct = $r['realistic_price_chg_pct'] ?? null;
+        if ($realisticChgPct !== null) {
+            $groups[$key]['realistic_n']++;
+            if ($realisticChgPct > 0) $groups[$key]['realistic_up_count']++;
+            $groups[$key]['realistic_price_chg_sum'] += $realisticChgPct;
+        }
     }
 
     $result = [];
@@ -556,9 +608,14 @@ function summarizeComboTracking(int $trackDays = 2, bool $onlyInFilter = false, 
             'n' => $g['n'],
             'up_rate' => round($g['up_count'] / $g['n'] * 100, 1),
             'avg_price_chg_pct' => round($g['price_chg_sum'] / $g['n'], 2),
-            'avg_score_chg' => round($g['score_chg_sum'] / $g['n'], 1)
+            'avg_score_chg' => round($g['score_chg_sum'] / $g['n'], 1),
+            // 2026-11-18 新增：寫實版（隔天開盤進場）統計，資料不足時回傳 null 而非 0，
+            // 避免被誤讀成「寫實報酬率是 0%」
+            'realistic_n' => $g['realistic_n'],
+            'realistic_up_rate' => $g['realistic_n'] > 0 ? round($g['realistic_up_count'] / $g['realistic_n'] * 100, 1) : null,
+            'avg_realistic_price_chg_pct' => $g['realistic_n'] > 0 ? round($g['realistic_price_chg_sum'] / $g['realistic_n'], 2) : null
         ];
     }
-    usort($result, fn ($a, $b) => $b['avg_price_chg_pct'] <=> $a['avg_price_chg_pct']);
+    usort($result, fn($a, $b) => $b['avg_price_chg_pct'] <=> $a['avg_price_chg_pct']);
     return $result;
 }
