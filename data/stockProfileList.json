@@ -10159,7 +10159,7 @@
     },
     "6474": {
         "stock_id": "6474",
-        "stock_name": "華豫寧",
+        "stock_name": "維夫拉克控股",
         "stock_type": "TPEx",
         "industry": "電子通路業"
     },
@@ -11285,6 +11285,12 @@
         "stock_type": "TPEx",
         "industry": "綠能環保"
     },
+    "7848": {
+        "stock_id": "7848",
+        "stock_name": "騏億鑫",
+        "stock_type": "TPEx",
+        "industry": "其他電子業"
+    },
     "7856": {
         "stock_id": "7856",
         "stock_name": "漢測",
@@ -12214,6 +12220,12 @@
         "stock_name": "春日",
         "stock_type": "ESM",
         "industry": "電機機械"
+    },
+    "4548": {
+        "stock_id": "4548",
+        "stock_name": "名超",
+        "stock_type": "ESM",
+        "industry": "半導體業"
     },
     "4553": {
         "stock_id": "4553",
@@ -13553,12 +13565,6 @@
         "stock_type": "ESM",
         "industry": "觀光餐旅"
     },
-    "7848": {
-        "stock_id": "7848",
-        "stock_name": "騏億鑫",
-        "stock_type": "ESM",
-        "industry": "其他電子業"
-    },
     "7849": {
         "stock_id": "7849",
         "stock_name": "旭誼",
@@ -14093,6 +14099,12 @@
         "stock_type": "ESM",
         "industry": "電機機械"
     },
+    "7959": {
+        "stock_id": "7959",
+        "stock_name": "富宸材料",
+        "stock_type": "ESM",
+        "industry": "其他"
+    },
     "7960": {
         "stock_id": "7960",
         "stock_name": "亞昕科技",
@@ -14116,6 +14128,30 @@
         "stock_name": "昆桐",
         "stock_type": "ESM",
         "industry": "通信網路業"
+    },
+    "7966": {
+        "stock_id": "7966",
+        "stock_name": "璦司柏",
+        "stock_type": "ESM",
+        "industry": "通信網路業"
+    },
+    "7967": {
+        "stock_id": "7967",
+        "stock_name": "旭電馳*",
+        "stock_type": "ESM",
+        "industry": "綠能環保"
+    },
+    "7968": {
+        "stock_id": "7968",
+        "stock_name": "圓達科",
+        "stock_type": "ESM",
+        "industry": "半導體業"
+    },
+    "7969": {
+        "stock_id": "7969",
+        "stock_name": "聚達",
+        "stock_type": "ESM",
+        "industry": "數位雲端"
     },
     "7971": {
         "stock_id": "7971",
