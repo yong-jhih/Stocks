@@ -1,6 +1,6 @@
 {
-    "date": "2026-11-19",
-    "score": 16,
+    "date": "2026-11-20",
+    "score": 15,
     "trend": "🔴 偏空",
     "scoreDetail": {
         "index": {
@@ -16,21 +16,17 @@
             "max": 20
         },
         "institutional": {
-            "score": -9,
+            "score": -11,
             "max": 20
         }
     },
     "index": {
-        "close": 38426.89,
-        "changePercent": -4.398616640763729,
-        "change5d": -10.825661545901822,
-        "change20d": -16.991881913717712,
+        "close": 36033.29,
+        "changePercent": -6.22897143120351,
+        "change5d": -17.49698684285241,
+        "change20d": -23.149917345184036,
         "change60d": null,
         "history": [
-            {
-                "date": "08\/21",
-                "value": 45224.29
-            },
             {
                 "date": "08\/24",
                 "value": 44762.32
@@ -266,32 +262,30 @@
             {
                 "date": "11\/19",
                 "value": 38426.89
+            },
+            {
+                "date": "11\/20",
+                "value": 36033.29
             }
         ]
     },
     "futures": {
         "txf": {
-            "long": 12664,
-            "short": 111883,
-            "net": -99219
+            "long": 16303,
+            "short": 114166,
+            "net": -97863
         },
         "mxf": {
-            "long": 4036,
-            "short": 1901,
-            "net": 2135
+            "long": 4208,
+            "short": 2475,
+            "net": 1733
         },
         "tmf": {
-            "long": 1294,
-            "short": 7668,
-            "net": -6374
+            "long": 1883,
+            "short": 10342,
+            "net": -8459
         },
         "history": [
-            {
-                "date": "08\/21",
-                "txf": -82594,
-                "mxf": -704,
-                "tmf": 5463
-            },
             {
                 "date": "08\/24",
                 "txf": -82529,
@@ -645,19 +639,20 @@
                 "txf": -99219,
                 "mxf": 2135,
                 "tmf": -6374
+            },
+            {
+                "date": "11\/20",
+                "txf": -97863,
+                "mxf": 1733,
+                "tmf": -8459
             }
         ]
     },
     "sentiment": {
-        "retailRatio": 6.29,
-        "putCallRatio": 41,
+        "retailRatio": -1.79,
+        "putCallRatio": 30.05,
         "trend": "🔴 稍偏空",
         "history": [
-            {
-                "date": "08\/21",
-                "retailRatio": 28.44,
-                "putCallRatio": 103.78
-            },
             {
                 "date": "08\/24",
                 "retailRatio": 31.35,
@@ -952,46 +947,42 @@
                 "date": "11\/19",
                 "retailRatio": 6.29,
                 "putCallRatio": 41
+            },
+            {
+                "date": "11\/20",
+                "retailRatio": -1.79,
+                "putCallRatio": 30.05
             }
         ]
     },
     "institutional": {
         "total": {
-            "buy": 4454.8,
-            "sell": 4915.8,
-            "net": -461,
-            "ma20": -601.7
+            "buy": 4192.3,
+            "sell": 4714.7,
+            "net": -522.4,
+            "ma20": -628.1
         },
         "foreign": {
-            "buy": 3655,
-            "sell": 3898.1,
-            "net": -243.1
+            "buy": 3345,
+            "sell": 3439.1,
+            "net": -94.1
         },
         "trust": {
-            "buy": 218.7,
-            "sell": 203.5,
-            "net": 15.2
+            "buy": 221,
+            "sell": 308.5,
+            "net": -87.5
         },
         "dealer": {
-            "buy": 61.2,
-            "sell": 79.8,
-            "net": -18.6
+            "buy": 82.8,
+            "sell": 133.5,
+            "net": -50.7
         },
         "dealerRisk": {
-            "buy": 519.9,
-            "sell": 734.3,
-            "net": -214.4
+            "buy": 543.5,
+            "sell": 833.6,
+            "net": -290.1
         },
         "history": [
-            {
-                "date": "08\/21",
-                "total": 331.1,
-                "total20MA": null,
-                "foreign": 283,
-                "trust": 18.7,
-                "dealer": 29.1,
-                "dealerRisk": 0.1
-            },
             {
                 "date": "08\/24",
                 "total": -163.8,
@@ -1157,7 +1148,7 @@
             {
                 "date": "09\/17",
                 "total": 214.8,
-                "total20MA": -35.1,
+                "total20MA": null,
                 "foreign": 121.9,
                 "trust": 77.1,
                 "dealer": 58.9,
@@ -1522,6 +1513,15 @@
                 "trust": 15.2,
                 "dealer": -18.6,
                 "dealerRisk": -214.4
+            },
+            {
+                "date": "11\/20",
+                "total": -522.4,
+                "total20MA": -628.1,
+                "foreign": -94.1,
+                "trust": -87.5,
+                "dealer": -50.7,
+                "dealerRisk": -290.1
             }
         ]
     },
