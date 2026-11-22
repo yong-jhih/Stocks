@@ -83,8 +83,8 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
             foreach ($resultsMix as $item) {
                 $matchScore = 0;
                 // --- 沿用的技術/籌碼面條件(4條) ---
-                if ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) $matchScore++;                 // 借券回補
-                if ($item['margin_balance'] < $item['sbl_sold_balance']) $matchScore++;               // 軋空潛力
+                // if ($item['net_sbl'] < 0 || $item['net_sbl_sum5'] < 0) $matchScore++;                 // 借券回補
+                // if ($item['margin_balance'] < $item['sbl_sold_balance']) $matchScore++;               // 軋空潛力
                 if ($item['vma5'] > $item['vma20']) $matchScore++;                                    // 量能放大
                 if ($item['bia20'] > $item['bia10'] && $item['bia10'] > $item['bia5']) $matchScore++; // 乖離率排列
 
@@ -96,7 +96,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                 if (!in_array($item['ma_strategy'] ?? '', ['均線偏離', '主升段加速'], true)) $matchScore++; // 不追價
                 if (!in_array('出貨警訊', $item['matched_combos'] ?? [], true)) $matchScore++;         // 排除出貨警訊
                 if (($item['rating'] ?? '') !== 'D') $matchScore++;                                    // 排除品質過差
-                if ($matchScore >= 7) {
+                if ($matchScore >= 5) {
                     $item['self_select_match_score'] = $matchScore;
                     $filter[] = $item;
                 }
