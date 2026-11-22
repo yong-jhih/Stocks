@@ -91,12 +91,12 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                 // --- 新增的策略/組合技條件(6條，依 comboTracking 回測結果設計) ---
                 $comboPair = [$item['strategy_type'] ?? '', $item['ma_strategy'] ?? ''];
                 if (in_array($comboPair, $goodComboPairs, false)) $matchScore++;                      // 策略組合命中(多組合，非單押籌碼潛伏)
-                if (in_array('洗盤完成', $item['matched_combos'] ?? [], true)) $matchScore++;          // 洗盤完成標籤
+                // if (in_array('洗盤完成', $item['matched_combos'] ?? [], true)) $matchScore++;          // 洗盤完成標籤
                 if (in_array('法人鎖碼', $item['matched_combos'] ?? [], true)) $matchScore++;          // 法人鎖碼標籤
                 if (!in_array($item['ma_strategy'] ?? '', ['均線偏離', '主升段加速'], true)) $matchScore++; // 不追價
                 if (!in_array('出貨警訊', $item['matched_combos'] ?? [], true)) $matchScore++;         // 排除出貨警訊
                 if (($item['rating'] ?? '') !== 'D') $matchScore++;                                    // 排除品質過差
-                if ($matchScore >= 5) {
+                if ($matchScore >= 4) {
                     $item['self_select_match_score'] = $matchScore;
                     $filter[] = $item;
                 }
