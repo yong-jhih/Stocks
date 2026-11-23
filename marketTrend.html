@@ -189,6 +189,7 @@
                     <div class="bg-gray-800 rounded-lg p-3 min-w-0">
                         <div class="text-xs text-gray-500 whitespace-nowrap">P/C OI Ratio</div>
                         <div id="putCallRatio" class="text-xl font-bold mt-1">--</div>
+                        <div id="putCallRatioPercentile" class="text-[10px] text-gray-500 mt-0.5">--</div>
                     </div>
                 </div>
                 <div class="mt-4 text-sm">
@@ -381,6 +382,7 @@
             if (d.sentiment) {
                 text('retailRatio', d.sentiment.retailRatio == null ? '--' : signed(d.sentiment.retailRatio) + '%');
                 text('putCallRatio', d.sentiment.putCallRatio == null ? '--' : num(d.sentiment.putCallRatio) + '%');
+                text('putCallRatioPercentile', d.sentiment.putCallRatioPercentile == null ? '近60日百分位：資料不足' : '近60日百分位：' + num(d.sentiment.putCallRatioPercentile) + '%');
                 text('sentimentTrend', d.sentiment.trend || '等待資料');
             }
             // -----------------------------------------------------

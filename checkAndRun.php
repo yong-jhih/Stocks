@@ -68,10 +68,17 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
         if (count($resultsMix) > 0) {
             // 2026-10-28 自選評分改版（方案A，10 條件門檻 7）：
             // 原本 6 條只看技術/籌碼面指標；comboTracking 回測發現「法人連買」「融資減肥」
-            // 這兩條的訊號，其實已經被下面新增的「法人鎖碼」「洗盤完成」標籤更完整地涵蓋
-            // （兩個 tag 的判定本身就是建立在法人連買天數、融資減肥之上，再疊加其他條件），
-            // 直接並存等於同一個訊號被重複計分兩次，故移除這兩條、改用涵蓋範圍更廣的 tag 條件。
-            // 「乖離率排列」保留，與新增的「不追價」條件雖同屬乖離程度判斷但算法不同，暫時並存互相佐證。
+            // 這兩條的訊號，其實已經被下面新增的「法人鎖碼」「假止跌」（原名「洗盤完成」）
+            // 標籤更完整地涵蓋（兩個 tag 的判定本身就是建立在法人連買天數、融資減肥之上，
+            // 再疊加其他條件），直接並存等於同一個訊號被重複計分兩次，故移除這兩條、
+            // 改用涵蓋範圍更廣的 tag 條件。「乖離率排列」保留，與新增的「不追價」條件雖同屬
+            // 乖離程度判斷但算法不同，暫時並存互相佐證。
+            //
+            // 2026-11-22 再次調整（10 條件門檻 7 → 7 條件門檻 4）：
+            // comboTracking 持續回測顯示「借券回補」「軋空潛力」為噪音條件（方向與係數都不穩定），
+            // 「假止跌」（原名「洗盤完成」）在 5 日報酬上平均為淨負值，三者皆予以停用（保留註解
+            // 供對照，不直接刪除）。保留下來的 7 條條件在歷次回測中方向與係數相對穩定，門檻同步
+            // 由 7 下修為 4（約 57%），避免條件數減少後原本 7/10 的通過率被不成比例地壓縮。
             $goodComboPairs = [
                 ['籌碼潛伏', '均線上彎'],
                 ['籌碼潛伏', '沿均線'],
@@ -91,7 +98,7 @@ if (isset($SBLSoldData['status']) && $SBLSoldData['status'] == 'error' || empty(
                 // --- 新增的策略/組合技條件(6條，依 comboTracking 回測結果設計) ---
                 $comboPair = [$item['strategy_type'] ?? '', $item['ma_strategy'] ?? ''];
                 if (in_array($comboPair, $goodComboPairs, false)) $matchScore++;                      // 策略組合命中(多組合，非單押籌碼潛伏)
-                // if (in_array('洗盤完成', $item['matched_combos'] ?? [], true)) $matchScore++;          // 洗盤完成標籤
+                // if (in_array('假止跌', $item['matched_combos'] ?? [], true)) $matchScore++;            // 假止跌標籤（原名「洗盤完成」）
                 if (in_array('法人鎖碼', $item['matched_combos'] ?? [], true)) $matchScore++;          // 法人鎖碼標籤
                 if (!in_array($item['ma_strategy'] ?? '', ['均線偏離', '主升段加速'], true)) $matchScore++; // 不追價
                 if (!in_array('出貨警訊', $item['matched_combos'] ?? [], true)) $matchScore++;         // 排除出貨警訊

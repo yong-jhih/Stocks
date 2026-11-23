@@ -1513,7 +1513,10 @@ function outputModel(PDO $pdo, array $sqlFetch): array
                 'tags' => ['首次站上月線', '均線上彎', '量縮抗跌']
             ],
             [
-                'name' => '洗盤完成',
+                // 原名「洗盤完成」，2026-11-22 更名：comboTracking 回測顯示此組合在 5d
+                // 平均為淨負值，原名暗示「洗盤已結束、即將轉強」的確定語氣與實際
+                // 表現不符，容易造成誤判，改用語氣較中性保留觀察空間的名稱。
+                'name' => '假止跌',
                 'type' => 'any_all',
                 'any' => [
                     ['融資減肥', '外資連買'],
@@ -2220,6 +2223,41 @@ function getInstiBuySell(PDO $pdo, string $targetDate): ?array
     return $return;
 }
 
+/**
+ * 計算指定數值在歷史序列中的百分位排名（0~100）。
+ *
+ * 2026-11-22 新增原因：
+ * 選擇權 P/C OI Ratio 原本用寫死的絕對門檻（如 <=80）判斷市場情緒，
+ * 但其原生水位會受選擇權市場結構性供給面因素影響而長期緩慢位移
+ * （例如：主動式掩護性買權 ETF 規模成長，持續賣出買權使買權未平倉量
+ * 墊高），與當下真正的多空情緒脫鉤；一旦結構性位移發生，絕對門檻可能
+ * 連續數十個交易日天天觸發同一側訊號，失去「異常/極端」的辨識力。
+ * 改成在近期自身分布中的百分位排名後，門檻會自動跟著結構性基期位移
+ * 重新校準，只標記真正相對罕見的高低檔。
+ *
+ * @param array $values 歷史數值序列（含或不含 null 皆可，函式內會自動過濾 null）
+ * @param float $target 要計算百分位的目標值
+ * @param int $minSample 樣本數下限，低於此門檻視為資料不足，回傳 null
+ * @return float|null 0~100 的百分位排名（50 代表中位數）；樣本不足時回傳 null
+ */
+function calculatePercentileRank(array $values, float $target, int $minSample = 20): ?float
+{
+    $values = array_values(array_filter($values, fn($v) => $v !== null));
+    $n = count($values);
+    if ($n < $minSample) return null;
+    sort($values);
+    $below = 0;
+    $equal = 0;
+    foreach ($values as $v) {
+        if ($v < $target) {
+            $below++;
+        } elseif ($v == $target) {
+            $equal++;
+        }
+    }
+    return round((($below + $equal / 2) / $n) * 100, 1);
+}
+
 function analyzeMarketTrend(PDO $pdo): void
 {
     // =========================================================
@@ -2284,6 +2322,14 @@ function analyzeMarketTrend(PDO $pdo): void
     // =========================================================
     $retailRatio = $latest['mxf_retail_ratio'] !== null ? (float)$latest['mxf_retail_ratio'] : null;
     $putCallRatio = $latest['txo_put_call_ratio'] !== null ? (float)$latest['txo_put_call_ratio'] : null;
+    // P/C OI Ratio 改用「近60日百分位排名」取代絕對門檻，理由見 calculatePercentileRank() 函式註解。
+    $putCallRatioHistoryValues = array_map(
+        fn($row) => $row['txo_put_call_ratio'] !== null ? (float)$row['txo_put_call_ratio'] : null,
+        $rows
+    );
+    $putCallRatioPercentile = $putCallRatio !== null
+        ? calculatePercentileRank($putCallRatioHistoryValues, $putCallRatio)
+        : null;
     $sentimentHistory = [];
     foreach (array_reverse($rows) as $row) {
         $sentimentHistory[] = [
@@ -2318,17 +2364,17 @@ function analyzeMarketTrend(PDO $pdo): void
         }
     }
     // ---------------------------------------------------------
-    // 5-2. 選擇權 P/C OI Ratio
+    // 5-2. 選擇權 P/C OI Ratio（改用近60日百分位排名，理由見 calculatePercentileRank() 註解）
     // ---------------------------------------------------------
-    if ($putCallRatio !== null) {
-        if ($putCallRatio >= 130) {
-            // Put OI 明顯高於 Call OI 市場避險/悲觀情緒偏高 → 反向偏多
+    if ($putCallRatioPercentile !== null) {
+        if ($putCallRatioPercentile >= 90) {
+            // 位於近60日相對高檔 → Put OI 相對明顯偏高 → 市場避險/悲觀情緒偏高 → 反向偏多
             $sentimentScore += 2;
-        } elseif ($putCallRatio >= 115) { // 偏保守
+        } elseif ($putCallRatioPercentile >= 70) { // 偏保守
             $sentimentScore += 1;
-        } elseif ($putCallRatio <= 80) { // 市場樂觀程度偏高 → 反向偏空
+        } elseif ($putCallRatioPercentile <= 10) { // 位於近60日相對低檔 → 市場樂觀程度偏高 → 反向偏空
             $sentimentScore -= 2;
-        } elseif ($putCallRatio <= 95) { // 偏樂觀
+        } elseif ($putCallRatioPercentile <= 30) { // 偏樂觀
             $sentimentScore -= 1;
         }
     }
@@ -2524,28 +2570,29 @@ function analyzeMarketTrend(PDO $pdo): void
         }
     }
     // ---------------------------------------------------------
-    // 7-4. P/C OI Ratio
+    // 7-4. P/C OI Ratio（改用近60日百分位排名，理由見 calculatePercentileRank() 註解）
     // ---------------------------------------------------------
-    if ($putCallRatio !== null) {
-        if ($putCallRatio >= 130) {
+    if ($putCallRatioPercentile !== null) {
+        $pctLabel = round($putCallRatioPercentile) . '%';
+        if ($putCallRatioPercentile >= 90) {
             $signals[] = [
                 'type' => 'bullish',
-                'text' => '選擇權 P/C OI Ratio 偏高，市場避險情緒明顯'
+                'text' => "選擇權 P/C OI Ratio 位於近60日相對高檔（百分位 {$pctLabel}），市場避險情緒明顯"
             ];
-        } elseif ($putCallRatio >= 115) {
+        } elseif ($putCallRatioPercentile >= 70) {
             $signals[] = [
                 'type' => 'bullish',
-                'text' => '選擇權 P/C OI Ratio 偏高，市場情緒較為保守'
+                'text' => "選擇權 P/C OI Ratio 偏高（百分位 {$pctLabel}），市場情緒較為保守"
             ];
-        } elseif ($putCallRatio <= 80) {
+        } elseif ($putCallRatioPercentile <= 10) {
             $signals[] = [
                 'type' => 'warning',
-                'text' => '選擇權 P/C OI Ratio 偏低，市場樂觀程度偏高'
+                'text' => "選擇權 P/C OI Ratio 位於近60日相對低檔（百分位 {$pctLabel}），市場樂觀程度偏高"
             ];
-        } elseif ($putCallRatio <= 95) {
+        } elseif ($putCallRatioPercentile <= 30) {
             $signals[] = [
                 'type' => 'warning',
-                'text' => '選擇權 P/C OI Ratio 偏低，需留意市場過度樂觀'
+                'text' => "選擇權 P/C OI Ratio 偏低（百分位 {$pctLabel}），需留意市場過度樂觀"
             ];
         }
     }
@@ -2712,15 +2759,15 @@ function analyzeMarketTrend(PDO $pdo): void
             $sentimentScoreFinal -= 10;
         }
     }
-    // P/C OI：10分
-    if ($putCallRatio !== null) {
-        if ($putCallRatio >= 130) {
+    // P/C OI：10分（改用近60日百分位排名，理由見 calculatePercentileRank() 註解）
+    if ($putCallRatioPercentile !== null) {
+        if ($putCallRatioPercentile >= 90) {
             $sentimentScoreFinal += 10;
-        } elseif ($putCallRatio >= 115) {
+        } elseif ($putCallRatioPercentile >= 70) {
             $sentimentScoreFinal += 5;
-        } elseif ($putCallRatio > 95) {
+        } elseif ($putCallRatioPercentile > 30) {
             $sentimentScoreFinal += 0;
-        } elseif ($putCallRatio > 80) {
+        } elseif ($putCallRatioPercentile > 10) {
             $sentimentScoreFinal -= 5;
         } else {
             $sentimentScoreFinal -= 10;
@@ -2864,6 +2911,7 @@ function analyzeMarketTrend(PDO $pdo): void
         'sentiment' => [
             'retailRatio' => $retailRatio,
             'putCallRatio' => $putCallRatio,
+            'putCallRatioPercentile' => $putCallRatioPercentile,
             'trend' => $sentimentTrend,
             'history' => $sentimentHistory
         ],
