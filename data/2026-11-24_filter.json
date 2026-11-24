@@ -1,0 +1,119 @@
+[
+    {
+        "stock_id": "1477",
+        "stock_name": "聚陽",
+        "stock_type": "TSE",
+        "industry": "紡織纖維",
+        "subIndustry": [
+            " 成衣及其它家居紡織類品"
+        ],
+        "concept": [
+            "傳產內需股",
+            "台商越南",
+            "台幣貶值受惠",
+            "運動休閒"
+        ],
+        "score": 70,
+        "rating": "A",
+        "strategy_type": "觀察",
+        "ma_strategy": "均線盤整",
+        "confidence": 1,
+        "trend_score": 15,
+        "momentum_score": 20,
+        "chip_score": 30,
+        "structure_score": 0,
+        "risk_score": 0,
+        "shareholder_analysis": {
+            "trend": "bullish",
+            "label": "籌碼明顯集中",
+            "score": 6,
+            "latest_change": -554,
+            "latest_change_percent": -1.95,
+            "period_change": -3223,
+            "period_change_percent": -10.38,
+            "average_lots_change_percent": 11.57,
+            "consecutive_up": 0,
+            "consecutive_down": 6,
+            "down_streak_level": "long",
+            "data_count": 8,
+            "analysis_period_weeks": 8
+        },
+        "close": 225,
+        "yesterday_high": 223,
+        "yesterday_low": 216.5,
+        "vol": 2992,
+        "vol_ratio": 1.6,
+        "rank10": 72.97,
+        "rank20": 82.46,
+        "amp10": 8.75,
+        "amp20": 14.14,
+        "ma5": 223.2,
+        "ma10": 221,
+        "ma20": 214.7,
+        "ma60": 203.67,
+        "vma5": 2763,
+        "vma10": 2616,
+        "vma20": 2103,
+        "bia5": 0.81,
+        "bia10": 1.81,
+        "bia20": 4.8,
+        "con1": 14.64,
+        "con5": 26.17,
+        "con10": 20.99,
+        "con20": 21.31,
+        "foreign_buy_sell": -26661,
+        "trust_buy_sell": 459984,
+        "foreign_sum5": 1855,
+        "foreign_sum10": 3958,
+        "foreign_sum20": 7690,
+        "trust_sum5": 1743,
+        "trust_sum10": 1866,
+        "trust_sum20": 1803,
+        "foreign_streak_days": 0,
+        "trust_streak_days": 6,
+        "margin_balance": 1062,
+        "margin_balance_diff": -29,
+        "margin_balance_diff_sum5": -186,
+        "squeeze": 2.42,
+        "bullet": 2.47,
+        "net_sbl": 8,
+        "net_sbl_sum5": -348,
+        "sbl_total": 10266,
+        "sbl_sold_balance": 5080,
+        "signals": {
+            "trend": {
+                "多頭排列": 15
+            },
+            "momentum": {
+                "爆量突破": 20
+            },
+            "chip": {
+                "法人集中": 12,
+                "投信連買": 12,
+                "融資減肥": 6,
+                "股東明顯減少": 8,
+                "平均持股增加": 3
+            },
+            "risk": [],
+            "structure": []
+        },
+        "tags": [
+            "多頭排列",
+            "爆量突破",
+            "法人集中",
+            "投信連買",
+            "融資減肥",
+            "股東明顯減少",
+            "平均持股增加"
+        ],
+        "trigger_reasons": [
+            "成交量放大 1.6 倍",
+            "突破前高",
+            "法人持股集中度提升"
+        ],
+        "matched_combos": [
+            "主升段啟動",
+            "假止跌"
+        ]
+    }
+]
