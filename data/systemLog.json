@@ -1,5 +1,117 @@
 [
     {
+        "id": 18360016,
+        "log_time": "2026-11-25 21:07:47",
+        "log_type": "updateAllHistory",
+        "content": "歷史資料更新完畢, 等待下階段進入分析",
+        "result": "waitting"
+    },
+    {
+        "id": 18360015,
+        "log_time": "2026-11-25 21:07:47",
+        "log_type": "updateAllTPExHistory",
+        "content": "更新上櫃盤後資料結束, 共耗時 664.43 秒",
+        "result": "end"
+    },
+    {
+        "id": 18360014,
+        "log_time": "2026-11-25 21:07:47",
+        "log_type": "insertSBLSold",
+        "content": "2026-11-25 上櫃公司 借券賣出餘額 更新完成,共新增 818 筆,耗時 127.01 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360013,
+        "log_time": "2026-11-25 21:05:40",
+        "log_type": "insertTPExSBLTotal",
+        "content": "2026-11-25 上櫃公司 借券餘額 更新完成,共新增 738 筆,耗時 114.91 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360012,
+        "log_time": "2026-11-25 21:03:44",
+        "log_type": "insertTPExMargin",
+        "content": "2026-11-25 上櫃公司 融資融券彙總 更新完成,共新增 806 筆,耗時 124.43 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360011,
+        "log_time": "2026-11-25 21:01:40",
+        "log_type": "insertTPExInsti",
+        "content": "2026-11-25 上櫃公司 三大法人買賣超 更新完成,共新增 781 筆,耗時 121.92 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360010,
+        "log_time": "2026-11-25 20:59:37",
+        "log_type": "insertTPExHistory",
+        "content": "2026-11-25 上櫃個股日成交 更新完成,共新增 895 筆,耗時 140.33 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360009,
+        "log_time": "2026-11-25 20:56:43",
+        "log_type": "updateAllTPExHistory",
+        "content": "取得交易日期 [2026-11-25] 開始更新上櫃盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 18360008,
+        "log_time": "2026-11-25 20:56:43",
+        "log_type": "updateAllHistory",
+        "content": "更新上市盤後資料結束, 共耗時 849.9 秒",
+        "result": "end"
+    },
+    {
+        "id": 18360007,
+        "log_time": "2026-11-25 20:56:42",
+        "log_type": "insertSBLSold",
+        "content": "2026-11-25 借券賣出餘額 更新完成,共新增 1065 筆,耗時 164.8 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360006,
+        "log_time": "2026-11-25 20:53:57",
+        "log_type": "insertSBLTotal",
+        "content": "2026-11-25 借券餘額 更新完成,共新增 1003 筆,耗時 154.38 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360005,
+        "log_time": "2026-11-25 20:51:23",
+        "log_type": "insertMargin",
+        "content": "2026-11-25 融資融券彙總 更新完成,共新增 1063 筆,耗時 162.79 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360004,
+        "log_time": "2026-11-25 20:48:39",
+        "log_type": "insertInsti",
+        "content": "2026-11-25 三大法人買賣超 更新完成,共新增 1085 筆,耗時 167.48 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360003,
+        "log_time": "2026-11-25 20:45:52",
+        "log_type": "insertHistory",
+        "content": "2026-11-25 上市個股日成交 更新完成,共新增 1092 筆,耗時 171.11 秒",
+        "result": "success"
+    },
+    {
+        "id": 18360002,
+        "log_time": "2026-11-25 20:42:33",
+        "log_type": "updateAllHistory",
+        "content": "取得交易日期 [2026-11-25] 開始更新上市盤後資料",
+        "result": "start"
+    },
+    {
+        "id": 18360001,
+        "log_time": "2026-11-25 20:42:32",
+        "log_type": "updateAllHistory",
+        "content": "偵測 [2026-11-25] TWT93U 信用額度總量管制餘額已公布, 準備進行更新歷史資料",
+        "result": "waitting"
+    },
+    {
         "id": 18330020,
         "log_time": "2026-11-25 16:10:58",
         "log_type": "dbClean",
