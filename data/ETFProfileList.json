@@ -95,6 +95,18 @@
         "stock_type": "ETF",
         "industry": ""
     },
+    "00419A": {
+        "stock_id": "00419A",
+        "stock_name": "主動施羅德AI台股",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "00420A": {
+        "stock_id": "00420A",
+        "stock_name": "主動野村亞洲科技",
+        "stock_type": "ETF",
+        "industry": ""
+    },
     "0050": {
         "stock_id": "0050",
         "stock_name": "元大台灣50",
@@ -1544,6 +1556,12 @@
     "009832": {
         "stock_id": "009832",
         "stock_name": "兆豐美國黃金",
+        "stock_type": "ETF",
+        "industry": ""
+    },
+    "009833": {
+        "stock_id": "009833",
+        "stock_name": "野村韓國科技30",
         "stock_type": "ETF",
         "industry": ""
     },
